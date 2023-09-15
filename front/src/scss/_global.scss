@@ -6,7 +6,11 @@
   padding: 0 $containerSidePadding + px;
 
   @media (max-width: $breakpoint1450) {
-    max-width: 1200px;
+    // max-width: 1200px;
+  }
+
+  @media (max-width: $breakpoint1200) {
+    max-width: 1024px;
   }
 
   @media (max-width: $breakpoint992) {
@@ -24,10 +28,28 @@
 
 // Body Locked
 body {
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  color: var(--text-color);
 
   &.locked {
     overflow: hidden;
   }
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+.main__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main {
+  flex-grow: 1;
 }
 
 // Animations

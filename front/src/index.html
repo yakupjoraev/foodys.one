@@ -14,7 +14,50 @@
   <!-- @@include('./html/_header.html') -->
 
   <!-- Main Page -->
-  <main></main>
+  <main>
+    <div class="container">
+      <div class="pages">
+        <ul class="pages__list">
+          <li class="pages__item">
+            <a class="pages__link" href="home.html" target="_blank">
+              Home
+            </a>
+          </li>
+
+          <li class="pages__item">
+            <a class="pages__link" href="about.html" target="_blank">
+              About us
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <style>
+      .pages__list {
+        display: grid;
+        gap: 20px;
+        padding: 50px 0;
+      }
+
+      .pages__item {
+        display: grid;
+      }
+
+      .pages__link {
+        padding: 20px;
+        background-color: #FA6340;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 120%;
+        color: var(--text-color);
+      }
+
+      .pages__link:hover {
+        color: var(--white-color);
+      }
+    </style>
+  </main>
 
   <!-- Footer -->
   <!-- @@include('./html/_footer.html') -->
