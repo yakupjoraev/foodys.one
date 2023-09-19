@@ -42,6 +42,19 @@ body {
   min-height: 100vh;
 }
 
+.main-page-body {
+  background-color: #FAFAFA;
+  background-image: url('../img/main-page-bg.svg');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: contain;
+
+  @media (max-width: $breakpoint768) {
+    background-image: none;
+  }
+}
+
+
 .main__body {
   display: flex;
   flex-direction: column;

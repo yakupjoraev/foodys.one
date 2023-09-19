@@ -62,6 +62,10 @@ function aboutSlider() {
   var swiper = new Swiper(".about__partners-slider", {
     spaceBetween: 24,
     slidesPerView: 4,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
     navigation: {
       nextEl: ".about__partners-arrow--next",
       prevEl: ".about__partners-arrow--prev",

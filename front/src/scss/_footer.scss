@@ -231,3 +231,13 @@
     color: var(--white-color);
   }
 }
+
+.footer-second {
+  &::before {
+    content: none;
+  }
+
+  @media (max-width: $breakpoint768) {
+    display: none;
+  }
+}
