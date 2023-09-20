@@ -10,22 +10,6 @@
   flex: 1;
 }
 
-.btn {
-  background-color: transparent;
-  border: 2px solid orange;
-  border-radius: 5px;
-  color: orange;
-  cursor: pointer;
-  font-family: sans-serif;
-  min-width: 80px;
-  padding: 10px;
-}
-
-.btn:hover {
-  background-color: orange;
-  color: #fff;
-}
-
 .filter {
   align-items: center;
   display: flex;
@@ -56,6 +40,18 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
+}
+
+.header__extra {
+  display: flex;
+  gap: 10px;
+}
+
+.header__username {
+  font-family: sans-serif;
+  color: gray;
+  display: flex;
+  align-items: center;
 }
 
 .hidden {
@@ -209,4 +205,193 @@
   font-size: 16px;
   margin-bottom: 10px;
   text-decoration: none;
+}
+
+/** Modal **/
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal--show {
+  display: block;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  border: 1px solid #888;
+  width: 400px;
+  border-radius: 10px;
+}
+
+.modal-header {
+  padding: 20px 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-close {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  fill: gray;
+  line-height: 100%;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.modal-close:hover {
+  fill: black;
+}
+
+.modal-close__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.modal-body {
+  padding: 0px 40px 40px;
+}
+
+/** Auth from **/
+
+.auth-form__header {
+  font-size: 24px;
+  font-family: sans-serif;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-form__error {
+  color: red;
+  font-family: sans-serif;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-form__footer {
+  border-top: 1px solid #e4e4e4;
+  padding-top: 20px;
+}
+
+.auth-form__submit {
+  width: 100%;
+}
+
+/** Controls **/
+
+.control {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.control__label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: sans-serif;
+  font-size: 13px;
+  color: gray;
+}
+
+.control__error {
+  color: red;
+  font-family: sans-serif;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.control__input {
+  width: 100%;
+  padding: 10px;
+  font-family: sans-serif;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+  border: 1px solid #e4e4e4;
+}
+
+.control__input--error {
+  border: 1px solid red;
+}
+
+.control__input:focus {
+  border: 1px solid darkorange;
+  background-color: white;
+}
+
+.control__input:focus {
+  outline: 1px solid orange;
+}
+
+.btn {
+  background-color: transparent;
+  border: 2px solid orange;
+  border-radius: 5px;
+  color: orange;
+  cursor: pointer;
+  font-family: sans-serif;
+  min-width: 80px;
+  padding: 10px;
+}
+
+.btn:hover {
+  background-color: orange;
+  color: #fff;
+}
+
+.btn--inverted {
+  background-color: orange;
+  color: #fff;
+}
+
+.btn--inverted:hover {
+  background-color: transparent;
+  border: 2px solid orange;
+  color: orange;
+}
+
+.input-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.input-wrapper__btn {
+  width: 44px;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
+  background-color: transparent;
+  fill: gray;
+  cursor: pointer;
+}
+
+.input-wrapper__btn:hover {
+  fill: black;
+}
+
+.input-wrapper__btn--right {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.input-wrapper__btn-icon {
+  width: 18px;
+  height: 18px;
 }
