@@ -126,6 +126,7 @@
   // .menu__item-link
 
   &__item-link {
+    position: relative;
     display: flex;
     align-items: center;
     column-gap: 5px;
@@ -173,7 +174,7 @@
   // .menu__item-link--list-my-business
 
   &__item-link--list-my-business {
-    position: relative;
+
     background: linear-gradient(180deg, #FFC126 0%, #FE9F10 100%), #FFF;
     border-color: transparent;
     color: var(--white-color);
@@ -310,5 +311,33 @@
   // .menu__link
   .menu__item-link {
     color: white;
+  }
+}
+
+.header-second {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 10;
+
+  .menu__item-link {
+    border-color: var(--white-color);
+    color: var(--white-color);
+  }
+
+  .menu__item-link--list-my-business {
+    background: var(--white-color);
+    color: var(--text-color);
+  }
+
+  .menu__item-free--grey {
+    background: linear-gradient(180deg, #F9F9F9 0%, #D2D2D2 100%);
+    color: var(--text-color);
+  }
+
+  .menu__item-link--languages {
+    background: rgba(255, 255, 255, 0.20);
   }
 }
