@@ -7,7 +7,7 @@
   // background-position: center right;
 
   @media (max-width: $breakpoint768) {
-    height: 100vh;
+    min-height: 100vh;
   }
 
   @media (max-width: $breakpoint768) {
@@ -34,6 +34,11 @@
 
     @media (max-width: $breakpoint768) {
       grid-template-columns: 1fr;
+      min-height: 85vh;
+    }
+
+    @media (max-width: 370px) {
+      padding-bottom: 30px;
     }
   }
 
@@ -48,11 +53,17 @@
     @media (max-width: $breakpoint992) {
       row-gap: 40px;
     }
+
+    @media (max-width: $breakpoint768) {
+      padding-bottom: 30px;
+    }
   }
 
   // .hero__title
 
   &__title {
+    position: relative;
+    z-index: 2;
     color: var(--text-color);
     font-size: 67px;
     font-weight: 700;
@@ -92,7 +103,10 @@
 
   // .hero__form
 
-  &__form {}
+  &__form {
+    position: relative;
+    z-index: 2;
+  }
 
   // .hero__form-label
 
@@ -106,6 +120,11 @@
     @media (max-width: $breakpoint992) {
       font-size: 15px;
     }
+
+    @media (max-width: $breakpoint768) {
+      color: var(--white-color);
+    }
+
   }
 
   // .hero__form-search
@@ -208,17 +227,32 @@
   // .hero__picture
 
   &__picture {
+    position: absolute;
+    right: 10%;
+    top: 0;
+
+    @media (max-width: $breakpoint1200) {
+      right: auto;
+      left: 50%;
+      transform: translateX(-20%);
+    }
 
     @media (max-width: $breakpoint768) {
+      position: static;
       display: flex;
       justify-content: center;
       align-items: center;
+      transform: translateX(0);
     }
 
     img {
-      max-width: 100%;
+      max-width: 600px;
       width: 100%;
       height: auto;
+
+      @media (max-width: $breakpoint1200) {
+        max-width: 400px;
+      }
 
       @media (max-width: $breakpoint768) {
         max-width: 260px;
@@ -305,6 +339,7 @@
     }
 
     @media (max-width: $breakpoint768) {
+      right: -16px;
       width: 50px;
       height: 47px;
 

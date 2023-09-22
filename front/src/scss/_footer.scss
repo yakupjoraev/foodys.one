@@ -21,6 +21,10 @@
       right: -2%;
     }
 
+    @media (max-width: 1800px) {
+      width: 58%;
+    }
+
     @media (max-width: 1440px) {
       width: 58%;
     }
@@ -456,6 +460,14 @@
 .footer-second {
   &::before {
     content: none;
+  }
+
+  .footer__inner {
+
+    &::after,
+    &::before {
+      content: none;
+    }
   }
 
   @media (max-width: $breakpoint768) {

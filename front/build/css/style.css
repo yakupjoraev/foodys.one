@@ -514,6 +514,8 @@ body {
 }
 
 .hero__title {
+  position: relative;
+  z-index: 2;
   color: var(--text-color);
   font-size: 67px;
   font-weight: 700;
@@ -528,6 +530,11 @@ body {
   line-height: 112.8%;
   letter-spacing: -1.34px;
   color: var(--primary-color);
+}
+
+.hero__form {
+  position: relative;
+  z-index: 2;
 }
 
 .hero__form-label {
@@ -638,8 +645,14 @@ body {
   line-height: 112.8%;
 }
 
+.hero__picture {
+  position: absolute;
+  right: 10%;
+  top: 0;
+}
+
 .hero__picture img {
-  max-width: 100%;
+  max-width: 600px;
   width: 100%;
   height: auto;
 }
@@ -2275,10 +2288,21 @@ body {
   content: none;
 }
 
+.footer-second .footer__inner::after,
+.footer-second .footer__inner::before {
+  content: none;
+}
+
 @media (max-width: 2560px) {
   .footer::before {
     width: 56%;
     right: -2%;
+  }
+}
+
+@media (max-width: 1800px) {
+  .footer::before {
+    width: 58%;
   }
 }
 
@@ -2310,6 +2334,18 @@ body {
   .menu__item-link {
     padding: 6px;
     font-size: 13px;
+  }
+
+  .hero__picture {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translateX(-20%);
+        -ms-transform: translateX(-20%);
+            transform: translateX(-20%);
+  }
+
+  .hero__picture img {
+    max-width: 400px;
   }
 
   .about__find {
@@ -2751,7 +2787,7 @@ body {
   }
 
   .hero {
-    height: 100vh;
+    min-height: 100vh;
   }
 
   .hero {
@@ -2764,6 +2800,11 @@ body {
 
   .hero__inner {
     grid-template-columns: 1fr;
+    min-height: 85vh;
+  }
+
+  .hero__info {
+    padding-bottom: 30px;
   }
 
   .hero__title {
@@ -2776,7 +2817,12 @@ body {
     letter-spacing: -0.7px;
   }
 
+  .hero__form-label {
+    color: var(--white-color);
+  }
+
   .hero__picture {
+    position: static;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2786,6 +2832,9 @@ body {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
   }
 
   .hero__picture img {
@@ -2809,6 +2858,7 @@ body {
   }
 
   .hero__chatbot {
+    right: -16px;
     width: 50px;
     height: 47px;
   }
@@ -3424,6 +3474,12 @@ body {
   .footer::before {
     height: 360px;
     background-size: contain;
+  }
+}
+
+@media (max-width: 370px) {
+  .hero__inner {
+    padding-bottom: 30px;
   }
 }
 
