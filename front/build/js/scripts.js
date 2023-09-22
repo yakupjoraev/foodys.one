@@ -121,3 +121,29 @@ function restaurantPicturesSlider() {
 }
 
 restaurantPicturesSlider();
+
+
+const filterInputs = document.querySelectorAll('[data-search-input]');
+const filterContainers = document.querySelectorAll('[ data-search-wrapper]');
+
+filterInputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    if (input.value.trim() !== '') {
+      filterContainers[index].classList.add('open-list');
+    } else {
+      filterContainers[index].classList.remove('open-list');
+    }
+  });
+});
+
+document.addEventListener('click', (event) => {
+  filterContainers.forEach(container => {
+    if (!container.contains(event.target)) {
+      container.classList.remove('open-list');
+      const input = container.querySelector('[data-search-input]');
+      if (input) {
+        input.value = ''; // Clear the input field
+      }
+    }
+  });
+});
