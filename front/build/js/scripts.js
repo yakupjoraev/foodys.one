@@ -95,3 +95,29 @@ function aboutSlider() {
 
 aboutSlider();
 
+function restaurantPicturesSlider() {
+  const container = document.querySelector('.restaurant');
+
+  if (!container) {
+    return null
+  }
+
+  var swiper = new Swiper(".restaurant__slider ", {
+    spaceBetween: 6,
+    slidesPerView: 1,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".restaurant__slider-arrow-next",
+      prevEl: ".restaurant__slider-arrow-prev",
+    },
+    pagination: {
+      el: ".restaurant__slider-paginations",
+    },
+  });
+
+}
+
+restaurantPicturesSlider();
