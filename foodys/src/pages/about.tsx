@@ -2,6 +2,7 @@ import classNames from "classnames";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { AboutSearch } from "~/components/AboutSearch";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
 
@@ -219,37 +220,7 @@ export default function About() {
                   </SwiperSlide>
                 </Swiper>
               </div>
-              <form action="#" className="about__find">
-                <div className="about__find-inner">
-                  <div className="about__find-picture">
-                    <img
-                      className="about__find-pic"
-                      src="/img/about/about__find-burger.png"
-                      alt="burger"
-                    />
-                  </div>
-                  <div className="about__find-searching">
-                    <p className="about__find-label">
-                      Find a restaurant or a delivery:
-                    </p>
-                    <div className="about__find-search">
-                      <input
-                        className="about__find-seacrh-input"
-                        type="search"
-                        placeholder="City, cuisine or restaurant name"
-                      />
-                      <img
-                        className="about__find-search-icon"
-                        src="/img/icons/glass.svg"
-                        alt="glass"
-                      />
-                    </div>
-                    <button type="button" className="about__find-btn">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <AboutSearch />
             </div>
           </div>
         </section>
