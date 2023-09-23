@@ -2,15 +2,21 @@ import classNames from "classnames";
 import Link from "next/link";
 import { FormEvent, useId } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export interface HeaderProps {
   mobileMenuExpanded?: boolean;
+  authStatus?: "authenticated" | "loading" | "unauthenticated";
   onToggleMobileMenu?: () => void;
+  onLogInBtnClick?: () => void;
+  onLogOutBtnClick?: () => void;
+  onRegisterBtnClick?: () => void;
 }
 
 export function Header(props: HeaderProps) {
   const router = useRouter();
   const queryFormId = useId();
+  const { data: sessionData, status } = useSession();
 
   const handleQueryFormSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -223,6 +229,58 @@ export function Header(props: HeaderProps) {
                   />
                 </a>
               </li>
+              {(props.authStatus === "loading" ||
+                props.authStatus === "unauthenticated") && (
+                <li className="menu__item" onClick={props.onToggleMobileMenu}>
+                  <span
+                    className="menu__item-link"
+                    data-scroll=""
+                    role="button"
+                    onClick={props.onLogInBtnClick}
+                  >
+                    Sign In
+                    <img
+                      className="menu__item-link-arrow"
+                      src="/img/header/arrow-right.svg"
+                      alt=""
+                    />
+                  </span>
+                </li>
+              )}
+              {(props.authStatus === "unauthenticated" ||
+                props.authStatus === "loading") && (
+                <li className="menu__item" onClick={props.onToggleMobileMenu}>
+                  <span
+                    className="menu__item-link"
+                    data-scroll=""
+                    role="button"
+                    onClick={props.onRegisterBtnClick}
+                  >
+                    Register
+                    <img
+                      className="menu__item-link-arrow"
+                      src="/img/header/arrow-right.svg"
+                      alt=""
+                    />
+                  </span>
+                </li>
+              )}
+              {props.authStatus === "authenticated" && (
+                <li className="menu__item" onClick={props.onToggleMobileMenu}>
+                  <span
+                    className="menu__item-link"
+                    data-scroll=""
+                    onClick={props.onLogOutBtnClick}
+                  >
+                    Sign Out
+                    <img
+                      className="menu__item-link-arrow"
+                      src="/img/header/arrow-right.svg"
+                      alt=""
+                    />
+                  </span>
+                </li>
+              )}
               <li className="menu__item menu__item--desktop">
                 <a
                   href="#"

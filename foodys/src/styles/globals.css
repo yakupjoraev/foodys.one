@@ -1,3 +1,7 @@
 .main__body {
   min-height: 100vh;
 }
+
+.menu__item-link {
+  cursor: pointer;
+}
