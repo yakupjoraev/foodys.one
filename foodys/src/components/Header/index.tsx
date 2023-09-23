@@ -1,6 +1,12 @@
+import classNames from "classnames";
 import Link from "next/link";
 
-export function Header() {
+export interface HeaderProps {
+  mobileMenuExpanded?: boolean;
+  onToggleMobileMenu?: () => void;
+}
+
+export function Header(props: HeaderProps) {
   return (
     <header className="header">
       <nav className="nav">
@@ -11,7 +17,11 @@ export function Header() {
                 <img src="/img/icons/header-logo.svg" alt="logo" />
               </Link>
             </div>
-            <ul className="menu">
+            <ul
+              className={classNames("menu", {
+                active: props.mobileMenuExpanded,
+              })}
+            >
               <li
                 className="menu__item--searching search-wrapper"
                 data-search-wrapper=""
@@ -116,7 +126,7 @@ export function Header() {
                   </a>
                 </div>
               </li>
-              <li className="menu__item">
+              <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
                     <img src="/img/header/home.png" alt="home" />
@@ -129,7 +139,7 @@ export function Header() {
                   />
                 </a>
               </li>
-              <li className="menu__item">
+              <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a
                   href="#"
                   className="menu__item-link menu__item-link--list-my-business"
@@ -156,7 +166,7 @@ export function Header() {
                   />
                 </a>
               </li>
-              <li className="menu__item">
+              <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a href="#" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
                     <img src="/img/header/favorite.png" alt="favorite" />
@@ -169,7 +179,7 @@ export function Header() {
                   />
                 </a>
               </li>
-              <li className="menu__item">
+              <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a href="#" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
                     <img src="/img/header/my-account.png" alt="my-account" />
@@ -306,7 +316,12 @@ export function Header() {
                 </a>
               </li>
             </ul>
-            <div className="burger">
+            <div
+              className={classNames("burger", {
+                "active-burger": props.mobileMenuExpanded,
+              })}
+              onClick={props.onToggleMobileMenu}
+            >
               <span />
             </div>
           </div>
