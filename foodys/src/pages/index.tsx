@@ -1,39 +1,9 @@
-import classNames from "classnames";
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import { Footer } from "~/components/Footer";
-import { Header } from "~/components/Header";
 import { HeroSearch } from "~/components/HeroSearch";
+import { Layout } from "~/components/Layout";
 
 export default function Main() {
-  const [mobileExpanded, setMobileExpanded] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 991.98) {
-        setMobileExpanded(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
-    <div
-      className={classNames("main__body main-page-body", {
-        locked: mobileExpanded,
-      })}
-    >
-      <Head>
-        <title>Foodys</title>
-        <link rel="stylesheet" href="/css/style.css" />
-      </Head>
-      <Header
-        mobileMenuExpanded={mobileExpanded}
-        onToggleMobileMenu={() => setMobileExpanded(!mobileExpanded)}
-      />
+    <Layout className="main-page-body" title="Foodys - Home">
       <main className="main">
         <section className="hero">
           <div className="container">
@@ -101,7 +71,6 @@ export default function Main() {
           </div>
         </section>
       </main>
-      <Footer />
-    </div>
+    </Layout>
   );
 }
