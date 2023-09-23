@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useSearchParams } from "next/navigation";
 import { RestaurantCard } from "~/components/restaurant-card";
-
 import { api } from "~/utils/api";
 
 export default function Places() {
@@ -14,6 +13,7 @@ export default function Places() {
     <>
       <Head>
         <title>Foodys - Places</title>
+        <link rel="stylesheet" href="/css/places.css" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="page">

@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import Link from "next/link";
+import { FormEvent, useId } from "react";
+import { useRouter } from "next/router";
 
 export interface HeaderProps {
   mobileMenuExpanded?: boolean;
@@ -7,6 +9,24 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
+  const router = useRouter();
+  const queryFormId = useId();
+
+  const handleQueryFormSubmit = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    const queryInput = ev.currentTarget.elements.namedItem("query");
+    if (!queryInput) {
+      return;
+    }
+
+    if (queryInput instanceof HTMLInputElement) {
+      const value = queryInput.value;
+      if (value) {
+        router.push(`/places?query=${encodeURIComponent(value)}`);
+      }
+    }
+  };
+
   return (
     <header className="header">
       <nav className="nav">
@@ -26,18 +46,29 @@ export function Header(props: HeaderProps) {
                 className="menu__item--searching search-wrapper"
                 data-search-wrapper=""
               >
+                <form
+                  id={queryFormId}
+                  style={{ display: "none" }}
+                  onSubmit={handleQueryFormSubmit}
+                />
                 <input
                   className="menu__item-search"
                   type="search"
                   placeholder="City, cuisine or restaurant name"
                   data-search-input=""
+                  name="query"
+                  form={queryFormId}
                 />
                 <img
                   className="menu__item-search-icon"
                   src="/img/icons/glass.svg"
                   alt=""
                 />
-                <button type="button" className="menu__item-search-btn">
+                <button
+                  className="menu__item-search-btn"
+                  type="submit"
+                  form={queryFormId}
+                >
                   Search
                 </button>
                 <div className="search__list">
