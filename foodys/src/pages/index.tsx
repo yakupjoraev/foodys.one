@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
+import { HeroSearch } from "~/components/HeroSearch";
 
 export default function Main() {
   const [mobileExpanded, setMobileExpanded] = useState(false);
@@ -50,26 +51,7 @@ export default function Main() {
                     alt="#Burgers! "
                   />
                 </div>
-                <form className="hero__form" action="#">
-                  <p className="hero__form-label">
-                    Find a restaurant or a delivery:
-                  </p>
-                  <div className="hero__form-search">
-                    <input
-                      className="hero__form-search-input"
-                      type="search"
-                      placeholder="City, cuisine or restaurant name"
-                    />
-                    <img
-                      className="hero__form-search-icon"
-                      src="/img/icons/glass.svg"
-                      alt="glass"
-                    />
-                  </div>
-                  <button type="button" className="hero__form-search-btn">
-                    Search
-                  </button>
-                </form>
+                <HeroSearch />
               </div>
               <div className="hero__pictures">
                 <div className="hero__uk">
