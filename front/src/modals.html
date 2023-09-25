@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About page</title>
+  <link rel="stylesheet" href="./css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body class="main__body">
+  <!-- Header -->
+  @@include('./html/_header.html')
+
+  <!-- Main Page -->
+  <main class="main">
+    <!-- Modal -->
+
+    <div class="container">
+      <div class="modals-page">
+        <button class="open-modal-btn" data-modal-id="modal5">Open Modal Pop-up Pay in crypto</button>
+        <div class="modal modal--large" id="modal5">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <div class="modal-content__crypto">
+              <img class="modal-content__crypto-pic" src="./img/crypto-pay.png" alt="crypto pay">
+
+              <div class="modal-content__crypto-info">
+                <div class="modal-content__crypto-label">
+                  <img src="./img/crypto-label.svg" alt="crypto label">
+                </div>
+
+                <h2 class="modal-content__crypto-title">
+                  Pay your restaurant <br>
+                  or delivery with crypto:
+                </h2>
+
+                <p class="modal-content__crypto-text">
+                  install for free the Paypolitan app and get in 2 minutes a virtual credit or debit card
+                </p>
+
+                <div class="modal-content__crypto-stores">
+                  <img class="modal-content__crypto-payoliton" src="./img/payoliton.png" alt="payoliton">
+
+                  <ul class="modal-content__crypto-list">
+                    <li class="modal-content__crypto-item">
+                      <a class="modal-content__crypto-link" href="#">
+                        <img src="./img/appstore.svg" alt="appstore">
+                      </a>
+                    </li>
+
+                    <li class="modal-content__crypto-item">
+                      <a class="modal-content__crypto-link" href="#">
+                        <img src="./img/googleplay.svg" alt="googleplay">
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal3">Open Modal Cookie</button>
+        <div class="modal modal--large" id="modal3">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              Continue without agreeing
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <a class="modal-content__logo" href="#">
+                <img src="./img/icons/header-logo.svg" alt="logo">
+              </a>
+
+              <div class="modal-content__texts">
+                <p class="modal-content__text">
+                  Fooding and its partners use cookies intended to enable us to improve our services, measure traffic to
+                  web-site, compile statistics and offer you content, services and ads adapted to you profile. Click on
+                  "Accept" if you consent to the use of these cookies or on "Learn more and Manage your settings" to
+                  setup your preferences. You can change your choice at any time by clicking on the "cookies" tab
+                  accessible form our site.
+                </p>
+
+                <a class="modal-content__texts-policy" href="#">
+                  Our Cookie Policy
+                </a>
+
+                <h4 class="modal-content__texts-label">
+                  We and our partners do the following data processing:
+                </h4>
+
+                <p class="modal-content__text">
+                  Ad selection, delivery, reporting, Content selection, Information storage and access, Measurement,
+                  Personalisation.
+                </p>
+
+                <a class="modal-content__texts-out" href="#">View our partners</a>
+              </div>
+
+              <div class="input__border"></div>
+
+              <div class="modal-content__btns">
+                <button type="button" class="modal-content__btn modal-content__btn-outline">Learn more</button>
+                <button type="button" class="modal-content__btn">Agree and close</button>
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal4">Open Modal Sign in</button>
+        <div class="modal" id="modal4">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h3 class="modal-content__title">
+                  Already a member?
+                </h3>
+
+                <h2 class="modal-content__title-main">
+                  Sign in!
+                </h2>
+              </div>
+
+              <div class="modal-content__inputs">
+
+                <div class="input__group">
+                  <label class="input__label" for="input2">
+                    Email
+                  </label>
+
+                  <input class="input" type="email" placeholder="Example@mail.ru" id="input2">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input3">
+                    Password*
+                  </label>
+
+                  <input class="input" type="password" placeholder="   Password*" id="input3">
+
+                  <a class="input__forgetton" href="#">Forgotten your password?</a>
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+              <button type="button" class="modal-content__btn">Sign in</button>
+
+              <div class="modal-content__btn-remember">
+                New over here?
+                <a href="#" target="_blank">Create your account in 20 seconds !</a>
+              </div>
+
+              <div class="input__checkbox-group">
+                <input class="input__checkbox" type="checkbox" id="checkbox1">
+
+                <label class="input__label" for="checkbox1">
+                  <div class="input__checkbox-decor"> </div>
+
+                  <span>
+                    By proceeding, you agree to our Terms of Use and confirm you have read our Privacy and Cookies
+                    Statement.
+                  </span>
+                </label>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal6">Open Modal Create account</button>
+        <div class="modal" id="modal6">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h3 class="modal-content__title">
+                  New over here?
+                </h3>
+
+                <h2 class="modal-content__title-main">
+                  Create account
+                </h2>
+              </div>
+
+              <div class="modal-content__inputs">
+
+                <div class="input__group">
+                  <label class="input__label" for="input4">
+                    First-name*
+                  </label>
+
+                  <input class="input" type="text" placeholder="First-name*" id="input4">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input5">
+                    Last-name*
+                  </label>
+
+                  <input class="input" type="text" placeholder="Last-name*" id="input5">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input6">
+                    Nickname
+                  </label>
+
+                  <input class="input" type="text" placeholder="Nickname" id="input6">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input7">
+                    Email
+                  </label>
+
+                  <input class="input" type="email" placeholder="Example@mail.ru" id="input7">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input8">
+                    Password*
+                  </label>
+
+                  <input class="input" type="password" placeholder="   Password*" id="input8">
+
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+              <button type="button" class="modal-content__btn">Create my account</button>
+
+              <div class="modal-content__btn-remember">
+                Already have an account on Foodys.one?
+                <a href="#" target="_blank"> Sign in</a>
+              </div>
+
+              <div class="input__checkbox-group">
+                <input class="input__checkbox" type="checkbox" id="checkbox2">
+
+                <label class="input__label" for="checkbox2">
+                  <div class="input__checkbox-decor"> </div>
+
+                  <span>
+                    By proceeding, you agree to our Terms of Use and confirm you have read our Privacy and Cookies
+                    Statement.
+                  </span>
+                </label>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal1">Open Modal Forgot password 1</button>
+        <div class="modal" id="modal1">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <h3 class="modal-content__title">
+                Forgot password?
+              </h3>
+
+              <h4 class="modal-content__subtitle">
+                Enter your email address to get<br> instructions on how to reset your password
+              </h4>
+
+              <div class="modal-content__inputs">
+                <div class="input__border"></div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input1">
+                    Email
+                  </label>
+
+                  <input class="input" type="email" placeholder="Example@mail.ru" id="input1">
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+              <button type="button" class="modal-content__btn">Confirm</button>
+
+              <div class="modal-content__btn-remember">
+                Remember your password?
+                <a href="#" target="_blank">Back to login</a>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal2">Open Modal Forgot password 2</button>
+        <div class="modal" id="modal2">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <h3 class="modal-content__title">
+                Success!
+              </h3>
+
+              <h4 class="modal-content__subtitle">
+                Your password has been changed
+              </h4>
+              <div class="input__border"></div>
+              <button type="button" class="modal-content__btn">Back to login</button>
+
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal7">Open Modal No saved items yet</button>
+        <div class="modal" id="modal7">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <div class="modal-content__no-saved">
+              <img src="./img/modal/big-heart.svg" alt="big-heart">
+
+              <h2 class="modal-content__crypto-title">
+                No saved items yet
+              </h2>
+            </div>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal8">Open Modal Finalise your inscription</button>
+        <div class="modal" id="modal8">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h3 class="modal-content__title">
+                  Finalise your inscription
+                </h3>
+              </div>
+
+              <div class="input__border modal-content__texts"></div>
+
+              <div class="modal-content__texts modal-content__texts--center">
+                <p class="modal-content__text">
+                  An email has just been sent to your email address. To finalise your inscription, please check your
+                  mailbox to confirm your email and activate your account.
+                </p>
+
+                <p class="modal-content__text">
+                  No email received?
+
+                  <a class="modal-content__texts-policy" href="#">
+                    Send email again.
+                  </a>
+                </p>
+
+                <p class="modal-content__text">
+                  If you activated your email already, please
+
+                  <a class="modal-content__texts-policy" href="#">
+                    click here
+                  </a>
+
+                  to continue the navigation.
+                </p>
+
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal9">Open Modal Create your business page - thank you</button>
+        <div class="modal" id="modal9">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h3 class="modal-content__title">
+                  Thank you <span class="modal-content__subtitle">for the inscription of your business of your business
+                    on Foodys.one!</span>
+                </h3>
+              </div>
+
+              <div class="input__border modal-content__texts"></div>
+
+              <div class="modal-content__texts modal-content__texts--center">
+
+                <p class="modal-content__text">
+                  An email confirming reception of your request has been just sent to your email
+
+                  <a class="modal-content__texts-policy" href="#">
+                    addresse xxx@gmail.com
+                  </a>
+                </p>
+
+                <p class="modal-content__text">
+                  We will inform you once we verified your request and your business can be show on Foodys.one
+                </p>
+
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal10"> Open Modal Create Found 3 Drag&drop your photos
+          here</button>
+        <div class="modal" id="modal10">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h3 class="modal-content__title">
+                  Add photos
+                </h3>
+              </div>
+
+
+              <div class="drag-drop">
+                <div class="drag-drop__top">
+                  <input class="drag-drop__input" type="file" id="file1">
+
+                  <label class="drag-drop__label" for="file1">
+                    <img src="./img/modal/grag-drop.svg" alt="">
+
+                    <p class="drag-drop__label-text">Drag&drop your photos here</p>
+                  </label>
+                </div>
+
+                <div class="drag-drop__files">
+                  <div class="drag-drop__file">
+                    <img class="drag-drop__file-pic" src="./img/dashboard/slide-1.jpg" alt="">
+
+                    <button type="button" class="drag-drop__file-delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="7.5" fill="#F0F0F0" />
+                        <path d="M10 5L7.5 7.5L5 5" stroke="#A8ADB8" stroke-width="2" />
+                        <path d="M5 10L7.5 7.5L10 10" stroke="#A8ADB8" stroke-width="2" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="drag-drop__file">
+                    <img class="drag-drop__file-pic" src="./img/dashboard/slide-2.jpg" alt="">
+
+                    <button type="button" class="drag-drop__file-delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="7.5" fill="#F0F0F0" />
+                        <path d="M10 5L7.5 7.5L5 5" stroke="#A8ADB8" stroke-width="2" />
+                        <path d="M5 10L7.5 7.5L10 10" stroke="#A8ADB8" stroke-width="2" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="drag-drop__file">
+                    <img class="drag-drop__file-pic" src="./img/dashboard/slide-3.jpg" alt="">
+
+                    <button type="button" class="drag-drop__file-delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="7.5" fill="#F0F0F0" />
+                        <path d="M10 5L7.5 7.5L5 5" stroke="#A8ADB8" stroke-width="2" />
+                        <path d="M5 10L7.5 7.5L10 10" stroke="#A8ADB8" stroke-width="2" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="drag-drop__file">
+                    <img class="drag-drop__file-pic" src="./img/dashboard/slide-4.jpg" alt="">
+
+                    <button type="button" class="drag-drop__file-delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="7.5" fill="#F0F0F0" />
+                        <path d="M10 5L7.5 7.5L5 5" stroke="#A8ADB8" stroke-width="2" />
+                        <path d="M5 10L7.5 7.5L10 10" stroke="#A8ADB8" stroke-width="2" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="input__border"></div>
+
+                <div class="modal-content__btns modal-content__btns-column">
+                  <button type="button" class="modal-content__btn">Save Changes</button>
+                  <button type="button" class="modal-content__btn modal-content__btn-outline">Close</button>
+                </div>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal11">Open Modal Contact us </button>
+        <div class="modal" id="modal11">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h2 class="modal-content__title-main">
+                  Contact us
+                </h2>
+              </div>
+
+              <div class="modal-content__inputs">
+
+                <div class="input__group">
+                  <label class="input__label" for="input9">
+                    Name
+                  </label>
+
+                  <input class="input" type="text" placeholder="Name" id="input9">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input10">
+                    Phone
+                  </label>
+
+                  <input class="input" type="tel" placeholder="Phone" id="input10">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input11">
+                    Email*
+                  </label>
+
+                  <input class="input" type="email" placeholder="Email*" id="input11">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input12">
+                    Message*
+                  </label>
+
+                  <textarea class="input input__textarea" id="input12"></textarea>
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+              <button type="button" class="modal-content__btn">Send</button>
+
+              <div class="input__checkbox-group">
+                <input class="input__checkbox" type="checkbox" id="checkbox3">
+
+                <label class="input__label" for="checkbox3">
+                  <div class="input__checkbox-decor"> </div>
+
+                  <span>
+                    By proceeding, you agree to our Terms of Use and confirm you have read our Privacy and Cookies
+                    Statement.
+                  </span>
+                </label>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal12">Open Modal List my business 1 </button>
+        <div class="modal" id="modal12">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+              <div class="modal-content__form-top">
+                <h2 class="modal-content__title">
+                  Let’s check to see if you're already part
+                  of the Foodys.one digital network.
+                </h2>
+
+                <h3 class="modal-content__subtitle"> Start by searching for your local business name and location.</h3>
+              </div>
+
+              <div class="input__border"></div>
+
+              <div class="modal-content__inputs">
+
+                <div class="input__group">
+                  <label class="input__label" for="input13">
+                    Business local name (Ex .Bao&Me)
+                  </label>
+
+                  <input class="input" type="text" placeholder="Business local name (Ex .Bao&Me)" id="input13">
+                </div>
+
+                <div class="input__group">
+                  <label class="input__label" for="input14">
+                    Location (Ex. Paris, France)
+                  </label>
+
+                  <input class="input" type="text" placeholder="Location (Ex. Paris, France)" id="input14">
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+              <button type="button" class="modal-content__btn">Search</button>
+            </form>
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal13">Open Modal List my business 2 </button>
+        <div class="modal" id="modal13">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+
+              <h3 class="modal-content__subtitle"> <b>Select your business</b></h3>
+
+              <div class="input__border"></div>
+
+              <div class="modal-content__inputs">
+
+                <div class="radio-input__group">
+                  <input class="radio-input" type="radio" id="radio-input1" name="business" checked>
+
+                  <label class="radio-input__label" for="radio-input1">
+                    <div class="radio-input__decor"></div>
+
+                    <div class="search__item">
+                      <img class="search__item-pic" src="./img/dashboard/slide-1.jpg" alt="">
+
+                      <div class="search__item-info">
+                        <h4 class="search__item-label">
+                          Hank Burger Paris Archives
+                        </h4>
+
+                        <div class="search__item-address">
+                          <img src="./img/dashboard/geo.svg" alt="">
+                          <p>Paris, lle-de-France, France</p>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="input__border"></div>
+
+                <div class="radio-input__group">
+                  <input class="radio-input" type="radio" id="radio-input2" name="business">
+
+                  <label class="radio-input__label" for="radio-input2">
+                    <div class="radio-input__decor"></div>
+
+                    <div class="search__item">
+                      <img class="search__item-pic" src="./img/dashboard/slide-1.jpg" alt="">
+
+                      <div class="search__item-info">
+                        <h4 class="search__item-label">
+                          Hank Burger Paris Archives
+                        </h4>
+
+                        <div class="search__item-address">
+                          <img src="./img/dashboard/geo.svg" alt="">
+                          <p>Paris, lle-de-France, France</p>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="input__border"></div>
+
+                <div class="radio-input__group">
+                  <input class="radio-input" type="radio" id="radio-input3" name="business">
+
+                  <label class="radio-input__label" for="radio-input3">
+                    <div class="radio-input__decor"></div>
+
+                    <div class="search__item">
+                      <img class="search__item-pic" src="./img/dashboard/slide-1.jpg" alt="">
+
+                      <div class="search__item-info">
+                        <h4 class="search__item-label">
+                          Hank Burger Paris Archives
+                        </h4>
+
+                        <div class="search__item-address">
+                          <img src="./img/dashboard/geo.svg" alt="">
+                          <p>Paris, lle-de-France, France</p>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="input__border"></div>
+              </div>
+
+
+              <div class="modal-content__btns modal-content__btns-column">
+                <button type="button" class="modal-content__btn">Validate</button>
+                <button type="button" class="modal-content__btn modal-content__btn-outline">New search</button>
+
+              </div>
+
+              <div class="input__border"></div>
+
+              <div class="modal-content__business">
+                <h3 class="modal-content__subtitle"> <b>Add your business in 2 minutes!</b></h3>
+
+                <a class="modal-content__business-link" href="#">
+                  <div class="modal-content__business-link-free">
+                    FREE
+                  </div>
+                  <img src="./img/header/list-my-buiseness.png" alt="list-my-buiseness">
+                  List my Business
+                </a>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <button class="open-modal-btn" data-modal-id="modal14">Open Modal List my business 3 </button>
+        <div class="modal" id="modal14">
+          <div class="modal-content">
+            <span class="close-modal-btn">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+              </svg>
+            </span>
+
+            <form class="modal-content__form" action="#">
+
+              <h3 class="modal-content__subtitle"> <b>No results found...</b><br>
+                Are you sure about your search information?
+              </h3>
+
+              <div class="input__border"></div>
+
+              <button type="button" class="modal-content__btn">New search</button>
+
+              <div class="input__border"></div>
+
+              <div class="modal-content__business">
+                <h3 class="modal-content__subtitle"> <b>Add your business in 2 minutes!</b></h3>
+
+                <a class="modal-content__business-link" href="#">
+                  <div class="modal-content__business-link-free">
+                    FREE
+                  </div>
+                  <img src="./img/header/list-my-buiseness.png" alt="list-my-buiseness">
+                  List my Business
+                </a>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  @@include('./html/_footer.html')
+
+</body>
+
+<script src="./js/swiper-bundle.min.js"></script>
+<script src="./js/scripts.min.js"></script>
+
+</html>
