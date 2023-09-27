@@ -251,6 +251,7 @@ export default function Places() {
                         address={candidate.formatted_address || "???"}
                         rating={candidate.rating || 0}
                         userRatingTotal={candidate.user_ratings_total || 0}
+                        placeId={candidate.place_id}
                         key={candidate.place_id}
                       />
                     );

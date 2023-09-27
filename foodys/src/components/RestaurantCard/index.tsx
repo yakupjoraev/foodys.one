@@ -6,6 +6,7 @@ export interface RestaurantCardProps {
   photo?: string;
   userRatingTotal: number;
   rating: number;
+  placeId?: string;
 }
 
 export function RestaurantCard(props: RestaurantCardProps) {
@@ -171,9 +172,14 @@ export function RestaurantCard(props: RestaurantCardProps) {
             Pay in Crypto
           </button>
         </div>
-        <a className="restaurant__more" href="#">
-          See more
-        </a>
+        {props.placeId && (
+          <a
+            className="restaurant__more"
+            href={"/place?place_id=" + encodeURIComponent(props.placeId)}
+          >
+            See more
+          </a>
+        )}
       </div>
     </div>
   );
