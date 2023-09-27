@@ -3,12 +3,12 @@ import ApiError from "../middlewares/error/ApiError.js";
 import httpStatus from "http-status";
 import { isPresetId } from "../config/presets.js";
 import path from "path";
-import { API_SECRET, STORAGE_PATH } from "../config/env.js";
+import { STORAGE_PATH } from "../config/env.js";
 import {
+  InputNotFoundError,
   UnsupportedOutputError,
   convertPhoto,
 } from "../services/photo-converter.js";
-import { checkSignature } from "../utils/check-signature.js";
 
 const PARAM_PRESET_RE = /^[a-z0-9_]+$/;
 const PARAM_PHOTO_RE = /^[a-z0-9\.]+$/;
@@ -29,32 +29,37 @@ export function getPhoto(
     return next(new ApiError(httpStatus.NOT_FOUND, "preset: not found"));
   }
 
-  const signature = req.query.signature;
-  if (typeof signature !== "string") {
-    return next(new ApiError(httpStatus.BAD_REQUEST, "signature required"));
-  }
-  if (!checkSignature(signature, preset + ":" + photo, API_SECRET)) {
-    return next(new ApiError(httpStatus.FORBIDDEN, "wrong signature"));
-  }
+  const handleConvertSuccess = (convertedFilePath: string) => {
+    res.sendFile(convertedFilePath);
+  };
 
-  const resourcePath = path.join(STORAGE_PATH, preset, photo);
+  const handleConvertFailure = (error: any) => {
+    if (!error) {
+      return;
+    }
+    if (error instanceof InputNotFoundError) {
+      return next(new ApiError(httpStatus.NOT_FOUND, "source not found"));
+    } else if (error instanceof UnsupportedOutputError) {
+      next(new ApiError(httpStatus.NOT_FOUND, "wrong extension"));
+    } else {
+      next(error);
+    }
+  };
 
-  res.sendFile(resourcePath, (error) => {
+  const handleExistsFileSent = (error: Error) => {
+    if (!error) {
+      return;
+    }
     if (error && "code" in error && error.code === "ENOENT") {
       convertPhoto(photo, preset).then(
-        (convertedFIlePath) => {
-          res.sendFile(convertedFIlePath);
-        },
-        (error) => {
-          if (error instanceof UnsupportedOutputError) {
-            next(new ApiError(httpStatus.NOT_FOUND, "wrong extension"));
-          } else {
-            next(error);
-          }
-        }
+        handleConvertSuccess,
+        handleConvertFailure
       );
     } else {
       next(error);
     }
-  });
+  };
+
+  const resourcePath = path.join(STORAGE_PATH, preset, photo);
+  res.sendFile(resourcePath, handleExistsFileSent);
 }

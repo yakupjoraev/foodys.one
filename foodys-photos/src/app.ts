@@ -13,7 +13,11 @@ export const app = express();
 app.use(morgan.successHandler);
 app.use(morgan.errorHandler);
 
-app.get("/", photosRouter);
+app.use("/photos", photosRouter);
+
+app.get("/status", (_req, res) => {
+  res.json({ status: "OK" });
+});
 
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
