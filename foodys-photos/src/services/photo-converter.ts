@@ -3,6 +3,11 @@ import { PresetId, presets } from "../config/presets.js";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
+import createAtomicStream from "fs-write-stream-atomic";
+import { pipeline } from "stream";
+import { promisify } from "util";
+
+const pipelineAsync = promisify(pipeline);
 
 export class InputNotFoundError extends Error {}
 
@@ -53,8 +58,12 @@ async function createConvertPhotoTask(
     }
     throw error;
   }
+  
   await fs.promises.mkdir(path.join(STORAGE_PATH, preset), { recursive: true });
-  await configureSharp(sharp(inputPath), output).toFile(outputPath);
+  const sharpStream = configureSharp(sharp(inputPath), output);
+  const outputStream = createAtomicStream(outputPath);
+  await pipelineAsync(sharpStream, outputStream);
+
   return outputPath;
 }
 
