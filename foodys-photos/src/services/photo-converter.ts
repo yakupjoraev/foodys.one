@@ -2,6 +2,9 @@ import { STORAGE_PATH } from "../config/env.js";
 import { PresetId, presets } from "../config/presets.js";
 import sharp from "sharp";
 import path from "path";
+import fs from "fs";
+
+export class InputNotFoundError extends Error {}
 
 export class UnsupportedOutputError extends Error {}
 
@@ -33,23 +36,26 @@ async function createConvertPhotoTask(
   if (fileNameParsed.output === null) {
     throw new UnsupportedOutputError();
   }
-  const output = fileNameParsed.output;
-  const input = fileNameParsed.input || "jpeg";
   const base = fileNameParsed.base;
+  const input = fileNameParsed.input || "jpeg";
+  const output = fileNameParsed.output;
 
-  const origPath = path.join(STORAGE_PATH, "orig", base + "." + input);
-  const outputPath = path.join(STORAGE_PATH, preset, base + "." + output);
+  const inputPath = path.join(STORAGE_PATH, "orig", base + "." + input);
+  const outputDir = path.join(STORAGE_PATH, preset);
+  const outputPath = path.join(outputDir, base + "." + output);
   const configureSharp = presets[preset];
 
-  return new Promise<string>((resolve, reject) => {
-    configureSharp(sharp(origPath), output).toFile(outputPath, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(outputPath);
-      }
-    });
-  });
+  try {
+    await fs.promises.access(outputPath, fs.constants.R_OK);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new InputNotFoundError();
+    }
+    throw error;
+  }
+  await fs.promises.mkdir(path.join(STORAGE_PATH, preset), { recursive: true });
+  await configureSharp(sharp(inputPath), output).toFile(outputPath);
+  return outputPath;
 }
 
 function parseFileName(fileName: string): {
@@ -78,7 +84,7 @@ function parseFileName(fileName: string): {
     suffixLength = outputType.length + 1;
   }
 
-  const baseName = fileName.slice(-suffixLength);
+  const baseName = fileName.slice(0, -suffixLength);
 
   return {
     base: baseName,
