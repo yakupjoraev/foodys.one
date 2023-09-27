@@ -46,7 +46,7 @@ async function createConvertPhotoTask(
   const configureSharp = presets[preset];
 
   try {
-    await fs.promises.access(outputPath, fs.constants.R_OK);
+    await fs.promises.access(inputPath, fs.constants.R_OK);
   } catch (error) {
     if (error.code === "ENOENT") {
       throw new InputNotFoundError();
