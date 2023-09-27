@@ -73,3 +73,144 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
+
+model TextSearch {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  query      String
+  places     Place[]
+  created_at DateTime @default(now())
+
+  @@map("text_search")
+}
+
+model PlacePhoto {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  height            Int
+  html_attributions String[]
+  photo_reference   String   @unique
+  width             Int
+
+  @@map("place_photo")
+}
+
+type Place {
+  address_components             AddressComponent[]
+  adr_address                    String?
+  business_status                String?
+  curbside_pickup                Boolean?
+  current_opening_hours          PlaceOpeningHours?
+  delivery                       Boolean?
+  dine_in                        Boolean?
+  editorial_summary              PlaceEditorialSummary?
+  formatted_address              String?
+  formatted_phone_number         String?
+  geometry                       Geometry?
+  icon                           String?
+  icon_background_color          String?
+  icon_mask_base_uri             String?
+  international_phone_number     String?
+  name                           String?
+  opening_hours                  PlaceOpeningHours?
+  permanently_closed             Boolean?
+  photos                         TPlacePhoto[]
+  place_id                       String?
+  plus_code                      PlusCode?
+  price_level                    Int?
+  rating                         Int?
+  reference                      String?
+  reservable                     Boolean?
+  reviews                        PlaceReview[]
+  scope                          String?
+  secondary_opening_hours        PlaceOpeningHours[]
+  serves_beer                    Boolean?
+  serves_breakfast               Boolean?
+  serves_brunch                  Boolean?
+  serves_dinner                  Boolean?
+  serves_lunch                   Boolean?
+  serves_vegetarian_food         Boolean?
+  serves_wine                    Boolean?
+  takeout                        Boolean?
+  types                          String[]
+  url                            String?
+  user_ratings_total             Int?
+  utc_offset                     Int?
+  vicinity                       String?
+  website                        String?
+  wheelchair_accessible_entrance Boolean?
+}
+
+type TPlacePhoto {
+  height            Int
+  html_attributions String[]
+  photo_reference   String
+  width             Int
+}
+
+type AddressComponent {
+  long_name  String
+  short_name String
+  types      String[]
+}
+
+type PlaceOpeningHours {
+  open_now     Boolean?
+  periods      PlaceOpeningHoursPeriod[]
+  special_days PlaceSpecialDay[]
+  type         String?
+  weekday_text String[]
+}
+
+type PlaceEditorialSummary {
+  language String?
+  overview String?
+}
+
+type Geometry {
+  location LatLngLiteral
+  viewport Bounds
+}
+
+type PlusCode {
+  global_code   String
+  compound_code String?
+}
+
+type PlaceReview {
+  author_name               String
+  rating                    Int
+  relative_time_description String
+  time                      Int
+  author_url                String?
+  language                  String?
+  original_language         String?
+  profile_photo_url         String?
+  text                      String?
+  translated                Boolean?
+}
+
+type PlaceOpeningHoursPeriod {
+  open  PlaceOpeningHoursPeriodDetail
+  close PlaceOpeningHoursPeriodDetail?
+}
+
+type PlaceSpecialDay {
+  date              String?
+  exceptional_hours Boolean?
+}
+
+type LatLngLiteral {
+  lat Int
+  lng Int
+}
+
+type Bounds {
+  northeast LatLngLiteral
+  southwest LatLngLiteral
+}
+
+type PlaceOpeningHoursPeriodDetail {
+  day       Int
+  time      String
+  date      String?
+  truncated Boolean?
+}
