@@ -2,12 +2,28 @@ import { Layout } from "~/components/Layout";
 import { useSearchParams } from "next/navigation";
 import { RestaurantCard } from "~/components/RestaurantCard";
 import { api } from "~/utils/api";
+import { Paginator } from "~/components/Paginator";
 
 export default function Places() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
+  const page = searchParams.get("page") || "1";
 
-  const queryResponse = api.places.getPlaces.useQuery({ query: query || "" });
+  let pageInt = parseInt(page, 10);
+  if (isNaN(pageInt)) {
+    pageInt = 1;
+  }
+
+  const queryResponse = api.places.getPlaces.useQuery({
+    query: query || "",
+    page: pageInt,
+  });
+
+  const createNextPageUrl = (page: number) => {
+    const nextUrlSerachParams = new URLSearchParams(searchParams);
+    nextUrlSerachParams.set("page", page.toString());
+    return "/places?" + nextUrlSerachParams.toString();
+  };
 
   return (
     <Layout title="Foodys - Search result">
@@ -272,97 +288,13 @@ export default function Places() {
                 </div>
               </aside>
             </div>
-            <div className="nav-lists">
-              <a className="nav-lists__btn" href="#">
-                Previous
-              </a>
-              <ul className="nav-lists__list">
-                <li className="nav-lists__item active">
-                  <a className="nav-lists__link " href="#">
-                    1
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    3
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    4
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    5
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    6
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    7
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    8
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    9
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    10
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    11
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    12
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    13
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    14
-                  </a>
-                </li>
-                <li className="nav-lists__item">
-                  <a className="nav-lists__link" href="#">
-                    15
-                  </a>
-                </li>
-                <li className="nav-lists__item dots">•••</li>
-                <li className="nav-lists__item nav-lists__item--end">
-                  <a className="nav-lists__link" href="#">
-                    33
-                  </a>
-                </li>
-              </ul>
-              <a className="nav-lists__btn active" href="#">
-                Next
-              </a>
-            </div>
+            {queryResponse.data && (
+              <Paginator
+                page={queryResponse.data.page}
+                total={queryResponse.data.pages}
+                createUrl={createNextPageUrl}
+              />
+            )}
           </div>
         </div>
       </main>
