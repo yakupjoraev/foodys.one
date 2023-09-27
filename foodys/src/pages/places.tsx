@@ -116,12 +116,15 @@ export default function Places() {
                   </a>
                 </div>
               </div>
-              <div className="dashboard__form-results">
-                <p className="dashboard__form-results-count">80 resultats </p>
-                <p className="dashboard__form-results-name">
-                  pour “Restaurants Paris Neobistror”
-                </p>
-              </div>
+              {queryResponse.data && query !== null && (
+                <div className="dashboard__form-results">
+                  <p className="dashboard__form-results-count">
+                    {queryResponse.data.total} resultats{" "}
+                  </p>
+                  <p className="dashboard__form-results-name">pour “{query}”</p>
+                </div>
+              )}
+
               <div className="dashboard__filters">
                 <div className="dashboard__filter dashboard__filter--square">
                   <p className="dashboard__filter-text">Establishment type</p>
