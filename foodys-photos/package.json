@@ -8,7 +8,7 @@
     "node": ">= 18.12 <19"
   },
   "scripts": {
-    "start": "node build/src/main.js",
+    "start": "node dist/main.js",
     "clean": "rimraf dist",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
