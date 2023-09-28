@@ -261,6 +261,16 @@ export default function Places() {
                     if (!candidate.place_id) {
                       return null;
                     }
+
+                    let photoUrl: string | undefined = undefined;
+                    if (candidate.photos) {
+                      const firstPhoto = candidate.photos[0];
+                      photoUrl = firstPhoto
+                        ? "https://foodys.freeblock.site/place-photos/cover_168x168/" +
+                          firstPhoto.photo_reference
+                        : undefined;
+                    }
+
                     return (
                       <RestaurantCard
                         name={candidate.name || "???"}
@@ -268,6 +278,7 @@ export default function Places() {
                         rating={candidate.rating || 0}
                         userRatingTotal={candidate.user_ratings_total || 0}
                         placeId={candidate.place_id}
+                        photo={photoUrl}
                         key={candidate.place_id}
                       />
                     );

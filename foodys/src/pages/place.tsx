@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
 
@@ -20,6 +20,21 @@ export default function Place() {
   useEffect(() => {
     console.log(queryResponse);
   }, [queryResponse]);
+
+  const previewPhotos = useMemo(() => {
+    if (!queryResponse.data) {
+      return undefined;
+    }
+    if (!queryResponse.data.photos) {
+      return undefined;
+    }
+    if (queryResponse.data.photos.length === 0) {
+      return [];
+    }
+    return queryResponse.data.photos.slice(0, 4);
+  }, [queryResponse.data]);
+
+  const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
 
   return (
     <Layout title="Foodys - About page">
@@ -131,23 +146,37 @@ export default function Place() {
             </form>
             <div className="dashboard__main">
               <div className="restaurant-page__inner">
-                <div className="restaurant-page__pictures">
-                  <div className="restaurant-page__pic">
-                    <img src="/img/dashboard/slide-1.jpg" alt="" />
+                {previewPhotos && (
+                  <div className="restaurant-page__pictures">
+                    {previewPhotos.map((photo, i) => {
+                      if (!photo.photo_reference) {
+                        return null;
+                      }
+                      return (
+                        <div
+                          className="restaurant-page__pic"
+                          key={photo.photo_reference}
+                        >
+                          <img
+                            src={
+                              "https://foodys.freeblock.site/place-photos/cover_168x168/" +
+                              photo.photo_reference
+                            }
+                            alt=""
+                            width={168}
+                            height={168}
+                          />
+                          {i === lastPreviewIndex && (
+                            <a className="restaurant-page__pic-all" href="#">
+                              View all
+                            </a>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div className="restaurant-page__pic">
-                    <img src="/img/dashboard/slide-2.jpg" alt="" />
-                  </div>
-                  <div className="restaurant-page__pic">
-                    <img src="/img/dashboard/slide-3.jpg" alt="" />
-                  </div>
-                  <div className="restaurant-page__pic">
-                    <img src="/img/dashboard/slide-4.jpg" alt="" />
-                    <a className="restaurant-page__pic-all" href="#">
-                      View all
-                    </a>
-                  </div>
-                </div>
+                )}
+
                 <div className="input__border" />
                 <div className="restaurant-page__info">
                   <h1 className="restaurant-page__name">
