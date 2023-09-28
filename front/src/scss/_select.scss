@@ -1,0 +1,136 @@
+$height: 46px;
+
+.select {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+
+  &__backdrop {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: -1;
+    display: none;
+  }
+
+  &.open {
+    z-index: 11;
+
+    .select__dropdown {
+      // display: block;
+      max-height: 200px;
+      opacity: 1;
+      overflow-y: auto;
+
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        height: 0;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #fff;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: var(--primary-color);
+      }
+
+      scrollbar-color: var(--primary-color) #fff;
+      scrollbar-width: thin;
+    }
+
+    .select__input {
+      border-bottom: none
+    }
+
+    .select__backdrop {
+      display: block
+    }
+  }
+
+  &__input {
+    border-radius: 7px;
+    border: 1px solid rgba(49, 55, 67, 0.20);
+    background: #F5F5F5;
+    height: $height;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+
+    outline: 0;
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 112.8%;
+    color: var(--text-color);
+    -webkit-transition: border-color .2s linear;
+    -o-transition: border-color .2s linear;
+    transition: border-color .2s linear;
+
+    .select__arrow {
+      transition: 0.2s linear;
+      pointer-events: none;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+
+      width: 15px;
+    }
+
+    span {
+      pointer-events: none;
+    }
+  }
+
+  &__dropdown {
+    // display: none;
+    position: absolute;
+    border-radius: 7px;
+    border: 1px solid rgba(49, 55, 67, 0.20);
+    background: #F5F5F5;
+    top: $height;
+    left: 0;
+    right: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    animation: fade 0.2s linear;
+    transition: max-height 0.2s linear;
+    // box-shadow: 2px 3px 5px rgba(0, 0, 0, .3);
+
+    .select__list {
+      .select__item {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        cursor: pointer;
+
+        font-family: var(--secondary-font);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 112.8%;
+        color: var(--text-color);
+
+        &.selected {
+          background-color: var(--primary-color);
+          color: var(--white-color);
+        }
+
+        &:hover {
+          background-color: var(--primary-color);
+          color: var(--white-color);
+          transition: .15 background-color ease-in;
+        }
+      }
+    }
+  }
+}
