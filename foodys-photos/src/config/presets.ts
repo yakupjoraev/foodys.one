@@ -2,7 +2,7 @@ import { Sharp } from "sharp";
 
 export type PresetId = "cover_168x168";
 
-export type Presets = Record<PresetId, (sharp: Sharp, type: "jpeg") => Sharp>;
+export type Presets = Record<PresetId, (sharp: Sharp) => Sharp>;
 
 export function isPresetId(val: string): val is PresetId {
   switch (val) {

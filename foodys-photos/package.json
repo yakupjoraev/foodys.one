@@ -23,6 +23,7 @@
     "fs-write-stream-atomic": "^1.0.10",
     "http-status": "^1.7.0",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "sharp": "^0.32.6",
     "tslib": "^2.6.2",
     "winston": "^3.10.0"
