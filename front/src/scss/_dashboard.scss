@@ -101,6 +101,7 @@
   // .dashboard__filter
 
   &__filter {
+    position: relative;
     display: flex;
     align-items: center;
     column-gap: 8px;
@@ -131,6 +132,10 @@
 
   &__filter-btn {
     background-color: transparent;
+
+    svg {
+      transition: transform 0.2s linear;
+    }
   }
 
   // .dashboard__filter--clear
@@ -152,6 +157,11 @@
 
     @media (max-width: $breakpoint768) {
       display: flex;
+
+      .filter-list {
+        left: auto;
+        right: 0;
+      }
     }
   }
 
@@ -949,6 +959,228 @@
   &__item--end {}
 }
 
-.checked {}
+.dashboard__filter.active {
 
-.active {}
+  .filter-list {
+    max-height: 400px;
+    padding: 12px;
+    opacity: 1;
+  }
+
+  .dashboard__filter-btn svg {
+    transform: rotate(180deg);
+
+    path {
+      stroke: #0F72B9;
+    }
+  }
+}
+
+.filter-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  z-index: 5;
+  transition: max-height 0.3s linear, opacity 0.1s linear;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  border-radius: 13px;
+  border: 1px solid rgba(49, 55, 67, 0.10);
+  background: #FFF;
+  box-shadow: 0px 20px 41px -19px rgba(168, 173, 184, 0.10);
+}
+
+.filter-list___item {
+  padding: 10px 13px;
+  white-space: nowrap;
+}
+
+.filter-list__input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  z-index: -100;
+
+  &:checked~.filter-list__label .filter-list__decor {
+    background-color: #0F72B9;
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.filter-list__label {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  cursor: pointer;
+
+  color: #313743;
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 112.8%;
+}
+
+.filter-list__decor {
+  position: relative;
+  width: 19px;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 6px;
+  background-color: #F0F0F0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 2px;
+    width: 0.4rem;
+    opacity: 0;
+    height: 0.7rem;
+    border: solid #fff;
+    border-width: 0 1px 1px 0;
+    -webkit-transition: background 250ms;
+    -o-transition: background 250ms;
+    transition: background 250ms;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+
+
+
+
+.dashboard__filters-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.dashboard__filters-header-label {
+  color: #313743;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 146.8%;
+  letter-spacing: -0.26px;
+}
+
+.dashboard__filters-header-close {
+  background-color: transparent;
+}
+
+.dashboard__filter-all {
+  display: none;
+
+  width: 100%;
+  margin: 32px 0;
+  margin-top: auto;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3px;
+  border-radius: 7px;
+  background: #FA6340;
+  font-family: var(--secondary-font);
+  color: #FFF;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 112.8%;
+}
+
+.dashboard__filters.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  row-gap: 0;
+  padding: 0 16px 16px;
+  background-color: #fff;
+  z-index: 33;
+  overflow-y: auto;
+
+  .dashboard__filter-all {
+    display: flex;
+  }
+
+  .dashboard__filters-header {
+    display: flex;
+  }
+
+  .dashboard__filter-text {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .dashboard__filter {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 43px;
+    // overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+
+
+    .dashboard__filter--square:last-child {
+      margin-bottom: 32px;
+    }
+
+
+    &.active {
+      height: auto;
+
+      .filter-list {
+        user-select: auto;
+        pointer-events: visible;
+      }
+    }
+  }
+
+  .filter-list {
+    flex: 0 0 100%;
+    position: static;
+    width: 100%;
+    border: 0;
+    padding: 16px 0 20px;
+
+    user-select: none;
+    pointer-events: none;
+  }
+
+
+
+
+  .dashboard__filter--position,
+  .dashboard__filter--sort,
+  .dashboard__filter--filters,
+  .dashboard__filter--clear {
+    display: none;
+  }
+
+}
