@@ -1,6 +1,6 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
+import { AboutPartners } from "~/components/AboutPartners";
 
 export default function About() {
   return (
@@ -84,115 +84,7 @@ export default function About() {
                   </a>
                 </div>
               </div>
-              <div className="about__partners">
-                <h2 className="about__partners-title about__title">
-                  Our partners
-                </h2>
-                <Swiper
-                  className="about__partners-slider mySwiper"
-                  spaceBetween={24}
-                  slidesPerView={4}
-                  autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                  }}
-                  navigation={{
-                    nextEl: ".about__partners-arrow--next",
-                    prevEl: ".about__partners-arrow--prev",
-                  }}
-                  breakpoints={{
-                    // when window width is >= 320px
-                    320: {
-                      spaceBetween: 12,
-                      slidesPerView: 2,
-                    },
-                    // when window width is >= 480px
-                    767: {
-                      spaceBetween: 16,
-                      slidesPerView: 3,
-                    },
-                    // when window width is >= 640px
-                    992: {
-                      spaceBetween: 24,
-                      slidesPerView: 4,
-                    },
-                  }}
-                  wrapperClass="about__partners-wrapper"
-                >
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-1.png"
-                      alt=""
-                      width={230}
-                      height={38}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-2.svg"
-                      alt=""
-                      width={101}
-                      height={32}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-3.png"
-                      alt=""
-                      width={239}
-                      height={28}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-4.png"
-                      alt=""
-                      width={237}
-                      height={82}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-1.png"
-                      alt=""
-                      width={230}
-                      height={38}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-2.svg"
-                      alt=""
-                      width={101}
-                      height={32}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-3.png"
-                      alt=""
-                      width={239}
-                      height={28}
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className="about__partners-slide">
-                    <img
-                      className="about__partners-pic"
-                      src="/img/about/about__partners-4.png"
-                      alt=""
-                      width={237}
-                      height={82}
-                    />
-                  </SwiperSlide>
-                </Swiper>
-              </div>
+              <AboutPartners />
               <AboutSearch />
             </div>
           </div>
