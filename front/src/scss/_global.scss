@@ -45,15 +45,17 @@ body {
 
 .main-page-body {
   background-color: #FAFAFA;
-  background-image: url('../img/main-page-bg.svg');
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  background-size: contain;
+  // background-image: url('../img/main-page-bg.svg');
+  // background-repeat: no-repeat;
+  // background-position: inherit;
 
-  @media (max-width: $breakpoint768) {
-    background-image: none;
-  }
+  // @media (max-width: $breakpoint768) {
+  //   background-image: none;
+  // }
 }
+
+.main-home {}
+
 
 
 .main__body {

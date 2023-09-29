@@ -1,10 +1,20 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 156px 0 104px;
-  // background-image: url('../img/main-page/main-page-bg.svg');
-  // background-repeat: no-repeat;
-  // background-position: center right;
+  padding: 223px 0 104px;
+  margin-bottom: -6px;
+
+  background-image: url('../img/bg-2.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  @media (max-width: 1260px) {
+    margin-bottom: -10px;
+  }
+
+  @media (max-width: 1200px) {
+    background-position: -305px 100px;
+  }
 
   @media (max-width: $breakpoint768) {
     min-height: 100vh;
@@ -26,6 +36,8 @@
     display: grid;
     grid-template-columns: 440px 1fr;
     column-gap: 46px;
+
+
 
     @media (max-width: $breakpoint992) {
       grid-template-columns: 300px 1fr;
