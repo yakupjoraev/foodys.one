@@ -222,6 +222,50 @@ window.addEventListener('click', (event) => {
 
 
 
+function dashboardFilters() {
+  const container = document.querySelector('.dashboard__filters');
+
+  if (!container) {
+    return null
+  }
+
+  let dataFilterContainers = document.querySelectorAll('[data-filter-container]');
+
+  dataFilterContainers.forEach(dataFilterContainer => {
+    const btn = dataFilterContainer.querySelector('[data-filter-btn]');
+
+    btn.addEventListener('click', () => {
+      dataFilterContainer.classList.toggle('active')
+    })
+  });
+
+
+  //for mobile filters
+
+  const mobileFilters = document.querySelector('[data-mobile-filters]');
+  const mobileFiltersClose = document.querySelector('[data-mobile-filters-close]');
+
+  mobileFilters.addEventListener('click', () => {
+    container.classList.add('active')
+  })
+
+  mobileFiltersClose.addEventListener('click', () => {
+    container.classList.remove('active')
+  })
+}
+
+dashboardFilters();
+
+
+
+
+
+
+
+
+
+
+
 
 const getTemplate = (data = [], placeholder, selectedId) => {
   let text = placeholder ?? 'placeholder не указан'
