@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 
 export interface RestaurantCardProps {
   name: string;
@@ -15,12 +16,9 @@ export function RestaurantCard(props: RestaurantCardProps) {
       <div className="restaurant__pictures">
         <Swiper
           className="restaurant__slider mySwiper"
+          modules={[Navigation]}
           spaceBetween={6}
           slidesPerView={1}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
           navigation={{
             nextEl: ".restaurant__slider-arrow-next",
             prevEl: ".restaurant__slider-arrow-prev",
