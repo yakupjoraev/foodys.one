@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { RestaurantFavorite } from "../RestaurantFavorite";
+import { STAR_WHOLE, createRatingStarsModel } from "~/utils/rating-stars-model";
 
 export interface RestaurantCardProps {
   name: string;
@@ -102,31 +103,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
               {props.rating.toFixed(1)}
             </div>
             <div className="restaurant__reviews-stars">
-              <img
-                className="restaurant__reviews-star"
-                src="/img/dashboard/star.svg"
-                alt="star"
-              />
-              <img
-                className="restaurant__reviews-star"
-                src="/img/dashboard/star.svg"
-                alt="star"
-              />
-              <img
-                className="restaurant__reviews-star"
-                src="/img/dashboard/star.svg"
-                alt="star"
-              />
-              <img
-                className="restaurant__reviews-star"
-                src="/img/dashboard/star.svg"
-                alt="star"
-              />
-              <img
-                className="restaurant__reviews-star"
-                src="/img/dashboard/star.svg"
-                alt="star"
-              />
+              {renderStars(props.rating)}
             </div>
             <div className="restaurant__reviews-count">
               ({props.userRatingTotal})
@@ -161,4 +138,36 @@ export function RestaurantCard(props: RestaurantCardProps) {
       </div>
     </div>
   );
+}
+
+function renderStars(rating: number) {
+  const model = createRatingStarsModel(rating);
+  return model.map((starType, i) => {
+    switch (starType) {
+      case STAR_WHOLE: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+      default: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star-empty.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+    }
+  });
 }
