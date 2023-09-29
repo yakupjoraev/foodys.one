@@ -15,4 +15,6 @@ export const API_SECRET = expectString("API_SECRET");
 
 export const STORAGE_PATH = expectString("STORAGE_PATH");
 
+export const GOOGLE_MAPS_API_KEY = expectString("GOOGLE_MAPS_API_KEY");
+
 export const NODE_ENV = expectNodeEnv("NODE_ENV", "production");

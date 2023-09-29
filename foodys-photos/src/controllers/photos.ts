@@ -2,30 +2,33 @@ import { Request, Response, NextFunction } from "express";
 import ApiError from "../middlewares/error/ApiError.js";
 import httpStatus from "http-status";
 import { isPresetId } from "../config/presets.js";
-import path from "path";
-import { STORAGE_PATH } from "../config/env.js";
-import {
-  InputNotFoundError,
-  UnsupportedOutputError,
-  convertPhoto,
-} from "../services/photo-converter.js";
+import { convertPhoto } from "../services/photo-converter.js";
+import { getConvertedFilePath, getOrigFilePath } from "../utils/storage-dir.js";
 
 const PARAM_PRESET_RE = /^[a-z0-9_]+$/;
-const PARAM_PHOTO_RE = /^[a-z0-9\.]+$/;
+const PARAM_PHOTO_REFERENCE_RE = /^[a-zA-Z0-9\-_]+$/;
 
 export function getPhoto(
-  req: Request<{ preset: string; photo: string }>,
+  req: Request<{ preset: string; photo_reference: string }>,
   res: Response,
   next: NextFunction
 ) {
-  const { preset, photo } = req.params;
+  const { preset, photo_reference } = req.params;
   if (!PARAM_PRESET_RE.test(preset)) {
-    return next(new ApiError(httpStatus.NOT_FOUND, "preset: wrong symbols"));
+    return next(new ApiError(httpStatus.BAD_REQUEST, "preset: wrong symbols"));
   }
-  if (!PARAM_PHOTO_RE.test(photo)) {
-    return next(new ApiError(httpStatus.NOT_FOUND, "photo: wrong symbols"));
+  if (!PARAM_PHOTO_REFERENCE_RE.test(photo_reference)) {
+    return next(new ApiError(httpStatus.BAD_REQUEST, "photo: wrong symbols"));
   }
-  if (!isPresetId(preset)) {
+  if (photo_reference.length < 3) {
+    return next(
+      new ApiError(
+        httpStatus.BAD_REQUEST,
+        "photo_reference: at least 3 symbols required"
+      )
+    );
+  }
+  if (!isPresetId(preset) && preset !== "orig") {
     return next(new ApiError(httpStatus.NOT_FOUND, "preset: not found"));
   }
 
@@ -34,16 +37,7 @@ export function getPhoto(
   };
 
   const handleConvertFailure = (error: any) => {
-    if (!error) {
-      return;
-    }
-    if (error instanceof InputNotFoundError) {
-      return next(new ApiError(httpStatus.NOT_FOUND, "source not found"));
-    } else if (error instanceof UnsupportedOutputError) {
-      next(new ApiError(httpStatus.NOT_FOUND, "wrong extension"));
-    } else {
-      next(error);
-    }
+    next(error);
   };
 
   const handleExistsFileSent = (error: Error) => {
@@ -51,15 +45,19 @@ export function getPhoto(
       return;
     }
     if (error && "code" in error && error.code === "ENOENT") {
-      convertPhoto(photo, preset).then(
-        handleConvertSuccess,
-        handleConvertFailure
-      );
+      convertPhoto(
+        photo_reference,
+        preset === "orig" ? undefined : preset
+      ).then(handleConvertSuccess, handleConvertFailure);
     } else {
       next(error);
     }
   };
 
-  const resourcePath = path.join(STORAGE_PATH, preset, photo);
+  const resourcePath =
+    preset === "orig"
+      ? getOrigFilePath(photo_reference)
+      : getConvertedFilePath(photo_reference, preset);
+
   res.sendFile(resourcePath, handleExistsFileSent);
 }

@@ -3,4 +3,4 @@ import { getPhoto } from "../controllers/photos.js";
 
 export const photosRouter = Router();
 
-photosRouter.get("/:preset/:photo", getPhoto);
+photosRouter.get("/:preset/:photo_reference", getPhoto);
