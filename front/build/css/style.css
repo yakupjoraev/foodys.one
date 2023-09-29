@@ -172,10 +172,6 @@ body {
 
 .main-page-body {
   background-color: #FAFAFA;
-  background-image: url("../img/main-page-bg.svg");
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  background-size: contain;
 }
 
 .main__body {
@@ -215,6 +211,10 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+.header .menu__item-pic img:nth-child(2) {
+  display: none;
 }
 
 .navbar {
@@ -411,6 +411,18 @@ body {
   z-index: 10;
 }
 
+.header-second .menu__item--searching {
+  display: none;
+}
+
+.header-second .menu__item-pic img:nth-child(1) {
+  display: none;
+}
+
+.header-second .menu__item-pic img:nth-child(2) {
+  display: block;
+}
+
 .header-second .menu__item-link {
   border-color: var(--white-color);
   color: var(--white-color);
@@ -419,6 +431,18 @@ body {
 .header-second .menu__item-link--list-my-business {
   background: var(--white-color);
   color: var(--text-color);
+}
+
+.header-second .menu__item-link--list-my-business .menu__item-pic img:nth-child(1) {
+  display: none;
+}
+
+.header-second .menu__item-link--list-my-business .menu__item-pic img:nth-child(2) {
+  display: none;
+}
+
+.header-second .menu__item-link--list-my-business .menu__item-pic img:nth-child(3) {
+  display: block;
 }
 
 .header-second .menu__item-free--grey {
@@ -487,7 +511,11 @@ body {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 156px 0 104px;
+  padding: 223px 0 104px;
+  margin-bottom: -6px;
+  background-image: url("../img/bg-2.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .hero__inner {
@@ -4318,7 +4346,17 @@ body {
   content: none;
 }
 
+@media (max-width: 1260px) {
+  .hero {
+    margin-bottom: -10px;
+  }
+}
+
 @media (max-width: 1200px) {
+  .hero {
+    background-position: -305px 100px;
+  }
+
   .footer {
     background-position: -80px center;
   }
@@ -4434,6 +4472,27 @@ body {
   .menu__item-pic img {
     width: 19px;
     height: 19px;
+  }
+
+  .header-second .menu__item-pic img:nth-child(1) {
+    display: block;
+  }
+
+  .header-second .menu__item-pic img:nth-child(2) {
+    display: none;
+  }
+
+  .header-second .menu__item-link {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+  }
+
+  .header-second .menu__item-link--list-my-business {
+    background: -o-linear-gradient(top, #ffc126 0, #fe9f10 100%), #fff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffc126), to(#fe9f10)), #fff;
+    background: linear-gradient(180deg, #ffc126 0, #fe9f10 100%), #fff;
+    border-color: transparent;
+    color: var(--white-color);
   }
 
   .hero__inner {
@@ -4819,10 +4878,6 @@ body {
     max-width: 740px;
   }
 
-  .main-page-body {
-    background-image: none;
-  }
-
   .nav {
     position: relative;
   }
@@ -4846,6 +4901,17 @@ body {
 
   .logo a img {
     max-width: 120px;
+  }
+
+  .header-second .menu__item--searching {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .header-second .menu__item-link--list-my-business {
+    background: var(--white-color);
+    color: var(--text-color);
   }
 
   .menu__item--desktop {
