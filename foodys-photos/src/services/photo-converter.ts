@@ -68,7 +68,7 @@ async function downloadPhotoFromGP(photoReference: string, outputPath: string) {
   if (!contentType) {
     throw new PlacesApiError("content type required");
   }
-  if (!contentType.includes("image/jpeg")) {
+  if (!/image\/(jpeg|png|webp)/.test(contentType)) {
     throw new PlacesApiError("uncepected content type: " + contentType);
   }
 

@@ -15,7 +15,7 @@ export function getOrigFilePath(photoReference: string) {
     STORAGE_PATH,
     "orig",
     subfolder,
-    photoReference + ".jpeg"
+    photoReference
   );
   return resourcePath;
 }
