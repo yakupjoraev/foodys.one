@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { RestaurantFavorite } from "../RestaurantFavorite";
 
 export interface RestaurantCardProps {
@@ -17,7 +17,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
       <div className="restaurant__pictures">
         <Swiper
           className="restaurant__slider mySwiper"
-          modules={[Navigation]}
+          modules={[Navigation, Pagination]}
           spaceBetween={6}
           slidesPerView={1}
           navigation={{
@@ -58,9 +58,6 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </SwiperSlide>
           <SwiperSlide className="restaurant__slide">
             <img src="/img/dashboard/slide-4.jpg" alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide className="restaurant__slide">
-            <img src="/img/dashboard/slide-5.jpg" alt="slide" />
           </SwiperSlide>
           <div className="restaurant__slider-arrow restaurant__slider-arrow-prev">
             <img src="/img/dashboard/arrow-prev.svg" alt="prev" />
