@@ -14,6 +14,7 @@ const storedPlaceSchema = z.object({
   formatted_address: z.optional(z.string()),
   name: z.optional(z.string()),
   place_id: z.optional(z.string()),
+  price_level: z.optional(z.number()),
   rating: z.optional(z.number()),
   user_ratings_total: z.optional(z.number()),
   photos: z.optional(

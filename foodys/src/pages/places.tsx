@@ -275,6 +275,7 @@ export default function Places() {
                       <RestaurantCard
                         name={candidate.name || "???"}
                         address={candidate.formatted_address || "???"}
+                        priceLevel={candidate.price_level}
                         rating={candidate.rating || 0}
                         userRatingTotal={candidate.user_ratings_total || 0}
                         placeId={candidate.place_id}

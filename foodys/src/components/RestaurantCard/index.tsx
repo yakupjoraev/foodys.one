@@ -8,6 +8,7 @@ export interface RestaurantCardProps {
   address: string;
   photo?: string;
   userRatingTotal: number;
+  priceLevel?: number;
   rating: number;
   placeId?: string;
 }
@@ -108,7 +109,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <div className="restaurant__reviews-count">
               ({props.userRatingTotal})
             </div>
-            <div className="restaurant__reviews-currency"> · €€</div>
+            {props.priceLevel !== undefined && (
+              <div className="restaurant__reviews-currency">
+                {" · " + renderPriceLevelLabel(props.priceLevel)}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -170,4 +175,15 @@ function renderStars(rating: number) {
       }
     }
   });
+}
+
+function renderPriceLevelLabel(priceLevel: number) {
+  if (priceLevel === 0) {
+    return "Free";
+  }
+  let label = "";
+  for (let i = 0; i < priceLevel; i++) {
+    label += "€";
+  }
+  return label;
 }
