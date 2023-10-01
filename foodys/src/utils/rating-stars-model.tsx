@@ -15,16 +15,16 @@ export function createRatingStarsModel(rating: number): RatingModel {
     STAR_EMPTY,
   ];
 
-  for (let i = 0; i < 5; i++) {
-    if (i < rating) {
-      ratingModel[i] = STAR_WHOLE;
-    } else {
-      const left = rating - i - 1;
-      if (left >= 0.5) {
-        ratingModel[i] = STAR_HALF;
-      }
-      break;
+  for (let starIndex = 0; starIndex < 5; starIndex++) {
+    const starValue = starIndex + 1;
+    if (starValue <= rating) {
+      ratingModel[starIndex] = STAR_WHOLE;
+      continue;
     }
+    if (Math.round(rating) === starValue) {
+      ratingModel[starIndex] = STAR_HALF;
+    }
+    break;
   }
 
   return ratingModel;
