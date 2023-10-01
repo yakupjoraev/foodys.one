@@ -116,7 +116,7 @@ type Place {
   place_id                       String?
   plus_code                      PlusCode?
   price_level                    Int?
-  rating                         Int?
+  rating                         Float?
   reference                      String?
   reservable                     Boolean?
   reviews                        PlaceReview[]
@@ -177,7 +177,7 @@ type PlusCode {
 
 type PlaceReview {
   author_name               String
-  rating                    Int
+  rating                    Float
   relative_time_description String
   time                      Int
   author_url                String?
