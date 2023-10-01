@@ -1,7 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { RestaurantFavorite } from "../RestaurantFavorite";
-import { STAR_WHOLE, createRatingStarsModel } from "~/utils/rating-stars-model";
+import {
+  STAR_HALF,
+  STAR_WHOLE,
+  createRatingStarsModel,
+} from "~/utils/rating-stars-model";
 
 export interface RestaurantCardProps {
   name: string;
@@ -154,6 +158,18 @@ function renderStars(rating: number) {
           <img
             className="restaurant__reviews-star"
             src="/img/dashboard/star.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+      case STAR_HALF: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star-half.svg"
             alt=""
             width="14"
             height="15"
