@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { RestaurantCard } from "~/components/RestaurantCard";
 import { api } from "~/utils/api";
 import { Paginator } from "~/components/Paginator";
+import { DashboardFilters } from "~/components/DashboardFilters";
 
 export default function Places() {
   const searchParams = useSearchParams();
@@ -140,114 +141,7 @@ export default function Places() {
                   <p className="dashboard__form-results-name">pour “{query}”</p>
                 </div>
               )}
-
-              <div className="dashboard__filters">
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Establishment type</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Service</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Cuisine</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Rating</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Price</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--square">
-                  <p className="dashboard__filter-text">Hours</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--clear">
-                  <button type="button" className="dashboard__filter-btn">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={8}
-                      height={8}
-                      viewBox="0 0 8 8"
-                      fill="none"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M3.8999 4.80916L7.09082 8.00008L7.79793 7.29297L4.60701 4.10205L7.7998 0.909256L7.0927 0.202148L3.8999 3.39494L0.707107 0.202148L0 0.909256L3.1928 4.10205L0.00187718 7.29297L0.708984 8.00008L3.8999 4.80916Z"
-                        fill="#A8ADB8"
-                      />
-                    </svg>{" "}
-                    Clear all
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--filters">
-                  <img src="/img/dashboard/filters.svg" alt="filters" />
-                  <p className="dashboard__filter-text">Filtres</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--sort">
-                  <img src="/img/dashboard/sort.svg" alt="sort view" />
-                  <p className="dashboard__filter-text">Sort by</p>
-                  <button type="button" className="dashboard__filter-btn">
-                    <img
-                      src="/img/dashboard/filter-arrow.svg"
-                      alt="filter arrow"
-                    />
-                  </button>
-                </div>
-                <div className="dashboard__filter dashboard__filter--position">
-                  <p className="dashboard__filter-text">Position display</p>
-                  <div className="dashboard__filter-positions">
-                    <div className="dashboard__filter-position-selected">
-                      10
-                      <img
-                        src="/img/dashboard/position-arrow.svg"
-                        alt="position arrow"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <DashboardFilters />
             </form>
             <div className="dashboard__main">
               <div className="restaurants">
