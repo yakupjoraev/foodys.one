@@ -4,31 +4,6 @@
   padding: 223px 0 104px;
   margin-bottom: -6px;
 
-  background-image: url('../img/bg-2.svg');
-  background-repeat: no-repeat;
-  background-position: center center;
-
-  @media (max-width: 1260px) {
-    margin-bottom: -10px;
-  }
-
-  @media (max-width: 1200px) {
-    background-position: -305px 100px;
-  }
-
-  @media (max-width: $breakpoint768) {
-    min-height: 100vh;
-  }
-
-  @media (max-width: $breakpoint768) {
-    padding: 75px 0 25px;
-    background-image: url('../img/main-page/mobile-bg.svg');
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: cover;
-  }
-
-
   // .hero__inner
 
   &__inner {

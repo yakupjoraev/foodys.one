@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+    <link rel="stylesheet" href="./css/style.min.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home page</title>
-  <link rel="stylesheet" href="./css/style.min.css">
-</head>
+  <body class="main__body main-page-body">
+    <div class="main-page-background">
+      <div class="main-page-background__layout">
+        <div
+          class="main-page-background__body main-page-background__body--bottom"
+        ></div>
+        <div
+          class="main-page-background__footer main-page-background__footer--bottom"
+          style="height: 200px"
+        ></div>
+      </div>
+      <div class="main-page-background__layout main-page-background__crop">
+        <div
+          class="main-page-background__body main-page-background__body--top"
+        ></div>
+        <div
+          class="main-page-background__footer main-page-background__footer--top"
+          style="height: 200px"
+        ></div>
+      </div>
+    </div>
 
-<body class="main__body main-page-body">
-  <!-- Header -->
-  @@include('./html/_header-2.html')
+    <!-- Header -->
+    @@include('./html/_header.html')
 
+    <!-- Main Page -->
+    <main class="main main-home">@@include('./html/_hero.html')</main>
 
-  <!-- Main Page -->
-  <main class="main main-home">
-    @@include('./html/_hero.html')
-  </main>
+    <!-- Footer -->
+    @@include('./html/_footer.html')
+  </body>
 
-  <!-- Footer -->
-  @@include('./html/_footer.html')
-
-</body>
-
-<script src="./js/scripts.min.js"></script>
-
+  <script src="./js/main-page-bg.js"></script>
+  <script src="./js/scripts.min.js"></script>
 </html>

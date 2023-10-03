@@ -4,65 +4,6 @@
   padding: 46px 0 10px;
   overflow: hidden;
 
-  background: url('../img/footer/footer-bg-2.svg');
-  background-repeat: no-repeat;
-  // background-size: contain;
-  background-position: bottom center;
-
-
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    left: -50%;
-    transform: translateX(-10%);
-    z-index: 0;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 213px;
-    width: 100%;
-    background: radial-gradient(10.34% 150.28% at 29% 196%, #ffc224 0, #ef5d3d 108%);
-    right: -50%;
-    transform: translateX(10%);
-    z-index: -1;
-  }
-
-  @media (max-width:1200px) {
-    background-position: -80px center;
-  }
-
-  @media (max-width:1050px) {
-    // background: url('../img/footer/footer-bg-3.svg');
-    background-position: 30% center;
-  }
-
-  @media (max-width: $breakpoint992) {
-    background-position: 40% center;
-  }
-
-
-  @media (max-width: $breakpoint768) {
-    background: url('../img/footer/mob-bg.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center 390px;
-  }
-
-  @media (max-width: 440px) {
-    background-position: center bottom;
-  }
-
-  @media (max-width: 359px) {
-    background-size: cover;
-  }
-
   // .footer__inner
 
   &__inner {

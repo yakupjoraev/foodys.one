@@ -31,7 +31,7 @@ body {
   font-family: var(--secondary-font);
   font-weight: 400;
   color: var(--text-color);
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 
   &.locked {
     overflow: hidden;
@@ -44,7 +44,7 @@ body {
 }
 
 .main-page-body {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   // background-image: url('../img/main-page-bg.svg');
   // background-repeat: no-repeat;
   // background-position: inherit;
@@ -54,9 +54,8 @@ body {
   // }
 }
 
-.main-home {}
-
-
+.main-home {
+}
 
 .main__body {
   display: flex;
@@ -78,4 +77,57 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+.main-page-body {
+  position: relative;
+}
+
+.main-page-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: green;
+}
+
+.main-page-background__layout {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.main-page-background__crop {
+  clip-path: polygon(52.5% 0px, 100% 0%, 100% 100%, 42.5% 100%);
+}
+
+.main-page-background__body {
+  flex: 1;
+}
+
+.main-page-background__body--top {
+  background: url("../img/bg-moir.png"),
+    radial-gradient(84.65% 720px at 84.2% 720px, #ffc224 0%, #fa613f 100%);
+}
+
+.main-page-background__body--bottom {
+  background-color: #fafafa;
+}
+
+.main-page-background__footer--top {
+  background: radial-gradient(
+    61.34% 77.28% at 42.05% 91.98%,
+    #ffc224 0%,
+    #ef5d3d 100%
+  );
+  background-size: 1267px 1037px;
+  background-position: 35% -200px;
+}
+
+.main-page-background__footer--bottom {
+  background-color: var(--white-color);
 }
