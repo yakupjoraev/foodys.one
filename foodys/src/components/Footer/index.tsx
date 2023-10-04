@@ -1,6 +1,9 @@
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 export function Footer() {
+  const { t } = useTranslation("common");
+
   return (
     <footer className="footer footer-second">
       <div className="container">
@@ -8,24 +11,24 @@ export function Footer() {
           <div className="footer__top">
             <nav className="footer__nav">
               <Link className="footer__nav-link" href="/about">
-                About us
+                {t("titleAboutUs")}
               </Link>
               <a className="footer__nav-link" href="#">
-                Terms and conditions
+                {t("titleTermsAndConditions")}
               </a>
               <a className="footer__nav-link" href="#">
-                Cookies
+                {t("titleCookies")}
               </a>
               <a className="footer__nav-link" href="#">
                 Privacy Policy
               </a>
               <a className="footer__nav-link" href="#">
-                Contact us
+                {t("textContactUs")}
               </a>
             </nav>
             <a className="footer__country" href="#">
               <img src="/img/icons/footer-country.svg" alt="country icon" />
-              <span>Country</span>
+              <span>{t("buttonCountry")}</span>
             </a>
           </div>
           <div className="footer__bottom">
@@ -106,7 +109,7 @@ export function Footer() {
             </div>
             <a className="footer__country footer__country--mob" href="#">
               <img src="/img/icons/footer-country.svg" alt="country icon" />
-              <span>Favourites</span>
+              <span>{t("buttonFavourites")}</span>
             </a>
             <div className="footer__partners">
               <ul className="footer__partners-list">
@@ -153,10 +156,7 @@ export function Footer() {
                   </a>
                 </li>
               </ul>
-              <div className="footer__copy">
-                ©Aragon Telecom Group (CY) Ltd. 2020-2023, all rights reserved.
-                Foodys.one is brand of Aragon Telecom group.
-              </div>
+              <div className="footer__copy">{t("textCopyright")}</div>
             </div>
           </div>
         </div>
