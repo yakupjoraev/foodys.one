@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FormEvent, useId } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { LanguageSelector } from "./LanguageSelector";
 
 export interface HeaderProps {
   mobileMenuExpanded?: boolean;
@@ -282,16 +283,7 @@ export function Header(props: HeaderProps) {
                 </li>
               )}
               <li className="menu__item menu__item--desktop">
-                <a
-                  href="#"
-                  className="menu__item-link menu__item-link--languages"
-                  data-scroll=""
-                >
-                  <div className="menu__item-pic">
-                    <img src="/img/header/en.png" alt="" />
-                  </div>
-                  EN
-                </a>
+                <LanguageSelector />
               </li>
               <li className="menu__item menu__item--mob">
                 <a href="/about" className="menu__item-link" data-scroll="">
@@ -393,16 +385,7 @@ export function Header(props: HeaderProps) {
                     </defs>
                   </svg>
                 </a>
-                <a
-                  href="#"
-                  className="menu__item-link menu__item-link--languages"
-                  data-scroll=""
-                >
-                  <div className="menu__item-pic">
-                    <img src="/img/header/en.png" alt="" />
-                  </div>
-                  EN
-                </a>
+                <LanguageSelector />
               </li>
             </ul>
             <div
