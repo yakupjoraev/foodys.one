@@ -24,7 +24,7 @@
   "textBrandsFamily": "Sont les marques de famille \"Point.one\", créés par le groupe \"Aragon Télécom\"",
   "textCopyright": "©Aragon Telecom Group (CY) Ltd. 2008-2023, tous droits réservés. Foodys.one est une marque du groupe Aragon Telecom.",
   "titleOurPartners": "Nos partenaires",
-  "textAboutUsContent": "Foodys.one est un portail destiné aux consommateurs des restaurants, créé par le groupe Aragon Telecom. Notre groupe a été fondé en 2008 par un groupe de managers et entrepreneurs expérimentés ayant une expertise en télécommunications et en ingénierie. Aragon Telecom France, qui fait partie du groupe Aragon Telecom, dispose d'une licence complète d'opérateur de télécommunications délivrée par l'ARCEP, l'autorité française de régulation des télécommunications. \nPendant la pandémie de 2020, nous avons lancé Aragon Telecom Labs, notre département R&D innovant, qui explore de nouvelles solutions en matière de télécommunications.\nEn 2022, le groupe Aragon Telecom a lancé une nouvelle série de portails et d'annuaires destinés aux consommateurs, faisant partie de la famille \"Point One\". Les différents portails seront lancés au cours des 3 prochaines années. Notre équipe de direction est composée d'anciens cadres supérieurs d'annuaires et de services d'assistance-annuaire réputés, qui ont fait leurs preuves.\nPour en savoir plus sur nous : www.aragontelecom.com",
+  "textAboutUsContent": "<0>Foodys.one est un portail destiné aux consommateurs des restaurants, créé par le groupe Aragon Telecom. Notre groupe a été fondé en 2008 par un groupe de managers et entrepreneurs expérimentés ayant une expertise en télécommunications et en ingénierie. Aragon Telecom France, qui fait partie du groupe Aragon Telecom, dispose d'une licence complète d'opérateur de télécommunications délivrée par l'ARCEP, l'autorité française de régulation des télécommunications.</0><1>Pendant la pandémie de 2020, nous avons lancé Aragon Telecom Labs, notre département R&D innovant, qui explore de nouvelles solutions en matière de télécommunications.</1><2>En 2022, le groupe Aragon Telecom a lancé une nouvelle série de portails et d'annuaires destinés aux consommateurs, faisant partie de la famille \"Point One\". Les différents portails seront lancés au cours des 3 prochaines années. Notre équipe de direction est composée d'anciens cadres supérieurs d'annuaires et de services d'assistance-annuaire réputés, qui ont fait leurs preuves.</2>",
   "scrollOverScrollOverFavourites": "Pas d'éléments sauvegardés",
   "scrollOverScrollOverComingSoon": "Bientôt disponible",
   "titleSignInForm": "Membre déjà ? Connecte-toi !",
@@ -144,5 +144,7 @@
   "textDateReview": "Il y a X mois/jours",
   "textCheckOtherPlaces": "Découvrez plus d'endroits à côté de vous",
   "buttonLearnMore": "Lire plus",
-  "buttonAgreeAndClose": "Accepter et fermer"
+  "buttonAgreeAndClose": "Accepter et fermer",
+  "buttonLearnMoreAboutUs": "Pour en savoir plus sur nous",
+  "urlLearnMoreAboutUs": "https://www.aragontelecom.com/"
 }

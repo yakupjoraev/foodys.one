@@ -24,7 +24,7 @@
   "textBrandsFamily": "Are the brands of “Point.one” family, created by the groupe “Aragon Telecom”",
   "textCopyright": "©Aragon Telecom Group (CY) Ltd. 2008-2023, all rights reserved. Foodys.one is brand of Aragon Telecom group.",
   "titleOurPartners": "Our partners",
-  "textAboutUsContent": "Foodys.one is a consumer portal for restaurants powered by Aragon Telecom Group. Our group was founded back in 2008 by a group of experienced managers and entrepreneurs with a background of telecommunications and engineering. Aragon Telecom France, part of the Aragon Telecom Group, has a full telecommunications operators license provided by the French telecommunications regulator ARCEP. \nDuring the pandemic in 2020, we launched Aragon Telecom Labs, our innovative R&D department, exploring new solutions in telecommunications.\nIn 2022, Aragon Telecom Group launched a new series of consumer portals and directories being part of our “Point One” family. The different portals will be launched over the next 3 years. Our management team is built of former top managers of reknown directories and directory assistance services with a large track record. \nLearn more about us: www.aragontelecom.com",
+  "textAboutUsContent": "<0>Foodys.one is a consumer portal for restaurants powered by Aragon Telecom Group. Our group was founded back in 2008 by a group of experienced managers and entrepreneurs with a background of telecommunications and engineering. Aragon Telecom France, part of the Aragon Telecom Group, has a full telecommunications operators license provided by the French telecommunications regulator ARCEP.</0><1>During the pandemic in 2020, we launched Aragon Telecom Labs, our innovative R&D department, exploring new solutions in telecommunications.</1><2>In 2022, Aragon Telecom Group launched a new series of consumer portals and directories being part of our “Point One” family. The different portals will be launched over the next 3 years. Our management team is built of former top managers of reknown directories and directory assistance services with a large track record.</2>",
   "scrollOverScrollOverFavourites": "No saved items yet",
   "scrollOverScrollOverComingSoon": "Coming soon",
   "titleSignInForm": "Already a member ? Sign in !",
@@ -144,5 +144,7 @@
   "textDateReview": "X months/days ago",
   "textCheckOtherPlaces": "Check other places near you",
   "buttonLearnMore": "Learn more",
-  "buttonAgreeAndClose": "Agree and close"
+  "buttonAgreeAndClose": "Agree and close",
+  "buttonLearnMoreAboutUs": "Learn more about us",
+  "urlLearnMoreAboutUs": "https://www.aragontelecom.com/"
 }

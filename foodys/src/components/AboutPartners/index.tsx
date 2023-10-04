@@ -1,10 +1,15 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+import useTranslation from "next-translate/useTranslation";
 
 export function AboutPartners() {
+  const { t } = useTranslation("common");
+
   return (
     <div className="about__partners">
-      <h2 className="about__partners-title about__title">Our partners</h2>
+      <h2 className="about__partners-title about__title">
+        {t("titleOurPartners")}
+      </h2>
       <Swiper
         className="about__partners-slider mySwiper"
         modules={[Navigation, Autoplay]}

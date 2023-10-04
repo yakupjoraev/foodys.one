@@ -1,8 +1,12 @@
 import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
 import { AboutPartners } from "~/components/AboutPartners";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 export default function About() {
+  const { t } = useTranslation("common");
+
   return (
     <Layout title="Foodys - About us">
       <main className="main">
@@ -11,30 +15,12 @@ export default function About() {
             <div className="about__inner">
               <div className="about__info">
                 <div className="about__info-main">
-                  <h1 className="about__title">About us</h1>
+                  <h1 className="about__title">{t("titleAboutUs")}</h1>
                   <div className="about__descrs">
-                    <p>
-                      Foodys.one is a consumer portal for restaurants powered by
-                      Aragon Telecom Group. Our group was founded back in 2008
-                      by a group of experienced managers and entrepreneurs with
-                      a background of telecommunications and engineering. Aragon
-                      Telecom France, part of the Aragon Telecom Group, has a
-                      full telecommunications operators license provided by the
-                      French telecommunications regulator ARCEP.
-                    </p>
-                    <p>
-                      During the pandemic in 2020, we launched Aragon Telecom
-                      Labs, our innovative R&amp;D department, exploring new
-                      solutions in telecommunications.
-                    </p>
-                    <p>
-                      In 2022, Aragon Telecom Group launched a new series of
-                      consumer portals and directories being part of our “Point
-                      One” family. The different portals will be launched over
-                      the next 3 years. Our management team is built of former
-                      top managers of reknown directories and directory
-                      assistance services with a large track record.
-                    </p>
+                    <Trans
+                      i18nKey="common:textAboutUsContent"
+                      components={[<p />, <p />, <p />]}
+                    />
                   </div>
                 </div>
                 <div className="about__info-picture">
@@ -79,8 +65,8 @@ export default function About() {
                       </a>
                     </li>
                   </ul>
-                  <a className="about__btn" href="#">
-                    Learn more about us
+                  <a className="about__btn" href={t("urlLearnMoreAboutUs")}>
+                    {t("buttonLearnMoreAboutUs")}
                   </a>
                 </div>
               </div>

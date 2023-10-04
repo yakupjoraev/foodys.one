@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { FormEvent, useId } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 export function AboutSearch() {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const queryId = useId();
 
@@ -31,14 +33,14 @@ export function AboutSearch() {
           />
         </div>
         <div className="about__find-searching">
-          <p className="about__find-label">Find a restaurant or a delivery:</p>
+          <p className="about__find-label">{t("textInvitToSearch")}</p>
           <div className="about__find-search">
             <input
               className="about__find-seacrh-input"
               id={queryId}
               name="query"
               type="search"
-              placeholder="City, cuisine or restaurant name"
+              placeholder={t("textSupportSearchExample")}
             />
             <img
               className="about__find-search-icon"
@@ -47,7 +49,7 @@ export function AboutSearch() {
             />
           </div>
           <button type="submit" className="about__find-btn">
-            Search
+            {t("buttonSearch")}
           </button>
         </div>
       </div>
