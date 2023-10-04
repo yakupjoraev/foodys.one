@@ -1,5 +1,6 @@
 import { HeroSearch } from "~/components/HeroSearch";
 import { Layout } from "~/components/Layout";
+import Trans from "next-translate/Trans";
 
 export default function Main() {
   return (
@@ -10,15 +11,15 @@ export default function Main() {
             <div className="hero__inner">
               <div className="hero__info">
                 <h1 className="hero__title">
-                  <span>#Burgers!</span>
-                  Junk food can
-                  <br />
-                  be so tasty
+                  <Trans
+                    i18nKey="common:titleJokeBurger"
+                    components={[<span />, <br />]}
+                  />
                 </h1>
                 <div className="hero__picture">
                   <img
                     src="/img/main-page/main-page-pic-1.png"
-                    alt="#Burgers! "
+                    alt="#Burgers!"
                   />
                 </div>
                 <HeroSearch />

@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { FormEvent, useId } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 export function HeroSearch() {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const queryId = useId();
 
@@ -22,14 +24,14 @@ export function HeroSearch() {
 
   return (
     <form className="hero__form" onSubmit={handleQueryFormSubmit}>
-      <div className="hero__form-label">Find a restaurant or a delivery:</div>
+      <div className="hero__form-label">{t("textInvitToSearch")}</div>
       <div className="hero__form-search">
         <input
           className="hero__form-search-input"
           id={queryId}
           type="search"
           name="query"
-          placeholder="City, cuisine or restaurant name"
+          placeholder={t("textSupportSearchExample")}
         />
         <img
           className="hero__form-search-icon"
@@ -38,7 +40,7 @@ export function HeroSearch() {
         />
       </div>
       <button type="submit" className="hero__form-search-btn">
-        Search
+        {t("buttonSearch")}
       </button>
     </form>
   );
