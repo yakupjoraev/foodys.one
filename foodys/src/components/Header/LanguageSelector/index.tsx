@@ -3,12 +3,12 @@ import { Popover } from "react-tiny-popover";
 import style from "./style.module.css";
 import classNames from "classnames";
 
-export type LangCode = "FR" | "EN";
-
-export interface LanguageSelectorProps {}
+export interface LanguageSelectorProps {
+  locale: string;
+  onChange: (locale: string) => void;
+}
 
 export function LanguageSelector(props: LanguageSelectorProps) {
-  const [currentLang, setCurrentLang] = useState<LangCode>("FR");
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const handleClickOutside = () => {
@@ -19,9 +19,9 @@ export function LanguageSelector(props: LanguageSelectorProps) {
     setPopoverOpen(!popoverOpen);
   };
 
-  const handleLangChange = (lang: LangCode) => {
+  const handleLangChange = (locale: string) => {
     setPopoverOpen(false);
-    setCurrentLang(lang);
+    props.onChange(locale);
   };
 
   return (
@@ -33,14 +33,14 @@ export function LanguageSelector(props: LanguageSelectorProps) {
       onClickOutside={handleClickOutside}
       content={renderLanguageMenu(handleLangChange)}
     >
-      {renderMainBtn(currentLang, handleMainBtnClick)}
+      {renderMainBtn(props.locale, handleMainBtnClick)}
     </Popover>
   );
 }
 
-function renderMainBtn(lang: "FR" | "EN", onClick: () => void): JSX.Element {
-  switch (lang) {
-    case "FR": {
+function renderMainBtn(locale: string, onClick: () => void): JSX.Element {
+  switch (locale) {
+    case "fr": {
       return (
         <button
           className="menu__item-link menu__item-link--languages"
@@ -54,7 +54,7 @@ function renderMainBtn(lang: "FR" | "EN", onClick: () => void): JSX.Element {
         </button>
       );
     }
-    case "EN": {
+    case "en": {
       return (
         <button
           className="menu__item-link menu__item-link--languages"
@@ -68,17 +68,28 @@ function renderMainBtn(lang: "FR" | "EN", onClick: () => void): JSX.Element {
         </button>
       );
     }
+    default: {
+      return (
+        <button
+          className="menu__item-link menu__item-link--languages"
+          type="button"
+          onClick={onClick}
+        >
+          {locale}
+        </button>
+      );
+    }
   }
 }
 
-function renderLanguageMenu(onChange: (lang: LangCode) => void) {
+function renderLanguageMenu(onChange: (locale: string) => void) {
   return (
     <ul className={style["language-menu"]}>
       <li className={style["language-menu__item"]}>
         <button
           className={style["language-btn"]}
           type="button"
-          onClick={() => void onChange("FR")}
+          onClick={() => void onChange("fr")}
         >
           <img
             className={style["language-btn__icon"]}
@@ -98,7 +109,7 @@ function renderLanguageMenu(onChange: (lang: LangCode) => void) {
         <button
           className={style["language-btn"]}
           type="button"
-          onClick={() => void onChange("EN")}
+          onClick={() => void onChange("en")}
         >
           <img
             className={style["language-btn__icon"]}

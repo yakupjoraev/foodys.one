@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import { FormEvent, useId } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";
 
 export interface HeaderProps {
@@ -15,9 +15,9 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const queryFormId = useId();
-  const { data: sessionData, status } = useSession();
 
   const handleQueryFormSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -32,6 +32,11 @@ export function Header(props: HeaderProps) {
         router.push(`/places?query=${encodeURIComponent(value)}`);
       }
     }
+  };
+
+  const handleLocaleChange = (locale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale });
   };
 
   return (
@@ -61,7 +66,7 @@ export function Header(props: HeaderProps) {
                 <input
                   className="menu__item-search"
                   type="search"
-                  placeholder="City, cuisine or restaurant name"
+                  placeholder={t("textSupportSearchExample")}
                   data-search-input=""
                   name="query"
                   form={queryFormId}
@@ -76,7 +81,7 @@ export function Header(props: HeaderProps) {
                   type="submit"
                   form={queryFormId}
                 >
-                  Search
+                  {t("buttonSearch")}
                 </button>
                 <div className="search__list">
                   <a className="search__item" href="#">
@@ -169,7 +174,7 @@ export function Header(props: HeaderProps) {
                   <div className="menu__item-pic">
                     <img src="/img/header/home.png" alt="home" />
                   </div>
-                  Home
+                  {t("buttonHome")}
                   <img
                     className="menu__item-link-arrow"
                     src="/img/header/arrow-right.svg"
@@ -196,7 +201,7 @@ export function Header(props: HeaderProps) {
                       />
                     </picture>
                   </div>
-                  List my Business
+                  {t("buttonListMyBusiness")}
                   <img
                     className="menu__item-link-arrow"
                     src="/img/header/arrow-right.svg"
@@ -209,7 +214,7 @@ export function Header(props: HeaderProps) {
                   <div className="menu__item-pic">
                     <img src="/img/header/favorite.png" alt="favorite" />
                   </div>
-                  Favourites
+                  {t("buttonFavourites")}
                   <img
                     className="menu__item-link-arrow"
                     src="/img/header/arrow-right.svg"
@@ -222,7 +227,7 @@ export function Header(props: HeaderProps) {
                   <div className="menu__item-pic">
                     <img src="/img/header/my-account.png" alt="my-account" />
                   </div>
-                  My account
+                  {t("buttonMyAccount")}
                   <img
                     className="menu__item-link-arrow"
                     src="/img/header/arrow-right.svg"
@@ -239,7 +244,7 @@ export function Header(props: HeaderProps) {
                     role="button"
                     onClick={props.onLogInBtnClick}
                   >
-                    Sign In
+                    {t("buttonSignIn")}
                     <img
                       className="menu__item-link-arrow"
                       src="/img/header/arrow-right.svg"
@@ -282,17 +287,22 @@ export function Header(props: HeaderProps) {
                   </span>
                 </li>
               )}
-              <li className="menu__item menu__item--desktop">
-                <LanguageSelector />
-              </li>
+              {router.locale && (
+                <li className="menu__item menu__item--desktop">
+                  <LanguageSelector
+                    locale={router.locale}
+                    onChange={handleLocaleChange}
+                  />
+                </li>
+              )}
               <li className="menu__item menu__item--mob">
                 <a href="/about" className="menu__item-link" data-scroll="">
-                  About us
+                  {t("titleAboutUs")}
                 </a>
               </li>
               <li className="menu__item menu__item--mob">
                 <a href="#" className="menu__item-link" data-scroll="">
-                  Terms and conditions
+                  {t("titleTermsAndConditions")}
                 </a>
               </li>
               <li className="menu__item menu__item--mob">
@@ -302,17 +312,12 @@ export function Header(props: HeaderProps) {
               </li>
               <li className="menu__item menu__item--mob">
                 <a href="#" className="menu__item-link" data-scroll="">
-                  Cookies
+                  {t("titleCookies")}
                 </a>
               </li>
               <li className="menu__item menu__item--mob">
                 <a href="#" className="menu__item-link" data-scroll="">
-                  Contact us
-                </a>
-              </li>
-              <li className="menu__item menu__item--mob">
-                <a href="#" className="menu__item-link" data-scroll="">
-                  Contact us
+                  {t("textContactUs")}
                 </a>
               </li>
               <li className="menu__item menu__item--mob menu__item-footer">
@@ -385,7 +390,12 @@ export function Header(props: HeaderProps) {
                     </defs>
                   </svg>
                 </a>
-                <LanguageSelector />
+                {router.locale && (
+                  <LanguageSelector
+                    locale={router.locale}
+                    onChange={handleLocaleChange}
+                  />
+                )}
               </li>
             </ul>
             <div
