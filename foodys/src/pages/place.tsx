@@ -3,6 +3,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 enum Tab {
   Overview,
@@ -12,6 +14,7 @@ enum Tab {
 }
 
 export default function Place() {
+  const { t } = useTranslation("common");
   const searchParams = useSearchParams();
   const placeId = searchParams.get("place_id");
   const queryResponse = api.place.getPlace.useQuery({ placeId: placeId || "" });
@@ -168,7 +171,7 @@ export default function Place() {
                           />
                           {i === lastPreviewIndex && (
                             <a className="restaurant-page__pic-all" href="#">
-                              View all
+                              {t("buttonViewAll")}
                             </a>
                           )}
                         </div>
@@ -185,15 +188,15 @@ export default function Place() {
                   <div className="restaurant-page__instruments">
                     <div className="restaurant-page__instrument">
                       <img src="/img/restaurant-page/review.svg" alt="review" />
-                      <span>Review</span>
+                      <span>{t("buttonReview")}</span>
                     </div>
                     <div className="restaurant-page__instrument">
                       <img src="/img/restaurant-page/like.svg" alt="like" />
-                      <span>Save</span>
+                      <span>{t("buttonSave")}</span>
                     </div>
                     <div className="restaurant-page__instrument">
                       <img src="/img/restaurant-page/share.svg" alt="share" />
-                      <span>Share</span>
+                      <span>{t("buttonShare")}</span>
                     </div>
                   </div>
                   <div className="restaurant-page__address">
@@ -204,13 +207,14 @@ export default function Place() {
                         <span>–</span>
                       </div>
                       <div className="restaurant__address-gets">
-                        <a className="restaurant__address-get" href="#">
-                          Get there
-                        </a>
-                        <div className="restaurant__address-distance">
-                          {" "}
-                          | 835m from you
-                        </div>
+                        <Trans
+                          i18nKey="common:textGetThere"
+                          components={[
+                            <a className="restaurant__address-get" href="#" />,
+                            <div className="restaurant__address-distance" />,
+                          ]}
+                          values={{ distance: 835 }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -256,14 +260,14 @@ export default function Place() {
                     <div className="restaurant__btns">
                       <button type="button" className="restaurant__btn call">
                         <img src="/img/dashboard/call.svg" alt="call" />
-                        Call
+                        {t("buttonCall")}
                       </button>
                       <button
                         type="button"
                         className="restaurant__btn delivery"
                       >
                         <img src="/img/dashboard/delivery.svg" alt="delivery" />
-                        Delivery
+                        {t("buttonDelivery")}
                       </button>
                       <button
                         type="button"
@@ -273,21 +277,21 @@ export default function Place() {
                           src="/img/dashboard/pay-crypto.svg"
                           alt="pay-crypto"
                         />
-                        Pay in Crypto
+                        {t("buttonPayInCrypto")}
                       </button>
                     </div>
                   </div>
                   <div className="restaurant-page__others">
                     <a className="restaurant-page__others-open" href="#">
-                      Open now
+                      {t("textOpenNow")}
                     </a>
                     <a className="restaurant-page__others-link" href="#">
-                      See opening hours
+                      {t("textSeeOpeningHours")}
                     </a>
                     <a className="restaurant-page__others-link" href="#">
-                      This is my business
+                      {t("textThisIsMyBusiness")}
                       <span className="restaurant-page__others-link-label">
-                        Coming soon
+                        {t("scrollOverScrollOverComingSoon")}
                       </span>
                     </a>
                   </div>
@@ -302,7 +306,7 @@ export default function Place() {
                       })}
                       onClick={() => setTab(Tab.Overview)}
                     >
-                      Overview
+                      {t("titleOverview")}
                     </div>
                     <div
                       className={classNames("tabs__header-item", {
@@ -310,7 +314,7 @@ export default function Place() {
                       })}
                       onClick={() => setTab(Tab.OpeningHours)}
                     >
-                      Opening hours
+                      {t("titleOpeningHours")}
                     </div>
                     <div
                       className={classNames("tabs__header-item", {
@@ -318,7 +322,7 @@ export default function Place() {
                       })}
                       onClick={() => setTab(Tab.Reviews)}
                     >
-                      Reviews
+                      {t("titleReviews")}
                     </div>
                     <div
                       className={classNames("tabs__header-item", {
@@ -326,7 +330,7 @@ export default function Place() {
                       })}
                       onClick={() => setTab(Tab.Location)}
                     >
-                      Location
+                      {t("titleLocation")}
                     </div>
                   </div>
                   <div className="input__border" />
@@ -367,31 +371,35 @@ export default function Place() {
                     >
                       <div className="opening-hours">
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Monday</p>
+                          <p className="opening-hours__day">
+                            {t("textOpeningHoursMonday")}
+                          </p>
                           <p className="opening-hours__time">10:00-22:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Tuesday</p>
+                          <p className="opening-hours__day">
+                            {t("textOpeningHoursTuesday")}
+                          </p>
                           <p className="opening-hours__time">10:00-22:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Wednesday</p>
+                          <p className="opening-hours__day">{t("Wednesday")}</p>
                           <p className="opening-hours__time">10:00-22:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Thursday</p>
+                          <p className="opening-hours__day">{t("Thursday")}</p>
                           <p className="opening-hours__time">10:00-22:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Friday</p>
+                          <p className="opening-hours__day">{t("Friday")}</p>
                           <p className="opening-hours__time">10:00-22:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Saturday</p>
+                          <p className="opening-hours__day">{t("Saturday")}</p>
                           <p className="opening-hours__time">10:00-00:00</p>
                         </div>
                         <div className="opening-hours__item">
-                          <p className="opening-hours__day">Sunday</p>
+                          <p className="opening-hours__day">{t("Sunday")}</p>
                           <p className="opening-hours__day">Closed</p>
                         </div>
                       </div>
@@ -405,14 +413,14 @@ export default function Place() {
                         <div className="input__border" />
                         <div className="reviews-content__filters">
                           <h4 className="reviews-content__filters-label">
-                            Reviews
+                            {t("titleReviews")}
                           </h4>
                           <div className="reviews-content__filters-list">
                             <button
                               type="button"
                               className="reviews-content__filter active"
                             >
-                              All
+                              {t("textAll")}
                             </button>
                             <button
                               type="button"
@@ -455,32 +463,32 @@ export default function Place() {
                         <div className="input__border" />
                         <div className="reviews-content__filters reviews-content__sorts">
                           <h4 className="reviews-content__filters-label">
-                            Reviews
+                            {t("titleReviews")}
                           </h4>
                           <div className="reviews-content__filters-list">
                             <button
                               type="button"
                               className="reviews-content__filter active"
                             >
-                              Most relevant
+                              {t("textSortReviewMostRelevant")}
                             </button>
                             <button
                               type="button"
                               className="reviews-content__filter"
                             >
-                              Newest
+                              {t("textSortReviewMostNewest")}
                             </button>
                             <button
                               type="button"
                               className="reviews-content__filter"
                             >
-                              Highest
+                              {t("textSortReviewMostHighest")}
                             </button>
                             <button
                               type="button"
                               className="reviews-content__filter"
                             >
-                              Lowest
+                              {t("textSortReviewMostLowest")}
                             </button>
                           </div>
                         </div>
@@ -872,7 +880,7 @@ export default function Place() {
                               className="restaurant__btn call"
                             >
                               <img src="/img/dashboard/call.svg" alt="call" />
-                              Call
+                              {t("buttonCall")}
                             </button>
                             <button
                               type="button"
@@ -1051,22 +1059,23 @@ export default function Place() {
                                       <span>–</span>
                                     </div>
                                     <div className="restaurant__address-gets">
-                                      <a
-                                        className="restaurant__address-get"
-                                        href="#"
-                                      >
-                                        Get there
-                                      </a>
-                                      <div className="restaurant__address-distance">
-                                        {" "}
-                                        | 835m from you
-                                      </div>
+                                      <Trans
+                                        i18nKey="common:textGetThere"
+                                        components={[
+                                          <a
+                                            className="restaurant__address-get"
+                                            href="#"
+                                          />,
+                                          <div className="restaurant__address-distance" />,
+                                        ]}
+                                        values={{ distance: 835 }}
+                                      />
                                     </div>
                                   </div>
                                 </div>
                                 <div className="restaurant__checked">
                                   <div className="restaurant__checked-label restaurant__checked-label--green">
-                                    Open now
+                                    {t("textOpenNow")}
                                   </div>
                                   <div className="restaurant__reviews">
                                     <div className="restaurant__reviews-balls">
@@ -1119,7 +1128,7 @@ export default function Place() {
                                       src="/img/dashboard/call.svg"
                                       alt="call"
                                     />
-                                    Call
+                                    {t("buttonCall")}
                                   </button>
                                   <button
                                     type="button"
@@ -1129,7 +1138,7 @@ export default function Place() {
                                       src="/img/dashboard/delivery.svg"
                                       alt="delivery"
                                     />
-                                    Delivery
+                                    {t("buttonDelivery")}
                                   </button>
                                   <button
                                     type="button"
@@ -1139,7 +1148,7 @@ export default function Place() {
                                       src="/img/dashboard/pay-crypto.svg"
                                       alt="pay-crypto"
                                     />
-                                    Pay in Crypto
+                                    {t("buttonPayInCrypto")}
                                   </button>
                                 </div>
                                 <a className="restaurant__more" href="#">
@@ -1310,16 +1319,17 @@ export default function Place() {
                                       <span>–</span>
                                     </div>
                                     <div className="restaurant__address-gets">
-                                      <a
-                                        className="restaurant__address-get"
-                                        href="#"
-                                      >
-                                        Get there
-                                      </a>
-                                      <div className="restaurant__address-distance">
-                                        {" "}
-                                        | 835m from you
-                                      </div>
+                                      <Trans
+                                        i18nKey="common:textGetThere"
+                                        components={[
+                                          <a
+                                            className="restaurant__address-get"
+                                            href="#"
+                                          />,
+                                          <div className="restaurant__address-distance" />,
+                                        ]}
+                                        values={{ distance: 835 }}
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -1378,7 +1388,7 @@ export default function Place() {
                                       src="/img/dashboard/call.svg"
                                       alt="call"
                                     />
-                                    Call
+                                    {t("buttonCall")}
                                   </button>
                                   <button
                                     type="button"
@@ -1388,7 +1398,7 @@ export default function Place() {
                                       src="/img/dashboard/delivery.svg"
                                       alt="delivery"
                                     />
-                                    Delivery
+                                    {t("buttonDelivery")}
                                   </button>
                                   <button
                                     type="button"
@@ -1398,7 +1408,7 @@ export default function Place() {
                                       src="/img/dashboard/pay-crypto.svg"
                                       alt="pay-crypto"
                                     />
-                                    Pay in Crypto
+                                    {t("buttonPayInCrypto")}
                                   </button>
                                 </div>
                                 <a className="restaurant__more" href="#">
@@ -1569,16 +1579,17 @@ export default function Place() {
                                       <span>–</span>
                                     </div>
                                     <div className="restaurant__address-gets">
-                                      <a
-                                        className="restaurant__address-get"
-                                        href="#"
-                                      >
-                                        Get there
-                                      </a>
-                                      <div className="restaurant__address-distance">
-                                        {" "}
-                                        | 835m from you
-                                      </div>
+                                      <Trans
+                                        i18nKey="common:textGetThere"
+                                        components={[
+                                          <a
+                                            className="restaurant__address-get"
+                                            href="#"
+                                          />,
+                                          <div className="restaurant__address-distance" />,
+                                        ]}
+                                        values={{ distance: 835 }}
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -1637,7 +1648,7 @@ export default function Place() {
                                       src="/img/dashboard/call.svg"
                                       alt="call"
                                     />
-                                    Call
+                                    {t("buttonCall")}
                                   </button>
                                   <button
                                     type="button"
@@ -1647,7 +1658,7 @@ export default function Place() {
                                       src="/img/dashboard/delivery.svg"
                                       alt="delivery"
                                     />
-                                    Delivery
+                                    {t("buttonDelivery")}
                                   </button>
                                   <button
                                     type="button"
@@ -1657,7 +1668,7 @@ export default function Place() {
                                       src="/img/dashboard/pay-crypto.svg"
                                       alt="pay-crypto"
                                     />
-                                    Pay in Crypto
+                                    {t("buttonPayInCrypto")}
                                   </button>
                                 </div>
                                 <a className="restaurant__more" href="#">
@@ -1675,7 +1686,7 @@ export default function Place() {
                 <div className="restaurant-page__footer">
                   <button type="button" className="restaurant__btn call">
                     <img src="/img/dashboard/call.svg" alt="call" />
-                    Call
+                    {t("buttonCall")}
                   </button>
                 </div>
               </div>
@@ -1689,7 +1700,7 @@ export default function Place() {
                 <div className="dashboard__aside-footer">
                   <p className="dashboard__aside-text">As an advertisement</p>
                   <a className="dashboard__aside-more" target="_blank" href="#">
-                    Learn more
+                    {t("buttonLearnMore")}
                   </a>
                 </div>
               </aside>
