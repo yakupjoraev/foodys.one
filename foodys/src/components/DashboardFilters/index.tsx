@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DashboardFilter } from "../DashboardFilter";
 import { DashboardFilterCheckbox } from "../DashboardFilterCheckbox";
 import classNames from "classnames";
+import useTranslation from "next-translate/useTranslation";
 
 interface FilterState {
   establismentRestaurant?: boolean;
@@ -11,10 +12,12 @@ interface FilterState {
   serviceTakeOut?: boolean;
   serviceDelivery?: boolean;
   servicePickUp?: boolean;
-  cuisineChinese?: boolean;
   cuisineItalian?: boolean;
-  cuisineBurgers?: boolean;
-  cuisineFastFood?: boolean;
+  cuisineSpanish?: boolean;
+  cuisineFrench?: boolean;
+  cuisineGeorgian?: boolean;
+  cuisineChinese?: boolean;
+  cuisineJapanese?: boolean;
   rating1?: boolean;
   rating2?: boolean;
   rating3?: boolean;
@@ -40,6 +43,7 @@ export interface DashboardFiltersProps {
 }
 
 export function DashboardFilters(props: DashboardFiltersProps) {
+  const { t } = useTranslation("common");
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
   const [filterState, setFilterState] = useState(DEFAULT_FILTER_STATE);
 
@@ -104,61 +108,78 @@ export function DashboardFilters(props: DashboardFiltersProps) {
 
       <DashboardFilter
         className="dashboard__filter--square"
-        label="Establishment type"
+        label={t("titleEstablishmentType")}
       >
         <DashboardFilterCheckbox
-          label="Restaurant"
+          label={t("valueEstablishmentTypeRestaurant")}
           {...registerFilterCheckbox("establismentRestaurant")}
         />
         <DashboardFilterCheckbox
-          label="Coffee & tea"
+          label={t("valueEstablishmentTypeCoffeeTea")}
           {...registerFilterCheckbox("establishmentCoffeeAntTea")}
         />
         <DashboardFilterCheckbox
-          label="Bar"
+          label={t("valueEstablishmentTypeBar")}
           {...registerFilterCheckbox("establishmentBar")}
         />
       </DashboardFilter>
 
-      <DashboardFilter className="dashboard__filter--square" label="Service">
+      <DashboardFilter
+        className="dashboard__filter--square"
+        label={t("titleService")}
+      >
         <DashboardFilterCheckbox
-          label="Dine-in"
+          label={t("valueServiceDineIn")}
           {...registerFilterCheckbox("serviceDineIn")}
         />
         <DashboardFilterCheckbox
-          label="Take out"
+          label={t("valueServiceTakeOut")}
           {...registerFilterCheckbox("serviceTakeOut")}
         />
         <DashboardFilterCheckbox
-          label="Delivery"
+          label={t("valueServiceDelivery")}
           {...registerFilterCheckbox("serviceDelivery")}
         />
         <DashboardFilterCheckbox
-          label="Pick up"
+          label={t("valueServicePickUp")}
           {...registerFilterCheckbox("servicePickUp")}
         />
       </DashboardFilter>
 
-      <DashboardFilter className="dashboard__filter--square" label="Cuisine">
+      <DashboardFilter
+        className="dashboard__filter--square"
+        label={t("titleCuisine")}
+      >
         <DashboardFilterCheckbox
-          label="Chinese cuisine"
-          {...registerFilterCheckbox("cuisineChinese")}
-        />
-        <DashboardFilterCheckbox
-          label="Italian cuisine"
+          label={t("valueCuisineItalian")}
           {...registerFilterCheckbox("cuisineItalian")}
         />
         <DashboardFilterCheckbox
-          label="Burgers"
-          {...registerFilterCheckbox("cuisineBurgers")}
+          label={t("valueCuisineSpanish")}
+          {...registerFilterCheckbox("cuisineSpanish")}
         />
         <DashboardFilterCheckbox
-          label="Fast Food"
-          {...registerFilterCheckbox("cuisineFastFood")}
+          label={t("valueCuisineFrench")}
+          {...registerFilterCheckbox("cuisineFrench")}
+        />
+        <DashboardFilterCheckbox
+          label={t("valueCuisineGeorgian")}
+          {...registerFilterCheckbox("cuisineGeorgian")}
+        />
+        <DashboardFilterCheckbox
+          label={t("valueCuisineChinese")}
+          {...registerFilterCheckbox("cuisineChinese")}
+        />
+        <DashboardFilterCheckbox
+          label={t("valueCuisineJapanese")}
+          {...registerFilterCheckbox("cuisineJapanese")}
         />
       </DashboardFilter>
 
-      <DashboardFilter className="dashboard__filter--square" label="Rating">
+      <DashboardFilter
+        className="dashboard__filter--square"
+        label={t("titleRating")}
+      >
         <DashboardFilterCheckbox
           label={<img src="/img/icons/5-star.svg" alt="5 stars" />}
           {...registerFilterCheckbox("rating5")}
@@ -181,7 +202,10 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         />
       </DashboardFilter>
 
-      <DashboardFilter className="dashboard__filter--square" label="Price">
+      <DashboardFilter
+        className="dashboard__filter--square"
+        label={t("titlePrice")}
+      >
         <DashboardFilterCheckbox
           label="€€€€"
           {...registerFilterCheckbox("priceLevel4")}
@@ -200,7 +224,10 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         />
       </DashboardFilter>
 
-      <DashboardFilter className="dashboard__filter--square" label="Hours">
+      <DashboardFilter
+        className="dashboard__filter--square"
+        label={t("titleHours")}
+      >
         <DashboardFilterCheckbox
           label="Lorem ipsum dolor"
           {...registerFilterCheckbox("hours1")}
@@ -239,7 +266,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
               fill="#A8ADB8"
             />
           </svg>{" "}
-          Clear all
+          {t("titleClearAll")}
         </button>
       </div>
 
@@ -266,7 +293,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
 
       <DashboardFilter
         className="dashboard__filter--sort"
-        label="Sort by"
+        label={t("titleSortBy")}
         appendLeft={<img src="./img/dashboard/sort.svg" alt="sort view" />}
       >
         <DashboardFilterCheckbox

@@ -6,6 +6,8 @@ import {
   STAR_WHOLE,
   createRatingStarsModel,
 } from "~/utils/rating-stars-model";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 export interface RestaurantCardProps {
   name: string;
@@ -18,6 +20,8 @@ export interface RestaurantCardProps {
 }
 
 export function RestaurantCard(props: RestaurantCardProps) {
+  const { t } = useTranslation("common");
+
   return (
     <div className="restaurant">
       <div className="restaurant__pictures">
@@ -90,18 +94,20 @@ export function RestaurantCard(props: RestaurantCardProps) {
               <span>–</span>
             </div>
             <div className="restaurant__address-gets">
-              <a className="restaurant__address-get" href="#">
-                Get there
-              </a>
-              <div className="restaurant__address-distance">
-                | 835m from you
-              </div>
+              <Trans
+                i18nKey="common:textGetThere"
+                components={[
+                  <a className="restaurant__address-get" href="#" />,
+                  <div className="restaurant__address-distance" />,
+                ]}
+                values={{ distance: 835 }}
+              />
             </div>
           </div>
         </div>
         <div className="restaurant__checked">
           <div className="restaurant__checked-label restaurant__checked-label--green">
-            Open now
+            {t("textOpenNow")}
           </div>
           <div className="restaurant__reviews">
             <div className="restaurant__reviews-balls">
@@ -125,15 +131,15 @@ export function RestaurantCard(props: RestaurantCardProps) {
         <div className="restaurant__btns">
           <button type="button" className="restaurant__btn call">
             <img src="/img/dashboard/call.svg" alt="call" />
-            Call
+            {t("buttonCall")}
           </button>
           <button type="button" className="restaurant__btn delivery">
             <img src="/img/dashboard/delivery.svg" alt="delivery" />
-            Delivery
+            {t("buttonDelivery")}
           </button>
           <button type="button" className="restaurant__btn pay-crypto">
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
-            Pay in Crypto
+            {t("buttonPayInCrypto")}
           </button>
         </div>
         {props.placeId && (

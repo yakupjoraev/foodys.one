@@ -4,8 +4,11 @@ import { RestaurantCard } from "~/components/RestaurantCard";
 import { api } from "~/utils/api";
 import { Paginator } from "~/components/Paginator";
 import { DashboardFilters } from "~/components/DashboardFilters";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 export default function Places() {
+  const { t } = useTranslation("common");
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
   const page = searchParams.get("page") || "1";
@@ -135,10 +138,17 @@ export default function Places() {
               </div>
               {queryResponse.data && query !== null && (
                 <div className="dashboard__form-results">
-                  <p className="dashboard__form-results-count">
-                    {queryResponse.data.total} resultats{" "}
-                  </p>
-                  <p className="dashboard__form-results-name">pour “{query}”</p>
+                  <Trans
+                    i18nKey="common:textNumberResults"
+                    components={[
+                      <p className="dashboard__form-results-count" />,
+                      <p className="dashboard__form-results-name" />,
+                    ]}
+                    values={{
+                      count: queryResponse.data.total,
+                      query: query,
+                    }}
+                  />
                 </div>
               )}
               <DashboardFilters />
@@ -189,7 +199,7 @@ export default function Places() {
                 <div className="dashboard__aside-footer">
                   <p className="dashboard__aside-text">As an advertisement</p>
                   <a className="dashboard__aside-more" target="_blank" href="#">
-                    Learn more
+                    {t("buttonLearnMore")}
                   </a>
                 </div>
               </aside>

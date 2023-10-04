@@ -1,4 +1,5 @@
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 interface PaginatorProps {
   page: number;
@@ -9,6 +10,8 @@ interface PaginatorProps {
 const NAV_LINK_LIMIT = 17;
 
 export function Paginator(props: PaginatorProps) {
+  const { t } = useTranslation("common");
+
   if (props.page < 1 || props.total <= 1) {
     return null;
   }
@@ -58,10 +61,10 @@ export function Paginator(props: PaginatorProps) {
           className="nav-lists__btn active"
           href={props.createUrl(prevPage)}
         >
-          Previous
+          {t("textPreviousPage")}
         </Link>
       ) : (
-        <span className="nav-lists__btn">Previos</span>
+        <span className="nav-lists__btn">{t("textPreviousPage")}</span>
       )}
       <ul className="nav-lists__list">{navLinks}</ul>
       {nextPage <= props.total ? (
@@ -69,10 +72,10 @@ export function Paginator(props: PaginatorProps) {
           className="nav-lists__btn active"
           href={props.createUrl(nextPage)}
         >
-          Next
+          {t("textNextPage")}
         </Link>
       ) : (
-        <span className="nav-lists__btn">Next</span>
+        <span className="nav-lists__btn">{t("textNextPage")}</span>
       )}
     </div>
   );
