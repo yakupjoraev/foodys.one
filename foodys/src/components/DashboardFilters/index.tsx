@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { DashboardFilter } from "../DashboardFilter";
 import { DashboardFilterCheckbox } from "../DashboardFilterCheckbox";
 import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
+import { DashboardFilterRadio } from "../DashboradFilterRadio";
 
 interface FilterState {
   establismentRestaurant?: boolean;
@@ -34,9 +35,12 @@ interface FilterState {
   sortBy1?: boolean;
   sortBy2?: boolean;
   sortBy3?: boolean;
+  establishment: "restaurant" | "coffeeAndTea" | "bar";
 }
 
-const DEFAULT_FILTER_STATE: FilterState = {};
+const DEFAULT_FILTER_STATE: FilterState = {
+  establishment: "restaurant",
+};
 
 export interface DashboardFiltersProps {
   resultsTotal?: number;
@@ -44,11 +48,12 @@ export interface DashboardFiltersProps {
 
 export function DashboardFilters(props: DashboardFiltersProps) {
   const { t } = useTranslation("common");
+  const establishmentId = useId();
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
   const [filterState, setFilterState] = useState(DEFAULT_FILTER_STATE);
 
   const registerFilterCheckbox = (
-    key: Exclude<keyof FilterState, "priceLevel" | "establisment">
+    key: Exclude<keyof FilterState, "establishment">
   ) => {
     const handleChange = (checked: boolean) => {
       const nextFilterState = { ...filterState };
@@ -57,6 +62,25 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     };
     return {
       checked: filterState[key],
+      onChange: handleChange,
+    };
+  };
+
+  const registerFilterRadio = <T extends "establishment">(
+    key: T,
+    value: FilterState[T],
+    form?: string
+  ) => {
+    const handleChange = (value: FilterState[T]) => {
+      const nextFilterState = { ...filterState };
+      nextFilterState[key] = value;
+      setFilterState(nextFilterState);
+    };
+
+    return {
+      form,
+      value,
+      checked: filterState[key] === value,
       onChange: handleChange,
     };
   };
@@ -110,17 +134,20 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         className="dashboard__filter--square"
         label={t("titleEstablishmentType")}
       >
-        <DashboardFilterCheckbox
+        <DashboardFilterRadio
           label={t("valueEstablishmentTypeRestaurant")}
-          {...registerFilterCheckbox("establismentRestaurant")}
+          name={establishmentId}
+          {...registerFilterRadio("establishment", "restaurant")}
         />
-        <DashboardFilterCheckbox
+        <DashboardFilterRadio
           label={t("valueEstablishmentTypeCoffeeTea")}
-          {...registerFilterCheckbox("establishmentCoffeeAntTea")}
+          name={establishmentId}
+          {...registerFilterRadio("establishment", "coffeeAndTea")}
         />
-        <DashboardFilterCheckbox
+        <DashboardFilterRadio
           label={t("valueEstablishmentTypeBar")}
-          {...registerFilterCheckbox("establishmentBar")}
+          name={establishmentId}
+          {...registerFilterRadio("establishment", "bar")}
         />
       </DashboardFilter>
 
@@ -294,7 +321,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       <DashboardFilter
         className="dashboard__filter--sort"
         label={t("titleSortBy")}
-        appendLeft={<img src="./img/dashboard/sort.svg" alt="sort view" />}
+        appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
       >
         <DashboardFilterCheckbox
           label="Lorem ipsum dolor"
@@ -315,10 +342,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         <div className="dashboard__filter-positions">
           <div className="dashboard__filter-position-selected">
             10
-            <img
-              src="./img/dashboard/position-arrow.svg"
-              alt="position arrow"
-            />
+            <img src="/img/dashboard/position-arrow.svg" alt="position arrow" />
           </div>
         </div>
       </div>
