@@ -10,12 +10,12 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 
 export interface RestaurantCardProps {
-  name: string;
-  address: string;
-  photo?: string;
-  userRatingTotal: number;
+  name?: string;
+  formattedAddress?: string;
+  photos?: string[];
+  userRatingTotal?: number;
   priceLevel?: number;
-  rating: number;
+  rating?: number;
   placeId?: string;
 }
 
@@ -24,64 +24,53 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
   return (
     <div className="restaurant">
-      <div className="restaurant__pictures">
-        <Swiper
-          className="restaurant__slider mySwiper"
-          modules={[Navigation, Pagination]}
-          spaceBetween={6}
-          slidesPerView={1}
-          navigation={{
-            nextEl: ".restaurant__slider-arrow-next",
-            prevEl: ".restaurant__slider-arrow-prev",
-          }}
-          pagination={{
-            el: ".restaurant__slider-paginations",
-            type: "bullets",
-          }}
-          wrapperClass="restaurant__slider-wrapper"
-        >
-          {props.photo && (
-            <SwiperSlide className="restaurant__slide">
-              <img
-                src={props.photo}
-                alt="slide"
-                width="168"
-                height="168"
-                loading="lazy"
-              />
-            </SwiperSlide>
-          )}
-          <SwiperSlide className="restaurant__slide">
-            <img
-              style={{ height: "168px", objectFit: "cover" }}
-              src="/img/dashboard/slide-1.jpg"
-              alt="slide"
-              width="168"
-              height="168"
-            />
-          </SwiperSlide>
-          <SwiperSlide className="restaurant__slide">
-            <img src="/img/dashboard/slide-2.jpg" alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide className="restaurant__slide">
-            <img src="/img/dashboard/slide-3.jpg" alt="slide" />
-          </SwiperSlide>
-          <SwiperSlide className="restaurant__slide">
-            <img src="/img/dashboard/slide-4.jpg" alt="slide" />
-          </SwiperSlide>
-          <div className="restaurant__slider-arrow restaurant__slider-arrow-prev">
-            <img src="/img/dashboard/arrow-prev.svg" alt="prev" />
-          </div>
-          <div className="restaurant__slider-arrow restaurant__slider-arrow-next">
-            <img src="/img/dashboard/arrow-next.svg" alt="next" />
-          </div>
-          <div className="restaurant__slider-paginations" />
-        </Swiper>
-        <RestaurantFavorite />
-      </div>
+      {props.photos && props.photos.length > 0 && (
+        <div className="restaurant__pictures">
+          <Swiper
+            className="restaurant__slider mySwiper"
+            modules={[Navigation, Pagination]}
+            spaceBetween={6}
+            slidesPerView={1}
+            navigation={{
+              nextEl: ".restaurant__slider-arrow-next",
+              prevEl: ".restaurant__slider-arrow-prev",
+            }}
+            pagination={{
+              el: ".restaurant__slider-paginations",
+              type: "bullets",
+            }}
+            wrapperClass="restaurant__slider-wrapper"
+          >
+            {props.photos.map((photo, i) => (
+              <SwiperSlide className="restaurant__slide" key={i}>
+                <img
+                  src={photo}
+                  alt="slide"
+                  width="168"
+                  height="168"
+                  loading="lazy"
+                />
+              </SwiperSlide>
+            ))}
+            {props.photos.length > 1 && (
+              <>
+                <div className="restaurant__slider-arrow restaurant__slider-arrow-prev">
+                  <img src="/img/dashboard/arrow-prev.svg" alt="prev" />
+                </div>
+                <div className="restaurant__slider-arrow restaurant__slider-arrow-next">
+                  <img src="/img/dashboard/arrow-next.svg" alt="next" />
+                </div>
+                <div className="restaurant__slider-paginations" />
+              </>
+            )}
+          </Swiper>
+          <RestaurantFavorite />
+        </div>
+      )}
+
       <div className="restaurant__top">
         <div className="restaurant__texts">
-          <h3 className="restaurant__name">{props.name}</h3>
+          <h3 className="restaurant__name">{props.name || "..."}</h3>
           <div className="restaurant__tags">
             <div className="restaurant__tag">#Tagname no.1</div>
             <div className="restaurant__tag">#Tagname no.2</div>
@@ -90,7 +79,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <div className="restaurant__address">
             <div className="restaurant__address-info">
               <img src="/img/dashboard/geo.svg" alt="geo" />
-              <p>{props.address}</p>
+              <p>{props.formattedAddress || "..."}</p>
               <span>–</span>
             </div>
             <div className="restaurant__address-gets">
@@ -110,15 +99,21 @@ export function RestaurantCard(props: RestaurantCardProps) {
             {t("textOpenNow")}
           </div>
           <div className="restaurant__reviews">
-            <div className="restaurant__reviews-balls">
-              {props.rating.toFixed(1)}
-            </div>
-            <div className="restaurant__reviews-stars">
-              {renderStars(props.rating)}
-            </div>
-            <div className="restaurant__reviews-count">
-              ({props.userRatingTotal})
-            </div>
+            {props.rating !== undefined && (
+              <>
+                <div className="restaurant__reviews-balls">
+                  {props.rating.toFixed(1)}
+                </div>
+                <div className="restaurant__reviews-stars">
+                  {renderStars(props.rating)}
+                </div>
+              </>
+            )}
+            {props.userRatingTotal !== undefined && (
+              <div className="restaurant__reviews-count">
+                ({props.userRatingTotal})
+              </div>
+            )}
             {props.priceLevel !== undefined && (
               <div className="restaurant__reviews-currency">
                 {" · " + renderPriceLevelLabel(props.priceLevel)}

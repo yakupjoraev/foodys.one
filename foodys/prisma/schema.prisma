@@ -75,10 +75,11 @@ model VerificationToken {
 }
 
 model TextSearch {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  query      String
-  places     Place[]
-  created_at DateTime @default(now())
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  query         String
+  places        Json[]
+  establishment Establishment
+  created_at    DateTime      @default(now())
 
   @@map("text_search")
 }
@@ -213,4 +214,10 @@ type PlaceOpeningHoursPeriodDetail {
   time      String
   date      String?
   truncated Boolean?
+}
+
+enum Establishment {
+  RESTAURANT
+  COFFEE_AND_TEA
+  BAR
 }

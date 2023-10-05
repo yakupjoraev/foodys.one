@@ -4,11 +4,9 @@ import { DashboardFilterCheckbox } from "../DashboardFilterCheckbox";
 import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
 import { DashboardFilterRadio } from "../DashboradFilterRadio";
+import { procedureTypes } from "@trpc/server";
 
-interface FilterState {
-  establismentRestaurant?: boolean;
-  establishmentCoffeeAntTea?: boolean;
-  establishmentBar?: boolean;
+export interface FilterState {
   serviceDineIn?: boolean;
   serviceTakeOut?: boolean;
   serviceDelivery?: boolean;
@@ -44,24 +42,25 @@ const DEFAULT_FILTER_STATE: FilterState = {
 
 export interface DashboardFiltersProps {
   resultsTotal?: number;
+  filter: FilterState;
+  onChange: (filterState: FilterState) => void;
 }
 
 export function DashboardFilters(props: DashboardFiltersProps) {
   const { t } = useTranslation("common");
   const establishmentId = useId();
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
-  const [filterState, setFilterState] = useState(DEFAULT_FILTER_STATE);
 
   const registerFilterCheckbox = (
     key: Exclude<keyof FilterState, "establishment">
   ) => {
     const handleChange = (checked: boolean) => {
-      const nextFilterState = { ...filterState };
+      const nextFilterState = { ...props.filter };
       nextFilterState[key] = checked;
-      setFilterState(nextFilterState);
+      props.onChange(nextFilterState);
     };
     return {
-      checked: filterState[key],
+      checked: props.filter[key],
       onChange: handleChange,
     };
   };
@@ -72,21 +71,21 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     form?: string
   ) => {
     const handleChange = (value: FilterState[T]) => {
-      const nextFilterState = { ...filterState };
+      const nextFilterState = { ...props.filter };
       nextFilterState[key] = value;
-      setFilterState(nextFilterState);
+      props.onChange(nextFilterState);
     };
 
     return {
       form,
       value,
-      checked: filterState[key] === value,
+      checked: props.filter[key] === value,
       onChange: handleChange,
     };
   };
 
   const handleClearAllBtnClick = () => {
-    setFilterState(DEFAULT_FILTER_STATE);
+    props.onChange(DEFAULT_FILTER_STATE);
   };
 
   return (

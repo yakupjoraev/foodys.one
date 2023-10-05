@@ -3,12 +3,23 @@ import { useSearchParams } from "next/navigation";
 import { RestaurantCard } from "~/components/RestaurantCard";
 import { api } from "~/utils/api";
 import { Paginator } from "~/components/Paginator";
-import { DashboardFilters } from "~/components/DashboardFilters";
+import { DashboardFilters, FilterState } from "~/components/DashboardFilters";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
+import { useState } from "react";
+import { useDebounce } from "usehooks-ts";
+
+const DEFAULT_FILTER_STATE: FilterState = {
+  establishment: "restaurant",
+};
+
+const FILTER_DELAY = 1000;
 
 export default function Places() {
   const { t } = useTranslation("common");
+  const [filterState, setFilterState] =
+    useState<FilterState>(DEFAULT_FILTER_STATE);
+  const debouncedFilterState = useDebounce(filterState, FILTER_DELAY);
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
   const page = searchParams.get("page") || "1";
@@ -21,7 +32,12 @@ export default function Places() {
   const queryResponse = api.places.getPlaces.useQuery({
     query: query || "",
     page: pageInt,
+    establishment: debouncedFilterState.establishment,
   });
+
+  const handleChangeFilter = (nextFilterState: FilterState) => {
+    setFilterState(nextFilterState);
+  };
 
   const createNextPageUrl = (page: number) => {
     const nextUrlSerachParams = new URLSearchParams(searchParams);
@@ -151,7 +167,11 @@ export default function Places() {
                   />
                 </div>
               )}
-              <DashboardFilters />
+              <DashboardFilters
+                resultsTotal={queryResponse.data?.total}
+                filter={filterState}
+                onChange={handleChangeFilter}
+              />
             </form>
             <div className="dashboard__main">
               <div className="restaurants">
@@ -161,30 +181,21 @@ export default function Places() {
                   "Not found"}
                 {!!queryResponse.data &&
                   queryResponse.data.results.length > 0 &&
-                  queryResponse.data.results.map((candidate) => {
-                    if (!candidate.place_id) {
+                  queryResponse.data.results.map((placeListingItem) => {
+                    if (!placeListingItem.place_id) {
                       return null;
-                    }
-
-                    let photoUrl: string | undefined = undefined;
-                    if (candidate.photos) {
-                      const firstPhoto = candidate.photos[0];
-                      photoUrl = firstPhoto
-                        ? "https://foodys.freeblock.site/place-photos/cover_168x168/" +
-                          firstPhoto.photo_reference
-                        : undefined;
                     }
 
                     return (
                       <RestaurantCard
-                        name={candidate.name || "???"}
-                        address={candidate.formatted_address || "???"}
-                        priceLevel={candidate.price_level}
-                        rating={candidate.rating || 0}
-                        userRatingTotal={candidate.user_ratings_total || 0}
-                        placeId={candidate.place_id}
-                        photo={photoUrl}
-                        key={candidate.place_id}
+                        name={placeListingItem.name}
+                        formattedAddress={placeListingItem.formatted_address}
+                        priceLevel={placeListingItem.price_level}
+                        rating={placeListingItem.rating}
+                        userRatingTotal={placeListingItem.user_rating_total}
+                        placeId={placeListingItem.place_id}
+                        photos={placeListingItem.photos}
+                        key={placeListingItem.place_id}
                       />
                     );
                   })}
