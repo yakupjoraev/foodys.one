@@ -53,6 +53,13 @@ export const placesRouter = createTRPCRouter({
             )
             .max(5)
         ),
+        priceLevel: z.optional(
+          z
+            .array(
+              z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
+            )
+            .max(4)
+        ),
         page: z.optional(z.number().min(1)),
       })
     )
@@ -79,7 +86,13 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const places = cachedResponse.places as Place[];
-        return createResponse(page, places, input.rating, PAGE_SIZE);
+        return createResponse({
+          page,
+          pageSize: PAGE_SIZE,
+          places,
+          filterRating: input.rating,
+          filterPriceLevel: input.priceLevel,
+        });
       }
 
       const searchResponse = await gmClient.textSearch({
@@ -108,12 +121,13 @@ export const placesRouter = createTRPCRouter({
         },
       });
 
-      return createResponse(
+      return createResponse({
         page,
-        searchResponse.results,
-        input.rating,
-        PAGE_SIZE
-      );
+        pageSize: PAGE_SIZE,
+        places: searchResponse.results,
+        filterRating: input.rating,
+        filterPriceLevel: input.priceLevel,
+      });
     }),
 });
 
@@ -153,13 +167,16 @@ function getEstablishmentGP(
   }
 }
 
-function createResponse(
-  page: number,
-  places: Place[],
-  filterRating: number[] | undefined,
-  pageSize: number
-): PlaceListing {
-  if (places.length === 0) {
+interface CreateResponseOpts {
+  page: number;
+  places: Place[];
+  filterRating: (1 | 2 | 3 | 4 | 5)[] | undefined;
+  filterPriceLevel: (1 | 2 | 3 | 4)[] | undefined;
+  pageSize: number;
+}
+
+function createResponse(opts: CreateResponseOpts): PlaceListing {
+  if (opts.places.length === 0) {
     return {
       results: [],
       page: 1,
@@ -168,23 +185,29 @@ function createResponse(
     };
   }
 
-  let filteredPlaces: Iterable<Place> = places;
-  if (filterRating) {
-    filteredPlaces = filterPlacesByRating(filteredPlaces, filterRating);
+  let filteredPlaces: Iterable<Place> = opts.places;
+  if (opts.filterRating) {
+    filteredPlaces = filterPlacesByRating(filteredPlaces, opts.filterRating);
   }
-  places = Array.from(filteredPlaces);
+  if (opts.filterPriceLevel) {
+    filteredPlaces = filterPlacesByPriceLevel(
+      filteredPlaces,
+      opts.filterPriceLevel
+    );
+  }
+  const places = Array.from(filteredPlaces);
 
-  const pageTotal = Math.ceil(places.length / pageSize);
+  const pageTotal = Math.ceil(places.length / opts.pageSize);
 
-  let normalizedPage = page;
+  let normalizedPage = opts.page;
   if (normalizedPage < 1) {
     normalizedPage = 1;
   } else if (normalizedPage > pageTotal) {
     normalizedPage = pageTotal;
   }
 
-  const startIndex = (normalizedPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+  const startIndex = (normalizedPage - 1) * opts.pageSize;
+  const endIndex = startIndex + opts.pageSize;
   const placesSlice = places.slice(startIndex, endIndex);
 
   const placeListingItems = placesSlice.map((place) =>
@@ -236,6 +259,23 @@ function* filterPlacesByRating(
     }
     const ratingInt = Math.floor(place.rating);
     if (filterRating.includes(ratingInt)) {
+      yield place;
+    }
+  }
+}
+
+function* filterPlacesByPriceLevel(
+  places: Iterable<Place>,
+  filterPriceLevel: number[]
+) {
+  if (filterPriceLevel.length === 0) {
+    yield* places;
+  }
+  for (const place of places) {
+    if (place.price_level === undefined) {
+      continue;
+    }
+    if (filterPriceLevel.includes(place.price_level)) {
       yield place;
     }
   }

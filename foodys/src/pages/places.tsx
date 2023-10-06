@@ -49,10 +49,29 @@ export default function Places() {
     return rating;
   }, [debouncedFilterState]);
 
+  const priceLevel: (1 | 2 | 3 | 4)[] = useMemo(() => {
+    const priceLevel: (1 | 2 | 3 | 4)[] = [];
+    if (debouncedFilterState.priceLevel1) {
+      priceLevel.push(1);
+    }
+    if (debouncedFilterState.priceLevel2) {
+      priceLevel.push(2);
+    }
+    if (debouncedFilterState.priceLevel3) {
+      priceLevel.push(3);
+    }
+    if (debouncedFilterState.priceLevel4) {
+      priceLevel.push(4);
+    }
+
+    return priceLevel;
+  }, [debouncedFilterState]);
+
   const queryResponse = api.places.getPlaces.useQuery({
     query: query || "",
     page: pageInt,
     rating,
+    priceLevel,
     establishment: debouncedFilterState.establishment,
   });
 
