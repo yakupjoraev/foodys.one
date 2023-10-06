@@ -6,7 +6,7 @@ import { Paginator } from "~/components/Paginator";
 import { DashboardFilters, FilterState } from "~/components/DashboardFilters";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 
 const DEFAULT_FILTER_STATE: FilterState = {
@@ -29,9 +29,30 @@ export default function Places() {
     pageInt = 1;
   }
 
+  const rating: (1 | 2 | 3 | 4 | 5)[] = useMemo(() => {
+    const rating: (1 | 2 | 3 | 4 | 5)[] = [];
+    if (debouncedFilterState.rating1) {
+      rating.push(1);
+    }
+    if (debouncedFilterState.rating2) {
+      rating.push(2);
+    }
+    if (debouncedFilterState.rating3) {
+      rating.push(3);
+    }
+    if (debouncedFilterState.rating4) {
+      rating.push(4);
+    }
+    if (debouncedFilterState.rating5) {
+      rating.push(5);
+    }
+    return rating;
+  }, [debouncedFilterState]);
+
   const queryResponse = api.places.getPlaces.useQuery({
     query: query || "",
     page: pageInt,
+    rating,
     establishment: debouncedFilterState.establishment,
   });
 

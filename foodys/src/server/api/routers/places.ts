@@ -40,6 +40,19 @@ export const placesRouter = createTRPCRouter({
           z.literal("coffeeAndTea"),
           z.literal("bar"),
         ]),
+        rating: z.optional(
+          z
+            .array(
+              z.union([
+                z.literal(1),
+                z.literal(2),
+                z.literal(3),
+                z.literal(4),
+                z.literal(5),
+              ])
+            )
+            .max(5)
+        ),
         page: z.optional(z.number().min(1)),
       })
     )
@@ -66,7 +79,7 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const places = cachedResponse.places as Place[];
-        return createResponse(page, places, PAGE_SIZE);
+        return createResponse(page, places, input.rating, PAGE_SIZE);
       }
 
       const searchResponse = await gmClient.textSearch({
@@ -77,8 +90,6 @@ export const placesRouter = createTRPCRouter({
           key: env.GOOGLE_MAPS_API_KEY,
         },
       });
-
-      console.log(searchResponse.status, searchResponse.error_message);
 
       if (!searchResponse.results) {
         return {
@@ -97,7 +108,12 @@ export const placesRouter = createTRPCRouter({
         },
       });
 
-      return createResponse(page, searchResponse.results, PAGE_SIZE);
+      return createResponse(
+        page,
+        searchResponse.results,
+        input.rating,
+        PAGE_SIZE
+      );
     }),
 });
 
@@ -140,6 +156,7 @@ function getEstablishmentGP(
 function createResponse(
   page: number,
   places: Place[],
+  filterRating: number[] | undefined,
   pageSize: number
 ): PlaceListing {
   if (places.length === 0) {
@@ -150,6 +167,12 @@ function createResponse(
       total: 0,
     };
   }
+
+  let filteredPlaces: Iterable<Place> = places;
+  if (filterRating) {
+    filteredPlaces = filterPlacesByRating(filteredPlaces, filterRating);
+  }
+  places = Array.from(filteredPlaces);
 
   const pageTotal = Math.ceil(places.length / pageSize);
 
@@ -198,4 +221,22 @@ function createPlaceListingItem(place: Place): PlaceListingItem {
     price_level: place.price_level,
     photos: photos.length ? photos : undefined,
   };
+}
+
+function* filterPlacesByRating(
+  places: Iterable<Place>,
+  filterRating: number[]
+) {
+  if (filterRating.length === 0) {
+    yield* places;
+  }
+  for (const place of places) {
+    if (place.rating === undefined) {
+      continue;
+    }
+    const ratingInt = Math.floor(place.rating);
+    if (filterRating.includes(ratingInt)) {
+      yield place;
+    }
+  }
 }
