@@ -19,54 +19,57 @@ export interface RestaurantCardProps {
   placeId?: string;
 }
 
+const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
+
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
 
+  const photos =
+    props.photos && props.photos.length ? props.photos : DEFAULT_PHOTOS;
+
   return (
     <div className="restaurant">
-      {props.photos && props.photos.length > 0 && (
-        <div className="restaurant__pictures">
-          <Swiper
-            className="restaurant__slider mySwiper"
-            modules={[Navigation, Pagination]}
-            spaceBetween={6}
-            slidesPerView={1}
-            navigation={{
-              nextEl: ".restaurant__slider-arrow-next",
-              prevEl: ".restaurant__slider-arrow-prev",
-            }}
-            pagination={{
-              el: ".restaurant__slider-paginations",
-              type: "bullets",
-            }}
-            wrapperClass="restaurant__slider-wrapper"
-          >
-            {props.photos.map((photo, i) => (
-              <SwiperSlide className="restaurant__slide" key={i}>
-                <img
-                  src={photo}
-                  alt="slide"
-                  width="168"
-                  height="168"
-                  loading="lazy"
-                />
-              </SwiperSlide>
-            ))}
-            {props.photos.length > 1 && (
-              <>
-                <div className="restaurant__slider-arrow restaurant__slider-arrow-prev">
-                  <img src="/img/dashboard/arrow-prev.svg" alt="prev" />
-                </div>
-                <div className="restaurant__slider-arrow restaurant__slider-arrow-next">
-                  <img src="/img/dashboard/arrow-next.svg" alt="next" />
-                </div>
-                <div className="restaurant__slider-paginations" />
-              </>
-            )}
-          </Swiper>
-          <RestaurantFavorite />
-        </div>
-      )}
+      <div className="restaurant__pictures">
+        <Swiper
+          className="restaurant__slider mySwiper"
+          modules={[Navigation, Pagination]}
+          spaceBetween={6}
+          slidesPerView={1}
+          navigation={{
+            nextEl: ".restaurant__slider-arrow-next",
+            prevEl: ".restaurant__slider-arrow-prev",
+          }}
+          pagination={{
+            el: ".restaurant__slider-paginations",
+            type: "bullets",
+          }}
+          wrapperClass="restaurant__slider-wrapper"
+        >
+          {photos.map((photo, i) => (
+            <SwiperSlide className="restaurant__slide" key={i}>
+              <img
+                src={photo}
+                alt="slide"
+                width="168"
+                height="168"
+                loading="lazy"
+              />
+            </SwiperSlide>
+          ))}
+          {photos.length > 1 && (
+            <>
+              <div className="restaurant__slider-arrow restaurant__slider-arrow-prev">
+                <img src="/img/dashboard/arrow-prev.svg" alt="prev" />
+              </div>
+              <div className="restaurant__slider-arrow restaurant__slider-arrow-next">
+                <img src="/img/dashboard/arrow-next.svg" alt="next" />
+              </div>
+              <div className="restaurant__slider-paginations" />
+            </>
+          )}
+        </Swiper>
+        <RestaurantFavorite />
+      </div>
 
       <div className="restaurant__top">
         <div className="restaurant__texts">
