@@ -3,8 +3,8 @@ import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
-import { gmClient } from "~/utils/gm-client";
-import { Place } from "~/utils/gm-client/types";
+import { gmClient } from "~/server/gm-client";
+import { Place } from "~/server/gm-client/types";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 

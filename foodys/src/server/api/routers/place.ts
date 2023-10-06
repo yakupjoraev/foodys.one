@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { gmClient } from "~/utils/gm-client";
+import { gmClient } from "~/server/gm-client";
 
 export const placeRouter = createTRPCRouter({
   getPlace: publicProcedure
