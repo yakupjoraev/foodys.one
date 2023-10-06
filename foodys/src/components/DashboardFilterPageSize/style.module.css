@@ -1,0 +1,5 @@
+.page-size-list {
+  left: unset;
+  right: 0;
+  top: calc(110% - 10px);
+}

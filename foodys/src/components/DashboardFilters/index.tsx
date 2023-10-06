@@ -5,6 +5,7 @@ import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
 import { DashboardFilterRadio } from "../DashboradFilterRadio";
 import { procedureTypes } from "@trpc/server";
+import { DashboardFilterPageSize } from "../DashboardFilterPageSize";
 
 export interface FilterState {
   serviceDineIn?: boolean;
@@ -336,15 +337,8 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         />
       </DashboardFilter>
 
-      <div className="dashboard__filter dashboard__filter--position">
-        <p className="dashboard__filter-text">Position display</p>
-        <div className="dashboard__filter-positions">
-          <div className="dashboard__filter-position-selected">
-            10
-            <img src="/img/dashboard/position-arrow.svg" alt="position arrow" />
-          </div>
-        </div>
-      </div>
+      <DashboardFilterPageSize />
+
       <button
         type="button"
         className="dashboard__filter-all"
