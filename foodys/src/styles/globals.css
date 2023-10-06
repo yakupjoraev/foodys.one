@@ -5,3 +5,20 @@
 .menu__item-link {
   cursor: pointer;
 }
+
+/* _modals.scss */
+
+.input__error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 112.8%;
+  opacity: 0.4;
+  color: red;
+}
+
+.modal-content__form-error {
+  font-size: 14px;
+  color: red;
+  text-align: center;
+  margin: 20px 0;
+}

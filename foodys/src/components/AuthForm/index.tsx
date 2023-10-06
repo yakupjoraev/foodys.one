@@ -1,8 +1,8 @@
-import { useEffect, useId, useState } from "react";
-import classNames from "classnames";
+import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authFormSchema } from "./validators";
+import { toast } from "react-hot-toast";
 
 export type AuthError =
   | { type: "unknown"; message?: string }
@@ -69,56 +69,89 @@ export function AuthForm(props: AuthFormProps) {
   });
 
   return (
-    <form
-      className={classNames("auth-form", props.className)}
-      onSubmit={handleAuthFormSubmit}
-    >
-      <div className="auth-form__header">Sign In</div>
-      <div className="control">
-        <label className="control__label" htmlFor={loginId}>
-          Login*
-        </label>
-        <input
-          className="control__input"
-          type="text"
-          id={loginId}
-          placeholder="Nickname or email"
-          disabled={props.loading}
-          {...register("login")}
-        />
-        {errors.login?.message && (
-          <div className="control__error">{errors.login.message}</div>
-        )}
+    <form className="modal-content__form" onSubmit={handleAuthFormSubmit}>
+      <div className="modal-content__form-top">
+        <h3 className="modal-content__title">Already a member?</h3>
+        <h2 className="modal-content__title-main">Sign in!</h2>
       </div>
+      <div className="modal-content__inputs">
+        <div className="input__group">
+          <label className="input__label" htmlFor={loginId}>
+            Email*
+          </label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Example@mail.ru"
+            id={loginId}
+            disabled={props.loading}
+            {...register("login")}
+          />
+          {errors.login?.message && (
+            <p className="input__error">{errors.login.message}</p>
+          )}
+        </div>
+        <div className="input__group">
+          <label className="input__label" htmlFor={passwordId}>
+            Password*
+          </label>
+          <input
+            className="input"
+            type="password"
+            placeholder="   Password*"
+            id={passwordId}
+            disabled={props.loading}
+            {...register("password")}
+          />
+          {errors.password?.message && (
+            <p className="input__error">{errors.password.message}</p>
+          )}
 
-      <div className="control">
-        <label className="control__label" htmlFor={passwordId}>
-          Password*
-        </label>
-        <input
-          className="control__input"
-          type="password"
-          id={passwordId}
-          placeholder="Password"
-          disabled={props.loading}
-          autoComplete="new-password"
-          {...register("password")}
-        />
-        {errors.password?.message && (
-          <div className="control__error">{errors.password.message}</div>
+          <a
+            className="input__forgetton"
+            href="#"
+            onClick={(ev) => {
+              ev.preventDefault();
+              toast("NOT IMPLEMENTED");
+            }}
+          >
+            Forgotten your password?
+          </a>
+        </div>
+        {errors.root?.message && (
+          <div className="modal-content__form-error">{errors.root.message}</div>
         )}
+        <div className="input__border" />
       </div>
-      {errors.root?.message && (
-        <div className="auth-form__error">{errors.root.message}</div>
-      )}
-      <div className="register-from__footer">
-        <button
-          className="btn btn--inverted auth-form__submit"
-          type="submit"
-          disabled={props.loading}
+      <button
+        className="modal-content__btn"
+        type="submit"
+        disabled={props.loading}
+      >
+        Sign in
+      </button>
+      <div className="modal-content__btn-remember">
+        New over here?
+        <a
+          href="#"
+          target="_blank"
+          onClick={(ev) => {
+            ev.preventDefault();
+            toast("NOT IMPLEMENTED");
+          }}
         >
-          Sign In
-        </button>
+          Create your account in 20 seconds !
+        </a>
+      </div>
+      <div className="input__checkbox-group">
+        <input className="input__checkbox" type="checkbox" id="checkbox1" />
+        <label className="input__label" htmlFor="checkbox1">
+          <div className="input__checkbox-decor"> </div>
+          <span>
+            By proceeding, you agree to our Terms of Use and confirm you have
+            read our Privacy and Cookies Statement.
+          </span>
+        </label>
       </div>
     </form>
   );
