@@ -173,7 +173,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         />
       </DashboardFilter>
 
-      <DashboardFilter
+      {/* <DashboardFilter
         className="dashboard__filter--square"
         label={t("titleCuisine")}
       >
@@ -201,7 +201,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           label={t("valueCuisineJapanese")}
           {...registerFilterCheckbox("cuisineJapanese")}
         />
-      </DashboardFilter>
+      </DashboardFilter> */}
 
       <DashboardFilter
         className="dashboard__filter--square"
