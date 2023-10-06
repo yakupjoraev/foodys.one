@@ -1,10 +1,10 @@
-import { Place, PlaceType1 } from "@googlemaps/google-maps-services-js";
 import { Establishment, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
-import { gmClient } from "~/server/google-maps";
+import { gmClient } from "~/utils/gm-client";
+import { Place } from "~/utils/gm-client/types";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -65,12 +65,12 @@ export const placesRouter = createTRPCRouter({
       });
 
       if (cachedResponse) {
-        const places = cachedResponse.places as unknown as Place[];
+        const places = cachedResponse.places as Place[];
         return createResponse(page, places, PAGE_SIZE);
       }
 
       const searchResponse = await gmClient.textSearch({
-        params: {
+        queries: {
           query: input.query,
           location: PARIS_LOCATION,
           type: getEstablishmentGP(input.establishment),
@@ -78,15 +78,26 @@ export const placesRouter = createTRPCRouter({
         },
       });
 
+      console.log(searchResponse.status, searchResponse.error_message);
+
+      if (!searchResponse.results) {
+        return {
+          results: [],
+          page: 1,
+          pages: 1,
+          total: 0,
+        };
+      }
+
       await db.textSearch.create({
         data: {
           query: normalizedQuery,
-          places: searchResponse.data.results as any[],
+          places: searchResponse.results,
           establishment: getEstablishmentDB(input.establishment),
         },
       });
 
-      return createResponse(page, searchResponse.data.results, PAGE_SIZE);
+      return createResponse(page, searchResponse.results, PAGE_SIZE);
     }),
 });
 
@@ -112,16 +123,16 @@ function getEstablishmentDB(
 
 function getEstablishmentGP(
   establishemnt: "restaurant" | "coffeeAndTea" | "bar"
-): PlaceType1 {
+) {
   switch (establishemnt) {
     case "restaurant": {
-      return PlaceType1.restaurant;
+      return "restaurant";
     }
     case "coffeeAndTea": {
-      return PlaceType1.cafe;
+      return "cafe";
     }
     case "bar": {
-      return PlaceType1.bar;
+      return "bar";
     }
   }
 }
@@ -166,14 +177,18 @@ function createResponse(
 }
 
 function createPlaceListingItem(place: Place): PlaceListingItem {
-  let photos: string[] | undefined = undefined;
+  const photos: string[] = [];
 
   if (place.photos) {
-    photos = place.photos.map(
-      (photo) => PHOTOS_ENDPOINT + encodeURIComponent(photo.photo_reference)
-    );
+    for (const photo of place.photos) {
+      const photoReference = photo.photo_reference;
+      if (photoReference === undefined) {
+        continue;
+      }
+      const photoUrl = PHOTOS_ENDPOINT + encodeURIComponent(photoReference);
+      photos.push(photoUrl);
+    }
   }
-
   return {
     formatted_address: place.formatted_address,
     name: place.name,
@@ -181,6 +196,6 @@ function createPlaceListingItem(place: Place): PlaceListingItem {
     rating: place.rating,
     user_rating_total: place.user_ratings_total,
     price_level: place.price_level,
-    photos,
+    photos: photos.length ? photos : undefined,
   };
 }

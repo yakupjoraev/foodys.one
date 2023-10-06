@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { gmClient } from "~/server/google-maps";
+import { gmClient } from "~/utils/gm-client";
 
 export const placeRouter = createTRPCRouter({
   getPlace: publicProcedure
@@ -10,12 +10,12 @@ export const placeRouter = createTRPCRouter({
       const placeId = input.placeId;
 
       const placeDetails = await gmClient.placeDetails({
-        params: {
+        queries: {
           place_id: placeId,
           key: env.GOOGLE_MAPS_API_KEY,
         },
       });
 
-      return placeDetails.data.result;
+      return placeDetails.result || null;
     }),
 });
