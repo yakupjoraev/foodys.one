@@ -60,6 +60,18 @@ export const placesRouter = createTRPCRouter({
             )
             .max(4)
         ),
+        service: z.optional(
+          z
+            .array(
+              z.union([
+                z.literal("delivery"),
+                z.literal("dine_in"),
+                z.literal("takeout"),
+                z.literal("curbside_pickup"),
+              ])
+            )
+            .max(4)
+        ),
         page: z.optional(z.number().min(1)),
       })
     )
@@ -92,6 +104,7 @@ export const placesRouter = createTRPCRouter({
           places,
           filterRating: input.rating,
           filterPriceLevel: input.priceLevel,
+          filterService: input.service,
         });
       }
 
@@ -113,6 +126,15 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
+      for (const place of searchResponse.results) {
+        if (place.place_id) {
+          const placeDetails = await loadPlaceDetails(place.place_id);
+          if (placeDetails) {
+            Object.assign(place, placeDetails);
+          }
+        }
+      }
+
       await db.textSearch.create({
         data: {
           query: normalizedQuery,
@@ -127,9 +149,28 @@ export const placesRouter = createTRPCRouter({
         places: searchResponse.results,
         filterRating: input.rating,
         filterPriceLevel: input.priceLevel,
+        filterService: input.service,
       });
     }),
 });
+
+async function loadPlaceDetails(placeId: string) {
+  const placeDetails = await gmClient.placeDetails({
+    queries: {
+      place_id: placeId,
+      key: env.GOOGLE_MAPS_API_KEY,
+      fields: "delivery,dine_in,takeout,curbside_pickup",
+    },
+  });
+
+  if (placeDetails.status !== "OK" || placeDetails.result === undefined) {
+    return null;
+  }
+
+  const { delivery, dine_in, takeout, curbside_pickup } = placeDetails.result;
+
+  return { delivery, dine_in, takeout, curbside_pickup };
+}
 
 function normalizeQuery(query: string) {
   return query.replace(/\s+/g, " ").toLowerCase();
@@ -172,6 +213,7 @@ interface CreateResponseOpts {
   places: Place[];
   filterRating: (1 | 2 | 3 | 4 | 5)[] | undefined;
   filterPriceLevel: (1 | 2 | 3 | 4)[] | undefined;
+  filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
   pageSize: number;
 }
 
@@ -194,6 +236,9 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
       filteredPlaces,
       opts.filterPriceLevel
     );
+  }
+  if (opts.filterService) {
+    filteredPlaces = filterPlacesByService(filteredPlaces, opts.filterService);
   }
   const places = Array.from(filteredPlaces);
 
@@ -278,5 +323,23 @@ function* filterPlacesByPriceLevel(
     if (filterPriceLevel.includes(place.price_level)) {
       yield place;
     }
+  }
+}
+
+function* filterPlacesByService(
+  places: Iterable<Place>,
+  filterService: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[]
+) {
+  if (filterService.length === 0) {
+    yield* places;
+  }
+
+  iteratePlaces: for (const place of places) {
+    for (const key of filterService) {
+      if (!place[key]) {
+        continue iteratePlaces;
+      }
+    }
+    yield place;
   }
 }

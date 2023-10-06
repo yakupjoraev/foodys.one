@@ -67,11 +67,36 @@ export default function Places() {
     return priceLevel;
   }, [debouncedFilterState]);
 
+  const service: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[] =
+    useMemo(() => {
+      const service: (
+        | "delivery"
+        | "dine_in"
+        | "takeout"
+        | "curbside_pickup"
+      )[] = [];
+      if (debouncedFilterState.serviceDelivery) {
+        service.push("delivery");
+      }
+      if (debouncedFilterState.serviceDineIn) {
+        service.push("dine_in");
+      }
+      if (debouncedFilterState.serviceTakeOut) {
+        service.push("takeout");
+      }
+      if (debouncedFilterState.servicePickUp) {
+        service.push("curbside_pickup");
+      }
+
+      return service;
+    }, [debouncedFilterState]);
+
   const queryResponse = api.places.getPlaces.useQuery({
     query: query || "",
     page: pageInt,
     rating,
     priceLevel,
+    service,
     establishment: debouncedFilterState.establishment,
   });
 
