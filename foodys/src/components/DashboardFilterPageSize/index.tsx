@@ -3,16 +3,20 @@ import { useEffect, useId, useRef, useState } from "react";
 import { DashboardFilterRadio } from "../DashboradFilterRadio";
 import style from "./style.module.css";
 
-type PageSize = "10" | "20" | "30";
+type PageSizeStr = "10" | "20" | "30";
 
-export interface DashboardPageSizeProps {}
+export type PageSize = 10 | 20 | 30;
+
+export interface DashboardPageSizeProps {
+  value: PageSize;
+  onChange: (value: PageSize) => void;
+}
 
 export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
   const selectedOptionRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const pageSizeId = useId();
   const [active, setActive] = useState(false);
-  const [pageSize, setPageSize] = useState<PageSize>("10");
 
   useEffect(() => {
     if (!active) {
@@ -50,8 +54,8 @@ export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
     }
   };
 
-  const handlePageSizeChange = (pageSize: PageSize) => {
-    setPageSize(pageSize);
+  const handlePageSizeChange = (pageSize: PageSizeStr) => {
+    props.onChange(pageSizeStrToInt(pageSize));
     setActive(false);
   };
 
@@ -69,7 +73,7 @@ export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
           ref={selectedOptionRef}
           onClick={handleSelectedOptionClick}
         >
-          {pageSize}
+          {props.value.toString()}
           <img src="/img/dashboard/position-arrow.svg" alt="position arrow" />
         </div>
       </div>
@@ -82,24 +86,38 @@ export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
           label="10"
           name={pageSizeId}
           value="10"
-          checked={pageSize === "10"}
+          checked={props.value === 10}
           onChange={handlePageSizeChange}
         />
         <DashboardFilterRadio
           label="20"
           name={pageSizeId}
           value="20"
-          checked={pageSize === "20"}
+          checked={props.value === 20}
           onChange={handlePageSizeChange}
         />
         <DashboardFilterRadio
           label="30"
           name={pageSizeId}
           value="30"
-          checked={pageSize === "30"}
+          checked={props.value === 30}
           onChange={handlePageSizeChange}
         />
       </div>
     </div>
   );
+}
+
+function pageSizeStrToInt(pageSize: PageSizeStr): PageSize {
+  switch (pageSize) {
+    case "10": {
+      return 10;
+    }
+    case "20": {
+      return 20;
+    }
+    case "30": {
+      return 30;
+    }
+  }
 }

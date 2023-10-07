@@ -10,7 +10,7 @@ import { Place } from "~/server/gm-client/types";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
-const PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 10;
 
 const PHOTOS_ENDPOINT =
   "https://foodys.freeblock.site/place-photos/cover_168x168/";
@@ -76,6 +76,9 @@ export const placesRouter = createTRPCRouter({
             .max(4)
         ),
         page: z.optional(z.number().min(1)),
+        pageSize: z
+          .union([z.literal(10), z.literal(20), z.literal(30)])
+          .default(DEFAULT_PAGE_SIZE),
       })
     )
     .query(async ({ input, ctx }): Promise<PlaceListing> => {
@@ -104,7 +107,7 @@ export const placesRouter = createTRPCRouter({
         return applyFavorities(
           createResponse({
             page,
-            pageSize: PAGE_SIZE,
+            pageSize: input.pageSize,
             places,
             filterRating: input.rating,
             filterPriceLevel: input.priceLevel,
@@ -152,7 +155,7 @@ export const placesRouter = createTRPCRouter({
       return applyFavorities(
         createResponse({
           page,
-          pageSize: PAGE_SIZE,
+          pageSize: input.pageSize,
           places: searchResponse.results,
           filterRating: input.rating,
           filterPriceLevel: input.priceLevel,

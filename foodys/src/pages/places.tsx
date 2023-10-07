@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
+  pageSize: 10,
 };
 
 const FILTER_DELAY = 1000;
@@ -101,6 +102,7 @@ export default function Places() {
   const queryResponse = api.places.getPlaces.useQuery({
     query: query || "",
     page: pageInt,
+    pageSize: debouncedFilterState.pageSize,
     rating,
     priceLevel,
     service,

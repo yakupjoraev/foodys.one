@@ -35,10 +35,12 @@ export interface FilterState {
   sortBy2?: boolean;
   sortBy3?: boolean;
   establishment: "restaurant" | "coffeeAndTea" | "bar";
+  pageSize: 10 | 20 | 30;
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
+  pageSize: 10,
 };
 
 export interface DashboardFiltersProps {
@@ -53,7 +55,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
 
   const registerFilterCheckbox = (
-    key: Exclude<keyof FilterState, "establishment">
+    key: Exclude<keyof FilterState, "establishment" | "pageSize">
   ) => {
     const handleChange = (checked: boolean) => {
       const nextFilterState = { ...props.filter };
@@ -87,6 +89,12 @@ export function DashboardFilters(props: DashboardFiltersProps) {
 
   const handleClearAllBtnClick = () => {
     props.onChange(DEFAULT_FILTER_STATE);
+  };
+
+  const handlePageSizeChange = (value: 10 | 20 | 30) => {
+    const nextFilterState = { ...props.filter };
+    nextFilterState.pageSize = value;
+    props.onChange(nextFilterState);
   };
 
   return (
@@ -337,7 +345,10 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         />
       </DashboardFilter>
 
-      <DashboardFilterPageSize />
+      <DashboardFilterPageSize
+        value={props.filter.pageSize}
+        onChange={handlePageSizeChange}
+      />
 
       <button
         type="button"
