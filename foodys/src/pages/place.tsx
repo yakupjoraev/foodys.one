@@ -5,6 +5,8 @@ import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
+import { Translate } from "next-translate";
+import { OpeningHoursTab } from "~/components/OpeningHoursTab";
 
 enum Tab {
   Overview,
@@ -37,7 +39,14 @@ export default function Place() {
     return queryResponse.data.photos.slice(0, 4);
   }, [queryResponse.data]);
 
+  const handleSeeOpeningHoursBtnClick = () => {
+    console.log("AAAA_AA");
+    setTab(Tab.OpeningHours);
+  };
+
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
+
+  const openingHours = queryResponse.data?.opening_hours?.periods;
 
   return (
     <Layout title="Foodys - About page">
@@ -285,9 +294,16 @@ export default function Place() {
                     <a className="restaurant-page__others-open" href="#">
                       {t("textOpenNow")}
                     </a>
-                    <a className="restaurant-page__others-link" href="#">
-                      {t("textSeeOpeningHours")}
-                    </a>
+                    {openingHours && openingHours.length > 0 && (
+                      <button
+                        className="restaurant-page__others-link"
+                        type="button"
+                        onClick={handleSeeOpeningHoursBtnClick}
+                      >
+                        {t("textSeeOpeningHours")}
+                      </button>
+                    )}
+
                     <a className="restaurant-page__others-link" href="#">
                       {t("textThisIsMyBusiness")}
                       <span className="restaurant-page__others-link-label">
@@ -308,14 +324,16 @@ export default function Place() {
                     >
                       {t("titleOverview")}
                     </div>
-                    <div
-                      className={classNames("tabs__header-item", {
-                        active: tab === Tab.OpeningHours,
-                      })}
-                      onClick={() => setTab(Tab.OpeningHours)}
-                    >
-                      {t("titleOpeningHours")}
-                    </div>
+                    {openingHours && openingHours.length > 0 && (
+                      <div
+                        className={classNames("tabs__header-item", {
+                          active: tab === Tab.OpeningHours,
+                        })}
+                        onClick={() => setTab(Tab.OpeningHours)}
+                      >
+                        {t("titleOpeningHours")}
+                      </div>
+                    )}
                     <div
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Reviews,
@@ -362,48 +380,15 @@ export default function Place() {
                         </p>
                       </div>
                     </div>
+
                     {/*---------------------- Opening hours ---------------------*/}
-                    <div
-                      className="tabs__content-item"
-                      style={{
-                        display: tab === Tab.OpeningHours ? "flex" : "none",
-                      }}
-                    >
-                      <div className="opening-hours">
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">
-                            {t("textOpeningHoursMonday")}
-                          </p>
-                          <p className="opening-hours__time">10:00-22:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">
-                            {t("textOpeningHoursTuesday")}
-                          </p>
-                          <p className="opening-hours__time">10:00-22:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">{t("Wednesday")}</p>
-                          <p className="opening-hours__time">10:00-22:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">{t("Thursday")}</p>
-                          <p className="opening-hours__time">10:00-22:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">{t("Friday")}</p>
-                          <p className="opening-hours__time">10:00-22:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">{t("Saturday")}</p>
-                          <p className="opening-hours__time">10:00-00:00</p>
-                        </div>
-                        <div className="opening-hours__item">
-                          <p className="opening-hours__day">{t("Sunday")}</p>
-                          <p className="opening-hours__day">Closed</p>
-                        </div>
-                      </div>
-                    </div>
+                    {openingHours && openingHours.length && (
+                      <OpeningHoursTab
+                        periods={openingHours}
+                        show={tab === Tab.OpeningHours}
+                      />
+                    )}
+
                     {/*---------------------- Reviews ---------------------*/}
                     <div
                       className="tabs__content-item"
@@ -1711,3 +1696,155 @@ export default function Place() {
     </Layout>
   );
 }
+
+interface PlaceOpeningHoursPeriod {
+  open?: PlaceOpeningHoursPeriodDetail;
+  close?: PlaceOpeningHoursPeriodDetail;
+}
+
+interface PlaceOpeningHoursPeriodDetail {
+  day?: number;
+  time?: string;
+  date?: string;
+  truncated?: boolean;
+}
+
+function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
+  const openingPeriods = new Array(7);
+  openingPeriods.fill(null);
+
+  periods.forEach((period) => {
+    const openDay = period.open?.day;
+    const openTime = period.open?.time;
+    if (openDay === undefined || openTime === undefined) {
+      return null;
+    }
+    let closeTime = period.close?.time;
+    if (closeTime === undefined) {
+      closeTime = "0000";
+    }
+
+    const weekDayLabel = getWeekDayLabel(openDay, t);
+    if (weekDayLabel === null) {
+      return null;
+    }
+
+    const openPeriod =
+      openTime.slice(0, 2) +
+      ":" +
+      openTime.slice(2) +
+      "-" +
+      closeTime.slice(0, 2) +
+      ":" +
+      closeTime.slice(2);
+
+    const dayIndex = openDay - 1;
+
+    openingPeriods[dayIndex] = openPeriod;
+  });
+
+  const schedule = openingPeriods.map((period, dayIndex) => {
+    const label = getWeekDayLabel(dayIndex, t);
+    if (period === null) {
+      return (
+        <div className="opening-hours__item" key={dayIndex}>
+          <p className="opening-hours__day">{label}</p>
+          <p className="opening-hours__day">Closed</p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="opening-hours__item" key={dayIndex}>
+          <p className="opening-hours__day">{label}</p>
+          <p className="opening-hours__time">{period}</p>
+        </div>
+      );
+    }
+  });
+
+  return schedule;
+}
+
+function getWeekDayLabel(weekDay: number, t: Translate): string | null {
+  switch (weekDay) {
+    case 0: {
+      return t("textOpeningHoursMonday");
+    }
+    case 1: {
+      return t("textOpeningHoursTuesday");
+    }
+    case 2: {
+      return t("textOpeningHoursWednesday");
+    }
+    case 3: {
+      return t("textOpeningHoursThursday");
+    }
+    case 4: {
+      return t("textOpeningHoursFriday");
+    }
+    case 5: {
+      return t("textOpeningHoursSaturday");
+    }
+    case 6: {
+      return t("textOpeningHoursSunday");
+    }
+    default: {
+      return null;
+    }
+  }
+}
+
+// "opening_hours": {
+//             "open_now": false,
+//             "periods": [
+//                 {
+//                     "close": {
+//                         "day": 1,
+//                         "time": "1730"
+//                     },
+//                     "open": {
+//                         "day": 1,
+//                         "time": "0830"
+//                     }
+//                 },
+//                 {
+//                     "close": {
+//                         "day": 2,
+//                         "time": "1730"
+//                     },
+//                     "open": {
+//                         "day": 2,
+//                         "time": "0830"
+//                     }
+//                 },
+//                 {
+//                     "close": {
+//                         "day": 3,
+//                         "time": "1730"
+//                     },
+//                     "open": {
+//                         "day": 3,
+//                         "time": "0830"
+//                     }
+//                 },
+//                 {
+//                     "close": {
+//                         "day": 4,
+//                         "time": "1700"
+//                     },
+//                     "open": {
+//                         "day": 4,
+//                         "time": "0830"
+//                     }
+//                 },
+//                 {
+//                     "close": {
+//                         "day": 5,
+//                         "time": "1700"
+//                     },
+//                     "open": {
+//                         "day": 5,
+//                         "time": "0830"
+//                     }
+//                 }
+//             ],

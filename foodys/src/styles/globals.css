@@ -22,3 +22,11 @@
   text-align: center;
   margin: 20px 0;
 }
+
+/* _restaurant-page.scss */
+
+.restaurant-page__others-link {
+  background-color: transparent;
+  cursor: pointer;
+  font-family: var(--secondary-font);
+}
