@@ -17,6 +17,13 @@ export interface RestaurantCardProps {
   priceLevel?: number;
   rating?: number;
   placeId?: string;
+  favorite?: boolean;
+  authentificated?: boolean;
+  onChangeFavorite?: (
+    placeId: string,
+    favorite: boolean,
+    cb?: (favorite: boolean) => void
+  ) => void;
 }
 
 const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
@@ -26,6 +33,15 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
   const photos =
     props.photos && props.photos.length ? props.photos : DEFAULT_PHOTOS;
+
+  const handleFavoriteBtnClick = (
+    favorite: boolean,
+    cb?: (favorite: boolean) => void
+  ) => {
+    if (props.onChangeFavorite && props.placeId) {
+      props.onChangeFavorite(props.placeId, favorite, cb);
+    }
+  };
 
   return (
     <div className="restaurant">
@@ -68,7 +84,12 @@ export function RestaurantCard(props: RestaurantCardProps) {
             </>
           )}
         </Swiper>
-        <RestaurantFavorite />
+        {props.authentificated && (
+          <RestaurantFavorite
+            checked={props.favorite}
+            onChange={handleFavoriteBtnClick}
+          />
+        )}
       </div>
 
       <div className="restaurant__top">

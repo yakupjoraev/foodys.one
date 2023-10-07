@@ -6,8 +6,9 @@ import { Paginator } from "~/components/Paginator";
 import { DashboardFilters, FilterState } from "~/components/DashboardFilters";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
+import { useSession } from "next-auth/react";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
@@ -15,12 +16,18 @@ const DEFAULT_FILTER_STATE: FilterState = {
 
 const FILTER_DELAY = 1000;
 
+const DEFAULT_OPTIMISTIC_FAVORITE: string[] = [];
+
 export default function Places() {
   const { t } = useTranslation("common");
+  const session = useSession();
   const [filterState, setFilterState] =
     useState<FilterState>(DEFAULT_FILTER_STATE);
   const debouncedFilterState = useDebounce(filterState, FILTER_DELAY);
   const searchParams = useSearchParams();
+  const [optimisticFavorite, setOptimisticFavorite] = useState(
+    DEFAULT_OPTIMISTIC_FAVORITE
+  );
   const query = searchParams.get("query");
   const page = searchParams.get("page") || "1";
 
@@ -100,8 +107,55 @@ export default function Places() {
     establishment: debouncedFilterState.establishment,
   });
 
+  const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
+
+  useEffect(() => {
+    if (!queryResponse.data) {
+      setOptimisticFavorite(DEFAULT_OPTIMISTIC_FAVORITE);
+      return;
+    }
+    const nextOptimisticFavorite: string[] = [];
+    for (const place of queryResponse.data.results) {
+      if (place.place_id && place.favorite) {
+        nextOptimisticFavorite.push(place.place_id);
+      }
+    }
+    if (nextOptimisticFavorite.length) {
+      setOptimisticFavorite(nextOptimisticFavorite);
+    } else {
+      setOptimisticFavorite(DEFAULT_OPTIMISTIC_FAVORITE);
+    }
+  }, [queryResponse.data]);
+
   const handleChangeFilter = (nextFilterState: FilterState) => {
     setFilterState(nextFilterState);
+  };
+
+  const handleChangeFavorite = (
+    placeId: string,
+    favorite: boolean,
+    cb?: (favorite: boolean) => void
+  ) => {
+    if (favorite) {
+      if (!optimisticFavorite.includes(placeId)) {
+        setOptimisticFavorite([...optimisticFavorite, placeId]);
+      }
+    } else {
+      const indexToRemove = optimisticFavorite.indexOf(placeId);
+      if (indexToRemove !== -1) {
+        setOptimisticFavorite([
+          ...optimisticFavorite.slice(0, indexToRemove),
+          ...optimisticFavorite.slice(indexToRemove + 1),
+        ]);
+      }
+    }
+    if (cb) {
+      cb(favorite);
+    }
+    favoriteGPlace.mutate({
+      placeId,
+      favorite,
+    });
   };
 
   const createNextPageUrl = (page: number) => {
@@ -109,6 +163,8 @@ export default function Places() {
     nextUrlSerachParams.set("page", page.toString());
     return "/places?" + nextUrlSerachParams.toString();
   };
+
+  const authentificated = session.status === "authenticated";
 
   return (
     <Layout title="Foodys - Search result">
@@ -260,6 +316,11 @@ export default function Places() {
                         userRatingTotal={placeListingItem.user_rating_total}
                         placeId={placeListingItem.place_id}
                         photos={placeListingItem.photos}
+                        favorite={optimisticFavorite.includes(
+                          placeListingItem.place_id
+                        )}
+                        authentificated={authentificated}
+                        onChangeFavorite={handleChangeFavorite}
                         key={placeListingItem.place_id}
                       />
                     );

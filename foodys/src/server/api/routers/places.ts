@@ -1,4 +1,6 @@
-import { Establishment, Prisma } from "@prisma/client";
+import { Establishment, Prisma, PrismaClient } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
+import { Session } from "next-auth";
 import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -21,6 +23,7 @@ export interface PlaceListingItem {
   user_rating_total?: number;
   price_level?: number;
   photos?: string[];
+  favorite?: boolean;
 }
 
 export interface PlaceListing {
@@ -75,7 +78,7 @@ export const placesRouter = createTRPCRouter({
         page: z.optional(z.number().min(1)),
       })
     )
-    .query(async ({ input }): Promise<PlaceListing> => {
+    .query(async ({ input, ctx }): Promise<PlaceListing> => {
       const page = input.page || 1;
 
       const normalizedQuery = normalizeQuery(input.query);
@@ -98,14 +101,17 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const places = cachedResponse.places as Place[];
-        return createResponse({
-          page,
-          pageSize: PAGE_SIZE,
-          places,
-          filterRating: input.rating,
-          filterPriceLevel: input.priceLevel,
-          filterService: input.service,
-        });
+        return applyFavorities(
+          createResponse({
+            page,
+            pageSize: PAGE_SIZE,
+            places,
+            filterRating: input.rating,
+            filterPriceLevel: input.priceLevel,
+            filterService: input.service,
+          }),
+          ctx
+        );
       }
 
       const searchResponse = await gmClient.textSearch({
@@ -143,16 +149,55 @@ export const placesRouter = createTRPCRouter({
         },
       });
 
-      return createResponse({
-        page,
-        pageSize: PAGE_SIZE,
-        places: searchResponse.results,
-        filterRating: input.rating,
-        filterPriceLevel: input.priceLevel,
-        filterService: input.service,
-      });
+      return applyFavorities(
+        createResponse({
+          page,
+          pageSize: PAGE_SIZE,
+          places: searchResponse.results,
+          filterRating: input.rating,
+          filterPriceLevel: input.priceLevel,
+          filterService: input.service,
+        }),
+        ctx
+      );
     }),
 });
+
+async function applyFavorities(
+  listing: PlaceListing,
+  ctx: {
+    session: Session | null;
+    db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
+  }
+): Promise<PlaceListing> {
+  const ids: string[] = [];
+  for (const { place_id: placeId } of listing.results) {
+    if (placeId === undefined) {
+      continue;
+    }
+    ids.push(placeId);
+  }
+  if (ids.length > 0) {
+    const favorities = await ctx.db.favoriteGPlace.findMany({
+      where: {
+        place_id: { in: ids },
+      },
+      select: {
+        place_id: true,
+      },
+    });
+    const favoriteIds = favorities.map(({ place_id: placeId }) => placeId);
+    for (const place of listing.results) {
+      if (
+        place.place_id !== undefined &&
+        favoriteIds.includes(place.place_id)
+      ) {
+        place.favorite = true;
+      }
+    }
+  }
+  return listing;
+}
 
 async function loadPlaceDetails(placeId: string) {
   const placeDetails = await gmClient.placeDetails({

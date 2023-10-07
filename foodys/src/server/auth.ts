@@ -92,12 +92,25 @@ export const authOptions: NextAuthOptions = {
           name = `${user.firstName} ${user.lastName}`;
         }
 
+        console.log("USER_ID", user.id);
+
         return { id: user.id, name };
       },
     }),
   ],
   session: {
     strategy: "jwt",
+  },
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+        },
+      };
+    },
   },
 };
 

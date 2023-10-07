@@ -3,9 +3,14 @@ import { useEffect, useRef, useState } from "react";
 
 const VIEW_TEXT_TIMEOUT = 1000;
 
-export function RestaurantFavorite() {
+export interface RestaurantFavoriteProps {
+  checked?: boolean;
+  showTootip?: boolean;
+  onChange: (checked: boolean, cb?: (favorite: boolean) => void) => void;
+}
+
+export function RestaurantFavorite(props: RestaurantFavoriteProps) {
   const timerRef = useRef<number>(0);
-  const [checked, setChecked] = useState(false);
   const [viewText, setViewText] = useState(false);
 
   useEffect(() => {
@@ -24,15 +29,18 @@ export function RestaurantFavorite() {
       clearTimeout(timerRef.current);
     }
 
-    const nextChecked = !checked;
+    const nextChecked = !props.checked;
     if (nextChecked) {
-      setChecked(true);
-      setViewText(true);
-      timerRef.current = window.setTimeout(() => {
-        setViewText(false);
-      }, VIEW_TEXT_TIMEOUT);
+      props.onChange(true, (favorite) => {
+        if (favorite) {
+          setViewText(true);
+          timerRef.current = window.setTimeout(() => {
+            setViewText(false);
+          }, VIEW_TEXT_TIMEOUT);
+        }
+      });
     } else {
-      setChecked(false);
+      props.onChange(false);
       setViewText(false);
     }
   };
@@ -41,7 +49,7 @@ export function RestaurantFavorite() {
     <div
       className={classNames(
         "restaurant__favorite",
-        checked && "checked",
+        props.checked && "checked",
         viewText && "view-text"
       )}
       onClick={handleFavBtnClick}
