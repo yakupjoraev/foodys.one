@@ -83,7 +83,7 @@ export function Header(props: HeaderProps) {
                 >
                   {t("buttonSearch")}
                 </button>
-                <div className="search__list">
+                {/* <div className="search__list">
                   <a className="search__item" href="#">
                     <img
                       className="search__item-pic"
@@ -167,7 +167,7 @@ export function Header(props: HeaderProps) {
                   <a className="search__more" href="#">
                     View all results <span>(234)</span>
                   </a>
-                </div>
+                </div> */}
               </li>
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a href="/" className="menu__item-link" data-scroll="">
