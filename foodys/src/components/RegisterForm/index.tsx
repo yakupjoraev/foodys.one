@@ -3,7 +3,8 @@ import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "./validators";
-import { error } from "console";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 export type RegisterError =
   | { type: "unknown"; message?: string }
@@ -42,6 +43,7 @@ export interface RegisterFormProps {
 }
 
 export function RegisterForm(props: RegisterFormProps) {
+  const { t } = useTranslation("common");
   const firstNameId = useId();
   const lastNameId = useId();
   const nicknameId = useId();
@@ -84,18 +86,25 @@ export function RegisterForm(props: RegisterFormProps) {
   return (
     <form className="modal-content__form" onSubmit={handleRegisterFormSubmit}>
       <div className="modal-content__form-top">
-        <h3 className="modal-content__title">New over here?</h3>
-        <h2 className="modal-content__title-main">Create account</h2>
+        <Trans
+          i18nKey="common:titleCreateAccountForm"
+          components={[
+            <h3 className="modal-content__title" />,
+            <h2 className="modal-content__title-main" />,
+          ]}
+        />
+        {/* <h3 className="modal-content__title">New over here?</h3>
+        <h2 className="modal-content__title-main">Create account</h2> */}
       </div>
       <div className="modal-content__inputs">
         <div className="input__group">
           <label className="input__label" htmlFor={firstNameId}>
-            First name*
+            {t("fieldNameFirstName")}
           </label>
           <input
             className="input"
             type="text"
-            placeholder="First name"
+            placeholder={t("fieldNameFirstName")}
             id={firstNameId}
             disabled={props.loading}
             {...register("firstName")}
@@ -106,12 +115,12 @@ export function RegisterForm(props: RegisterFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={lastNameId}>
-            Last name*
+            {t("fieldNameLastName")}
           </label>
           <input
             className="input"
             type="text"
-            placeholder="Last-name"
+            placeholder={t("fieldNameLastName")}
             id={lastNameId}
             disabled={props.loading}
             {...register("lastName")}
@@ -122,12 +131,12 @@ export function RegisterForm(props: RegisterFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={nicknameId}>
-            Nickname*
+            {t("fieldNameNickname")}
           </label>
           <input
             className="input"
             type="text"
-            placeholder="Nickname"
+            placeholder={t("fieldNameNickname")}
             id={nicknameId}
             disabled={props.loading}
             {...register("nickname")}
@@ -138,7 +147,7 @@ export function RegisterForm(props: RegisterFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={emailId}>
-            Email*
+            {t("fieldNameEmail")}
           </label>
           <input
             className="input"
@@ -154,12 +163,12 @@ export function RegisterForm(props: RegisterFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={passwordId}>
-            Password*
+            {t("fieldNamePassword")}
           </label>
           <input
             className="input"
             type="password"
-            placeholder="Password*"
+            placeholder={t("fieldNamePassword")}
             id={passwordId}
             disabled={props.loading}
             {...register("password")}
@@ -178,23 +187,24 @@ export function RegisterForm(props: RegisterFormProps) {
         type="submit"
         disabled={props.loading}
       >
-        Create my account
+        {t("buttonCreateMyAcc")}
       </button>
       <div className="modal-content__btn-remember">
-        Already have an account on Foodys.one?
+        <Trans
+          i18nKey="common:textSignInInvit"
+          components={[<a href="#" target="_blank" />]}
+        />
+        {/* Already have an account on Foodys.one?
         <a href="#" target="_blank">
           {" "}
           Sign in
-        </a>
+        </a> */}
       </div>
       <div className="input__checkbox-group">
         <input className="input__checkbox" type="checkbox" id="checkbox2" />
         <label className="input__label" htmlFor="checkbox2">
           <div className="input__checkbox-decor"> </div>
-          <span>
-            By proceeding, you agree to our Terms of Use and confirm you have
-            read our Privacy and Cookies Statement.
-          </span>
+          <span>{t("textAgreeTermsAndCond")}</span>
         </label>
       </div>
     </form>
