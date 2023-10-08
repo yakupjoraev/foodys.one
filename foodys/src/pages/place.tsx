@@ -7,6 +7,7 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { Translate } from "next-translate";
 import { OpeningHoursTab } from "~/components/OpeningHoursTab";
+import { OverviewTab } from "~/components/OverviewTab";
 
 enum Tab {
   Overview,
@@ -354,7 +355,11 @@ export default function Place() {
                   <div className="input__border" />
                   <div className="tabs__content">
                     {/*---------------------- Overview ---------------------*/}
-                    <div
+                    <OverviewTab
+                      show={tab === Tab.Overview}
+                      place={queryResponse.data || undefined}
+                    />
+                    {/* <div
                       className="tabs__content-item"
                       style={{
                         display: tab === Tab.Overview ? "flex" : "none",
@@ -379,7 +384,7 @@ export default function Place() {
                           Services: take out, Delivery, dine-in
                         </p>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/*---------------------- Opening hours ---------------------*/}
                     {openingHours && openingHours.length && (
