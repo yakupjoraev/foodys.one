@@ -24,6 +24,7 @@ export interface RestaurantCardProps {
     favorite: boolean,
     cb?: (favorite: boolean) => void
   ) => void;
+  onPayInCryptoBtnClick: () => void;
 }
 
 const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
@@ -156,7 +157,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/delivery.svg" alt="delivery" />
             {t("buttonDelivery")}
           </button>
-          <button type="button" className="restaurant__btn pay-crypto">
+          <button
+            type="button"
+            className="restaurant__btn pay-crypto"
+            onClick={props.onPayInCryptoBtnClick}
+          >
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
             {t("buttonPayInCrypto")}
           </button>

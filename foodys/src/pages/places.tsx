@@ -9,6 +9,7 @@ import Trans from "next-translate/Trans";
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
+import { CryptoModal } from "~/components/CryptoModal";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
@@ -22,6 +23,7 @@ const DEFAULT_OPTIMISTIC_FAVORITE: string[] = [];
 export default function Places() {
   const { t } = useTranslation("common");
   const session = useSession();
+  const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
   const [filterState, setFilterState] =
     useState<FilterState>(DEFAULT_FILTER_STATE);
   const debouncedFilterState = useDebounce(filterState, FILTER_DELAY);
@@ -158,6 +160,14 @@ export default function Places() {
       placeId,
       favorite,
     });
+  };
+
+  const handlePayInCryptoBtnClick = () => {
+    setCryptoModalOpen(true);
+  };
+
+  const handleCryptoModalClose = () => {
+    setCryptoModalOpen(false);
   };
 
   const createNextPageUrl = (page: number) => {
@@ -323,6 +333,7 @@ export default function Places() {
                         )}
                         authentificated={authentificated}
                         onChangeFavorite={handleChangeFavorite}
+                        onPayInCryptoBtnClick={handlePayInCryptoBtnClick}
                         key={placeListingItem.place_id}
                       />
                     );
@@ -353,6 +364,7 @@ export default function Places() {
           </div>
         </div>
       </main>
+      <CryptoModal open={cryptoModelOpen} onClose={handleCryptoModalClose} />
     </Layout>
   );
 }
