@@ -6,6 +6,7 @@ import { AuthError, AuthModal, AuthRequest } from "~/components/AuthModal";
 export interface AuthModalContainerProps {
   open: boolean;
   onClose: () => void;
+  onNavRegister: () => void;
 }
 
 export function AuthModalContainer(props: AuthModalContainerProps) {
@@ -57,6 +58,7 @@ export function AuthModalContainer(props: AuthModalContainerProps) {
       error={error}
       onClose={props.onClose}
       onAuth={handleAuth}
+      onNavRegister={props.onNavRegister}
     />
   );
 }

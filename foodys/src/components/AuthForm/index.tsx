@@ -31,6 +31,7 @@ export interface AuthFormProps {
   show?: boolean;
   error?: AuthError;
   onAuth: (opts: AuthRequest) => void;
+  onNavRegister: () => void;
 }
 
 export function AuthForm(props: AuthFormProps) {
@@ -147,7 +148,7 @@ export function AuthForm(props: AuthFormProps) {
               target="_blank"
               onClick={(ev) => {
                 ev.preventDefault();
-                toast("NOT IMPLEMENTED");
+                props.onNavRegister();
               }}
             />,
           ]}

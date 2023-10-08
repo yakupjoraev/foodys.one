@@ -10,6 +10,7 @@ export interface AuthModalProps {
   loading?: boolean;
   onAuth: (opts: AuthRequest) => void;
   onClose: () => void;
+  onNavRegister: () => void;
 }
 
 export function AuthModal(props: AuthModalProps) {
@@ -54,6 +55,7 @@ export function AuthModal(props: AuthModalProps) {
           error={props.error}
           loading={props.loading}
           onAuth={props.onAuth}
+          onNavRegister={props.onNavRegister}
         />
       </div>
     </div>
