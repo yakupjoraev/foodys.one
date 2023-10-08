@@ -80,8 +80,8 @@ export function ReviewsTab(props: ReviewsTabProps) {
         <div className="reviews-content__list">
           {reviews.length === 0
             ? "No reviews"
-            : reviews.map((review) => {
-                return <ReviewItem review={review} />;
+            : reviews.map((review, i) => {
+                return <ReviewItem review={review} key={i} />;
               })}
         </div>
       </div>
