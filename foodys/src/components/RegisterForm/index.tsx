@@ -40,6 +40,7 @@ export interface RegisterFormProps {
   error?: RegisterError;
   show?: boolean;
   onRegister: (opts: RegisterRequest) => void;
+  onNavAuth: () => void;
 }
 
 export function RegisterForm(props: RegisterFormProps) {
@@ -192,7 +193,16 @@ export function RegisterForm(props: RegisterFormProps) {
       <div className="modal-content__btn-remember">
         <Trans
           i18nKey="common:textSignInInvit"
-          components={[<a href="#" target="_blank" />]}
+          components={[
+            <a
+              href="#"
+              target="_blank"
+              onClick={(ev) => {
+                ev.preventDefault();
+                props.onNavAuth();
+              }}
+            />,
+          ]}
         />
         {/* Already have an account on Foodys.one?
         <a href="#" target="_blank">

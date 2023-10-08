@@ -9,6 +9,7 @@ import {
 export interface RegisterModalContainerProps {
   open: boolean;
   onClose: () => void;
+  onNavAuth: () => void;
 }
 
 export function RegisterModalContainer(props: RegisterModalContainerProps) {
@@ -71,6 +72,7 @@ export function RegisterModalContainer(props: RegisterModalContainerProps) {
       error={error}
       onClose={props.onClose}
       onRegister={handleRegister}
+      onNavAuth={props.onNavAuth}
     />
   );
 }

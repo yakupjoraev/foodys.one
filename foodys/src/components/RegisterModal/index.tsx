@@ -10,6 +10,7 @@ export interface RegisterModalProps {
   loading?: boolean;
   onClose: () => void;
   onRegister: (opts: RegisterRequest) => void;
+  onNavAuth: () => void;
 }
 
 export function RegisterModal(props: RegisterModalProps) {
@@ -54,6 +55,7 @@ export function RegisterModal(props: RegisterModalProps) {
           show={props.open}
           error={props.error}
           onRegister={props.onRegister}
+          onNavAuth={props.onNavAuth}
         />
       </div>
     </div>

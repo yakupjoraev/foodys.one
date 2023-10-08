@@ -63,6 +63,11 @@ export function Layout(props: LayoutProps) {
     setRegisterModalOpened(true);
   };
 
+  const handleNavAuth = () => {
+    setAuthModelOpened(true);
+    setRegisterModalOpened(false);
+  };
+
   return (
     <div
       className={classNames("main__body", props.className, {
@@ -92,6 +97,7 @@ export function Layout(props: LayoutProps) {
       <RegisterModalContainer
         open={registerModalOpened}
         onClose={handleRegisterModalClose}
+        onNavAuth={handleNavAuth}
       />
     </div>
   );
