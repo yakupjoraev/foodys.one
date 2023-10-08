@@ -16,18 +16,18 @@ export type PlacesDetailsStatus =
   | "UNKNOWN_ERROR";
 
 export interface PlacesTextSearchResponse {
-  html_attributions?: Array<string>;
-  results?: Array<Place>;
-  status?: PlacesSearchStatus;
+  html_attributions: Array<string>;
+  results: Array<Place>;
+  status: PlacesSearchStatus;
   error_message?: string;
   info_messages?: Array<string>;
   next_page_token?: string;
 }
 
 export interface PlacesDetailsResponse {
-  html_attributions?: Array<string>;
-  result?: Place;
-  status?: PlacesDetailsStatus;
+  html_attributions: Array<string>;
+  result: Place;
+  status: PlacesDetailsStatus;
   info_messages?: Array<string>;
 }
 
@@ -75,9 +75,9 @@ export interface Place {
 }
 
 export interface AddressComponent {
-  long_name?: string;
-  short_name?: string;
-  types?: Array<string>;
+  long_name: string;
+  short_name: string;
+  types: Array<string>;
 }
 
 export interface PlaceEditorialSummary {
@@ -86,18 +86,18 @@ export interface PlaceEditorialSummary {
 }
 
 export interface Geometry {
-  location?: LatLngLiteral;
-  viewport?: Bounds;
+  location: LatLngLiteral;
+  viewport: Bounds;
 }
 
 export interface LatLngLiteral {
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
 }
 
 export interface Bounds {
-  northeast?: LatLngLiteral;
-  southwest?: LatLngLiteral;
+  northeast: LatLngLiteral;
+  southwest: LatLngLiteral;
 }
 
 export interface PlaceOpeningHours {
@@ -109,7 +109,7 @@ export interface PlaceOpeningHours {
 }
 
 export interface PlaceOpeningHoursPeriod {
-  open?: PlaceOpeningHoursPeriodDetail;
+  open: PlaceOpeningHoursPeriodDetail;
   close?: PlaceOpeningHoursPeriodDetail;
 }
 
@@ -119,29 +119,29 @@ export interface PlaceSpecialDay {
 }
 
 export interface PlaceOpeningHoursPeriodDetail {
-  day?: number;
-  time?: string;
+  day: number;
+  time: string;
   date?: string;
   truncated?: boolean;
 }
 
 export interface PlacePhoto {
-  height?: number;
-  html_attributions?: Array<string>;
-  photo_reference?: string;
-  width?: number;
+  height: number;
+  html_attributions: Array<string>;
+  photo_reference: string;
+  width: number;
 }
 
 export interface PlusCode {
-  global_code?: string;
+  global_code: string;
   compound_code?: string;
 }
 
 export interface PlaceReview {
-  author_name?: string;
-  rating?: number;
-  relative_time_description?: string;
-  time?: number;
+  author_name: string;
+  rating: number;
+  relative_time_description: string;
+  time: number;
   author_url?: string;
   language?: string;
   original_language?: string;

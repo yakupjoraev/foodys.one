@@ -20,9 +20,9 @@ export const placesDetailsStatusSchema = z.union([
 ]);
 
 export const addressComponentSchema = z.object({
-  long_name: z.string().optional(),
-  short_name: z.string().optional(),
-  types: z.array(z.string()).optional(),
+  long_name: z.string(),
+  short_name: z.string(),
+  types: z.array(z.string()),
 });
 
 export const placeEditorialSummarySchema = z.object({
@@ -31,13 +31,13 @@ export const placeEditorialSummarySchema = z.object({
 });
 
 export const latLngLiteralSchema = z.object({
-  lat: z.number().optional(),
-  lng: z.number().optional(),
+  lat: z.number(),
+  lng: z.number(),
 });
 
 export const boundsSchema = z.object({
-  northeast: latLngLiteralSchema.optional(),
-  southwest: latLngLiteralSchema.optional(),
+  northeast: latLngLiteralSchema,
+  southwest: latLngLiteralSchema,
 });
 
 export const placeSpecialDaySchema = z.object({
@@ -46,29 +46,29 @@ export const placeSpecialDaySchema = z.object({
 });
 
 export const placeOpeningHoursPeriodDetailSchema = z.object({
-  day: z.number().optional(),
-  time: z.string().optional(),
+  day: z.number(),
+  time: z.string(),
   date: z.string().optional(),
   truncated: z.boolean().optional(),
 });
 
 export const placePhotoSchema = z.object({
-  height: z.number().optional(),
-  html_attributions: z.array(z.string()).optional(),
-  photo_reference: z.string().optional(),
-  width: z.number().optional(),
+  height: z.number(),
+  html_attributions: z.array(z.string()),
+  photo_reference: z.string(),
+  width: z.number(),
 });
 
 export const plusCodeSchema = z.object({
-  global_code: z.string().optional(),
+  global_code: z.string(),
   compound_code: z.string().optional(),
 });
 
 export const placeReviewSchema = z.object({
-  author_name: z.string().optional(),
-  rating: z.number().optional(),
-  relative_time_description: z.string().optional(),
-  time: z.number().optional(),
+  author_name: z.string(),
+  rating: z.number(),
+  relative_time_description: z.string(),
+  time: z.number(),
   author_url: z.string().optional(),
   language: z.string().optional(),
   original_language: z.string().optional(),
@@ -78,12 +78,12 @@ export const placeReviewSchema = z.object({
 });
 
 export const geometrySchema = z.object({
-  location: latLngLiteralSchema.optional(),
-  viewport: boundsSchema.optional(),
+  location: latLngLiteralSchema,
+  viewport: boundsSchema,
 });
 
 export const placeOpeningHoursPeriodSchema = z.object({
-  open: placeOpeningHoursPeriodDetailSchema.optional(),
+  open: placeOpeningHoursPeriodDetailSchema,
   close: placeOpeningHoursPeriodDetailSchema.optional(),
 });
 
@@ -139,17 +139,17 @@ export const placeSchema = z.object({
 });
 
 export const placesTextSearchResponseSchema = z.object({
-  html_attributions: z.array(z.string()).optional(),
-  results: z.array(placeSchema).optional(),
-  status: placesSearchStatusSchema.optional(),
+  html_attributions: z.array(z.string()),
+  results: z.array(placeSchema),
+  status: placesSearchStatusSchema,
   error_message: z.string().optional(),
   info_messages: z.array(z.string()).optional(),
   next_page_token: z.string().optional(),
 });
 
 export const placesDetailsResponseSchema = z.object({
-  html_attributions: z.array(z.string()).optional(),
-  result: placeSchema.optional(),
-  status: placesDetailsStatusSchema.optional(),
+  html_attributions: z.array(z.string()),
+  result: placeSchema,
+  status: placesDetailsStatusSchema,
   info_messages: z.array(z.string()).optional(),
 });
