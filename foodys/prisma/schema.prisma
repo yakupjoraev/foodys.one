@@ -106,6 +106,58 @@ model FavoriteGPlace {
   @@map("favorite_g_place")
 }
 
+model GPlace {
+  id                             String                 @id @default(auto()) @map("_id") @db.ObjectId
+  address_components             AddressComponent[]
+  adr_address                    String?
+  business_status                String?
+  curbside_pickup                Boolean?
+  current_opening_hours          PlaceOpeningHours?
+  delivery                       Boolean?
+  dine_in                        Boolean?
+  editorial_summary              PlaceEditorialSummary?
+  formatted_address              String?
+  formatted_phone_number         String?
+  geometry                       Geometry?
+  icon                           String?
+  icon_background_color          String?
+  icon_mask_base_uri             String?
+  international_phone_number     String?
+  name                           String?
+  opening_hours                  PlaceOpeningHours?
+  permanently_closed             Boolean?
+  photos                         TPlacePhoto[]
+  place_id                       String?
+  plus_code                      PlusCode?
+  price_level                    Int?
+  rating                         Float?
+  reference                      String?
+  reservable                     Boolean?
+  reviews                        PlaceReview[]
+  scope                          String?
+  secondary_opening_hours        PlaceOpeningHours[]
+  serves_beer                    Boolean?
+  serves_breakfast               Boolean?
+  serves_brunch                  Boolean?
+  serves_dinner                  Boolean?
+  serves_lunch                   Boolean?
+  serves_vegetarian_food         Boolean?
+  serves_wine                    Boolean?
+  takeout                        Boolean?
+  types                          String[]
+  url                            String?
+  user_ratings_total             Int?
+  utc_offset                     Int?
+  vicinity                       String?
+  website                        String?
+  wheelchair_accessible_entrance Boolean?
+  created_at                     DateTime               @default(now())
+  updated_at                     DateTime               @updatedAt
+
+  @@unique([place_id])
+  @@map("g_place")
+}
+
 type Place {
   address_components             AddressComponent[]
   adr_address                    String?
