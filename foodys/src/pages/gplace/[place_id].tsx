@@ -9,6 +9,11 @@ import { OverviewTab } from "~/components/OverviewTab";
 import { Place } from "~/server/gm-client/types";
 import { getPlaceByPlaceId } from "~/server/api/routers/place";
 import { ReviewsTab } from "~/components/ReviewsTab";
+import {
+  STAR_HALF,
+  STAR_WHOLE,
+  createRatingStarsModel,
+} from "~/utils/rating-stars-model";
 
 enum Tab {
   Overview,
@@ -238,40 +243,27 @@ export default function Place(
                   </div>
                   <div className="restaurant-page__reviews">
                     <div className="restaurant__reviews">
-                      <div className="restaurant__reviews-balls">
-                        {props.place?.rating || 0}
-                      </div>
-                      <div className="restaurant__reviews-stars">
-                        <img
-                          className="restaurant__reviews-star"
-                          src="/img/dashboard/star.svg"
-                          alt="star"
-                        />
-                        <img
-                          className="restaurant__reviews-star"
-                          src="/img/dashboard/star.svg"
-                          alt="star"
-                        />
-                        <img
-                          className="restaurant__reviews-star"
-                          src="/img/dashboard/star.svg"
-                          alt="star"
-                        />
-                        <img
-                          className="restaurant__reviews-star"
-                          src="/img/dashboard/star.svg"
-                          alt="star"
-                        />
-                        <img
-                          className="restaurant__reviews-star"
-                          src="/img/dashboard/star.svg"
-                          alt="star"
-                        />
-                      </div>
-                      <div className="restaurant__reviews-count">
-                        ({props.place.user_ratings_total || 0})
-                      </div>
-                      <div className="restaurant__reviews-currency"> · €€</div>
+                      {props.place.rating !== undefined && (
+                        <div className="restaurant__reviews-balls">
+                          {props.place.rating}
+                        </div>
+                      )}
+                      {props.place.rating !== undefined && (
+                        <div className="restaurant__reviews-stars">
+                          {renderStars(props.place.rating)}
+                        </div>
+                      )}
+                      {props.place.user_ratings_total !== undefined && (
+                        <div className="restaurant__reviews-count">
+                          ({props.place.user_ratings_total})
+                        </div>
+                      )}
+                      {props.place.price_level !== undefined && (
+                        <div className="restaurant__reviews-currency">
+                          {" · " +
+                            renderPriceLevelLabel(props.place.price_level)}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="restaurant-page__btns">
@@ -468,4 +460,59 @@ export default function Place(
       </main>
     </Layout>
   );
+}
+
+function renderStars(rating: number) {
+  const model = createRatingStarsModel(rating);
+  return model.map((starType, i) => {
+    switch (starType) {
+      case STAR_WHOLE: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+      case STAR_HALF: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star-half.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+      default: {
+        return (
+          <img
+            className="restaurant__reviews-star"
+            src="/img/dashboard/star-empty.svg"
+            alt=""
+            width="14"
+            height="15"
+            key={i}
+          />
+        );
+      }
+    }
+  });
+}
+
+function renderPriceLevelLabel(priceLevel: number) {
+  if (priceLevel === 0) {
+    return "Free";
+  }
+  let label = "";
+  for (let i = 0; i < priceLevel; i++) {
+    label += "€";
+  }
+  return label;
 }
