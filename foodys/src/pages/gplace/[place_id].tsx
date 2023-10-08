@@ -14,6 +14,10 @@ import {
   STAR_WHOLE,
   createRatingStarsModel,
 } from "~/utils/rating-stars-model";
+import Lightbox from "yet-another-react-lightbox";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 enum Tab {
   Overview,
@@ -43,6 +47,7 @@ export default function Place(
 ) {
   const { t } = useTranslation("common");
   const [tab, setTab] = useState<Tab>(Tab.Overview);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   const previewPhotos = useMemo(() => {
     if (!props.place.photos) {
@@ -54,8 +59,23 @@ export default function Place(
     return props.place.photos.slice(0, 4);
   }, [props.place]);
 
+  const galleryPhotos = useMemo(() => {
+    if (props.place.photos === undefined) {
+      return [];
+    }
+    return props.place.photos;
+  }, [props.place]);
+
   const handleSeeOpeningHoursBtnClick = () => {
     setTab(Tab.OpeningHours);
+  };
+
+  const handleOpenGalleryBtnClick = () => {
+    setGalleryOpen(true);
+  };
+
+  const hanldeGalleryClose = () => {
+    setGalleryOpen(false);
   };
 
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
@@ -193,16 +213,33 @@ export default function Place(
                             height={168}
                           />
                           {i === lastPreviewIndex && (
-                            <a className="restaurant-page__pic-all" href="#">
+                            <button
+                              className="restaurant-page__pic-all"
+                              type="button"
+                              onClick={handleOpenGalleryBtnClick}
+                            >
                               {t("buttonViewAll")}
-                            </a>
+                            </button>
                           )}
                         </div>
                       );
                     })}
                   </div>
                 )}
-
+                {galleryPhotos.length > 0 && (
+                  <Lightbox
+                    open={galleryOpen}
+                    close={hanldeGalleryClose}
+                    plugins={[Thumbnails]}
+                    slides={galleryPhotos.map((photo) => {
+                      return {
+                        src:
+                          "https://foodys.freeblock.site/place-photos/orig/" +
+                          photo.photo_reference,
+                      };
+                    })}
+                  />
+                )}
                 <div className="input__border" />
                 <div className="restaurant-page__info">
                   <h1 className="restaurant-page__name">
