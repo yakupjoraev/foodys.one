@@ -68,7 +68,6 @@ export function Layout(props: LayoutProps) {
         <title>{props.title || "Foodys"}</title>
         <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
         <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/auth.css" />
       </Head>
       <Header
         mobileMenuExpanded={mobileExpanded}

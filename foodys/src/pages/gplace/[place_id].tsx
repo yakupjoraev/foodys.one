@@ -18,6 +18,7 @@ import Lightbox from "yet-another-react-lightbox";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { CryptoModal } from "~/components/CryptoModal";
 
 enum Tab {
   Overview,
@@ -47,6 +48,7 @@ export default function Place(
 ) {
   const { t } = useTranslation("common");
   const [tab, setTab] = useState<Tab>(Tab.Overview);
+  const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
 
   const previewPhotos = useMemo(() => {
@@ -76,6 +78,10 @@ export default function Place(
 
   const hanldeGalleryClose = () => {
     setGalleryOpen(false);
+  };
+
+  const handleCloseCryptoModal = () => {
+    setCryptoModelOpen(false);
   };
 
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
@@ -319,6 +325,7 @@ export default function Place(
                       <button
                         type="button"
                         className="restaurant__btn pay-crypto"
+                        onClick={() => setCryptoModelOpen(true)}
                       >
                         <img
                           src="/img/dashboard/pay-crypto.svg"
@@ -495,6 +502,7 @@ export default function Place(
           </div>
         </div>
       </main>
+      <CryptoModal open={cryptoModalOpen} onClose={handleCloseCryptoModal} />
     </Layout>
   );
 }
