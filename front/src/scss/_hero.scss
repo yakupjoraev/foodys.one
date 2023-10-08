@@ -4,6 +4,12 @@
   padding: 223px 0 104px;
   margin-bottom: -6px;
 
+
+  @media (max-width: $breakpoint768) {
+    padding: 90px 0 40px;
+    margin-bottom: 0;
+  }
+
   // .hero__inner
 
   &__inner {
@@ -205,6 +211,14 @@
       padding: 12px 14px;
       font-size: 15px;
     }
+
+
+    @media (max-width: $breakpoint768) {
+      margin-left: 0;
+      margin-right: auto;
+      border: 2px solid #fff;
+      background-color: transparent;
+    }
   }
 
   // .hero__pictures
@@ -274,6 +288,16 @@
         & path {
           fill: var(--text-color);
         }
+      }
+    }
+
+    img {
+      transition: transform 0.2s linear;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.1);
       }
     }
 

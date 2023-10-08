@@ -54,8 +54,7 @@ body {
   // }
 }
 
-.main-home {
-}
+.main-home {}
 
 .main__body {
   display: flex;
@@ -87,7 +86,16 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: green;
+  background-color: transparent;
+
+  @media (max-width: $breakpoint1200) {
+    height: calc(100% - 84px);
+    bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    height: 100%;
+  }
 }
 
 .main-page-background__layout {
@@ -119,11 +127,9 @@ body {
 }
 
 .main-page-background__footer--top {
-  background: radial-gradient(
-    61.34% 77.28% at 42.05% 91.98%,
-    #ffc224 0%,
-    #ef5d3d 100%
-  );
+  background: radial-gradient(61.34% 77.28% at 42.05% 91.98%,
+      #ffc224 0%,
+      #ef5d3d 100%);
   background-size: 1267px 1037px;
   background-position: 35% -200px;
 }

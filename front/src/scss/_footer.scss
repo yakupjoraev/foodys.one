@@ -1,13 +1,70 @@
 // Footer
 .footer {
   position: relative;
-  padding: 46px 0 10px;
+  padding: 46px 0 28px;
   overflow: hidden;
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #fff 30%, transparent 30%, transparent 30%, #EF5D3D 30%);
+    /* Применяем скос к фону */
+    transform-origin: left top;
+    /* Определяем точку, относительно которой будет применяться скос */
+    position: absolute;
+    left: 70%;
+    top: 50%;
+    transform: translate(-50%, -50%) skew(-20deg);
+
+    @media (max-width:768px) {
+      left: 68%;
+    }
+
+
+    @media (max-width: $breakpoint768) {
+      left: 0;
+      top: 100%;
+      transform: translate(0, -40%) skew(0);
+      background: #EF5D3D;
+    }
+
+    @media (max-width: $breakpoint480) {
+      display: none;
+    }
+  }
+
+  @media (max-width: $breakpoint992) {
+    padding: 24px;
+  }
+
+  @media (max-width: $breakpoint480) {
+    background: url('../img/footer/mob-bg.svg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% 300px;
+  }
 
   // .footer__inner
 
   &__inner {
     position: relative;
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 30%, rgba(255, 255, 255, 0.5) 70%);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      @media (max-width: $breakpoint992) {
+        margin-bottom: 16px;
+        top: 40%;
+      }
+    }
   }
 
   // .footer__top
@@ -22,6 +79,7 @@
 
     @media (max-width: $breakpoint992) {
       margin-bottom: 16px;
+      padding-bottom: 16px;
     }
 
     @media (max-width: $breakpoint768) {
@@ -260,6 +318,10 @@
       border-top: 1px solid rgba(255, 255, 255, 0.20);
     }
 
+    @media (max-width: $breakpoint480) {
+      padding-top: 32px;
+    }
+
     @media (max-width: 440px) {
       padding-bottom: 10px;
     }
@@ -355,12 +417,12 @@
     color: var(--white-color);
 
     @media (max-width: 1200px) {
-      text-align: right;
-      margin-left: 140px;
+      // text-align: right;
+      margin-left: 150px;
     }
 
     @media (max-width: $breakpoint992) {
-      margin-left: 40px;
+      margin-left: 10px;
     }
 
     @media (max-width: $breakpoint768) {
@@ -388,5 +450,16 @@
     width: 104px;
     height: 34px;
     padding: 4px 8px;
+  }
+}
+
+.footer-second {
+
+  &::before {
+    content: none;
+  }
+
+  @media (max-width: $breakpoint768) {
+    display: none;
   }
 }
