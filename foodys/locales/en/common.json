@@ -106,7 +106,7 @@
   "textPreviousPage": "Previous",
   "textNextPage": "Next",
   "textNumberExplanation": "This number is valid for 5 minutes and is not the recipient's number but the number of a service that puts you in touch with the recipient. This service is published by the foodys.com website. Why this number? Link behind \"Why this number\": http://mise-en-relation.svaplus.fr/",
-  "textPayInCryptoInvit": "Pay your restaurant or delivery with crypto : install for free the Paypolitan app and get in 2 minutes a virtual credit or debit card",
+  "textPayInCryptoInvit": "<0>Pay your restaurant<1/> or delivery with crypto:</0><2>install for free the Paypolitan app and get in 2 minutes a virtual credit or debit card</2>",
   "textSeeOpeningHours": "See opening hours",
   "textThisIsMyBusiness": "This is my business",
   "buttonReview": "Review",

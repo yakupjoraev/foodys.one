@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Trans from "next-translate/Trans";
 import { useRef } from "react";
 
 export interface CryptoModalProps {
@@ -53,14 +54,14 @@ export function CryptoModal(props: CryptoModalProps) {
             <div className="modal-content__crypto-label">
               <img src="/img/crypto-label.svg" alt="crypto label" />
             </div>
-            <h2 className="modal-content__crypto-title">
-              Pay your restaurant <br />
-              or delivery with crypto:
-            </h2>
-            <p className="modal-content__crypto-text">
-              install for free the Paypolitan app and get in 2 minutes a virtual
-              credit or debit card
-            </p>
+            <Trans
+              i18nKey="common:textPayInCryptoInvit"
+              components={[
+                <h2 className="modal-content__crypto-title" />,
+                <br />,
+                <p className="modal-content__crypto-text" />,
+              ]}
+            />
             <div className="modal-content__crypto-stores">
               <img
                 className="modal-content__crypto-payoliton"

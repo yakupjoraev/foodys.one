@@ -106,7 +106,7 @@
   "textPreviousPage": "Page précedente",
   "textNextPage": "Page suivante",
   "textNumberExplanation": "Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais le numéro d'un service permettant la mise en relation avec celui-ci. Ce service édité par le site foodys.com. Pourquoi ce numero ? Link behind \"Pourquoi ce numéro\" : http://mise-en-relation.svaplus.fr/",
-  "textPayInCryptoInvit": "Payez votre restaurant ou votre livraison en crypto : installez gratuitement l'application Paypolitan et obtenez en 2 minutes une carte de crédit ou de débit virtuelle.",
+  "textPayInCryptoInvit": "<0>Payez votre restaurant<1/> ou votre livraison en crypto :</0><2>installez gratuitement l'application Paypolitan et obtenez en 2 minutes une carte de crédit ou de débit virtuelle.</2>",
   "textSeeOpeningHours": "Regarder les horaires d'ouverture",
   "textThisIsMyBusiness": "C'est mon établissement",
   "buttonReview": "Laisser un avis",
