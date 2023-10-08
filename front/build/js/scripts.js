@@ -88,7 +88,7 @@ function aboutSlider() {
 
     breakpoints: {
       // when window width is >= 320px
-      320: {
+      280: {
         spaceBetween: 12,
         slidesPerView: 2,
       },
@@ -258,6 +258,31 @@ dashboardFilters();
 
 
 
+function passwordSee() {
+  const passwordGroups = document.querySelectorAll('.input__group input[type="password"]');
+
+  passwordGroups.forEach(passwordGroup => {
+    const passwordInput = passwordGroup;
+    const eyeButton = passwordGroup.parentNode.querySelector('.form-eye');
+
+    // Check if the elements exist before further manipulation
+    if (passwordInput && eyeButton) {
+      const eyeImage = eyeButton.querySelector('img');
+
+      eyeButton.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeImage.src = './img/eye-open.svg';
+        } else {
+          passwordInput.type = 'password';
+          eyeImage.src = './img/eye-close.svg';
+        }
+      });
+    }
+  });
+}
+
+passwordSee();
 
 
 

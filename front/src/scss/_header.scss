@@ -40,6 +40,8 @@
 }
 
 .logo {
+  z-index: 1;
+
   a {
     display: flex;
     align-items: center;
@@ -67,7 +69,7 @@
 .menu {
   display: flex;
   align-items: center;
-  column-gap: 14px;
+  column-gap: 12px;
 
   @media (max-width: $breakpoint1200) {
     column-gap: 10px;
@@ -109,7 +111,11 @@
       font-style: normal;
       font-weight: 500;
       line-height: 112.8%;
+    }
 
+    &:active,
+    &:focus {
+      border-color: #FA6340;
     }
 
     @media (max-width: $breakpoint1200) {
@@ -284,7 +290,8 @@
       &:after {
         background: $burgerColor;
         transform: rotate(-45deg);
-        bottom: 0;
+        bottom: -1px;
+        right: 1px;
         width: 100%;
         transition: cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.3s all;
       }
@@ -403,7 +410,7 @@
       display: block;
     }
 
-    @media (max-width: $breakpoint992) {
+    @media (max-width: $breakpoint1200) {
       img:nth-child(1) {
         display: block;
       }
@@ -418,7 +425,7 @@
     border-color: var(--white-color);
     color: var(--white-color);
 
-    @media (max-width: $breakpoint992) {
+    @media (max-width: $breakpoint1200) {
       border-bottom: 1px solid rgba(0, 0, 0, .1);
       color: var(--text-color);
     }
@@ -442,7 +449,7 @@
       }
     }
 
-    @media (max-width: $breakpoint992) {
+    @media (max-width: $breakpoint1200) {
       background: -webkit-gradient(linear, left top, left bottom, from(#ffc126), to(#fe9f10)), #fff;
       background: -o-linear-gradient(top, #ffc126 0, #fe9f10 100%), #fff;
       background: linear-gradient(180deg, #ffc126 0, #fe9f10 100%), #fff;
@@ -459,6 +466,11 @@
   .menu__item-free--grey {
     background: linear-gradient(180deg, #F9F9F9 0%, #D2D2D2 100%);
     color: var(--text-color);
+
+    @media (max-width: $breakpoint1200) {
+      background: #5E5E5E;
+      color: var(--white-color);
+    }
   }
 
   .menu__item-link--languages {
