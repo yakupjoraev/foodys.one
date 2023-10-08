@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useMemo, useState } from "react";
 import { Layout } from "~/components/Layout";
-import { api } from "~/utils/api";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-import { Translate } from "next-translate";
 import { OpeningHoursTab } from "~/components/OpeningHoursTab";
 import { OverviewTab } from "~/components/OverviewTab";
+import { Place } from "~/server/gm-client/types";
+import { getPlaceByPlaceId } from "~/server/api/routers/place";
 
 enum Tab {
   Overview,
@@ -16,38 +16,45 @@ enum Tab {
   Location,
 }
 
-export default function Place() {
+export const getServerSideProps = (async (ctx) => {
+  const placeId = ctx.params?.place_id;
+  if (typeof placeId !== "string") {
+    return {
+      notFound: true,
+    };
+  }
+  const place = await getPlaceByPlaceId(placeId);
+  if (place === null) {
+    return {
+      notFound: true,
+    };
+  }
+  return { props: { place } };
+}) satisfies GetServerSideProps<{ place: Place }>;
+
+export default function Place(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
   const { t } = useTranslation("common");
-  const searchParams = useSearchParams();
-  const placeId = searchParams.get("place_id");
-  const queryResponse = api.place.getPlace.useQuery({ placeId: placeId || "" });
   const [tab, setTab] = useState<Tab>(Tab.Overview);
 
-  useEffect(() => {
-    console.log(queryResponse);
-  }, [queryResponse]);
-
   const previewPhotos = useMemo(() => {
-    if (!queryResponse.data) {
+    if (!props.place.photos) {
       return undefined;
     }
-    if (!queryResponse.data.photos) {
-      return undefined;
-    }
-    if (queryResponse.data.photos.length === 0) {
+    if (props.place.photos.length === 0) {
       return [];
     }
-    return queryResponse.data.photos.slice(0, 4);
-  }, [queryResponse.data]);
+    return props.place.photos.slice(0, 4);
+  }, [props.place]);
 
   const handleSeeOpeningHoursBtnClick = () => {
-    console.log("AAAA_AA");
     setTab(Tab.OpeningHours);
   };
 
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
 
-  const openingHours = queryResponse.data?.opening_hours?.periods;
+  const openingHours = props.place.opening_hours?.periods;
 
   return (
     <Layout title="Foodys - About page">
@@ -193,7 +200,7 @@ export default function Place() {
                 <div className="input__border" />
                 <div className="restaurant-page__info">
                   <h1 className="restaurant-page__name">
-                    {queryResponse.data?.name || "..."}
+                    {props.place.name || "..."}
                   </h1>
                   <div className="restaurant-page__instruments">
                     <div className="restaurant-page__instrument">
@@ -213,7 +220,7 @@ export default function Place() {
                     <div className="restaurant__address">
                       <div className="restaurant__address-info">
                         <img src="/img/dashboard/geo.svg" alt="geo" />
-                        <p>{queryResponse.data?.formatted_address || "..."} </p>
+                        <p>{props.place?.formatted_address || "..."} </p>
                         <span>–</span>
                       </div>
                       <div className="restaurant__address-gets">
@@ -231,7 +238,7 @@ export default function Place() {
                   <div className="restaurant-page__reviews">
                     <div className="restaurant__reviews">
                       <div className="restaurant__reviews-balls">
-                        {queryResponse.data?.rating || 0}
+                        {props.place?.rating || 0}
                       </div>
                       <div className="restaurant__reviews-stars">
                         <img
@@ -261,7 +268,7 @@ export default function Place() {
                         />
                       </div>
                       <div className="restaurant__reviews-count">
-                        ({queryResponse.data?.user_ratings_total || 0})
+                        ({props.place.user_ratings_total || 0})
                       </div>
                       <div className="restaurant__reviews-currency"> · €€</div>
                     </div>
@@ -357,7 +364,7 @@ export default function Place() {
                     {/*---------------------- Overview ---------------------*/}
                     <OverviewTab
                       show={tab === Tab.Overview}
-                      place={queryResponse.data || undefined}
+                      place={props.place}
                     />
                     {/* <div
                       className="tabs__content-item"
@@ -855,8 +862,8 @@ export default function Place() {
                       <div className="location">
                         <div className="location__top">
                           <p className="location__address">
-                            {queryResponse.data?.formatted_address || "..."} –
-                            835m from you
+                            {props.place.formatted_address || "..."} – 835m from
+                            you
                           </p>
                           <div className="location__map">
                             <img
@@ -1043,8 +1050,7 @@ export default function Place() {
                                         alt="geo"
                                       />
                                       <p>
-                                        {queryResponse.data
-                                          ?.formatted_address || "..."}{" "}
+                                        {props.place.formatted_address || "..."}{" "}
                                       </p>
                                       <span>–</span>
                                     </div>
@@ -1303,8 +1309,7 @@ export default function Place() {
                                         alt="geo"
                                       />
                                       <p>
-                                        {queryResponse.data
-                                          ?.formatted_address || "..."}{" "}
+                                        {props.place.formatted_address || "..."}{" "}
                                       </p>
                                       <span>–</span>
                                     </div>
@@ -1563,8 +1568,7 @@ export default function Place() {
                                         alt="geo"
                                       />
                                       <p>
-                                        {queryResponse.data
-                                          ?.formatted_address || "..."}{" "}
+                                        {props.place.formatted_address || "..."}{" "}
                                       </p>
                                       <span>–</span>
                                     </div>
@@ -1701,155 +1705,3 @@ export default function Place() {
     </Layout>
   );
 }
-
-interface PlaceOpeningHoursPeriod {
-  open?: PlaceOpeningHoursPeriodDetail;
-  close?: PlaceOpeningHoursPeriodDetail;
-}
-
-interface PlaceOpeningHoursPeriodDetail {
-  day?: number;
-  time?: string;
-  date?: string;
-  truncated?: boolean;
-}
-
-function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
-  const openingPeriods = new Array(7);
-  openingPeriods.fill(null);
-
-  periods.forEach((period) => {
-    const openDay = period.open?.day;
-    const openTime = period.open?.time;
-    if (openDay === undefined || openTime === undefined) {
-      return null;
-    }
-    let closeTime = period.close?.time;
-    if (closeTime === undefined) {
-      closeTime = "0000";
-    }
-
-    const weekDayLabel = getWeekDayLabel(openDay, t);
-    if (weekDayLabel === null) {
-      return null;
-    }
-
-    const openPeriod =
-      openTime.slice(0, 2) +
-      ":" +
-      openTime.slice(2) +
-      "-" +
-      closeTime.slice(0, 2) +
-      ":" +
-      closeTime.slice(2);
-
-    const dayIndex = openDay - 1;
-
-    openingPeriods[dayIndex] = openPeriod;
-  });
-
-  const schedule = openingPeriods.map((period, dayIndex) => {
-    const label = getWeekDayLabel(dayIndex, t);
-    if (period === null) {
-      return (
-        <div className="opening-hours__item" key={dayIndex}>
-          <p className="opening-hours__day">{label}</p>
-          <p className="opening-hours__day">Closed</p>
-        </div>
-      );
-    } else {
-      return (
-        <div className="opening-hours__item" key={dayIndex}>
-          <p className="opening-hours__day">{label}</p>
-          <p className="opening-hours__time">{period}</p>
-        </div>
-      );
-    }
-  });
-
-  return schedule;
-}
-
-function getWeekDayLabel(weekDay: number, t: Translate): string | null {
-  switch (weekDay) {
-    case 0: {
-      return t("textOpeningHoursMonday");
-    }
-    case 1: {
-      return t("textOpeningHoursTuesday");
-    }
-    case 2: {
-      return t("textOpeningHoursWednesday");
-    }
-    case 3: {
-      return t("textOpeningHoursThursday");
-    }
-    case 4: {
-      return t("textOpeningHoursFriday");
-    }
-    case 5: {
-      return t("textOpeningHoursSaturday");
-    }
-    case 6: {
-      return t("textOpeningHoursSunday");
-    }
-    default: {
-      return null;
-    }
-  }
-}
-
-// "opening_hours": {
-//             "open_now": false,
-//             "periods": [
-//                 {
-//                     "close": {
-//                         "day": 1,
-//                         "time": "1730"
-//                     },
-//                     "open": {
-//                         "day": 1,
-//                         "time": "0830"
-//                     }
-//                 },
-//                 {
-//                     "close": {
-//                         "day": 2,
-//                         "time": "1730"
-//                     },
-//                     "open": {
-//                         "day": 2,
-//                         "time": "0830"
-//                     }
-//                 },
-//                 {
-//                     "close": {
-//                         "day": 3,
-//                         "time": "1730"
-//                     },
-//                     "open": {
-//                         "day": 3,
-//                         "time": "0830"
-//                     }
-//                 },
-//                 {
-//                     "close": {
-//                         "day": 4,
-//                         "time": "1700"
-//                     },
-//                     "open": {
-//                         "day": 4,
-//                         "time": "0830"
-//                     }
-//                 },
-//                 {
-//                     "close": {
-//                         "day": 5,
-//                         "time": "1700"
-//                     },
-//                     "open": {
-//                         "day": 5,
-//                         "time": "0830"
-//                     }
-//                 }
-//             ],

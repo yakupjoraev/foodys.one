@@ -164,7 +164,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
         {props.placeId && (
           <a
             className="restaurant__more"
-            href={"/place?place_id=" + encodeURIComponent(props.placeId)}
+            href={"/gplace/" + encodeURIComponent(props.placeId)}
           >
             See more
           </a>

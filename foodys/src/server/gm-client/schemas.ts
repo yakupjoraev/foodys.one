@@ -149,7 +149,8 @@ export const placesTextSearchResponseSchema = z.object({
 
 export const placesDetailsResponseSchema = z.object({
   html_attributions: z.array(z.string()),
-  result: placeSchema,
+  result: placeSchema.optional(),
   status: placesDetailsStatusSchema,
   info_messages: z.array(z.string()).optional(),
+  error_message: z.string().optional(),
 });

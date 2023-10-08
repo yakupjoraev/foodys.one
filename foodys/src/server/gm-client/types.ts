@@ -26,9 +26,10 @@ export interface PlacesTextSearchResponse {
 
 export interface PlacesDetailsResponse {
   html_attributions: Array<string>;
-  result: Place;
+  result?: Place;
   status: PlacesDetailsStatus;
   info_messages?: Array<string>;
+  error_message?: string;
 }
 
 export interface Place {

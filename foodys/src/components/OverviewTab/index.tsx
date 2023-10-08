@@ -3,7 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 import { type Place } from "~/server/gm-client/types";
 
 export interface OverviewTabProps {
-  place?: Place;
+  place: Place;
   show: boolean;
 }
 
@@ -18,17 +18,15 @@ export function OverviewTab(props: OverviewTabProps) {
       }}
     >
       <div className="overview-content">
-        {props.place && (
-          <p className="overview-content__text">
-            {props.place.formatted_address || "..."}
-            {props.place.website && (
-              <a href={props.place.website} target="_blank">
-                {props.place.website}
-              </a>
-            )}
-          </p>
-        )}
-        {props.place && renderServices(props.place, t)}
+        <p className="overview-content__text">
+          {props.place.formatted_address || "..."}
+          {props.place.website && (
+            <a href={props.place.website} target="_blank">
+              {props.place.website}
+            </a>
+          )}
+        </p>
+        {renderServices(props.place, t)}
       </div>
     </div>
   );

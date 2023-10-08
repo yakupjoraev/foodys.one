@@ -62,5 +62,15 @@ export const gmClient = new Zodios("https://maps.googleapis.com", [
       },
     ],
     response: placesDetailsResponseSchema,
+    errors: [
+      {
+        status: "default",
+        schema: z.object({
+          error_message: z.string().optional(),
+          html_attributions: z.string(),
+          status: z.string(),
+        }),
+      },
+    ],
   },
 ]);
