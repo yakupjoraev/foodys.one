@@ -8,6 +8,7 @@ import {
 } from "~/utils/rating-stars-model";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
+import Link from "next/link";
 
 export interface RestaurantCardProps {
   name?: string;
@@ -167,12 +168,12 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </button>
         </div>
         {props.placeId && (
-          <a
+          <Link
             className="restaurant__more"
             href={"/gplace/" + encodeURIComponent(props.placeId)}
           >
             See more
-          </a>
+          </Link>
         )}
       </div>
     </div>
