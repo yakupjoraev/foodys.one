@@ -19,6 +19,7 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
+import { LocationTab } from "~/components/LocationTab";
 
 enum Tab {
   Overview,
@@ -445,42 +446,10 @@ export default function Place(
                     />
 
                     {/*---------------------- Location ---------------------*/}
-                    <div
-                      className="tabs__content-item"
-                      style={{
-                        display: tab === Tab.Location ? "flex" : "none",
-                      }}
-                    >
-                      <div className="location">
-                        <div className="location__top">
-                          <p className="location__address">
-                            {props.place.formatted_address || "..."} – 835m from
-                            you
-                          </p>
-                          <div className="location__map">
-                            <img
-                              src="/img/location-map.jpg"
-                              alt="location map"
-                            />
-                          </div>
-                          <div className="location__footer">
-                            <button
-                              type="button"
-                              className="restaurant__btn call"
-                            >
-                              <img src="/img/dashboard/call.svg" alt="call" />
-                              {t("buttonCall")}
-                            </button>
-                            <button
-                              type="button"
-                              className="restaurant__btn restaurant__btn--outline"
-                            >
-                              Back to previous results
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <LocationTab
+                      show={tab === Tab.Location}
+                      place={props.place}
+                    />
                   </div>
                 </div>
               </div>
