@@ -8,8 +8,6 @@ export const favoriteRouter = createTRPCRouter({
     .input(z.object({ placeId: z.string(), favorite: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      console.log("USER_ID", userId);
-      console.log("SESSION", ctx.session.user);
       if (!input.favorite) {
         await ctx.db.favoriteGPlace.delete({
           where: {
