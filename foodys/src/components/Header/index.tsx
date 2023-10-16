@@ -170,7 +170,7 @@ export function Header(props: HeaderProps) {
                 </div> */}
               </li>
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                <a href="/" className="menu__item-link" data-scroll="">
+                <Link href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
                     <img src="/img/header/home.png" alt="home" />
                   </div>
@@ -180,7 +180,7 @@ export function Header(props: HeaderProps) {
                     src="/img/header/arrow-right.svg"
                     alt=""
                   />
-                </a>
+                </Link>
               </li>
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a
