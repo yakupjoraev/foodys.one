@@ -1,6 +1,5 @@
 import { exampleRouter } from "~/server/api/routers/example";
 import { placesRouter } from "./routers/places";
-import { placeRouter } from "./routers/place";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { favoriteRouter } from "./routers/favorite";
 
@@ -12,7 +11,6 @@ import { favoriteRouter } from "./routers/favorite";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   places: placesRouter,
-  place: placeRouter,
   favorite: favoriteRouter,
 });
 

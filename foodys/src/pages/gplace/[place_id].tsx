@@ -7,7 +7,6 @@ import Trans from "next-translate/Trans";
 import { OpeningHoursTab } from "~/components/OpeningHoursTab";
 import { OverviewTab } from "~/components/OverviewTab";
 import { Place } from "~/server/gm-client/types";
-import { getPlaceByPlaceId } from "~/server/api/routers/place";
 import { ReviewsTab } from "~/components/ReviewsTab";
 import {
   STAR_HALF,
@@ -20,6 +19,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
+import { fetchGPlaceByPlaceId } from "~/server/api/utils/g-place";
 
 enum Tab {
   Overview,
@@ -35,7 +35,7 @@ export const getServerSideProps = (async (ctx) => {
       notFound: true,
     };
   }
-  const place = await getPlaceByPlaceId(placeId);
+  const place = await fetchGPlaceByPlaceId(placeId);
   if (place === null) {
     return {
       notFound: true,

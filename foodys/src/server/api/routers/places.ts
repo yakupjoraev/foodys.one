@@ -7,31 +7,15 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
 import { gmClient } from "~/server/gm-client";
 import { Place } from "~/server/gm-client/types";
+import {
+  PlaceListing,
+  applyFavoritiesToPlaceItems,
+  createPlaceListingItem,
+} from "../utils/g-place";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
 const DEFAULT_PAGE_SIZE = 10;
-
-const PHOTOS_ENDPOINT =
-  "https://foodys.freeblock.site/place-photos/cover_168x168/";
-
-export interface PlaceListingItem {
-  formatted_address?: string;
-  name?: string;
-  place_id?: string;
-  rating?: number;
-  user_rating_total?: number;
-  price_level?: number;
-  photos?: string[];
-  favorite?: boolean;
-}
-
-export interface PlaceListing {
-  results: PlaceListingItem[];
-  page: number;
-  pages: number;
-  total: number;
-}
 
 export const placesRouter = createTRPCRouter({
   getPlaces: publicProcedure
@@ -104,7 +88,7 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const places = cachedResponse.places as Place[];
-        return applyFavorities(
+        return withFavorities(
           createResponse({
             page,
             pageSize: input.pageSize,
@@ -152,7 +136,7 @@ export const placesRouter = createTRPCRouter({
         },
       });
 
-      return applyFavorities(
+      return withFavorities(
         createResponse({
           page,
           pageSize: input.pageSize,
@@ -166,40 +150,28 @@ export const placesRouter = createTRPCRouter({
     }),
 });
 
-async function applyFavorities(
+async function withFavorities(
   listing: PlaceListing,
   ctx: {
     session: Session | null;
     db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
   }
 ): Promise<PlaceListing> {
-  const ids: string[] = [];
-  for (const { place_id: placeId } of listing.results) {
-    if (placeId === undefined) {
-      continue;
-    }
-    ids.push(placeId);
+  if (ctx.session === null) {
+    return listing;
   }
-  if (ids.length > 0) {
-    const favorities = await ctx.db.favoriteGPlace.findMany({
-      where: {
-        place_id: { in: ids },
-      },
-      select: {
-        place_id: true,
-      },
-    });
-    const favoriteIds = favorities.map(({ place_id: placeId }) => placeId);
-    for (const place of listing.results) {
-      if (
-        place.place_id !== undefined &&
-        favoriteIds.includes(place.place_id)
-      ) {
-        place.favorite = true;
-      }
-    }
-  }
-  return listing;
+
+  const nextListing = {
+    ...listing,
+  };
+
+  nextListing.results = await applyFavoritiesToPlaceItems(
+    listing.results,
+    ctx.db,
+    ctx.session.user.id
+  );
+
+  return nextListing;
 }
 
 async function loadPlaceDetails(placeId: string) {
@@ -312,30 +284,6 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
     page: normalizedPage,
     pages: pageTotal,
     total: places.length,
-  };
-}
-
-function createPlaceListingItem(place: Place): PlaceListingItem {
-  const photos: string[] = [];
-
-  if (place.photos) {
-    for (const photo of place.photos) {
-      const photoReference = photo.photo_reference;
-      if (photoReference === undefined) {
-        continue;
-      }
-      const photoUrl = PHOTOS_ENDPOINT + encodeURIComponent(photoReference);
-      photos.push(photoUrl);
-    }
-  }
-  return {
-    formatted_address: place.formatted_address,
-    name: place.name,
-    place_id: place.place_id,
-    rating: place.rating,
-    user_rating_total: place.user_ratings_total,
-    price_level: place.price_level,
-    photos: photos.length ? photos : undefined,
   };
 }
 
