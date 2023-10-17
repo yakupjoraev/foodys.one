@@ -1,0 +1,22 @@
+// Global SCSS-files imports
+@import "./fonts";
+@import "./vars";
+@import "./reset";
+@import "./global";
+
+// Sections or Pages SCSS-files imports
+@import "./header";
+@import "./hero";
+@import "./about";
+@import "./dashboard";
+@import "./restaurant-page";
+@import "./search";
+@import "./modals";
+@import "./create-page";
+@import "./select";
+@import "./footer";
+
+// Previous global styles
+@import "./patches";
+
+// Libs
