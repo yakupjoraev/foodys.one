@@ -9,6 +9,7 @@ import {
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import Link from "next/link";
+import { ServicePhone } from "../ServicePhone";
 
 export interface RestaurantCardProps {
   name?: string;
@@ -166,6 +167,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
             {t("buttonPayInCrypto")}
           </button>
+          <ServicePhone />
         </div>
         {props.placeId && (
           <Link
@@ -176,6 +178,14 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </Link>
         )}
       </div>
+      <p className="service-phone-help restaurant__service-phone-help">
+        Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais le
+        numéro d'un service permettant la mise en relation avec celui-ci. Ce
+        service édité par le site foodys.com.{" "}
+        <a className="service-phone-help__link" href="#">
+          Pourquoi ce numero?
+        </a>
+      </p>
     </div>
   );
 }
