@@ -26,7 +26,12 @@
       width: 100%;
 
       @media (max-width: $breakpoint768) {
-        // border-color: rgba(49, 55, 67, 0.20);
+        border-color: rgba(49, 55, 67, 0.20);
+
+        &:active,
+        &:focus {
+          border-color: #FA6340;
+        }
       }
     }
   }

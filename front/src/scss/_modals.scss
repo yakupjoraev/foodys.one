@@ -243,6 +243,10 @@
 
 .modal-content__texts {
   margin-bottom: 24px;
+
+  @media (max-width: $breakpoint480) {
+    margin-bottom: 20px;
+  }
 }
 
 .modal-content__text {
@@ -264,7 +268,7 @@
   @media (max-width: $breakpoint480) {
     display: block;
     width: fit-content;
-    margin: 0 auto;
+    margin: 0 0 20px 0;
   }
 }
 
@@ -275,6 +279,10 @@
   font-style: normal;
   font-weight: 800;
   line-height: 139.3%;
+
+  @media (max-width: $breakpoint480) {
+    margin-bottom: 20px;
+  }
 }
 
 .modal-content__texts-out {
