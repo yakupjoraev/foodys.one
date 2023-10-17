@@ -27,7 +27,7 @@ export class Rectangle {
 function getTrapezoidTopLeft(rectangle: Rectangle) {
   if (rectangle.width <= BREAKPOINT_MOBILE) {
     const x = 0;
-    const y = 550;
+    const y = 425;
     return new Point(x, y);
   }
   if (rectangle.width <= BREAKPOINT_TABLET) {
@@ -44,7 +44,7 @@ function getTrapezoidTopLeft(rectangle: Rectangle) {
 function getTrapezoidTopRight(rectangle: Rectangle) {
   if (rectangle.width <= BREAKPOINT_MOBILE) {
     const x = rectangle.width;
-    const y = 550;
+    const y = 425;
     return new Point(x, y);
   }
   if (rectangle.width <= BREAKPOINT_TABLET) {
