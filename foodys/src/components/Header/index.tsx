@@ -40,7 +40,7 @@ export function Header(props: HeaderProps) {
   };
 
   return (
-    <header className="header">
+    <header className="header header-second">
       <nav className="nav">
         <div className="container">
           <div className="navbar">
@@ -87,7 +87,12 @@ export function Header(props: HeaderProps) {
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <Link href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
-                    <img src="/img/header/home.png" alt="home" />
+                    <img src="/img/header/home.png" alt="home" loading="lazy" />
+                    <img
+                      src="/img/header/home-white.png"
+                      alt="home"
+                      loading="lazy"
+                    />
                   </div>
                   {t("buttonHome")}
                   <img
@@ -103,7 +108,9 @@ export function Header(props: HeaderProps) {
                   className="menu__item-link menu__item-link--list-my-business"
                   data-scroll=""
                 >
-                  <div className="menu__item-free">FREE</div>
+                  <div className="menu__item-free menu__item-free--grey">
+                    {t("scrollOverScrollOverComingSoon")}
+                  </div>
                   <div className="menu__item-pic">
                     <picture>
                       <source
@@ -113,6 +120,12 @@ export function Header(props: HeaderProps) {
                       <img
                         src="/img/header/list-my-buiseness.png"
                         alt="list-my-buiseness"
+                        loading="lazy"
+                      />
+                      <img
+                        src="/img/header/list-my-buiseness-yellow.svg "
+                        alt="list-my-buiseness"
+                        loading="lazy"
                       />
                     </picture>
                   </div>
@@ -131,7 +144,16 @@ export function Header(props: HeaderProps) {
                   data-scroll=""
                 >
                   <div className="menu__item-pic">
-                    <img src="/img/header/favorite.png" alt="favorite" />
+                    <img
+                      src="/img/header/favorite.png"
+                      alt="favorite"
+                      loading="lazy"
+                    />
+                    <img
+                      src="/img/header/favorite-white.png"
+                      alt="favorite"
+                      loading="lazy"
+                    />
                   </div>
                   {t("buttonFavourites")}
                   <img
@@ -144,7 +166,19 @@ export function Header(props: HeaderProps) {
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
                 <a href="#" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
-                    <img src="/img/header/my-account.png" alt="my-account" />
+                    <img
+                      src="/img/header/my-account.png"
+                      alt="my-account"
+                      loading="lazy"
+                    />
+                    <img
+                      src="/img/header/my-account-white.png"
+                      alt="my-account"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="menu__item-free menu__item-free--grey">
+                    {t("scrollOverScrollOverComingSoon")}
                   </div>
                   {t("buttonMyAccount")}
                   <img

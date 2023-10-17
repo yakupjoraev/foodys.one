@@ -49,6 +49,7 @@ function renderMainBtn(locale: string, onClick: () => void): JSX.Element {
         >
           <div className="menu__item-pic">
             <img src="/img/header/fr.svg" alt="" width={24} height={24} />
+            <img src="/img/header/fr.svg" alt="" width={24} height={24} />
           </div>
           FR
         </button>
@@ -62,6 +63,7 @@ function renderMainBtn(locale: string, onClick: () => void): JSX.Element {
           onClick={onClick}
         >
           <div className="menu__item-pic">
+            <img src="/img/header/gb.svg" alt="" width={24} height={24} />
             <img src="/img/header/gb.svg" alt="" width={24} height={24} />
           </div>
           EN
