@@ -37,6 +37,11 @@
   grid-column-start: 2;
 }
 
+.restaurant__service-phone-group {
+  grid-column: span 2;
+  margin-top: 10px;
+}
+
 .service-phone-help {
   color: #6b717d;
   font-family: Gilroy;
@@ -124,4 +129,11 @@
     0px calc(50% - 7.5px),
     0px 0px
   );
+}
+
+.service-phone-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }

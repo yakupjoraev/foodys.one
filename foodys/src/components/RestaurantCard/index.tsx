@@ -11,6 +11,17 @@ import Trans from "next-translate/Trans";
 import Link from "next/link";
 import { ServicePhone } from "../ServicePhone";
 import { useState } from "react";
+import { useWindowSize } from "usehooks-ts";
+import classNames from "classnames";
+
+const BREAKPOINT1440 = 1440;
+const BREAKPOINT768 = 768;
+
+enum ViewMode {
+  Mobile,
+  Desktop,
+  Tablet,
+}
 
 export interface RestaurantCardProps {
   name?: string;
@@ -34,6 +45,7 @@ const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
 
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
+  const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
   const photos =
@@ -48,9 +60,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
     }
   };
 
-  const handleCallBtncLick = () => {
+  const handleCallBtnClick = () => {
     setServicePhoneVisible(true);
   };
+
+  const viewMode = getViewMode(windowWidth);
 
   return (
     <div className="restaurant">
@@ -160,7 +174,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <button
             className="restaurant__btn call"
             type="button"
-            onClick={handleCallBtncLick}
+            onClick={handleCallBtnClick}
           >
             <img src="/img/dashboard/call.svg" alt="call" />
             {t("buttonCall")}
@@ -177,8 +191,25 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
             {t("buttonPayInCrypto")}
           </button>
-          {servicePhoneVisible && <ServicePhone />}
+          {servicePhoneVisible && viewMode === ViewMode.Desktop && (
+            <ServicePhone />
+          )}
         </div>
+
+        {servicePhoneVisible && viewMode === ViewMode.Mobile && (
+          <div className="service-phone-group">
+            <ServicePhone />
+            <p className="service-phone-help">
+              Ce numéro valable 5 minutes n'est pas le numéro du destinataire
+              mais le numéro d'un service permettant la mise en relation avec
+              celui-ci. Ce service édité par le site foodys.com.{" "}
+              <a className="service-phone-help__link" href="#">
+                Pourquoi ce numero?
+              </a>
+            </p>
+          </div>
+        )}
+
         {props.placeId && (
           <Link
             className="restaurant__more"
@@ -188,7 +219,20 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </Link>
         )}
       </div>
-      {servicePhoneVisible && (
+      {servicePhoneVisible && viewMode === ViewMode.Tablet && (
+        <div className="service-phone-group restaurant__service-phone-group">
+          <ServicePhone />
+          <p className="service-phone-help service-phone-group__item">
+            Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais
+            le numéro d'un service permettant la mise en relation avec celui-ci.
+            Ce service édité par le site foodys.com.{" "}
+            <a className="service-phone-help__link" href="#">
+              Pourquoi ce numero?
+            </a>
+          </p>
+        </div>
+      )}
+      {servicePhoneVisible && viewMode === ViewMode.Desktop && (
         <p className="service-phone-help restaurant__service-phone-help">
           Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais
           le numéro d'un service permettant la mise en relation avec celui-ci.
@@ -255,4 +299,14 @@ function renderPriceLevelLabel(priceLevel: number) {
     label += "€";
   }
   return label;
+}
+
+function getViewMode(windowWidth: number): ViewMode {
+  if (windowWidth < BREAKPOINT768) {
+    return ViewMode.Mobile;
+  }
+  if (windowWidth < BREAKPOINT1440) {
+    return ViewMode.Tablet;
+  }
+  return ViewMode.Desktop;
 }
