@@ -10,6 +10,7 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import Link from "next/link";
 import { ServicePhone } from "../ServicePhone";
+import { useState } from "react";
 
 export interface RestaurantCardProps {
   name?: string;
@@ -33,6 +34,7 @@ const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
 
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
+  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
   const photos =
     props.photos && props.photos.length ? props.photos : DEFAULT_PHOTOS;
@@ -44,6 +46,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
     if (props.onChangeFavorite && props.placeId) {
       props.onChangeFavorite(props.placeId, favorite, cb);
     }
+  };
+
+  const handleCallBtncLick = () => {
+    setServicePhoneVisible(true);
   };
 
   return (
@@ -151,7 +157,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
       </div>
       <div className="restaurant__bottom">
         <div className="restaurant__btns">
-          <button type="button" className="restaurant__btn call">
+          <button
+            className="restaurant__btn call"
+            type="button"
+            onClick={handleCallBtncLick}
+          >
             <img src="/img/dashboard/call.svg" alt="call" />
             {t("buttonCall")}
           </button>
@@ -167,7 +177,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
             {t("buttonPayInCrypto")}
           </button>
-          <ServicePhone />
+          {servicePhoneVisible && <ServicePhone />}
         </div>
         {props.placeId && (
           <Link
@@ -178,14 +188,16 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </Link>
         )}
       </div>
-      <p className="service-phone-help restaurant__service-phone-help">
-        Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais le
-        numéro d'un service permettant la mise en relation avec celui-ci. Ce
-        service édité par le site foodys.com.{" "}
-        <a className="service-phone-help__link" href="#">
-          Pourquoi ce numero?
-        </a>
-      </p>
+      {servicePhoneVisible && (
+        <p className="service-phone-help restaurant__service-phone-help">
+          Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais
+          le numéro d'un service permettant la mise en relation avec celui-ci.
+          Ce service édité par le site foodys.com.{" "}
+          <a className="service-phone-help__link" href="#">
+            Pourquoi ce numero?
+          </a>
+        </p>
+      )}
     </div>
   );
 }
