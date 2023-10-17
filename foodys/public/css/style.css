@@ -2966,6 +2966,32 @@ body {
   line-height: 133.8%;
 }
 
+.view-more {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 32px auto 40px;
+  padding: 10px 13px;
+  border-radius: 7px;
+  border: 1px solid rgba(49, 55, 67, 0.2);
+  background-color: var(--white-color);
+  color: #313743;
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 112.8%;
+}
+
 .search-wrapper {
   position: relative;
 }
@@ -4049,6 +4075,10 @@ body {
 
 .create-page__label--not-margin {
   margin-bottom: 0;
+  height: 65px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .select {
@@ -4536,7 +4566,7 @@ body {
   }
 
   .header-second .menu__item-link {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     color: var(--text-color);
   }
 
@@ -4759,7 +4789,7 @@ body {
   }
 
   .about__info-picture {
-    height: calc(100% - 122px);
+    height: calc(100% - 170px);
     margin: auto 0;
   }
 
@@ -4919,6 +4949,10 @@ body {
 
   .location__map {
     height: 380px;
+  }
+
+  .view-more {
+    margin-left: 0;
   }
 
   .modal-content__title-main {
@@ -5386,6 +5420,15 @@ body {
     font-size: 15px;
   }
 
+  .dashboard__form-search .menu__item-search {
+    border-color: rgba(49, 55, 67, 0.2);
+  }
+
+  .dashboard__form-search .menu__item-search:active,
+  .dashboard__form-search .menu__item-search:focus {
+    border-color: #FA6340;
+  }
+
   .dashboard__form-results {
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -5666,6 +5709,10 @@ body {
     -webkit-column-gap: 16px;
        -moz-column-gap: 16px;
             column-gap: 16px;
+  }
+
+  .view-more {
+    margin: 30px auto 20px;
   }
 
   .modal-content {
@@ -6049,12 +6096,20 @@ body {
             column-gap: 8px;
   }
 
+  .modal-content__texts {
+    margin-bottom: 20px;
+  }
+
   .modal-content__texts-policy {
     display: block;
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
-    margin: 0 auto;
+    margin: 0 0 20px 0;
+  }
+
+  .modal-content__texts-label {
+    margin-bottom: 20px;
   }
 
   .create-page__content .modal-content__btn {
