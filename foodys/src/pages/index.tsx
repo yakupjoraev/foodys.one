@@ -1,10 +1,36 @@
 import { HeroSearch } from "~/components/HeroSearch";
 import { Layout } from "~/components/Layout";
 import Trans from "next-translate/Trans";
+import { HomeBackground } from "~/components/HomeBackground";
+import { useEffect, useRef, useState } from "react";
 
 export default function Main() {
+  const footerRef = useRef<HTMLElement>(null);
+  const [footerHeight, setFooterHeight] = useState(-1);
+
+  useEffect(() => {
+    if (footerRef.current === null) {
+      return;
+    }
+
+    const footer = footerRef.current;
+    const ro = new ResizeObserver(() => {
+      setFooterHeight(footer.clientHeight);
+    });
+    ro.observe(footer);
+
+    return () => {
+      ro.disconnect();
+    };
+  }, [footerRef.current]);
+
   return (
-    <Layout className="main-page-body" title="Foodys - Home">
+    <Layout
+      className="main-page-body"
+      title="Foodys - Home"
+      footerRef={footerRef}
+    >
+      {footerHeight !== -1 && <HomeBackground footerHeight={footerHeight} />}
       <main className="main">
         <section className="hero">
           <div className="container">

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, RefObject, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { AboutSearch } from "~/components/AboutSearch";
 import { Footer } from "~/components/Footer";
@@ -12,6 +12,7 @@ import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 export type LayoutProps = PropsWithChildren<{
   className?: string;
   title?: string;
+  footerRef?: RefObject<HTMLElement>;
 }>;
 
 export function Layout(props: LayoutProps) {
@@ -87,7 +88,7 @@ export function Layout(props: LayoutProps) {
         onToggleMobileMenu={handleToggleMobileMenu}
       />
       {props.children}
-      <Footer />
+      <Footer ref={props.footerRef} />
       <AuthModalContainer
         open={authModelOpened}
         onClose={handleAuthModalClose}
