@@ -1,6 +1,49 @@
+import { Translate } from "next-translate";
+import useTranslation from "next-translate/useTranslation";
+import { useMemo } from "react";
+import { CustomSelect } from "~/components/CustomSelect";
 import { Layout } from "~/components/Layout";
 
+interface EstablismentOption {
+  value: "restaurant" | "coffeeAndTea" | "bar";
+  label: string;
+}
+
+interface CousineOption {
+  value: "italian" | "spanish" | "french" | "georgian" | "chinese" | "japanese";
+  label: string;
+}
+
+interface PriceOption {
+  value: "1" | "2" | "3" | "4";
+  label: string;
+}
+
+interface ServiceOption {
+  value: "delivery" | "dine_in" | "takeout" | "curbside_pickup";
+  label: string;
+}
+
 export default function New() {
+  const { t } = useTranslation("common");
+
+  const establismentOptions: EstablismentOption[] = useMemo(
+    () => createEstablishmentOptions(t),
+    [t]
+  );
+
+  const cousineOptions: CousineOption[] = useMemo(
+    () => createCousineOptions(t),
+    [t]
+  );
+
+  const priceOptions: PriceOption[] = useMemo(() => createPriceOptions(), []);
+
+  const serviceOptions: ServiceOption[] = useMemo(
+    () => createServiceOptions(t),
+    [t]
+  );
+
   return (
     <Layout title="Foodys - New bussines">
       <main className="main">
@@ -143,249 +186,25 @@ export default function New() {
                       <label className="input__label" htmlFor="overview9">
                         Establishment type
                       </label>
-                      {/* Select */}
-                      <div id="overview-select1" className="select">
-                        <input
-                          type="hidden"
-                          className="hidden__input"
-                          defaultValue="Элемент списка 4"
-                        />
-                        <div
-                          className="select__backdrop"
-                          data-type="backdrop"
-                        />
-                        <div className="select__input" data-type="input">
-                          <span data-type="value">Элемент списка 3</span>
-                          <img
-                            src="/img/icons/arrow-down.svg"
-                            alt="arrow"
-                            data-type="arrow"
-                            className="select__arrow"
-                          />
-                        </div>
-                        <div className="select__dropdown">
-                          <ul className="select__list">
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={1}
-                            >
-                              Элемент списка 1
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={2}
-                            >
-                              Элемент списка 2
-                            </li>
-                            <li
-                              className="select__item selected"
-                              data-type="item"
-                              data-id={3}
-                            >
-                              Элемент списка 3
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={4}
-                            >
-                              Элемент списка 4
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={5}
-                            >
-                              Элемент списка 5
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      <CustomSelect options={establismentOptions} />
                     </div>
                     <div className="input__group">
                       <label className="input__label" htmlFor="overview9">
                         Cuisine
                       </label>
-                      {/* Select */}
-                      <div id="overview-select2" className="select">
-                        <input type="hidden" className="hidden__input" />
-                        <div
-                          className="select__backdrop"
-                          data-type="backdrop"
-                        />
-                        <div className="select__input" data-type="input">
-                          <span data-type="value">Элемент списка 4</span>
-                          <img
-                            src="/img/icons/arrow-down.svg"
-                            alt="arrow"
-                            data-type="arrow"
-                            className="select__arrow"
-                          />
-                        </div>
-                        <div className="select__dropdown">
-                          <ul className="select__list">
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={1}
-                            >
-                              Элемент списка 1
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={2}
-                            >
-                              Элемент списка 2
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={3}
-                            >
-                              Элемент списка 3
-                            </li>
-                            <li
-                              className="select__item selected"
-                              data-type="item"
-                              data-id={4}
-                            >
-                              Элемент списка 4
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={5}
-                            >
-                              Элемент списка 5
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      <CustomSelect options={cousineOptions} />
                     </div>
                     <div className="input__group">
                       <label className="input__label" htmlFor="overview9">
                         Price
                       </label>
-                      {/* Select */}
-                      <div id="overview-select3" className="select">
-                        <input type="hidden" className="hidden__input" />
-                        <div
-                          className="select__backdrop"
-                          data-type="backdrop"
-                        />
-                        <div className="select__input" data-type="input">
-                          <span data-type="value">Элемент списка 4</span>
-                          <img
-                            src="/img/icons/arrow-down.svg"
-                            alt="arrow"
-                            data-type="arrow"
-                            className="select__arrow"
-                          />
-                        </div>
-                        <div className="select__dropdown">
-                          <ul className="select__list">
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={1}
-                            >
-                              Элемент списка 1
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={2}
-                            >
-                              Элемент списка 2
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={3}
-                            >
-                              Элемент списка 3
-                            </li>
-                            <li
-                              className="select__item selected"
-                              data-type="item"
-                              data-id={4}
-                            >
-                              Элемент списка 4
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={5}
-                            >
-                              Элемент списка 5
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      <CustomSelect options={priceOptions} />
                     </div>
                     <div className="input__group">
                       <label className="input__label" htmlFor="overview9">
                         Services
                       </label>
-                      {/* Select */}
-                      <div id="overview-select4" className="select">
-                        <input type="hidden" className="hidden__input" />
-                        <div
-                          className="select__backdrop"
-                          data-type="backdrop"
-                        />
-                        <div className="select__input" data-type="input">
-                          <span data-type="value">Элемент списка 4</span>
-                          <img
-                            src="/img/icons/arrow-down.svg"
-                            alt="arrow"
-                            data-type="arrow"
-                            className="select__arrow"
-                          />
-                        </div>
-                        <div className="select__dropdown">
-                          <ul className="select__list">
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={1}
-                            >
-                              Элемент списка 1
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={2}
-                            >
-                              Элемент списка 2
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={3}
-                            >
-                              Элемент списка 3
-                            </li>
-                            <li
-                              className="select__item selected"
-                              data-type="item"
-                              data-id={4}
-                            >
-                              Элемент списка 4
-                            </li>
-                            <li
-                              className="select__item"
-                              data-type="item"
-                              data-id={5}
-                            >
-                              Элемент списка 5
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      <CustomSelect options={serviceOptions} isMulti={true} />
                     </div>
                     <div className="create-page__label create-page__label--not-margin">
                       Opening hours
@@ -594,4 +413,99 @@ export default function New() {
       </main>
     </Layout>
   );
+}
+
+function createEstablishmentOptions(t: Translate): EstablismentOption[] {
+  const options: EstablismentOption[] = [
+    {
+      value: "restaurant",
+      label: t("valueEstablishmentTypeRestaurant"),
+    },
+    {
+      value: "coffeeAndTea",
+      label: t("valueEstablishmentTypeCoffeeTea"),
+    },
+    {
+      value: "bar",
+      label: t("valueEstablishmentTypeBar"),
+    },
+  ];
+  return options;
+}
+
+function createCousineOptions(t: Translate): CousineOption[] {
+  const options: CousineOption[] = [
+    {
+      value: "italian",
+      label: t("valueCuisineItalian"),
+    },
+    {
+      value: "spanish",
+      label: t("valueCuisineSpanish"),
+    },
+    {
+      value: "french",
+      label: t("valueCuisineFrench"),
+    },
+    {
+      value: "georgian",
+      label: t("valueCuisineGeorgian"),
+    },
+    {
+      value: "chinese",
+      label: t("valueCuisineChinese"),
+    },
+    {
+      value: "japanese",
+      label: t("valueCuisineJapanese"),
+    },
+  ];
+  return options;
+}
+
+function createPriceOptions(): PriceOption[] {
+  const options: PriceOption[] = [
+    {
+      value: "1",
+      label: "€",
+    },
+    {
+      value: "2",
+      label: "€€",
+    },
+    {
+      value: "3",
+      label: "€€€",
+    },
+
+    {
+      value: "4",
+      label: "€€€€",
+    },
+  ];
+
+  return options;
+}
+
+function createServiceOptions(t: Translate): ServiceOption[] {
+  const options: ServiceOption[] = [
+    {
+      value: "delivery",
+      label: t("valueServiceDelivery"),
+    },
+    {
+      value: "dine_in",
+      label: t("valueServiceDineIn"),
+    },
+    {
+      value: "takeout",
+      label: t("valueServiceTakeOut"),
+    },
+    {
+      value: "curbside_pickup",
+      label: t("valueServicePickUp"),
+    },
+  ];
+
+  return options;
 }
