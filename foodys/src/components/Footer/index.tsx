@@ -1,15 +1,18 @@
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 import { forwardRef } from "react";
+import classNames from "classnames";
 
-export interface FooterProps {}
+export interface FooterProps {
+  className?: string;
+}
 
 export const Footer = forwardRef<HTMLElement, FooterProps>(
-  (_props: FooterProps, ref) => {
+  (props: FooterProps, ref) => {
     const { t } = useTranslation("common");
 
     return (
-      <footer className="footer footer-second" ref={ref}>
+      <footer className={classNames("footer", props.className)} ref={ref}>
         <div className="container">
           <div className="footer__inner">
             <div className="footer__top">

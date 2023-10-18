@@ -12,6 +12,7 @@ import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 export type LayoutProps = PropsWithChildren<{
   className?: string;
   headerClassName?: string;
+  footerClassName?: string;
   title?: string;
   footerRef?: RefObject<HTMLElement>;
 }>;
@@ -90,7 +91,7 @@ export function Layout(props: LayoutProps) {
         onToggleMobileMenu={handleToggleMobileMenu}
       />
       {props.children}
-      <Footer ref={props.footerRef} />
+      <Footer className={props.footerClassName} ref={props.footerRef} />
       <AuthModalContainer
         open={authModelOpened}
         onClose={handleAuthModalClose}
