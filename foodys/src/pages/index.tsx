@@ -157,42 +157,42 @@ function renderHeroPicture(picId: number) {
     case 2: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-2.png" />
+          <img src="/img/main-page/main-page-pic-2.png" alt="#Sushi!" />
         </div>
       );
     }
     case 3: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-3.png" />
+          <img src="/img/main-page/main-page-pic-3.png" alt="#Salade!" />
         </div>
       );
     }
     case 4: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-4.png" />
+          <img src="/img/main-page/main-page-pic-4.png" alt="#Steak!" />
         </div>
       );
     }
     case 5: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-5.png" />
+          <img src="/img/main-page/main-page-pic-5.png" alt="#Shaghetti!" />
         </div>
       );
     }
     case 6: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-6.png" />
+          <img src="/img/main-page/main-page-pic-6.png" alt="#Pizza!" />
         </div>
       );
     }
     case 7: {
       return (
         <div className="hero__picture">
-          <img src="/img/main-page/main-page-pic-7.png" />
+          <img src="/img/main-page/main-page-pic-7.png" alt="#OnTop!" />
         </div>
       );
     }
