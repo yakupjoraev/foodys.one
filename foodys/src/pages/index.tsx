@@ -5,6 +5,7 @@ import { HomeBackground } from "~/components/HomeBackground";
 import { useEffect, useRef, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getCookie, setCookie } from "cookies-next";
+import { HeroUk } from "~/components/HeroUk";
 
 export const getServerSideProps = (async ({ query, res, req }) => {
   const FIRST_PICTURE_ID = 1;
@@ -84,17 +85,12 @@ export default function Main(
           <div className="container">
             <div className="hero__inner">
               <div className="hero__info">
-                <h1 className="hero__title">
-                  <Trans
-                    i18nKey="common:titleJokeBurger"
-                    components={[<span />, <br />]}
-                  />
-                </h1>
+                {renderHeroTitle(props.picture)}
                 {renderHeroPicture(props.picture)}
                 <HeroSearch />
               </div>
               <div className="hero__pictures">
-                <HeroUk/>
+                <HeroUk />
                 <a className="hero__chatbot" href="#">
                   <picture>
                     <source
@@ -111,6 +107,73 @@ export default function Main(
       </main>
     </Layout>
   );
+}
+
+function renderHeroTitle(picId: number) {
+  switch (picId) {
+    case 1: {
+      return (
+        <h1 className="hero__title">
+          <Trans
+            i18nKey="common:titleJokeBurger"
+            components={[<span />, <br />]}
+          />
+        </h1>
+      );
+    }
+    case 2: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokeSushi" components={[<span />]} />
+        </h1>
+      );
+    }
+    case 3: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokeSalade" components={[<span />]} />
+        </h1>
+      );
+    }
+    case 4: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokeSteak" components={[<span />]} />
+        </h1>
+      );
+    }
+    case 5: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokePasta" components={[<span />]} />
+        </h1>
+      );
+    }
+    case 6: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokePizza" components={[<span />]} />
+        </h1>
+      );
+    }
+    case 7: {
+      return (
+        <h1 className="hero__title">
+          <Trans i18nKey="common:titleJokeDessert" components={[<span />]} />
+        </h1>
+      );
+    }
+    default: {
+      return (
+        <h1 className="hero__title">
+          <Trans
+            i18nKey="common:titleJokeBurger"
+            components={[<span />, <br />]}
+          />
+        </h1>
+      );
+    }
+  }
 }
 
 function renderHeroPicture(picId: number) {
