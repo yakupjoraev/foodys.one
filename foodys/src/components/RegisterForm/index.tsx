@@ -45,11 +45,15 @@ export interface RegisterFormProps {
 
 export function RegisterForm(props: RegisterFormProps) {
   const { t } = useTranslation("common");
+
   const firstNameId = useId();
   const lastNameId = useId();
   const nicknameId = useId();
   const emailId = useId();
   const passwordId = useId();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -83,6 +87,10 @@ export function RegisterForm(props: RegisterFormProps) {
       password: formData.password,
     });
   });
+
+  const handleShowPasswordBtnClick = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <form className="modal-content__form" onSubmit={handleRegisterFormSubmit}>
@@ -168,12 +176,23 @@ export function RegisterForm(props: RegisterFormProps) {
           </label>
           <input
             className="input"
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             placeholder={t("fieldNamePassword")}
             id={passwordId}
             disabled={props.loading}
             {...register("password")}
           />
+          <button
+            type="button"
+            className="input__view-btn form-eye"
+            onClick={handleShowPasswordBtnClick}
+          >
+            {passwordVisible ? (
+              <img src="/img/eye-close.svg" alt="" />
+            ) : (
+              <img src="/img/eye-open.svg" alt="" />
+            )}
+          </button>
           {errors.password?.message && (
             <p className="input__error">{errors.password.message}</p>
           )}
