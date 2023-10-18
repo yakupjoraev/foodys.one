@@ -27,6 +27,7 @@ export default function Main() {
   return (
     <Layout
       className="main-page-body"
+      headerClassName="header-second"
       title="Foodys - Home"
       footerRef={footerRef}
     >

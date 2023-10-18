@@ -11,6 +11,7 @@ import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 
 export type LayoutProps = PropsWithChildren<{
   className?: string;
+  headerClassName?: string;
   title?: string;
   footerRef?: RefObject<HTMLElement>;
 }>;
@@ -80,6 +81,7 @@ export function Layout(props: LayoutProps) {
         <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
       </Head>
       <Header
+        className={props.headerClassName}
         mobileMenuExpanded={mobileExpanded}
         authStatus={authStatus}
         onLogInBtnClick={handleLogInBtnClick}

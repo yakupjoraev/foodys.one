@@ -6,6 +6,7 @@ import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";
 
 export interface HeaderProps {
+  className?: string;
   mobileMenuExpanded?: boolean;
   authStatus?: "authenticated" | "loading" | "unauthenticated";
   onToggleMobileMenu?: () => void;
@@ -40,7 +41,7 @@ export function Header(props: HeaderProps) {
   };
 
   return (
-    <header className="header header-second">
+    <header className={classNames("header", props.className)}>
       <nav className="nav">
         <div className="container">
           <div className="navbar">
