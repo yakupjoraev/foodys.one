@@ -93,25 +93,25 @@ function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
 function getWeekDayLabel(weekDay: number, t: Translate): string | null {
   switch (weekDay) {
     case 0: {
-      return t("textOpeningHoursMonday");
+      return t("textOpeningHoursSunday");
     }
     case 1: {
-      return t("textOpeningHoursTuesday");
+      return t("textOpeningHoursMonday");
     }
     case 2: {
-      return t("textOpeningHoursWednesday");
+      return t("textOpeningHoursTuesday");
     }
     case 3: {
-      return t("textOpeningHoursThursday");
+      return t("textOpeningHoursWednesday");
     }
     case 4: {
-      return t("textOpeningHoursFriday");
+      return t("textOpeningHoursThursday");
     }
     case 5: {
-      return t("textOpeningHoursSaturday");
+      return t("textOpeningHoursFriday");
     }
     case 6: {
-      return t("textOpeningHoursSunday");
+      return t("textOpeningHoursSaturday");
     }
     default: {
       return null;
