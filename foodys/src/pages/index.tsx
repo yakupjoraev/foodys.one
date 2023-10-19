@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
+import throttle from "lodash/throttle";
 
 export const getServerSideProps = (async ({ query, res, req }) => {
   const FIRST_PICTURE_ID = 1;
@@ -62,13 +63,17 @@ export default function Main(
     }
 
     const footer = footerRef.current;
-    const ro = new ResizeObserver(() => {
+
+    const handleWindowResize = throttle(() => {
       setFooterHeight(footer.clientHeight);
-    });
-    ro.observe(footer);
+    }, 200);
+
+    setFooterHeight(footer.clientHeight);
+
+    window.addEventListener("resize", handleWindowResize);
 
     return () => {
-      ro.disconnect();
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, [footerRef.current]);
 

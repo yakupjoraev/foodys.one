@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Rectangle, rebuildTrapezoid } from "./trapezoid";
+import throttle from "lodash/throttle";
 
 export interface HomePageBackgroundProps {
   footerHeight: number;
@@ -30,16 +31,16 @@ export function HomeBackground(props: HomePageBackgroundProps) {
       setClipPath(path === null ? undefined : `path("${path}")`);
     };
 
-    const ro = new ResizeObserver(() => {
+    const handleWindowResize = throttle(() => {
       renderTrapezoid();
-    });
-    ro.observe(croppedLayoutRef.current);
-    renderTrapezoid();
+    }, 200);
 
+    renderTrapezoid();
     setBackgroundVisible(true);
+    window.addEventListener("resize", handleWindowResize);
 
     return () => {
-      ro.disconnect();
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, [croppedLayoutRef.current]);
 
