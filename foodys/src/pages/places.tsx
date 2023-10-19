@@ -319,6 +319,20 @@ export default function Places() {
                       return null;
                     }
 
+                    const tags: string[] = [];
+                    if (placeListingItem.dine_in) {
+                      tags.push(t("valueServiceDineIn"));
+                    }
+                    if (placeListingItem.takeout) {
+                      tags.push(t("valueServiceTakeOut"));
+                    }
+                    if (placeListingItem.delivery) {
+                      tags.push(t("valueServiceDelivery"));
+                    }
+                    if (placeListingItem.curbside_pickup) {
+                      tags.push(t("valueServicePickUp"));
+                    }
+
                     return (
                       <RestaurantCard
                         name={placeListingItem.name}
@@ -328,6 +342,7 @@ export default function Places() {
                         userRatingTotal={placeListingItem.user_rating_total}
                         placeId={placeListingItem.place_id}
                         photos={placeListingItem.photos}
+                        tags={tags}
                         favorite={optimisticFavorite.includes(
                           placeListingItem.place_id
                         )}

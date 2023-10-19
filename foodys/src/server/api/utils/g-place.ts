@@ -19,6 +19,10 @@ export interface PlaceListingItem {
   price_level?: number;
   photos?: string[];
   favorite?: boolean;
+  delivery?: boolean;
+  dine_in?: boolean;
+  takeout?: boolean;
+  curbside_pickup?: boolean;
 }
 
 export interface PlaceListing {
@@ -56,6 +60,10 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
     user_rating_total: place.user_ratings_total,
     price_level: place.price_level,
     photos: photos,
+    delivery: place.delivery,
+    dine_in: place.dine_in,
+    takeout: place.takeout,
+    curbside_pickup: place.curbside_pickup,
   });
 }
 

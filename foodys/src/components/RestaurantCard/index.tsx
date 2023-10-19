@@ -32,6 +32,7 @@ export interface RestaurantCardProps {
   rating?: number;
   placeId?: string;
   favorite?: boolean;
+  tags?: string[];
   authentificated?: boolean;
   onChangeFavorite?: (
     placeId: string,
@@ -119,9 +120,13 @@ export function RestaurantCard(props: RestaurantCardProps) {
         <div className="restaurant__texts">
           <h3 className="restaurant__name">{props.name || "..."}</h3>
           <div className="restaurant__tags">
-            <div className="restaurant__tag">#Tagname no.1</div>
-            <div className="restaurant__tag">#Tagname no.2</div>
-            <div className="restaurant__tag">#Tagname no.3</div>
+            {props.tags &&
+              props.tags.map((tag, i) => (
+                <div
+                  className="restaurant__tag"
+                  key={i.toString()}
+                >{`#${tag}`}</div>
+              ))}
           </div>
           <div className="restaurant__address">
             <div className="restaurant__address-info">
