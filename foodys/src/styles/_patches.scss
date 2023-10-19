@@ -1,3 +1,7 @@
+.main__body {
+  min-height: 100vh;
+}
+
 .main__body.locked {
   max-height: 100vh;
   overflow: hidden;
