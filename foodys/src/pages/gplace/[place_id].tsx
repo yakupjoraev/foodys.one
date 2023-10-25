@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
@@ -28,6 +28,12 @@ enum Tab {
   Location,
 }
 
+const HASH_GALLERY = "#gallery";
+const HASH_OVERVIEW = "#overview";
+const HASH_OPENING_HOURS = "#opening-hours";
+const HASH_REVIEWS = "#reviews";
+const HASH_LOCATION = "#location";
+
 export const getServerSideProps = (async (ctx) => {
   const placeId = ctx.params?.place_id;
   if (typeof placeId !== "string") {
@@ -51,6 +57,26 @@ export default function Place(
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [hash, setHash] = useHash();
+
+  useEffect(() => {
+    if (hash === HASH_GALLERY) {
+      setGalleryOpen(true);
+    } else {
+      const tab = getTabByHash(hash);
+      if (tab !== null) {
+        openTab(tab);
+      }
+    }
+  }, [hash]);
+
+  useEffect(() => {
+    const tab = getTabByHash(hash);
+    if (tab !== null && tabsRef.current) {
+      tabsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   const previewPhotos = useMemo(() => {
     if (!props.place.photos) {
@@ -69,10 +95,6 @@ export default function Place(
     return props.place.photos;
   }, [props.place]);
 
-  const handleSeeOpeningHoursBtnClick = () => {
-    setTab(Tab.OpeningHours);
-  };
-
   const handleOpenGalleryBtnClick = () => {
     setGalleryOpen(true);
   };
@@ -83,6 +105,37 @@ export default function Place(
 
   const handleCloseCryptoModal = () => {
     setCryptoModelOpen(false);
+  };
+
+  const openTab = (nextTab: Tab, scroll?: boolean) => {
+    switch (nextTab) {
+      case Tab.Overview: {
+        setTab(nextTab);
+        setHash(HASH_OVERVIEW);
+        break;
+      }
+      case Tab.Reviews: {
+        setTab(nextTab);
+        setHash(HASH_REVIEWS);
+        break;
+      }
+      case Tab.OpeningHours: {
+        setTab(nextTab);
+        setHash(HASH_OPENING_HOURS);
+        break;
+      }
+      case Tab.Location: {
+        setTab(nextTab);
+        setHash(HASH_LOCATION);
+        break;
+      }
+      default: {
+        return;
+      }
+    }
+    if (scroll && tabsRef.current !== null) {
+      tabsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
@@ -268,11 +321,18 @@ export default function Place(
                   </div>
                   <div className="restaurant-page__address">
                     <div className="restaurant__address">
-                      <div className="restaurant__address-info">
+                      <a
+                        className="restaurant__address-info"
+                        href={HASH_LOCATION}
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          openTab(Tab.Location, true);
+                        }}
+                      >
                         <img src="/img/dashboard/geo.svg" alt="geo" />
                         <p>{props.place?.formatted_address || "..."} </p>
                         <span>–</span>
-                      </div>
+                      </a>
                       <div className="restaurant__address-gets">
                         <Trans
                           i18nKey="common:textGetThere"
@@ -286,7 +346,10 @@ export default function Place(
                     </div>
                   </div>
                   <div className="restaurant-page__reviews">
-                    <div className="restaurant__reviews">
+                    <div
+                      className="restaurant__reviews"
+                      onClick={() => openTab(Tab.Reviews, true)}
+                    >
                       {props.place.rating !== undefined && (
                         <div className="restaurant__reviews-balls">
                           {props.place.rating}
@@ -337,14 +400,21 @@ export default function Place(
                     </div>
                   </div>
                   <div className="restaurant-page__others">
-                    <a className="restaurant-page__others-open" href="#">
+                    <a
+                      className="restaurant-page__others-open"
+                      href={HASH_OPENING_HOURS}
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        openTab(Tab.OpeningHours, true);
+                      }}
+                    >
                       {t("textOpenNow")}
                     </a>
                     {openingHours && openingHours.length > 0 && (
                       <button
                         className="restaurant-page__others-link"
                         type="button"
-                        onClick={handleSeeOpeningHoursBtnClick}
+                        onClick={() => openTab(Tab.OpeningHours, true)}
                       >
                         {t("textSeeOpeningHours")}
                       </button>
@@ -360,13 +430,13 @@ export default function Place(
                 </div>
                 <div className="input__border" />
                 {/* Tabs */}
-                <div className="tabs">
+                <div className="tabs" ref={tabsRef}>
                   <div className="tabs__header">
                     <div
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Overview,
                       })}
-                      onClick={() => setTab(Tab.Overview)}
+                      onClick={() => openTab(Tab.Overview)}
                     >
                       {t("titleOverview")}
                     </div>
@@ -375,7 +445,7 @@ export default function Place(
                         className={classNames("tabs__header-item", {
                           active: tab === Tab.OpeningHours,
                         })}
-                        onClick={() => setTab(Tab.OpeningHours)}
+                        onClick={() => openTab(Tab.OpeningHours)}
                       >
                         {t("titleOpeningHours")}
                       </div>
@@ -384,7 +454,7 @@ export default function Place(
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Reviews,
                       })}
-                      onClick={() => setTab(Tab.Reviews)}
+                      onClick={() => openTab(Tab.Reviews)}
                     >
                       {t("titleReviews")}
                     </div>
@@ -392,7 +462,8 @@ export default function Place(
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Location,
                       })}
-                      onClick={() => setTab(Tab.Location)}
+                      role="button"
+                      onClick={() => openTab(Tab.Location)}
                     >
                       {t("titleLocation")}
                     </div>
@@ -404,32 +475,6 @@ export default function Place(
                       show={tab === Tab.Overview}
                       place={props.place}
                     />
-                    {/* <div
-                      className="tabs__content-item"
-                      style={{
-                        display: tab === Tab.Overview ? "flex" : "none",
-                      }}
-                    >
-                      <div className="overview-content">
-                        <p className="overview-content__text">
-                          {queryResponse.data?.formatted_address || "..."}
-                          {queryResponse.data?.website && (
-                            <a
-                              href={queryResponse.data.website}
-                              target="_blank"
-                            >
-                              {queryResponse.data.website}
-                            </a>
-                          )}
-                        </p>
-                        <p className="overview-content__text">
-                          Cuisine: Chinese, Burger
-                        </p>
-                        <p className="overview-content__text">
-                          Services: take out, Delivery, dine-in
-                        </p>
-                      </div>
-                    </div> */}
 
                     {/*---------------------- Opening hours ---------------------*/}
                     {openingHours && openingHours.length && (
@@ -529,4 +574,66 @@ function renderPriceLevelLabel(priceLevel: number) {
     label += "€";
   }
   return label;
+}
+
+function getTabByHash(hash: string): Tab | null {
+  switch (hash) {
+    case HASH_OVERVIEW: {
+      return Tab.Overview;
+    }
+    case HASH_OPENING_HOURS: {
+      return Tab.OpeningHours;
+    }
+    case HASH_REVIEWS: {
+      return Tab.Reviews;
+    }
+    case HASH_LOCATION: {
+      return Tab.Location;
+    }
+    default: {
+      return null;
+    }
+  }
+}
+
+function getInitialHash() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  return window.location.hash;
+}
+
+function useHash(): [string, (hash: string) => void] {
+  const [hash, setHash] = useState<string>(getInitialHash);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const handleHashChange = (ev: HashChangeEvent) => {
+      const newURL = new URL(ev.newURL);
+      const nextHash = newURL.hash;
+      setHash(nextHash);
+    };
+
+    setHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
+  const updateHash = (nextHash: string) => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (!/^#[a-z0-9_\-]+$/.test(nextHash)) {
+      return;
+    }
+    setHash(nextHash);
+    history.replaceState(undefined, "", nextHash);
+  };
+
+  return [hash, updateHash];
 }

@@ -10,9 +10,10 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import Link from "next/link";
 import { ServicePhone } from "../ServicePhone";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 import classNames from "classnames";
+import { useRouter } from "next/router";
 
 const BREAKPOINT1440 = 1440;
 const BREAKPOINT768 = 768;
@@ -46,6 +47,7 @@ const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
 
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
+  const router = useRouter();
   const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
@@ -67,6 +69,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
   const viewMode = getViewMode(windowWidth);
 
+  const placeLink = useMemo(
+    () => (props.placeId === undefined ? null : getPlaceLink(props.placeId)),
+    [props.placeId]
+  );
+
   return (
     <div className="restaurant">
       <div className="restaurant__pictures">
@@ -87,13 +94,15 @@ export function RestaurantCard(props: RestaurantCardProps) {
         >
           {photos.map((photo, i) => (
             <SwiperSlide className="restaurant__slide" key={i}>
-              <img
-                src={photo}
-                alt="slide"
-                width="168"
-                height="168"
-                loading="lazy"
-              />
+              <Link href={placeLink ? placeLink + "#gallery" : "#"}>
+                <img
+                  src={photo}
+                  alt="slide"
+                  width="168"
+                  height="168"
+                  loading="lazy"
+                />
+              </Link>
             </SwiperSlide>
           ))}
           {photos.length > 1 && (
@@ -118,7 +127,15 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
       <div className="restaurant__top">
         <div className="restaurant__texts">
-          <h3 className="restaurant__name">{props.name || "..."}</h3>
+          <h3 className="restaurant__name">
+            {placeLink ? (
+              <Link className="restaurant__name-link" href={placeLink}>
+                {props.name || "..."}
+              </Link>
+            ) : (
+              props.name || "..."
+            )}
+          </h3>
           <div className="restaurant__tags">
             {props.tags &&
               props.tags.map((tag, i) => (
@@ -129,11 +146,14 @@ export function RestaurantCard(props: RestaurantCardProps) {
               ))}
           </div>
           <div className="restaurant__address">
-            <div className="restaurant__address-info">
+            <Link
+              className="restaurant__address-info"
+              href={placeLink ? placeLink + "#location" : "#"}
+            >
               <img src="/img/dashboard/geo.svg" alt="geo" />
               <p>{props.formattedAddress || "..."}</p>
               <span>–</span>
-            </div>
+            </Link>
             <div className="restaurant__address-gets">
               <Trans
                 i18nKey="common:textGetThere"
@@ -150,7 +170,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <div className="restaurant__checked-label restaurant__checked-label--green">
             {t("textOpenNow")}
           </div>
-          <div className="restaurant__reviews">
+          <Link
+            className="restaurant__reviews"
+            href={placeLink ? placeLink + "#reviews" : "#"}
+          >
             {props.rating !== undefined && (
               <>
                 <div className="restaurant__reviews-balls">
@@ -171,7 +194,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
                 {" · " + renderPriceLevelLabel(props.priceLevel)}
               </div>
             )}
-          </div>
+          </Link>
         </div>
       </div>
       <div className="restaurant__bottom">
@@ -215,11 +238,8 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </div>
         )}
 
-        {props.placeId && (
-          <Link
-            className="restaurant__more"
-            href={"/gplace/" + encodeURIComponent(props.placeId)}
-          >
+        {placeLink && (
+          <Link className="restaurant__more" href={placeLink}>
             See more
           </Link>
         )}
@@ -314,4 +334,8 @@ function getViewMode(windowWidth: number): ViewMode {
     return ViewMode.Tablet;
   }
   return ViewMode.Desktop;
+}
+
+function getPlaceLink(placeId: string) {
+  return "/gplace/" + encodeURIComponent(placeId);
 }
