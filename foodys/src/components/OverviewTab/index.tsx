@@ -18,6 +18,11 @@ export function OverviewTab(props: OverviewTabProps) {
       }}
     >
       <div className="overview-content">
+        {props.place.editorial_summary?.overview && (
+          <p className="overview-content__text">
+            {props.place.editorial_summary.overview}
+          </p>
+        )}
         <p className="overview-content__text">
           {props.place.formatted_address || "..."}
           {props.place.website && (
