@@ -1,5 +1,6 @@
 import { Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
+import React from "react";
 
 export interface PlaceOpeningHoursPeriod {
   open?: PlaceOpeningHoursPeriodDetail;
@@ -35,10 +36,9 @@ export function OpeningHoursTab(props: OpeningHoursTabProps) {
 }
 
 function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
-  const openingPeriods = new Array(7);
-  openingPeriods.fill(null);
+  const openingPeriods = new Array<string[]>(7);
 
-  periods.forEach((period) => {
+  for (const period of periods) {
     const openDay = period.open?.day;
     const openTime = period.open?.time;
     if (openDay === undefined || openTime === undefined) {
@@ -63,31 +63,48 @@ function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
       ":" +
       closeTime.slice(2);
 
-    const dayIndex = openDay - 1;
+    const dayIndex = openDay;
 
-    openingPeriods[dayIndex] = openPeriod;
-  });
+    const prevPeriods = openingPeriods[dayIndex];
+    if (prevPeriods === undefined) {
+      openingPeriods[dayIndex] = [openPeriod];
+    } else {
+      prevPeriods.push(openPeriod);
+    }
+  }
 
-  const schedule = openingPeriods.map((period, dayIndex) => {
-    const label = getWeekDayLabel(dayIndex, t);
-    if (period === null) {
-      return (
+  const shchedule: JSX.Element[] = new Array(7);
+  for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+    const weekDayLabel = getWeekDayLabel(dayIndex, t);
+    const periodLabels = openingPeriods[dayIndex];
+    if (periodLabels === undefined || periodLabels.length === 0) {
+      shchedule[dayIndex] = (
         <div className="opening-hours__item" key={dayIndex}>
-          <p className="opening-hours__day">{label}</p>
+          <p className="opening-hours__day">{weekDayLabel}</p>
           <p className="opening-hours__day">Closed</p>
         </div>
       );
     } else {
-      return (
+      const periodNodes: (JSX.Element | string)[] = [];
+      periodLabels.forEach((label) => {
+        if (periodNodes.length) {
+          periodNodes.push(<br key={periodNodes.length} />);
+        }
+        periodNodes.push(
+          <React.Fragment key={periodNodes.length}>{label}</React.Fragment>
+        );
+      });
+
+      shchedule[dayIndex] = (
         <div className="opening-hours__item" key={dayIndex}>
-          <p className="opening-hours__day">{label}</p>
-          <p className="opening-hours__time">{period}</p>
+          <p className="opening-hours__day">{weekDayLabel}</p>
+          <p className="opening-hours__time">{periodNodes}</p>
         </div>
       );
     }
-  });
+  }
 
-  return schedule;
+  return shchedule;
 }
 
 function getWeekDayLabel(weekDay: number, t: Translate): string | null {
