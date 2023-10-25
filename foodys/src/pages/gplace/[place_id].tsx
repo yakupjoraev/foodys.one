@@ -20,6 +20,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
 import { fetchGPlaceByPlaceId } from "~/server/api/utils/g-place";
+import { RWebShare } from "react-web-share";
 
 enum Tab {
   Overview,
@@ -141,6 +142,17 @@ export default function Place(
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
 
   const openingHours = props.place.opening_hours?.periods;
+
+  const shareData: ShareData = useMemo(() => {
+    let title = "Foodys";
+    if (props.place.name) {
+      title += " - " + props.place.name;
+    }
+    return {
+      title,
+      text: props.place.editorial_summary?.overview,
+    };
+  }, [props.place]);
 
   return (
     <Layout title="Foodys - About page">
@@ -314,10 +326,15 @@ export default function Place(
                       <img src="/img/restaurant-page/like.svg" alt="like" />
                       <span>{t("buttonSave")}</span>
                     </div>
-                    <div className="restaurant-page__instrument">
-                      <img src="/img/restaurant-page/share.svg" alt="share" />
-                      <span>{t("buttonShare")}</span>
-                    </div>
+                    <RWebShare data={shareData}>
+                      <div
+                        className="restaurant-page__instrument"
+                        role="button"
+                      >
+                        <img src="/img/restaurant-page/share.svg" alt="share" />
+                        <span>{t("buttonShare")}</span>
+                      </div>
+                    </RWebShare>
                   </div>
                   <div className="restaurant-page__address">
                     <div className="restaurant__address">
