@@ -97,6 +97,25 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     props.onChange(nextFilterState);
   };
 
+  const serviceChecked =
+    props.filter.serviceDineIn ||
+    props.filter.serviceTakeOut ||
+    props.filter.serviceDelivery ||
+    props.filter.servicePickUp;
+
+  const ratingChecked =
+    props.filter.rating1 ||
+    props.filter.rating2 ||
+    props.filter.rating3 ||
+    props.filter.rating4 ||
+    props.filter.rating5;
+
+  const priceChecked =
+    props.filter.priceLevel1 ||
+    props.filter.priceLevel2 ||
+    props.filter.priceLevel3 ||
+    props.filter.priceLevel4;
+
   return (
     <div
       className={classNames("dashboard__filters", {
@@ -162,6 +181,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       <DashboardFilter
         className="dashboard__filter--square"
         label={t("titleService")}
+        checked={serviceChecked}
       >
         <DashboardFilterCheckbox
           label={t("valueServiceDineIn")}
@@ -214,6 +234,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       <DashboardFilter
         className="dashboard__filter--square"
         label={t("titleRating")}
+        checked={ratingChecked}
       >
         <DashboardFilterCheckbox
           label={<img src="/img/icons/5-star.svg" alt="5 stars" />}
@@ -240,6 +261,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       <DashboardFilter
         className="dashboard__filter--square"
         label={t("titlePrice")}
+        checked={priceChecked}
       >
         <DashboardFilterCheckbox
           label="€€€€"

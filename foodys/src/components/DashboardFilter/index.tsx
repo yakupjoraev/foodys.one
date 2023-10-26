@@ -5,6 +5,7 @@ export type DashboardFilterProps = PropsWithChildren<{
   className?: string;
   label: string;
   appendLeft?: JSX.Element;
+  checked?: boolean;
 }>;
 
 export function DashboardFilter(props: DashboardFilterProps) {
@@ -52,7 +53,8 @@ export function DashboardFilter(props: DashboardFilterProps) {
       className={classNames(
         "dashboard__filter",
         props.className,
-        active && "active"
+        active && "active",
+        props.checked && "dashboard__filter--checked"
       )}
       data-filter-container=""
       ref={containerRef}
