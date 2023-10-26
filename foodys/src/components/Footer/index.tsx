@@ -17,7 +17,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
           <div className="footer__inner">
             <div className="footer__top">
               <nav className="footer__nav">
-                <Link className="footer__nav-link" href="/about">
+                <Link className="footer__nav-link" href="/about-us">
                   {t("titleAboutUs")}
                 </Link>
                 <a className="footer__nav-link" href="#">
