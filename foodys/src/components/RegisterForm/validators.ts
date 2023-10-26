@@ -1,5 +1,5 @@
 import { passwordStrength } from "check-password-strength";
-import { object, optional, string } from "zod";
+import { object, optional, string, literal } from "zod";
 
 export const registerFormSchema = object({
   firstName: string().nonempty().max(256),
@@ -20,4 +20,5 @@ export const registerFormSchema = object({
       },
       { message: "password is weak" }
     ),
+  agreementConfirmed: literal(true),
 });

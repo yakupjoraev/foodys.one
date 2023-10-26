@@ -24,6 +24,7 @@ interface RegisterFormData {
   nickname?: string;
   email: string;
   password: string;
+  agreementConfirmed: boolean;
 }
 
 const DEFAULT_FORM_DATA: RegisterFormData = {
@@ -32,6 +33,7 @@ const DEFAULT_FORM_DATA: RegisterFormData = {
   nickname: "",
   email: "",
   password: "",
+  agreementConfirmed: false,
 };
 
 export interface RegisterFormProps {
@@ -51,6 +53,7 @@ export function RegisterForm(props: RegisterFormProps) {
   const nicknameId = useId();
   const emailId = useId();
   const passwordId = useId();
+  const agreementConfirmedId = useId();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -223,11 +226,21 @@ export function RegisterForm(props: RegisterFormProps) {
         />
       </div>
       <div className="input__checkbox-group">
-        <input className="input__checkbox" type="checkbox" id="checkbox2" />
-        <label className="input__label" htmlFor="checkbox2">
+        <input
+          className="input__checkbox"
+          type="checkbox"
+          id={agreementConfirmedId}
+          {...register("agreementConfirmed")}
+        />
+        <label className="input__label" htmlFor={agreementConfirmedId}>
           <div className="input__checkbox-decor"> </div>
           <span>{t("textAgreeTermsAndCond")}</span>
         </label>
+        {errors.agreementConfirmed?.message && (
+          <div className="input__error">
+            {errors.agreementConfirmed.message}
+          </div>
+        )}
       </div>
     </form>
   );
