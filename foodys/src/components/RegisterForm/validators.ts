@@ -12,13 +12,16 @@ export const registerFormSchema = object({
   ),
   email: string().email(),
   password: string()
-    .nonempty()
+    .min(8)
     .max(256)
     .refine(
       (val) => {
         return passwordStrength(val).id > 1;
       },
-      { message: "password is weak" }
+      {
+        message:
+          "Requires characters from the ranges a–z, A–Z, 0–9, and special symbols.",
+      }
     ),
   passwordConfirm: string(),
   agreementConfirmed: literal(true),
