@@ -121,8 +121,7 @@
 
   // .dashboard__filter--square
 
-  &__filter--square {
-  }
+  &__filter--square {}
 
   // .dashboard__filter-text
 
@@ -196,8 +195,7 @@
 
   // .dashboard__filter-positions
 
-  &__filter-positions {
-  }
+  &__filter-positions {}
 
   // .dashboard__filter-position-selected
 
@@ -352,8 +350,7 @@
 
   // .restaurant__slider-wrapper
 
-  &__slider-wrapper {
-  }
+  &__slider-wrapper {}
 
   // .restaurant__slide
 
@@ -491,8 +488,7 @@
 
   // .restaurant__info
 
-  &__info {
-  }
+  &__info {}
 
   // .restaurant__top
 
@@ -510,8 +506,7 @@
 
   // .restaurant__texts
 
-  &__texts {
-  }
+  &__texts {}
 
   // .restaurant__name
 
@@ -695,8 +690,7 @@
 
   // .restaurant__reviews-star
 
-  &__reviews-star {
-  }
+  &__reviews-star {}
 
   // .restaurant__reviews-count
 
@@ -957,8 +951,7 @@
 
   // .nav-lists__item--end
 
-  &__item--end {
-  }
+  &__item--end {}
 }
 
 .dashboard__filter.active {
@@ -1009,7 +1002,7 @@
   opacity: 0;
   z-index: -100;
 
-  &:checked ~ .filter-list__label .filter-list__decor {
+  &:checked~.filter-list__label .filter-list__decor {
     background-color: #0f72b9;
 
     &::before {
@@ -1173,5 +1166,23 @@
   .dashboard__filter--filters,
   .dashboard__filter--clear {
     display: none;
+  }
+}
+
+
+.dashboard__filter--checked {
+
+  &.active {
+    .dashboard__filter-btn svg path {
+      stroke: #fff;
+    }
+  }
+
+  .dashboard__filter-btn svg rect {
+    fill: #0f72b9;
+  }
+
+  .dashboard__filter-btn svg path {
+    stroke: #fff;
   }
 }

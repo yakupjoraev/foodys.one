@@ -1,6 +1,7 @@
 import { SVGCommand, roundCommands } from "svg-round-corners";
 
 const TRAPEZOID_CORNER_RADIUS = 40;
+const BREAKPOINT_MIDDLE_TABLET = 820;
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_MOBILE = 680;
 
@@ -30,9 +31,16 @@ function getTrapezoidTopLeft(rectangle: Rectangle) {
     const y = 425;
     return new Point(x, y);
   }
+
   if (rectangle.width <= BREAKPOINT_TABLET) {
     const x = Math.floor(rectangle.width * 0.525); // offset left: 52.5%
-    const y = 100;
+    const y = 60;
+    return new Point(x, y);
+  }
+
+  if (rectangle.width <= BREAKPOINT_MIDDLE_TABLET) {
+    const x = Math.floor(rectangle.width * 0.525); // offset left: 52.5%
+    const y = 0;
     return new Point(x, y);
   }
 
@@ -47,9 +55,16 @@ function getTrapezoidTopRight(rectangle: Rectangle) {
     const y = 425;
     return new Point(x, y);
   }
+
   if (rectangle.width <= BREAKPOINT_TABLET) {
     const x = rectangle.width;
-    const y = 100;
+    const y = 60;
+    return new Point(x, y);
+  }
+
+  if (rectangle.width <= BREAKPOINT_MIDDLE_TABLET) {
+    const x = rectangle.width;
+    const y = 0;
     return new Point(x, y);
   }
 

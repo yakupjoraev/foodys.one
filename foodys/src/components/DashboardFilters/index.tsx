@@ -310,7 +310,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         data-mobile-filters=""
         onClick={() => void setMobileFiltersOpened(true)}
       >
-        <img src="./img/dashboard/filters.svg" alt="filters" />
+        <img src="/img/dashboard/filters.svg" alt="filters" />
         <p className="dashboard__filter-text">Filtres</p>
         <button type="button" className="dashboard__filter-btn">
           <svg

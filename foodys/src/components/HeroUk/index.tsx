@@ -1,6 +1,6 @@
 export function HeroUk() {
   return (
-    <div className="hero__uk">
+    <a href="#" className="hero__uk">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={139}
@@ -28,6 +28,6 @@ export function HeroUk() {
         </defs>
       </svg>
       <img className="hero__uk-pic" src="/img/main-page/flag-uk.png" alt="" />
-    </div>
+    </a>
   );
 }

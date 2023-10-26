@@ -306,6 +306,12 @@
     @media (max-width: $breakpoint768) {
       order: 6;
       justify-self: start;
+      overflow-y: auto;
+      width: 100%;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 
