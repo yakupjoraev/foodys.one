@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 export interface LanguageSelectorProps {
   locale: string;
+  popoverContainerStyle?: Partial<CSSStyleDeclaration>;
   onChange: (locale: string) => void;
 }
 
@@ -32,6 +33,7 @@ export function LanguageSelector(props: LanguageSelectorProps) {
       align="end"
       onClickOutside={handleClickOutside}
       content={renderLanguageMenu(handleLangChange)}
+      containerStyle={props.popoverContainerStyle}
     >
       {renderMainBtn(props.locale, handleMainBtnClick)}
     </Popover>

@@ -347,6 +347,7 @@ export function Header(props: HeaderProps) {
                 {router.locale && (
                   <LanguageSelector
                     locale={router.locale}
+                    popoverContainerStyle={{ zIndex: "10" }}
                     onChange={handleLocaleChange}
                   />
                 )}
