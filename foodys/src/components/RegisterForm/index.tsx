@@ -102,8 +102,6 @@ export function RegisterForm(props: RegisterFormProps) {
             <h2 className="modal-content__title-main" />,
           ]}
         />
-        {/* <h3 className="modal-content__title">New over here?</h3>
-        <h2 className="modal-content__title-main">Create account</h2> */}
       </div>
       <div className="modal-content__inputs">
         <div className="input__group">
@@ -223,11 +221,6 @@ export function RegisterForm(props: RegisterFormProps) {
             />,
           ]}
         />
-        {/* Already have an account on Foodys.one?
-        <a href="#" target="_blank">
-          {" "}
-          Sign in
-        </a> */}
       </div>
       <div className="input__checkbox-group">
         <input className="input__checkbox" type="checkbox" id="checkbox2" />
