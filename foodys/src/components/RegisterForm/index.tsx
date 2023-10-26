@@ -24,6 +24,7 @@ interface RegisterFormData {
   nickname?: string;
   email: string;
   password: string;
+  passwordConfirm: string;
   agreementConfirmed: boolean;
 }
 
@@ -33,6 +34,7 @@ const DEFAULT_FORM_DATA: RegisterFormData = {
   nickname: "",
   email: "",
   password: "",
+  passwordConfirm: "",
   agreementConfirmed: false,
 };
 
@@ -53,9 +55,11 @@ export function RegisterForm(props: RegisterFormProps) {
   const nicknameId = useId();
   const emailId = useId();
   const passwordId = useId();
+  const passwordConfirmId = useId();
   const agreementConfirmedId = useId();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 
   const {
     register,
@@ -93,6 +97,10 @@ export function RegisterForm(props: RegisterFormProps) {
 
   const handleShowPasswordBtnClick = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const handleShowPasswordConfirmBtnClick = () => {
+    setPasswordConfirmVisible(!passwordConfirmVisible);
   };
 
   return (
@@ -196,6 +204,33 @@ export function RegisterForm(props: RegisterFormProps) {
           </button>
           {errors.password?.message && (
             <p className="input__error">{errors.password.message}</p>
+          )}
+        </div>
+        <div className="input__group">
+          <label className="input__label" htmlFor={passwordConfirmId}>
+            Confirm password
+          </label>
+          <input
+            className="input"
+            type={passwordConfirmVisible ? "text" : "password"}
+            placeholder="Confirm password"
+            id={passwordConfirmId}
+            disabled={props.loading}
+            {...register("passwordConfirm")}
+          />
+          <button
+            type="button"
+            className="input__view-btn form-eye"
+            onClick={handleShowPasswordConfirmBtnClick}
+          >
+            {passwordConfirmVisible ? (
+              <img src="/img/eye-close.svg" alt="" />
+            ) : (
+              <img src="/img/eye-open.svg" alt="" />
+            )}
+          </button>
+          {errors.passwordConfirm?.message && (
+            <p className="input__error">{errors.passwordConfirm.message}</p>
           )}
         </div>
         {errors.root?.message && (

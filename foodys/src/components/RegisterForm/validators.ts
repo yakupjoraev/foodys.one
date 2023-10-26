@@ -20,5 +20,9 @@ export const registerFormSchema = object({
       },
       { message: "password is weak" }
     ),
+  passwordConfirm: string(),
   agreementConfirmed: literal(true),
+}).refine((data) => data.password === data.passwordConfirm, {
+  message: "Passwords don't match",
+  path: ["passwordConfirm"],
 });
