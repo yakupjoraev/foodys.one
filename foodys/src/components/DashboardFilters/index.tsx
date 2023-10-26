@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { DashboardFilter } from "../DashboardFilter";
 import { DashboardFilterCheckbox } from "../DashboardFilterCheckbox";
 import classNames from "classnames";
@@ -54,16 +54,22 @@ export function DashboardFilters(props: DashboardFiltersProps) {
   const establishmentId = useId();
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
 
+  const [filter, setFilter] = useInteractive(
+    props.filter,
+    !mobileFiltersOpened,
+    props.onChange
+  );
+
   const registerFilterCheckbox = (
     key: Exclude<keyof FilterState, "establishment" | "pageSize">
   ) => {
     const handleChange = (checked: boolean) => {
-      const nextFilterState = { ...props.filter };
+      const nextFilterState = { ...filter };
       nextFilterState[key] = checked;
-      props.onChange(nextFilterState);
+      setFilter(nextFilterState);
     };
     return {
-      checked: props.filter[key],
+      checked: filter[key],
       onChange: handleChange,
     };
   };
@@ -74,47 +80,47 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     form?: string
   ) => {
     const handleChange = (value: FilterState[T]) => {
-      const nextFilterState = { ...props.filter };
+      const nextFilterState = { ...filter };
       nextFilterState[key] = value;
-      props.onChange(nextFilterState);
+      setFilter(nextFilterState);
     };
 
     return {
       form,
       value,
-      checked: props.filter[key] === value,
+      checked: filter[key] === value,
       onChange: handleChange,
     };
   };
 
   const handleClearAllBtnClick = () => {
-    props.onChange(DEFAULT_FILTER_STATE);
+    setFilter(DEFAULT_FILTER_STATE);
   };
 
   const handlePageSizeChange = (value: 10 | 20 | 30) => {
-    const nextFilterState = { ...props.filter };
+    const nextFilterState = { ...filter };
     nextFilterState.pageSize = value;
-    props.onChange(nextFilterState);
+    setFilter(nextFilterState);
   };
 
   const serviceChecked =
-    props.filter.serviceDineIn ||
-    props.filter.serviceTakeOut ||
-    props.filter.serviceDelivery ||
-    props.filter.servicePickUp;
+    filter.serviceDineIn ||
+    filter.serviceTakeOut ||
+    filter.serviceDelivery ||
+    filter.servicePickUp;
 
   const ratingChecked =
-    props.filter.rating1 ||
-    props.filter.rating2 ||
-    props.filter.rating3 ||
-    props.filter.rating4 ||
-    props.filter.rating5;
+    filter.rating1 ||
+    filter.rating2 ||
+    filter.rating3 ||
+    filter.rating4 ||
+    filter.rating5;
 
   const priceChecked =
-    props.filter.priceLevel1 ||
-    props.filter.priceLevel2 ||
-    props.filter.priceLevel3 ||
-    props.filter.priceLevel4;
+    filter.priceLevel1 ||
+    filter.priceLevel2 ||
+    filter.priceLevel3 ||
+    filter.priceLevel4;
 
   return (
     <div
@@ -368,7 +374,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       </DashboardFilter>
 
       <DashboardFilterPageSize
-        value={props.filter.pageSize}
+        value={filter.pageSize}
         onChange={handlePageSizeChange}
       />
 
@@ -378,13 +384,29 @@ export function DashboardFilters(props: DashboardFiltersProps) {
         onClick={() => void setMobileFiltersOpened(false)}
       >
         View all results
-        {!!props.resultsTotal && (
-          <>
-            {" "}
-            <span>({props.resultsTotal.toString()})</span>
-          </>
-        )}
       </button>
     </div>
   );
+}
+
+function useInteractive(
+  filter: FilterState,
+  interactive: boolean,
+  onSubmit: (filter: FilterState) => void
+): [FilterState, (state: FilterState) => void] {
+  const [update, setUpdate] = useState(filter);
+  const submitedUpdateRef = useRef(filter);
+
+  useEffect(() => {
+    setUpdate(filter);
+  }, [filter]);
+
+  useEffect(() => {
+    if (interactive && update !== submitedUpdateRef.current) {
+      onSubmit(update);
+      submitedUpdateRef.current = update;
+    }
+  }, [interactive, update]);
+
+  return [update, setUpdate];
 }
