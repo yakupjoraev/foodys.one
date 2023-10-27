@@ -8,6 +8,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
 import throttle from "lodash/throttle";
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
   const FIRST_PICTURE_ID = 1;
   const LAST_PICTURE_ID = 7;
