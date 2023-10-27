@@ -51,8 +51,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
   const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
-  const photos =
-    props.photos && props.photos.length ? props.photos : DEFAULT_PHOTOS;
+  const photos = props.photos ?? DEFAULT_PHOTOS;
 
   const handleFavoriteBtnClick = (
     favorite: boolean,
