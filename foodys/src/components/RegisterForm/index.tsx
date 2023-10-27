@@ -112,7 +112,9 @@ export function RegisterForm(props: RegisterFormProps) {
         <Trans
           i18nKey="common:titleCreateAccountForm"
           components={[
+            // eslint-disable-next-line react/jsx-key
             <h3 className="modal-content__title" />,
+            // eslint-disable-next-line react/jsx-key
             <h2 className="modal-content__title-main" />,
           ]}
         />
