@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { AuthError, AuthModal, AuthRequest } from "~/components/AuthModal";
+import isError from "lodash/isError";
 
 export interface AuthModalContainerProps {
   open: boolean;
@@ -38,8 +39,10 @@ export function AuthModalContainer(props: AuthModalContainerProps) {
         }
       })
       .catch((error) => {
-        const message =
-          typeof error.message === "string" ? error.message : undefined;
+        let message: string | undefined = undefined;
+        if (isError(error)) {
+          message = error.message;
+        }
         setError({
           type: "unknown",
           message,
