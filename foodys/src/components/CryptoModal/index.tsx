@@ -57,8 +57,11 @@ export function CryptoModal(props: CryptoModalProps) {
             <Trans
               i18nKey="common:textPayInCryptoInvit"
               components={[
+                // eslint-disable-next-line react/jsx-key
                 <h2 className="modal-content__crypto-title" />,
+                // eslint-disable-next-line react/jsx-key
                 <br />,
+                // eslint-disable-next-line react/jsx-key
                 <p className="modal-content__crypto-text" />,
               ]}
             />
