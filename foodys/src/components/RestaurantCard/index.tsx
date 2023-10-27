@@ -136,13 +136,12 @@ export function RestaurantCard(props: RestaurantCardProps) {
             )}
           </h3>
           <div className="restaurant__tags">
-            {props.tags &&
-              props.tags.map((tag, i) => (
-                <div
-                  className="restaurant__tag"
-                  key={i.toString()}
-                >{`#${tag}`}</div>
-              ))}
+            {props.tags?.map((tag, i) => (
+              <div
+                className="restaurant__tag"
+                key={i.toString()}
+              >{`#${tag}`}</div>
+            ))}
           </div>
           <div className="restaurant__address">
             <Link
