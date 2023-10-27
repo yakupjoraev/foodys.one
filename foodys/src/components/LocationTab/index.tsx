@@ -25,7 +25,7 @@ export function LocationTab(props: LocationTabProps) {
       <div className="location">
         <div className="location__top">
           <p className="location__address">
-            {props.place.formatted_address || "..."} – 835m from you
+            {props.place.formatted_address ?? "..."} – 835m from you
           </p>
           <div className="location__map">
             {props.place.place_id !== undefined && (
