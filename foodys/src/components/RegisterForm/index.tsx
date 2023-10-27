@@ -106,7 +106,7 @@ export function RegisterForm(props: RegisterFormProps) {
   return (
     <form
       className="modal-content__form"
-      onSubmit={(ev) => handleRegisterFormSubmit(ev)}
+      onSubmit={(ev) => void handleRegisterFormSubmit(ev)}
     >
       <div className="modal-content__form-top">
         <Trans
