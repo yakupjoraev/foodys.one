@@ -290,7 +290,9 @@ export default function Places() {
                   <Trans
                     i18nKey="common:textNumberResults"
                     components={[
+                      // eslint-disable-next-line react/jsx-key
                       <p className="dashboard__form-results-count" />,
+                      // eslint-disable-next-line react/jsx-key
                       <p className="dashboard__form-results-name" />,
                     ]}
                     values={{
