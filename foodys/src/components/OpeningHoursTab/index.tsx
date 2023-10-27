@@ -73,7 +73,7 @@ function renderOpeningHours(periods: PlaceOpeningHoursPeriod[], t: Translate) {
     }
   }
 
-  const shchedule: JSX.Element[] = new Array(7);
+  const shchedule = new Array<JSX.Element>(7);
   for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
     const weekDayLabel = getWeekDayLabel(dayIndex, t);
     const periodLabels = openingPeriods[dayIndex];
