@@ -116,6 +116,8 @@ export default function Main(
 }
 
 function renderHeroTitle(picId: number) {
+  /* eslint-disable react/jsx-key */
+
   switch (picId) {
     case 1: {
       return (
