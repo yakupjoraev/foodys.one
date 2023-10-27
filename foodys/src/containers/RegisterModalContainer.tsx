@@ -25,7 +25,7 @@ export function RegisterModalContainer(props: RegisterModalContainerProps) {
         password: opts.password,
         firstName: opts.firstName,
         lastName: opts.lastName,
-        nickname: opts.nickname || undefined,
+        nickname: !!opts.nickname ? opts.nickname : undefined,
       }),
       headers: {
         "Content-Type": "application/json",
