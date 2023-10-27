@@ -254,6 +254,7 @@ export function RegisterForm(props: RegisterFormProps) {
         <Trans
           i18nKey="common:textSignInInvit"
           components={[
+            // eslint-disable-next-line react/jsx-key
             <a
               href="#"
               target="_blank"
