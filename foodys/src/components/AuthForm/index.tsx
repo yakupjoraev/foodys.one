@@ -151,6 +151,7 @@ export function AuthForm(props: AuthFormProps) {
         <Trans
           i18nKey="common:textCreateAccountInvit"
           components={[
+            // eslint-disable-next-line react/jsx-key
             <a
               href="#"
               target="_blank"
