@@ -24,7 +24,7 @@ export function OverviewTab(props: OverviewTabProps) {
           </p>
         )}
         <p className="overview-content__text">
-          {props.place.formatted_address || "..."}
+          {props.place.formatted_address ?? "..."}
           {props.place.website && (
             <a href={props.place.website} target="_blank">
               {props.place.website}
