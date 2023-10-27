@@ -158,7 +158,9 @@ export function RestaurantCard(props: RestaurantCardProps) {
               <Trans
                 i18nKey="common:textGetThere"
                 components={[
+                  // eslint-disable-next-line react/jsx-key
                   <a className="restaurant__address-get" href="#" />,
+                  // eslint-disable-next-line react/jsx-key
                   <div className="restaurant__address-distance" />,
                 ]}
                 values={{ distance: 835 }}
