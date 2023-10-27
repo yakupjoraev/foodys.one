@@ -496,7 +496,7 @@ export default function Place(
                     />
 
                     {/*---------------------- Opening hours ---------------------*/}
-                    {openingHours && openingHours.length && (
+                    {openingHours?.length && (
                       <OpeningHoursTab
                         periods={openingHours}
                         show={tab === Tab.OpeningHours}
