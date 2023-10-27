@@ -130,10 +130,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <h3 className="restaurant__name">
             {placeLink ? (
               <Link className="restaurant__name-link" href={placeLink}>
-                {props.name || "..."}
+                {props.name ?? "..."}
               </Link>
             ) : (
-              props.name || "..."
+              props.name ?? "..."
             )}
           </h3>
           <div className="restaurant__tags">
@@ -151,7 +151,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
               href={placeLink ? placeLink + "#location" : "#"}
             >
               <img src="/img/dashboard/geo.svg" alt="geo" />
-              <p>{props.formattedAddress || "..."}</p>
+              <p>{props.formattedAddress ?? "..."}</p>
               <span>–</span>
             </Link>
             <div className="restaurant__address-gets">

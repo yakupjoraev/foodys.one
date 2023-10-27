@@ -315,7 +315,7 @@ export default function Place(
                 <div className="input__border" />
                 <div className="restaurant-page__info">
                   <h1 className="restaurant-page__name">
-                    {props.place.name || "..."}
+                    {props.place.name ?? "..."}
                   </h1>
                   <div className="restaurant-page__instruments">
                     <div className="restaurant-page__instrument">

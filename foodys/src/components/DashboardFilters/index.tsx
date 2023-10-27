@@ -104,22 +104,22 @@ export function DashboardFilters(props: DashboardFiltersProps) {
   };
 
   const serviceChecked =
-    filter.serviceDineIn ||
-    filter.serviceTakeOut ||
-    filter.serviceDelivery ||
+    filter.serviceDineIn ??
+    filter.serviceTakeOut ??
+    filter.serviceDelivery ??
     filter.servicePickUp;
 
   const ratingChecked =
-    filter.rating1 ||
-    filter.rating2 ||
-    filter.rating3 ||
-    filter.rating4 ||
+    filter.rating1 ??
+    filter.rating2 ??
+    filter.rating3 ??
+    filter.rating4 ??
     filter.rating5;
 
   const priceChecked =
-    filter.priceLevel1 ||
-    filter.priceLevel2 ||
-    filter.priceLevel3 ||
+    filter.priceLevel1 ??
+    filter.priceLevel2 ??
+    filter.priceLevel3 ??
     filter.priceLevel4;
 
   return (

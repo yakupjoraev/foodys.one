@@ -78,7 +78,7 @@ export function Layout(props: LayoutProps) {
       })}
     >
       <Head>
-        <title>{props.title || "Foodys"}</title>
+        <title>{props.title ?? "Foodys"}</title>
         <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
       </Head>
       <Header
