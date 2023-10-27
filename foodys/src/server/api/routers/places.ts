@@ -66,7 +66,7 @@ export const placesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }): Promise<PlaceListing> => {
-      const page = input.page || 1;
+      const page = input.page ?? 1;
 
       const normalizedQuery = normalizeQuery(input.query);
 

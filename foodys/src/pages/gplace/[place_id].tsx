@@ -347,7 +347,7 @@ export default function Place(
                         }}
                       >
                         <img src="/img/dashboard/geo.svg" alt="geo" />
-                        <p>{props.place?.formatted_address || "..."} </p>
+                        <p>{props.place?.formatted_address ?? "..."} </p>
                         <span>–</span>
                       </a>
                       <div className="restaurant__address-gets">

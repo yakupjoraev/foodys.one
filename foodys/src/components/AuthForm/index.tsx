@@ -62,7 +62,7 @@ export function AuthForm(props: AuthFormProps) {
         setError("root", { message: "Wrong login or password." });
       } else {
         setError("root", {
-          message: props.error.message || "Failed to auth.",
+          message: props.error.message ?? "Failed to auth.",
         });
       }
     }

@@ -34,7 +34,7 @@ export function AuthModalContainer(props: AuthModalContainerProps) {
         } else if (res.status === 401) {
           setError({ type: "credentials" });
         } else {
-          setError({ type: "unknown", message: res?.error || undefined });
+          setError({ type: "unknown", message: res?.error ?? undefined });
         }
       })
       .catch((error) => {

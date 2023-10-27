@@ -31,7 +31,7 @@ export function ReviewItem(props: ReviewItemProps) {
       <div className="reviews-content__user">
         <img
           className="reviews-content__user-avatar"
-          src={props.review.profile_photo_url || "https://placehold.co/32x32"}
+          src={props.review.profile_photo_url ?? "https://placehold.co/32x32"}
           alt="avatar"
         />
         <div className="reviews-content__user-info">

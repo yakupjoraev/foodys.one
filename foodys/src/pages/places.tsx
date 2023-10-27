@@ -32,7 +32,7 @@ export default function Places() {
     DEFAULT_OPTIMISTIC_FAVORITE
   );
   const query = searchParams.get("query");
-  const page = searchParams.get("page") || "1";
+  const page = searchParams.get("page") ?? "1";
 
   let pageInt = parseInt(page, 10);
   if (isNaN(pageInt)) {
@@ -102,7 +102,7 @@ export default function Places() {
     }, [debouncedFilterState]);
 
   const queryResponse = api.places.getPlaces.useQuery({
-    query: query || "",
+    query: query ?? "",
     page: pageInt,
     pageSize: debouncedFilterState.pageSize,
     rating,
