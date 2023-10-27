@@ -84,7 +84,9 @@ export function AuthForm(props: AuthFormProps) {
         <Trans
           i18nKey="common:titleSignInForm"
           components={[
+            // eslint-disable-next-line react/jsx-key
             <h3 className="modal-content__title" />,
+            // eslint-disable-next-line react/jsx-key
             <h2 className="modal-content__title-main" />,
           ]}
         />
