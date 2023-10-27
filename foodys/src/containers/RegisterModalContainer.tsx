@@ -5,6 +5,7 @@ import {
   RegisterModal,
   RegisterRequest,
 } from "~/components/RegisterModal";
+import isError from "lodash/isError";
 
 export interface RegisterModalContainerProps {
   open: boolean;
@@ -56,8 +57,10 @@ export function RegisterModalContainer(props: RegisterModalContainerProps) {
       })
       .catch((error) => {
         console.error(error);
-        const message =
-          typeof error.message === "string" ? error.message : undefined;
+        let message: string | undefined = undefined;
+        if (isError(error)) {
+          message = error.message;
+        }
         setError({ type: "unknown", message });
       })
       .finally(() => {
