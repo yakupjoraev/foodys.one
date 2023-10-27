@@ -30,14 +30,14 @@ export function Header(props: HeaderProps) {
     if (queryInput instanceof HTMLInputElement) {
       const value = queryInput.value;
       if (value) {
-        router.push(`/places?query=${encodeURIComponent(value)}`);
+        void router.push(`/places?query=${encodeURIComponent(value)}`);
       }
     }
   };
 
   const handleLocaleChange = (locale: string) => {
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale });
+    void router.push({ pathname, query }, asPath, { locale });
   };
 
   return (

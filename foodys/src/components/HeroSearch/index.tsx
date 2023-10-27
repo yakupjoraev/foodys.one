@@ -17,7 +17,7 @@ export function HeroSearch() {
     if (queryInput instanceof HTMLInputElement) {
       const value = queryInput.value;
       if (value) {
-        router.push(`/places?query=${encodeURIComponent(value)}`);
+        void router.push(`/places?query=${encodeURIComponent(value)}`);
       }
     }
   };

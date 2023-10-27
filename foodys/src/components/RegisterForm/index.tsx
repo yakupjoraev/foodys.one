@@ -104,7 +104,10 @@ export function RegisterForm(props: RegisterFormProps) {
   };
 
   return (
-    <form className="modal-content__form" onSubmit={handleRegisterFormSubmit}>
+    <form
+      className="modal-content__form"
+      onSubmit={(ev) => handleRegisterFormSubmit(ev)}
+    >
       <div className="modal-content__form-top">
         <Trans
           i18nKey="common:titleCreateAccountForm"

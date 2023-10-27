@@ -54,7 +54,7 @@ export function Layout(props: LayoutProps) {
   };
 
   const handleLogOutBtnClick = () => {
-    signOut();
+    void signOut();
   };
 
   const handleToggleMobileMenu = () => {

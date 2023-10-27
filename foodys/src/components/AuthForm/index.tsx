@@ -76,7 +76,10 @@ export function AuthForm(props: AuthFormProps) {
   });
 
   return (
-    <form className="modal-content__form" onSubmit={handleAuthFormSubmit}>
+    <form
+      className="modal-content__form"
+      onSubmit={(ev) => void handleAuthFormSubmit(ev)}
+    >
       <div className="modal-content__form-top">
         <Trans
           i18nKey="common:titleSignInForm"
