@@ -105,7 +105,7 @@
   "textOpensAt": "Ouvre à XXX",
   "textPreviousPage": "Page précedente",
   "textNextPage": "Page suivante",
-  "textNumberExplanation": "Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais le numéro d'un service permettant la mise en relation avec celui-ci. Ce service édité par le site foodys.com. Pourquoi ce numero ? Link behind \"Pourquoi ce numéro\" : http://mise-en-relation.svaplus.fr/",
+  "textNumberExplanation": "Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais le numéro d'un service permettant la mise en relation avec celui-ci. Ce service édité par le site foodys.one. <0>Pourquoi ce numero ?</0>",
   "textPayInCryptoInvit": "<0>Payez votre restaurant<1/> ou votre livraison en crypto :</0><2>installez gratuitement l'application Paypolitan et obtenez en 2 minutes une carte de crédit ou de débit virtuelle.</2>",
   "textSeeOpeningHours": "Regarder les horaires d'ouverture",
   "textThisIsMyBusiness": "C'est mon établissement",
@@ -146,5 +146,6 @@
   "buttonLearnMore": "Lire plus",
   "buttonAgreeAndClose": "Accepter et fermer",
   "buttonLearnMoreAboutUs": "Pour en savoir plus sur nous",
-  "urlLearnMoreAboutUs": "https://www.aragontelecom.com/"
+  "urlLearnMoreAboutUs": "https://www.aragontelecom.com/",
+  "urlNumber": "http://mise-en-relation.svaplus.fr/"
 }

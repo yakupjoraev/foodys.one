@@ -228,12 +228,16 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <div className="service-phone-group">
             <ServicePhone />
             <p className="service-phone-help">
-              Ce numéro valable 5 minutes n'est pas le numéro du destinataire
-              mais le numéro d'un service permettant la mise en relation avec
-              celui-ci. Ce service édité par le site foodys.com.{" "}
-              <a className="service-phone-help__link" href="#">
-                Pourquoi ce numero?
-              </a>
+              <Trans
+                i18nKey="common:textNumberExplanation"
+                components={[
+                  // eslint-disable-next-line react/jsx-key
+                  <a
+                    className="service-phone-help__link"
+                    href={t("urlNumber")}
+                  />,
+                ]}
+              />
             </p>
           </div>
         )}
@@ -248,23 +252,28 @@ export function RestaurantCard(props: RestaurantCardProps) {
         <div className="service-phone-group restaurant__service-phone-group">
           <ServicePhone />
           <p className="service-phone-help service-phone-group__item">
-            Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais
-            le numéro d'un service permettant la mise en relation avec celui-ci.
-            Ce service édité par le site foodys.com.{" "}
-            <a className="service-phone-help__link" href="#">
-              Pourquoi ce numero?
-            </a>
+            <Trans
+              i18nKey="common:textNumberExplanation"
+              components={[
+                // eslint-disable-next-line react/jsx-key
+                <a
+                  className="service-phone-help__link"
+                  href={t("urlNumber")}
+                />,
+              ]}
+            />
           </p>
         </div>
       )}
       {servicePhoneVisible && viewMode === ViewMode.Desktop && (
         <p className="service-phone-help restaurant__service-phone-help">
-          Ce numéro valable 5 minutes n'est pas le numéro du destinataire mais
-          le numéro d'un service permettant la mise en relation avec celui-ci.
-          Ce service édité par le site foodys.com.{" "}
-          <a className="service-phone-help__link" href="#">
-            Pourquoi ce numero?
-          </a>
+          <Trans
+            i18nKey="common:textNumberExplanation"
+            components={[
+              // eslint-disable-next-line react/jsx-key
+              <a className="service-phone-help__link" href={t("urlNumber")} />,
+            ]}
+          />
         </p>
       )}
     </div>
