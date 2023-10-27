@@ -79,7 +79,7 @@ export function RegisterForm(props: RegisterFormProps) {
         });
       } else {
         setError("root", {
-          message: props.error.message || "Failed to register.",
+          message: props.error.message ?? "Failed to register.",
         });
       }
     }
