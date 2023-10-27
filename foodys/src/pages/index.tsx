@@ -13,7 +13,7 @@ export const getServerSideProps = (async ({ query, res, req }) => {
   const FIRST_PICTURE_ID = 1;
   const LAST_PICTURE_ID = 7;
 
-  const pictureIdFromQuery = query["pic"];
+  const pictureIdFromQuery = query.pic;
   if (typeof pictureIdFromQuery === "string") {
     const pictureId = parseInt(pictureIdFromQuery, 10);
     if (
