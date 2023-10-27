@@ -19,6 +19,7 @@ export default function About() {
                   <div className="about__descrs">
                     <Trans
                       i18nKey="common:textAboutUsContent"
+                      // eslint-disable-next-line react/jsx-key
                       components={[<p />, <p />, <p />]}
                     />
                   </div>
