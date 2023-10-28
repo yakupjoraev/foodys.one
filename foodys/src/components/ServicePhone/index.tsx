@@ -1,20 +1,33 @@
-import classNames from "classnames";
+import { CSSProperties } from "react";
 
-export interface ServicePhoneProps {
-  className?: string;
-}
+export interface ServicePhoneProps {}
+
+const constainerStyle: CSSProperties = {
+  background: 'url("/img/dashboard/service-phone-bg.png") no-repeat',
+  backgroundSize: "100% auto",
+  color: "#a50f78",
+  fontFamily: "'Arial'",
+  fontWeight: "bold",
+  textAlign: "left",
+  fontStyle: "normal",
+  height: "26px",
+  lineHeight: "26px",
+  position: "relative",
+  width: "231px",
+  display: "block",
+};
+
+const phoneStyle: CSSProperties = {
+  display: "inline-block",
+  fontSize: "16px",
+  textAlign: "center",
+  width: "124px",
+};
 
 export function ServicePhone(props: ServicePhoneProps) {
   return (
-    <a
-      className={classNames("service-phone", props.className)}
-      href="tel:0899186149"
-    >
-      <span className="service-phone__phone">0899 186 149</span>{" "}
-      <span className="service-phone__price">
-        Service €3 / appel
-        <br /> + prix appel
-      </span>
+    <a href="tel:0899186149" style={constainerStyle}>
+      <span style={phoneStyle}>0899 186 149</span>
     </a>
   );
 }

@@ -49,7 +49,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { width: windowWidth } = useWindowSize();
-  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
+  const [servicePhoneVisible, setServicePhoneVisible] = useState(true);
 
   const photos = props.photos ?? DEFAULT_PHOTOS;
 
