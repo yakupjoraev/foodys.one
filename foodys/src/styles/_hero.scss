@@ -13,12 +13,10 @@
   // .hero__inner
 
   &__inner {
-    position: relative;
+    // position: relative;
     display: grid;
     grid-template-columns: 440px 1fr;
     column-gap: 46px;
-
-
 
     @media (max-width: $breakpoint992) {
       grid-template-columns: 300px 1fr;
@@ -31,7 +29,7 @@
     }
 
     @media (max-width: 370px) {
-      padding-bottom: 30px;
+      min-height: 90vh;
     }
   }
 
@@ -47,9 +45,7 @@
       row-gap: 40px;
     }
 
-    @media (max-width: $breakpoint768) {
-      padding-bottom: 30px;
-    }
+    @media (max-width: $breakpoint768) {}
   }
 
   // .hero__title
@@ -99,6 +95,10 @@
   &__form {
     position: relative;
     z-index: 2;
+
+    @media (max-width: $breakpoint768) {
+      margin-top: auto;
+    }
   }
 
   // .hero__form-label
@@ -223,32 +223,99 @@
 
   // .hero__pictures
 
-  &__pictures {}
+  &__pictures {
+
+    @media (max-width: $breakpoint768) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 
   // .hero__picture
 
   &__picture {
     position: absolute;
-    right: 10%;
-    top: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-30%, -50%);
 
-    @media (max-width: $breakpoint1200) {
-      right: auto;
+    &.hero__picture--pasta {
       left: 50%;
-      transform: translateX(-20%);
+      top: 100%;
+      transform: translate(-30%, -101%);
+
+      @media (max-width: $breakpoint1200) {
+        transform: translate(-20%, -101%);
+
+        img {
+          max-width: 580px;
+        }
+      }
+
+      @media (max-width: $breakpoint768) {
+        top: 50%;
+
+        transform: translate(-89%, -50%) rotate(60deg);
+
+        img {
+          max-width: 70vw;
+        }
+      }
     }
 
+    &.hero__picture--pizza {
+      left: 100%;
+      top: 100%;
+      transform: translate(-100%, -101%);
+
+      @media (max-width: $breakpoint1200) {
+
+        top: 50%;
+        transform: translate(-100%, -50%);
+
+        img {
+          max-width: 580px;
+        }
+
+        @media (max-width: $breakpoint992) {
+          img {
+            max-width: 400px;
+          }
+        }
+      }
+
+
+      @media (max-width: $breakpoint768) {
+        img {
+          max-width: 100vw;
+        }
+      }
+    }
+
+    @media (max-width: $breakpoint1200) {
+      transform: translate(-30%, -50%);
+    }
+
+    @media (max-width: $breakpoint992) {
+      transform: translate(-20%, -50%);
+    }
+
+
     @media (max-width: $breakpoint768) {
-      position: static;
+      // position: static;
       display: flex;
       justify-content: center;
       align-items: center;
-      transform: translateX(0);
+      // transform: translateX(0);
+      transform: translate(-50%, -50%);
     }
 
     img {
-      max-width: 600px;
-      width: 100%;
+      // max-width: 600px;
+      // width: 100%;
       height: auto;
 
       @media (max-width: $breakpoint1200) {
@@ -265,8 +332,8 @@
 
   &__uk {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 224px;
+    right: 104px;
     width: 139px;
     height: 139px;
     border-radius: 100%;
@@ -301,15 +368,23 @@
       }
     }
 
+    @media (max-width: $breakpoint1200) {
+      right: 10px;
+    }
+
     @media (max-width: $breakpoint992) {
       width: 84px;
       height: 84px;
     }
 
     @media (max-width: $breakpoint768) {
-      top: 20%;
+      top: 30%;
       width: 57px;
       height: 57px;
+    }
+
+    @media (max-width: 370px) {
+      top: 10%;
     }
   }
 
@@ -334,10 +409,14 @@
 
   &__chatbot {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 10%;
+    right: 100px;
     width: 107px;
     height: 107px;
+
+    @media (max-width: $breakpoint1200) {
+      right: 10px;
+    }
 
     @media (max-width: $breakpoint992) {
       width: 77px;
@@ -350,7 +429,8 @@
     }
 
     @media (max-width: $breakpoint768) {
-      right: -16px;
+      right: 0;
+      bottom: 10px;
       width: 50px;
       height: 47px;
 
