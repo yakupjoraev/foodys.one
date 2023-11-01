@@ -184,3 +184,17 @@ export async function fetchAllFavoriteGPlaces(
 
   return placeListingItems;
 }
+
+export async function isGplaceFavorite(
+  gPlaceId: string,
+  userId: string
+): Promise<boolean> {
+  const favoritePlace = await db.favoriteGPlace.findFirst({
+    where: {
+      user_id: userId,
+      place_id: gPlaceId,
+    },
+  });
+
+  return favoritePlace !== null;
+}

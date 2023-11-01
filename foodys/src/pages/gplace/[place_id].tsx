@@ -19,8 +19,15 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
-import { fetchGPlaceByPlaceId } from "~/server/api/utils/g-place";
+import {
+  fetchGPlaceByPlaceId,
+  isGplaceFavorite,
+} from "~/server/api/utils/g-place";
 import { RWebShare } from "react-web-share";
+import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 enum Tab {
   Overview,
@@ -48,7 +55,15 @@ export const getServerSideProps = (async (ctx) => {
       notFound: true,
     };
   }
-  return { props: { place } };
+
+  let favorite = false;
+  const session = await getServerAuthSession(ctx);
+  if (session) {
+    const userId = session.user.id;
+    favorite = await isGplaceFavorite(placeId, userId);
+  }
+
+  return { props: { place, favorite } };
 }) satisfies GetServerSideProps<{ place: Place }>;
 
 export default function Place(
@@ -58,9 +73,12 @@ export default function Place(
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(props.favorite);
+  const { status: authStatus } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
+
+  const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
 
   useEffect(() => {
     if (hash === HASH_GALLERY) {
@@ -110,7 +128,30 @@ export default function Place(
   };
 
   const handleFavoriteBtnClick = () => {
+    const placeId = props.place.place_id;
+    if (!placeId) {
+      return;
+    }
+    if (authStatus !== "authenticated") {
+      toast.error("Authentification required!");
+      return;
+    }
+
+    const currentFavorite = favorite;
+    const nextFavorite = !favorite;
+
     setFavorite(!favorite);
+
+    favoriteGPlace
+      .mutateAsync({
+        placeId,
+        favorite: nextFavorite,
+      })
+      .catch((error) => {
+        console.error(error);
+        setFavorite(currentFavorite);
+        toast.error("Failed to toggle favorite!");
+      });
   };
 
   const openTab = (nextTab: Tab, scroll?: boolean) => {
@@ -327,6 +368,7 @@ export default function Place(
                       <img src="/img/restaurant-page/review.svg" alt="review" />
                       <span>{t("buttonReview")}</span>
                     </div>
+
                     <div
                       className={classNames("restaurant-page__instrument", {
                         liked: favorite,
@@ -356,6 +398,7 @@ export default function Place(
                       </svg>
                       <span>{t("buttonSave")}</span>
                     </div>
+
                     <RWebShare data={shareData}>
                       <div
                         className="restaurant-page__instrument"
