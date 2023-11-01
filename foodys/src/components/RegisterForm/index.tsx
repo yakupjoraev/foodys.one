@@ -89,7 +89,7 @@ export function RegisterForm(props: RegisterFormProps) {
     props.onRegister({
       firstName: formData.firstName,
       lastName: formData.lastName,
-      nickname: formData.nickname,
+      nickname: formData.nickname?.length ? formData.nickname : undefined,
       email: formData.email,
       password: formData.password,
     });

@@ -4,12 +4,9 @@ import { object, optional, string, literal } from "zod";
 export const registerFormSchema = object({
   firstName: string().nonempty().max(256),
   lastName: string().nonempty().max(256),
-  nickname: optional(
-    string()
-      .nonempty()
-      .max(256)
-      .regex(/^[a-z0-9_]*$/, "allowed symbols: a-z, 0-9 and _")
-  ),
+  nickname: string()
+    .max(256)
+    .regex(/^[a-z0-9_]*$/, "allowed symbols: a-z, 0-9 and _"),
   email: string().email(),
   password: string()
     .min(8)
