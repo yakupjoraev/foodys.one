@@ -38,7 +38,7 @@ export async function createPlaceUrl(
   let attempt = 1;
   let uniqueUrl = baseUrl;
   while (true) {
-    let urlRecord = await db.placeUrl.findFirst({
+    const urlRecord = await db.placeUrl.findFirst({
       where: {
         g_place_id: gPlaceId,
       },
