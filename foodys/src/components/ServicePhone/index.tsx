@@ -1,7 +1,5 @@
 import { CSSProperties } from "react";
 
-export interface ServicePhoneProps {}
-
 const constainerStyle: CSSProperties = {
   background: 'url("/img/dashboard/service-phone-bg.png") no-repeat',
   backgroundSize: "100% auto",
@@ -24,7 +22,7 @@ const phoneStyle: CSSProperties = {
   width: "124px",
 };
 
-export function ServicePhone(props: ServicePhoneProps) {
+export function ServicePhone() {
   return (
     <a href="tel:0899186149" style={constainerStyle}>
       <span style={phoneStyle}>0899 186 149</span>
