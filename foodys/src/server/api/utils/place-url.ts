@@ -11,8 +11,8 @@ export async function createPlaceUrlByGPlace(
     return null;
   }
   const name: string = place.name ?? "unknown";
-  let country: string = "unknown";
-  let city: string = "unknown";
+  let country = "unknown";
+  let city = "unknown";
   if (place.address_components) {
     country =
       getCountryFromAddressComponents(place.address_components) ?? "unknown";
