@@ -238,6 +238,21 @@
     border: 1px solid rgba(49, 55, 67, 0.20);
     cursor: pointer;
 
+
+    &.liked {
+
+      svg rect {
+        animation: like 0.5s linear both;
+        fill: #FF4545;
+      }
+
+      svg path {
+        fill: #FF4545;
+
+        animation: like 0.5s linear both;
+      }
+    }
+
     span {
       color: var(--text-color);
       font-size: 14px;
@@ -854,7 +869,7 @@
 .restaurant__btn {
   font-size: 12px;
 
-  @media (max-width: 3590px) {
+  @media (max-width: 359px) {
     font-size: 10px;
     padding: 4px;
   }
@@ -886,5 +901,19 @@
 
   @media (max-width: $breakpoint768) {
     margin: 30px auto 20px;
+  }
+}
+
+@keyframes like {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
