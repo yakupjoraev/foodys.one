@@ -6,6 +6,7 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
 import { removeUndefined } from "~/utils/remove-undefined";
+import { createPlaceUrlByGPlace } from "./place-url";
 
 const PHOTOS_ENDPOINT =
   "https://foodys.freeblock.site/place-photos/cover_168x168/";
@@ -23,6 +24,7 @@ export interface PlaceListingItem {
   dine_in?: boolean;
   takeout?: boolean;
   curbside_pickup?: boolean;
+  url?: string;
 }
 
 export interface PlaceListing {
@@ -175,11 +177,18 @@ export async function fetchAllFavoriteGPlaces(
   const placeListingItems: PlaceListingItem[] = [];
   for (const id of favoriteIds) {
     const place = await fetchGPlaceByPlaceId(id);
-    if (place !== null) {
-      const listingItem = createPlaceListingItem(place);
-      listingItem.favorite = true;
-      placeListingItems.push(listingItem);
+
+    if (place === null) {
+      continue;
     }
+
+    const listingItem = createPlaceListingItem(place);
+    listingItem.favorite = true;
+    const placeUrl = await createPlaceUrlByGPlace(place);
+    if (placeUrl !== null) {
+      listingItem.url = placeUrl;
+    }
+    placeListingItems.push(listingItem);
   }
 
   return placeListingItems;

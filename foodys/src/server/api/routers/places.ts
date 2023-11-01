@@ -12,6 +12,7 @@ import {
   applyFavoritiesToPlaceItems,
   createPlaceListingItem,
 } from "../utils/g-place";
+import { createPlaceUrlByGPlace } from "../utils/place-url";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -88,17 +89,17 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const places = cachedResponse.places as Place[];
-        return withFavorities(
-          createResponse({
-            page,
-            pageSize: input.pageSize,
-            places,
-            filterRating: input.rating,
-            filterPriceLevel: input.priceLevel,
-            filterService: input.service,
-          }),
-          ctx
-        );
+        let response = createResponse({
+          page,
+          pageSize: input.pageSize,
+          places,
+          filterRating: input.rating,
+          filterPriceLevel: input.priceLevel,
+          filterService: input.service,
+        });
+        response = await withFavorities(response, ctx);
+        response = await withUrls(response, places, ctx);
+        return response;
       }
 
       const searchResponse = await gmClient.textSearch({
@@ -135,18 +136,17 @@ export const placesRouter = createTRPCRouter({
           establishment: getEstablishmentDB(input.establishment),
         },
       });
-
-      return withFavorities(
-        createResponse({
-          page,
-          pageSize: input.pageSize,
-          places: searchResponse.results,
-          filterRating: input.rating,
-          filterPriceLevel: input.priceLevel,
-          filterService: input.service,
-        }),
-        ctx
-      );
+      let response = createResponse({
+        page,
+        pageSize: input.pageSize,
+        places: searchResponse.results,
+        filterRating: input.rating,
+        filterPriceLevel: input.priceLevel,
+        filterService: input.service,
+      });
+      response = await withFavorities(response, ctx);
+      response = await withUrls(response, searchResponse.results, ctx);
+      return response;
     }),
 });
 
@@ -174,12 +174,56 @@ async function withFavorities(
   return nextListing;
 }
 
+async function withUrls(
+  listing: PlaceListing,
+  places: Place[],
+  ctx: {
+    session: Session | null;
+    db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
+  }
+) {
+  const nextListing = {
+    ...listing,
+  };
+
+  const idToPlace = new Map<string, Place>();
+  for (const place of places) {
+    const id = place.place_id;
+    if (id === undefined) {
+      continue;
+    }
+    idToPlace.set(id, place);
+  }
+
+  nextListing.results = await Promise.all(
+    listing.results.map(async (listingItem) => {
+      const placeId = listingItem.place_id;
+      if (placeId === undefined) {
+        return listingItem;
+      }
+      const place = idToPlace.get(placeId);
+      if (place === undefined) {
+        return listingItem;
+      }
+      const url = await createPlaceUrlByGPlace(place);
+      if (url === null) {
+        return listingItem;
+      }
+      listingItem.url = url;
+
+      return listingItem;
+    })
+  );
+
+  return nextListing;
+}
+
 async function loadPlaceDetails(placeId: string) {
   const placeDetails = await gmClient.placeDetails({
     queries: {
       place_id: placeId,
       key: env.GOOGLE_MAPS_API_KEY,
-      fields: "delivery,dine_in,takeout,curbside_pickup",
+      fields: "delivery,dine_in,takeout,curbside_pickup,address_components",
     },
   });
 
@@ -187,9 +231,10 @@ async function loadPlaceDetails(placeId: string) {
     return null;
   }
 
-  const { delivery, dine_in, takeout, curbside_pickup } = placeDetails.result;
+  const { delivery, dine_in, takeout, curbside_pickup, address_components } =
+    placeDetails.result;
 
-  return { delivery, dine_in, takeout, curbside_pickup };
+  return { delivery, dine_in, takeout, curbside_pickup, address_components };
 }
 
 function normalizeQuery(query: string) {

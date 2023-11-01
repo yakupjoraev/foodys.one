@@ -158,6 +158,16 @@ model GPlace {
   @@map("g_place")
 }
 
+model PlaceUrl {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  url        String
+  g_place_id String?
+
+  @@unique([url])
+  @@unique([g_place_id])
+  @@map("place_url")
+}
+
 type Place {
   address_components             AddressComponent[]
   adr_address                    String?

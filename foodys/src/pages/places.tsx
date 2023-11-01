@@ -349,6 +349,7 @@ export default function Places() {
                           placeListingItem.place_id
                         )}
                         authentificated={authentificated}
+                        url={placeListingItem.url}
                         onChangeFavorite={handleChangeFavorite}
                         onPayInCryptoBtnClick={handlePayInCryptoBtnClick}
                         key={placeListingItem.place_id}

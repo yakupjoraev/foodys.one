@@ -28,6 +28,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { db } from "~/server/db";
 
 enum Tab {
   Overview,
@@ -43,12 +44,32 @@ const HASH_REVIEWS = "#reviews";
 const HASH_LOCATION = "#location";
 
 export const getServerSideProps = (async (ctx) => {
-  const placeId = ctx.params?.place_id;
-  if (typeof placeId !== "string") {
+  const country = ctx.params?.country;
+  const city = ctx.params?.city;
+  const slug = ctx.params?.slug;
+  if (!country || !city || !slug) {
     return {
       notFound: true,
     };
   }
+
+  const placeUrl = await db.placeUrl.findFirst({
+    where: {
+      url: "/" + country + "/" + city + "/" + slug,
+    },
+  });
+  if (placeUrl === null) {
+    return {
+      notFound: true,
+    };
+  }
+  const placeId = placeUrl.g_place_id;
+  if (placeId === null) {
+    return {
+      notFound: true,
+    };
+  }
+
   const place = await fetchGPlaceByPlaceId(placeId);
   if (place === null) {
     return {

@@ -35,6 +35,7 @@ export interface RestaurantCardProps {
   favorite?: boolean;
   tags?: string[];
   authentificated?: boolean;
+  url?: string;
   onChangeFavorite?: (
     placeId: string,
     favorite: boolean,
@@ -68,10 +69,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
   const viewMode = getViewMode(windowWidth);
 
-  const placeLink = useMemo(
-    () => (props.placeId === undefined ? null : getPlaceLink(props.placeId)),
-    [props.placeId]
-  );
+  const placeLink = props.url;
 
   return (
     <div className="restaurant">
