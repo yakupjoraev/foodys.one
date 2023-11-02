@@ -47,7 +47,11 @@ export const getServerSideProps = (async (ctx) => {
   const country = ctx.params?.country;
   const city = ctx.params?.city;
   const slug = ctx.params?.slug;
-  if (!country || !city || !slug) {
+  if (
+    typeof country !== "string" ||
+    typeof city !== "string" ||
+    typeof slug !== "string"
+  ) {
     return {
       notFound: true,
     };
