@@ -1,7 +1,9 @@
+import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import toast from "react-hot-toast";
-import { env } from "~/env.mjs";
+import Trans from "next-translate/Trans";
 import { type Place } from "~/server/gm-client/types";
+import { ServicePhone } from "../ServicePhone";
+import { env } from "~/env.mjs";
 
 export interface LocationTabProps {
   place: Place;
@@ -10,9 +12,10 @@ export interface LocationTabProps {
 
 export function LocationTab(props: LocationTabProps) {
   const { t } = useTranslation("common");
+  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
-  const handleClick = () => {
-    toast("NOT IMPLEMENTED");
+  const handleCallBtnClick = () => {
+    setServicePhoneVisible(!servicePhoneVisible);
   };
 
   return (
@@ -44,14 +47,33 @@ export function LocationTab(props: LocationTabProps) {
             )}
           </div>
           <div className="location__footer">
-            <button
-              className="restaurant__btn call"
-              type="button"
-              onClick={handleClick}
-            >
-              <img src="/img/dashboard/call.svg" alt="call" />
-              {t("buttonCall")}
-            </button>
+            <div className="location__footer-btns">
+              <button
+                className="restaurant__btn call"
+                type="button"
+                onClick={handleCallBtnClick}
+              >
+                <img src="/img/dashboard/call.svg" alt="call" />
+                {t("buttonCall")}
+              </button>
+            </div>
+            {servicePhoneVisible && (
+              <div className="service-phone-group location__service-phone">
+                <ServicePhone />
+                <p className="service-phone-help">
+                  <Trans
+                    i18nKey="common:textNumberExplanation"
+                    components={[
+                      // eslint-disable-next-line react/jsx-key
+                      <a
+                        className="service-phone-help__link"
+                        href={t("urlNumber")}
+                      />,
+                    ]}
+                  />
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

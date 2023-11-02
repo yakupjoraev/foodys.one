@@ -531,6 +531,12 @@
 
 .location__footer {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.location__footer-btns {
+  display: flex;
   align-items: center;
   column-gap: 10px;
 
@@ -540,6 +546,11 @@
   }
 }
 
+.location__service-phone {
+  @media (max-width: $breakpoint768) {
+    align-items: center;
+  }
+}
 
 .restaurant__btn--outline {
   background-color: #fff;
