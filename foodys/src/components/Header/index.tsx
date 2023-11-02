@@ -250,9 +250,13 @@ export function Header(props: HeaderProps) {
                 </li>
               )}
               <li className="menu__item menu__item--mob">
-                <a href="/about" className="menu__item-link" data-scroll="">
+                <Link
+                  href="/about-us"
+                  className="menu__item-link"
+                  data-scroll=""
+                >
                   {t("titleAboutUs")}
-                </a>
+                </Link>
               </li>
               <li className="menu__item menu__item--mob">
                 <a href="#" className="menu__item-link" data-scroll="">
