@@ -29,6 +29,7 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { db } from "~/server/db";
+import { ServicePhone } from "~/components/ServicePhone";
 
 enum Tab {
   Overview,
@@ -99,6 +100,7 @@ export default function Place(
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [favorite, setFavorite] = useState(props.favorite);
+  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
   const { status: authStatus } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
@@ -177,6 +179,10 @@ export default function Place(
         setFavorite(currentFavorite);
         toast.error("Failed to toggle favorite!");
       });
+  };
+
+  const handleCallBtnClick = () => {
+    setServicePhoneVisible(!servicePhoneVisible);
   };
 
   const openTab = (nextTab: Tab, scroll?: boolean) => {
@@ -492,7 +498,11 @@ export default function Place(
                   </div>
                   <div className="restaurant-page__btns">
                     <div className="restaurant__btns">
-                      <button type="button" className="restaurant__btn call">
+                      <button
+                        type="button"
+                        className="restaurant__btn call"
+                        onClick={handleCallBtnClick}
+                      >
                         <img src="/img/dashboard/call.svg" alt="call" />
                         {t("buttonCall")}
                       </button>
@@ -544,6 +554,23 @@ export default function Place(
                       </span>
                     </a>
                   </div>
+                  {servicePhoneVisible && (
+                    <div className="service-phone-group restaurant-page__service-phone">
+                      <ServicePhone />
+                      <p className="service-phone-help">
+                        <Trans
+                          i18nKey="common:textNumberExplanation"
+                          components={[
+                            // eslint-disable-next-line react/jsx-key
+                            <a
+                              className="service-phone-help__link"
+                              href={t("urlNumber")}
+                            />,
+                          ]}
+                        />
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div className="input__border" />
                 {/* Tabs */}

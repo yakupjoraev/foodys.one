@@ -398,6 +398,18 @@
     font-weight: 900;
     line-height: 112.8%;
   }
+
+  // .restaurant-page__service-phone
+
+  &__service-phone {
+    margin-top: 20px;
+
+    @media (max-width: $breakpoint768) {
+      order: 5;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+  }
 }
 
 .overview-content {
