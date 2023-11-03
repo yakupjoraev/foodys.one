@@ -133,6 +133,7 @@ export default function Favorites(
                           photos={placeListingItem.photos}
                           favorite={placeListingItem.favorite}
                           authentificated={authentificated}
+                          url={placeListingItem.url}
                           onChangeFavorite={handleChangeFavorite}
                           onPayInCryptoBtnClick={handlePayInCryptoBtnClick}
                           key={placeListingItem.place_id}
