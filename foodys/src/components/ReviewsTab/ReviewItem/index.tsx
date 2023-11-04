@@ -9,9 +9,14 @@ import fr from "date-fns/locale/fr";
 import useTranslation from "next-translate/useTranslation";
 import toast from "react-hot-toast";
 import { type PlaceReviewResource } from "~/server/api/utils/g-place";
+import classNames from "classnames";
+import { useMemo } from "react";
+import { RWebShare } from "react-web-share";
 
 export interface ReviewItemProps {
   review: PlaceReviewResource;
+  placeUrl: string;
+  highlighted?: boolean;
 }
 
 export function ReviewItem(props: ReviewItemProps) {
@@ -26,8 +31,24 @@ export function ReviewItem(props: ReviewItemProps) {
     dateLocale = fr;
   }
 
+  const shareData: ShareData = useMemo(() => {
+    const title = "Foodys - " + props.review.author_name;
+    const nextUrl = new URL(props.placeUrl);
+    nextUrl.hash = "#rv" + props.review.id;
+    return {
+      title,
+      text: props.review.text,
+      url: nextUrl.toString(),
+    };
+  }, [props.review, props.placeUrl]);
+
   return (
-    <div className="reviews-content__item" data-id={props.review.id}>
+    <div
+      className={classNames("reviews-content__item", {
+        "reviews-content__item--highlighted": props.highlighted,
+      })}
+      data-id={props.review.id}
+    >
       <div className="reviews-content__user">
         <img
           className="reviews-content__user-avatar"
@@ -60,10 +81,12 @@ export function ReviewItem(props: ReviewItemProps) {
           <img src="/img/icons/like.svg" alt="like" />
           <span>1</span>
         </span>
-        <span className="reviews-content__action" onClick={handleClick}>
-          <img src="/img/icons/share.svg" alt="share" />
-          <span>Share review</span>
-        </span>
+        <RWebShare data={shareData}>
+          <span className="reviews-content__action">
+            <img src="/img/icons/share.svg" alt="share" />
+            <span>Share review</span>
+          </span>
+        </RWebShare>
         <span className="reviews-content__action" onClick={handleClick}>
           <img src="/img/icons/no-see.svg" alt="no-see" />
           <span>Report the review</span>

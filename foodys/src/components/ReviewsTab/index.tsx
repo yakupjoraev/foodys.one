@@ -1,11 +1,12 @@
 import useTranslation from "next-translate/useTranslation";
 import { ReviewItem } from "./ReviewItem";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
 import {
   type PlaceResource,
   type PlaceReviewResource,
 } from "~/server/api/utils/g-place";
+import { useHash } from "~/hooks/use-hash";
 
 enum ReviewOrder {
   Relevant,
@@ -17,11 +18,23 @@ enum ReviewOrder {
 export interface ReviewsTabProps {
   show: boolean;
   place: PlaceResource;
+  placeUrl: string;
 }
 
 export function ReviewsTab(props: ReviewsTabProps) {
   const { t } = useTranslation("common");
   const [sortOrder, setSortOrder] = useState(ReviewOrder.Relevant);
+  const [highlightedId, setHightlightedId] = useState<string | null>(null);
+  const [hash] = useHash();
+
+  useEffect(() => {
+    if (hash.startsWith("#rv") && hash.length > 3) {
+      const nextHighlightedId = hash.slice(3);
+      setHightlightedId(nextHighlightedId);
+    } else {
+      setHightlightedId(null);
+    }
+  }, [hash]);
 
   const reviews = useMemo(() => {
     if (!props.place.reviews) {
@@ -84,7 +97,16 @@ export function ReviewsTab(props: ReviewsTabProps) {
           {reviews.length === 0
             ? "No reviews"
             : reviews.map((review, i) => {
-                return <ReviewItem review={review} key={i} />;
+                const highlighted =
+                  highlightedId !== null && review.id === highlightedId;
+                return (
+                  <ReviewItem
+                    review={review}
+                    placeUrl={props.placeUrl}
+                    highlighted={highlighted}
+                    key={i}
+                  />
+                );
               })}
         </div>
       </div>

@@ -30,6 +30,8 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { db } from "~/server/db";
 import { ServicePhone } from "~/components/ServicePhone";
+import { useHash } from "~/hooks/use-hash";
+import { env } from "~/env.mjs";
 
 enum Tab {
   Overview,
@@ -89,7 +91,9 @@ export const getServerSideProps = (async (ctx) => {
     favorite = await isGplaceFavorite(placeId, userId);
   }
 
-  return { props: { place, favorite } };
+  const absolutePlaceUrl = new URL(placeUrl.url, env.NEXT_PUBLIC_SITE_URL);
+
+  return { props: { place, favorite, placeUrl: absolutePlaceUrl.toString() } };
 }) satisfies GetServerSideProps<{ place: Place }>;
 
 export default function Place(
@@ -110,10 +114,17 @@ export default function Place(
   useEffect(() => {
     if (hash === HASH_GALLERY) {
       setGalleryOpen(true);
-    } else {
-      const tab = getTabByHash(hash);
-      if (tab !== null) {
-        openTab(tab);
+      return;
+    }
+    const tab = getTabByHash(hash);
+    if (tab !== null) {
+      openTab(tab);
+      return;
+    }
+    if (hash.startsWith("#rv")) {
+      setTab(Tab.Reviews);
+      if (tabsRef.current) {
+        tabsRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
   }, [hash]);
@@ -631,6 +642,7 @@ export default function Place(
                     {/*---------------------- Reviews ---------------------*/}
                     <ReviewsTab
                       place={props.place}
+                      placeUrl={props.placeUrl}
                       show={tab === Tab.Reviews}
                     />
 
@@ -738,46 +750,4 @@ function getTabByHash(hash: string): Tab | null {
       return null;
     }
   }
-}
-
-function getInitialHash() {
-  if (typeof window === "undefined") {
-    return "";
-  }
-  return window.location.hash;
-}
-
-function useHash(): [string, (hash: string) => void] {
-  const [hash, setHash] = useState<string>(getInitialHash);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const handleHashChange = (ev: HashChangeEvent) => {
-      const newURL = new URL(ev.newURL);
-      const nextHash = newURL.hash;
-      setHash(nextHash);
-    };
-
-    setHash(window.location.hash);
-    window.addEventListener("hashchange", handleHashChange);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
-  }, []);
-
-  const updateHash = (nextHash: string) => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    if (!/^#[a-z0-9_\-]+$/.test(nextHash)) {
-      return;
-    }
-    setHash(nextHash);
-    history.replaceState(undefined, "", nextHash);
-  };
-
-  return [hash, updateHash];
 }
