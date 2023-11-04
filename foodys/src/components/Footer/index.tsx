@@ -46,8 +46,11 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 <a className="footer__info-link" href="#">
                   <img src="/img/footer/footer__info-1.png" alt="" />
                 </a>
-                <a className="footer__info-link" href="#">
-                  <img src="/img/footer/footer__info-2.png" alt="" />
+                <a
+                  className="footer__info-link"
+                  href="https://www.greekecommerce.gr"
+                >
+                  <img src="/img/footer/footer__info-2.png" alt="GRECA" />
                 </a>
               </div>
               <div className="footer__info-block">
