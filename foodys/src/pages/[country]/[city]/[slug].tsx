@@ -20,7 +20,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
 import {
-  fetchGPlaceByPlaceId,
+  createPlaceResourceByPlaceId,
   isGplaceFavorite,
 } from "~/server/api/utils/g-place";
 import { RWebShare } from "react-web-share";
@@ -75,7 +75,7 @@ export const getServerSideProps = (async (ctx) => {
     };
   }
 
-  const place = await fetchGPlaceByPlaceId(placeId);
+  const place = await createPlaceResourceByPlaceId(placeId);
   if (place === null) {
     return {
       notFound: true,

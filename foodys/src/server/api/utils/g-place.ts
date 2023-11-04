@@ -1,12 +1,13 @@
 import { env } from "~/env.mjs";
 import { gmClient } from "~/server/gm-client";
-import { Place } from "~/server/gm-client/types";
+import { Place, PlaceReview } from "~/server/gm-client/types";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
 import { removeUndefined } from "~/utils/remove-undefined";
 import { createPlaceUrlByGPlace } from "./place-url";
+import { createGReviewHash } from "~/utils/review-hash";
 
 const PHOTOS_ENDPOINT =
   "https://foodys.freeblock.site/place-photos/cover_168x168/";
@@ -33,6 +34,12 @@ export interface PlaceListing {
   pages: number;
   total: number;
 }
+
+export type PlaceReviewResource = PlaceReview & { id: string; hash: string };
+
+export type PlaceResource = Omit<Place, "reviews"> & {
+  reviews: PlaceReviewResource[];
+};
 
 export function createPlaceListingItem(place: Place): PlaceListingItem {
   let photos: string[] | undefined = undefined;
@@ -109,17 +116,19 @@ export async function applyFavoritiesToPlaceItems(
   return nextPlaces;
 }
 
-export async function fetchGPlaceByPlaceId(
+export async function createPlaceResourceByPlaceId(
   placeId: string
-): Promise<Place | null> {
+): Promise<PlaceResource | null> {
   const existsPlace = await db.gPlace.findFirst({
     where: {
       place_id: placeId,
     },
+    include: {
+      reviews: true,
+    },
   });
-
   if (existsPlace !== null) {
-    const { id, created_at, updated_at, ...rest } = existsPlace;
+    const { created_at, updated_at, ...rest } = existsPlace;
     return removeNulls(rest);
   }
 
@@ -139,22 +148,67 @@ export async function fetchGPlaceByPlaceId(
     return null;
   }
 
+  const reviewsWithHash: (PlaceReview & { hash: string })[] = [];
+  if (fetchedPlace.reviews) {
+    for (const review of fetchedPlace.reviews) {
+      const { author_name, text, time } = review;
+      const hash = createGReviewHash(
+        author_name,
+        text ?? "",
+        time,
+        fetchedPlace.place_id
+      );
+      reviewsWithHash.push({
+        ...review,
+        hash,
+      });
+    }
+  }
+
+  let createdPlace;
   try {
-    await db.gPlace.create({
-      data: fetchedPlace,
+    createdPlace = await db.gPlace.create({
+      data: {
+        ...fetchedPlace,
+        reviews: { create: reviewsWithHash },
+      },
     });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      return fetchedPlace;
+      const existsPlace = await db.gPlace.findFirst({
+        where: {
+          place_id: placeId,
+        },
+        include: {
+          reviews: true,
+        },
+      });
+      if (existsPlace !== null) {
+        const { created_at, updated_at, ...rest } = existsPlace;
+        return removeNulls(rest);
+      } else {
+        return null;
+      }
     } else {
       throw error;
     }
   }
 
-  return fetchedPlace;
+  const createdReviews = await db.gPlaceReview.findMany({
+    where: {
+      g_place_id: createdPlace.id,
+    },
+  });
+  {
+    const { created_at, updated_at, ...rest } = createdPlace;
+    return removeNulls({
+      ...rest,
+      reviews: createdReviews,
+    });
+  }
 }
 
 export async function fetchAllFavoriteGPlaces(
@@ -176,7 +230,7 @@ export async function fetchAllFavoriteGPlaces(
 
   const placeListingItems: PlaceListingItem[] = [];
   for (const id of favoriteIds) {
-    const place = await fetchGPlaceByPlaceId(id);
+    const place = await createPlaceResourceByPlaceId(id);
 
     if (place === null) {
       continue;

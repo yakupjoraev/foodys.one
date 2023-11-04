@@ -1,8 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
-import { Place, PlaceReview } from "~/server/gm-client/types";
 import { ReviewItem } from "./ReviewItem";
 import { useMemo, useState } from "react";
 import classNames from "classnames";
+import {
+  type PlaceResource,
+  type PlaceReviewResource,
+} from "~/server/api/utils/g-place";
 
 enum ReviewOrder {
   Relevant,
@@ -13,7 +16,7 @@ enum ReviewOrder {
 
 export interface ReviewsTabProps {
   show: boolean;
-  place: Place;
+  place: PlaceResource;
 }
 
 export function ReviewsTab(props: ReviewsTabProps) {
@@ -90,9 +93,9 @@ export function ReviewsTab(props: ReviewsTabProps) {
 }
 
 function sortReviews(
-  reviews: PlaceReview[],
+  reviews: PlaceReviewResource[],
   order: ReviewOrder
-): PlaceReview[] {
+): PlaceReviewResource[] {
   switch (order) {
     case ReviewOrder.Relevant: {
       return Array.from(reviews);

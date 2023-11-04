@@ -1,4 +1,3 @@
-import { PlaceReview } from "~/server/gm-client/types";
 import {
   STAR_WHOLE,
   STAR_HALF,
@@ -9,9 +8,10 @@ import en from "date-fns/locale/en-GB";
 import fr from "date-fns/locale/fr";
 import useTranslation from "next-translate/useTranslation";
 import toast from "react-hot-toast";
+import { type PlaceReviewResource } from "~/server/api/utils/g-place";
 
 export interface ReviewItemProps {
-  review: PlaceReview;
+  review: PlaceReviewResource;
 }
 
 export function ReviewItem(props: ReviewItemProps) {
@@ -27,7 +27,7 @@ export function ReviewItem(props: ReviewItemProps) {
   }
 
   return (
-    <div className="reviews-content__item">
+    <div className="reviews-content__item" data-id={props.review.id}>
       <div className="reviews-content__user">
         <img
           className="reviews-content__user-avatar"

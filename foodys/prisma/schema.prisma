@@ -133,7 +133,7 @@ model GPlace {
   rating                         Float?
   reference                      String?
   reservable                     Boolean?
-  reviews                        PlaceReview[]
+  reviews                        GPlaceReview[]
   scope                          String?
   secondary_opening_hours        PlaceOpeningHours[]
   serves_beer                    Boolean?
@@ -156,6 +156,26 @@ model GPlace {
 
   @@unique([place_id])
   @@map("g_place")
+}
+
+model GPlaceReview {
+  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+  author_name               String
+  rating                    Float
+  relative_time_description String
+  time                      Int
+  author_url                String?
+  language                  String?
+  original_language         String?
+  profile_photo_url         String?
+  text                      String?
+  translated                Boolean?
+  hash                      String
+  g_place_id                String   @db.ObjectId
+  g_place                   GPlace   @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+
+  @@unique([g_place_id, hash])
+  @@map("g_place_review")
 }
 
 model PlaceUrl {
