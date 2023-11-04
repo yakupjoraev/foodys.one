@@ -114,7 +114,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
             <div className="footer__partners">
               <ul className="footer__partners-list">
                 <li className="footer__partners-item">
-                  <a className="footer__partners-link" href="#">
+                  <span className="footer__partners-link">
                     <span className="footer__partners-link-cooming">
                       coming soon
                     </span>
@@ -123,10 +123,10 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                       src="/img/footer/footer__partners-1.svg"
                       alt=""
                     />
-                  </a>
+                  </span>
                 </li>
                 <li className="footer__partners-item">
-                  <a className="footer__partners-link" href="#">
+                  <span className="footer__partners-link">
                     <span className="footer__partners-link-cooming">
                       coming soon
                     </span>
@@ -135,16 +135,19 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                       src="/img/footer/footer__partners-2.svg"
                       alt=""
                     />
-                  </a>
+                  </span>
                 </li>
                 <li className="footer__partners-item">
-                  <a className="footer__partners-link" href="#">
+                  <span className="footer__partners-link">
+                    <span className="footer__partners-link-cooming">
+                      coming soon
+                    </span>
                     <img
                       className="footer__partners-pic"
                       src="/img/footer/footer__partners-3.svg"
                       alt=""
                     />
-                  </a>
+                  </span>
                 </li>
                 <li className="footer__partners-item">
                   <a
