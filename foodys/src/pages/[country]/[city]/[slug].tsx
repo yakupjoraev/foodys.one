@@ -20,7 +20,8 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
 import {
-  createPlaceResourceByPlaceId,
+  PlaceResource,
+  createPlaceResourceByGoogleId,
   isGplaceFavorite,
 } from "~/server/api/utils/g-place";
 import { RWebShare } from "react-web-share";
@@ -32,6 +33,10 @@ import { db } from "~/server/db";
 import { ServicePhone } from "~/components/ServicePhone";
 import { useHash } from "~/hooks/use-hash";
 import { env } from "~/env.mjs";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import { appRouter } from "~/server/api/root";
+import { createTRPCContext } from "~/server/api/trpc";
+import superjson from "superjson";
 
 enum Tab {
   Overview,
@@ -77,7 +82,7 @@ export const getServerSideProps = (async (ctx) => {
     };
   }
 
-  const place = await createPlaceResourceByPlaceId(placeId);
+  const place = await createPlaceResourceByGoogleId(placeId);
   if (place === null) {
     return {
       notFound: true,
@@ -93,8 +98,25 @@ export const getServerSideProps = (async (ctx) => {
 
   const absolutePlaceUrl = new URL(placeUrl.url, env.NEXT_PUBLIC_SITE_URL);
 
-  return { props: { place, favorite, placeUrl: absolutePlaceUrl.toString() } };
-}) satisfies GetServerSideProps<{ place: Place }>;
+  const ssg = createServerSideHelpers({
+    router: appRouter,
+    ctx: {
+      session,
+      db,
+    },
+    transformer: superjson,
+  });
+  await ssg.reviews.getGPlaceReviews.prefetch({ gPlaceId: place.id });
+
+  return {
+    props: {
+      place,
+      favorite,
+      placeUrl: absolutePlaceUrl.toString(),
+      trpcState: ssg.dehydrate(),
+    },
+  };
+}) satisfies GetServerSideProps<{ place: PlaceResource }>;
 
 export default function Place(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -110,6 +132,74 @@ export default function Place(
   const [hash, setHash] = useHash();
 
   const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
+
+  const reviews = api.reviews.getGPlaceReviews.useQuery({
+    gPlaceId: props.place.id,
+  });
+
+  const utils = api.useContext();
+  const updateGPlaceReviewLike = api.reviews.updateGPlaceReviewLike.useMutation(
+    {
+      async onMutate(opts) {
+        await utils.reviews.getGPlaceReviews.cancel();
+
+        const prevData = utils.reviews.getGPlaceReviews.getData();
+
+        utils.reviews.getGPlaceReviews.setData(
+          { gPlaceId: props.place.id },
+          (old) => {
+            if (old === undefined) {
+              return old;
+            }
+            const reviewIndex = old.findIndex(
+              (review) => review.id === opts.gPlaceReviewId
+            );
+            if (reviewIndex === -1) {
+              return old;
+            }
+            const target = old[reviewIndex];
+            if (target === undefined) {
+              return old;
+            }
+            if (target.likes === 0 && !opts.liked) {
+              return old;
+            }
+            const likes = target.likes ?? 0;
+            const updatedReview = { ...target };
+            updatedReview.liked = opts.liked;
+            updatedReview.likes = opts.liked ? likes + 1 : likes - 1;
+
+            return [
+              ...old.slice(0, reviewIndex),
+              updatedReview,
+              ...old.slice(reviewIndex + 1),
+            ];
+          }
+        );
+
+        return { prevData };
+      },
+      onError(error, opts, ctx) {
+        console.error(error);
+
+        if (opts.liked) {
+          toast.error("Failed to like review!");
+        } else {
+          toast.error("Failed to unlike review!");
+        }
+
+        if (ctx) {
+          utils.reviews.getGPlaceReviews.setData(
+            { gPlaceId: props.place.id },
+            ctx.prevData
+          );
+        }
+      },
+      onSettled() {
+        void utils.reviews.getGPlaceReviews.invalidate();
+      },
+    }
+  );
 
   useEffect(() => {
     if (hash === HASH_GALLERY) {
@@ -194,6 +284,14 @@ export default function Place(
 
   const handleCallBtnClick = () => {
     setServicePhoneVisible(!servicePhoneVisible);
+  };
+
+  const handleUpdateLike = (reviewId: string, liked: boolean) => {
+    if (authStatus !== "authenticated") {
+      toast.error("Authentification required!");
+      return;
+    }
+    updateGPlaceReviewLike.mutate({ gPlaceReviewId: reviewId, liked });
   };
 
   const openTab = (nextTab: Tab, scroll?: boolean) => {
@@ -641,9 +739,10 @@ export default function Place(
 
                     {/*---------------------- Reviews ---------------------*/}
                     <ReviewsTab
-                      place={props.place}
+                      reviews={reviews.data}
                       placeUrl={props.placeUrl}
                       show={tab === Tab.Reviews}
+                      onUpdateLike={handleUpdateLike}
                     />
 
                     {/*---------------------- Location ---------------------*/}

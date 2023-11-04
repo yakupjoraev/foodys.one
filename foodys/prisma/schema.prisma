@@ -49,18 +49,19 @@ model Session {
 }
 
 model User {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  firstName      String?
-  lastName       String?
-  nickname       String?          @unique
-  email          String?          @unique
-  password       String?
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  FavoriteGPlace FavoriteGPlace[]
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  name                String?
+  firstName           String?
+  lastName            String?
+  nickname            String?            @unique
+  email               String?            @unique
+  password            String?
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  FavoriteGPlace      FavoriteGPlace[]
+  g_place_review_like GPlaceReviewLike[]
 
   @@map("users")
 }
@@ -159,7 +160,7 @@ model GPlace {
 }
 
 model GPlaceReview {
-  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                        String             @id @default(auto()) @map("_id") @db.ObjectId
   author_name               String
   rating                    Float
   relative_time_description String
@@ -171,11 +172,23 @@ model GPlaceReview {
   text                      String?
   translated                Boolean?
   hash                      String
-  g_place_id                String   @db.ObjectId
-  g_place                   GPlace   @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+  g_place_id                String             @db.ObjectId
+  g_place                   GPlace             @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+  g_place_review_like       GPlaceReviewLike[]
 
   @@unique([g_place_id, hash])
   @@map("g_place_review")
+}
+
+model GPlaceReviewLike {
+  id                String       @id @default(auto()) @map("_id") @db.ObjectId
+  user              User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  g_place_review    GPlaceReview @relation(fields: [g_place_review_id], references: [id], onDelete: Cascade)
+  user_id           String       @db.ObjectId
+  g_place_review_id String       @db.ObjectId
+
+  @@unique([user_id, g_place_review_id])
+  @@map("g_place_review_like")
 }
 
 model PlaceUrl {

@@ -2,11 +2,9 @@ import useTranslation from "next-translate/useTranslation";
 import { ReviewItem } from "./ReviewItem";
 import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
-import {
-  type PlaceResource,
-  type PlaceReviewResource,
-} from "~/server/api/utils/g-place";
+import { type PlaceResource } from "~/server/api/utils/g-place";
 import { useHash } from "~/hooks/use-hash";
+import { PlaceReviewResource } from "~/server/api/utils/g-place-review";
 
 enum ReviewOrder {
   Relevant,
@@ -17,8 +15,9 @@ enum ReviewOrder {
 
 export interface ReviewsTabProps {
   show: boolean;
-  place: PlaceResource;
+  reviews?: PlaceReviewResource[];
   placeUrl: string;
+  onUpdateLike: (reviewId: string, liked: boolean) => void;
 }
 
 export function ReviewsTab(props: ReviewsTabProps) {
@@ -37,11 +36,11 @@ export function ReviewsTab(props: ReviewsTabProps) {
   }, [hash]);
 
   const reviews = useMemo(() => {
-    if (!props.place.reviews) {
+    if (!props.reviews) {
       return [];
     }
-    return sortReviews(props.place.reviews, sortOrder);
-  }, [props.place.reviews, sortOrder]);
+    return sortReviews(props.reviews, sortOrder);
+  }, [props.reviews, sortOrder]);
 
   return (
     <div
@@ -104,6 +103,7 @@ export function ReviewsTab(props: ReviewsTabProps) {
                     review={review}
                     placeUrl={props.placeUrl}
                     highlighted={highlighted}
+                    onUpdateLike={props.onUpdateLike}
                     key={i}
                   />
                 );

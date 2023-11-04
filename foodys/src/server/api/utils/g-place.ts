@@ -8,6 +8,7 @@ import { removeNulls } from "~/utils/remove-nulls";
 import { removeUndefined } from "~/utils/remove-undefined";
 import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
+import { PlaceReviewResource } from "./g-place-review";
 
 const PHOTOS_ENDPOINT =
   "https://foodys.freeblock.site/place-photos/cover_168x168/";
@@ -35,9 +36,8 @@ export interface PlaceListing {
   total: number;
 }
 
-export type PlaceReviewResource = PlaceReview & { id: string; hash: string };
-
 export type PlaceResource = Omit<Place, "reviews"> & {
+  id: string;
   reviews: PlaceReviewResource[];
 };
 
@@ -116,20 +116,17 @@ export async function applyFavoritiesToPlaceItems(
   return nextPlaces;
 }
 
-export async function createPlaceResourceByPlaceId(
+export async function createPlaceResourceByGoogleId(
   placeId: string
 ): Promise<PlaceResource | null> {
   const existsPlace = await db.gPlace.findFirst({
     where: {
       place_id: placeId,
     },
-    include: {
-      reviews: true,
-    },
   });
   if (existsPlace !== null) {
     const { created_at, updated_at, ...rest } = existsPlace;
-    return removeNulls(rest);
+    return { ...removeNulls(rest), reviews: [] };
   }
 
   const placeDetails = await gmClient.placeDetails({
@@ -197,16 +194,11 @@ export async function createPlaceResourceByPlaceId(
     }
   }
 
-  const createdReviews = await db.gPlaceReview.findMany({
-    where: {
-      g_place_id: createdPlace.id,
-    },
-  });
   {
     const { created_at, updated_at, ...rest } = createdPlace;
     return removeNulls({
       ...rest,
-      reviews: createdReviews,
+      reviews: [],
     });
   }
 }
@@ -230,7 +222,7 @@ export async function fetchAllFavoriteGPlaces(
 
   const placeListingItems: PlaceListingItem[] = [];
   for (const id of favoriteIds) {
-    const place = await createPlaceResourceByPlaceId(id);
+    const place = await createPlaceResourceByGoogleId(id);
 
     if (place === null) {
       continue;
