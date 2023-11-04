@@ -1,6 +1,6 @@
 export function HeroUk() {
   return (
-    <a href="#" className="hero__uk">
+    <a href="https://amc.ukr.fr" className="hero__uk">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={139}
