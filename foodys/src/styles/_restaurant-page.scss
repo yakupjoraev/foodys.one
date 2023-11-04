@@ -898,8 +898,12 @@
   }
 }
 
-.restaurant__btn--outline {}
+.restaurant__btn--disabled {
+  background-color: #d0d0d0;
+  cursor: default;
+}
 
+.restaurant__btn--outline {}
 
 .view-more {
   display: flex;

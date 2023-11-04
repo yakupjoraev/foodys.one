@@ -205,8 +205,12 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/call.svg" alt="call" />
             {t("buttonCall")}
           </button>
-          <button type="button" className="restaurant__btn delivery">
-            <img src="/img/dashboard/delivery.svg" alt="delivery" />
+          <button
+            type="button"
+            className="restaurant__btn restaurant__btn--disabled delivery"
+            disabled
+          >
+            <img src="/img/dashboard/delivery.svg" alt="" />
             {t("buttonDelivery")}
           </button>
           <button
