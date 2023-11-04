@@ -216,7 +216,7 @@ export function Header(props: HeaderProps) {
                     role="button"
                     onClick={props.onRegisterBtnClick}
                   >
-                    Register
+                    {t("buttonSignUp")}
                     <img
                       className="menu__item-link-arrow"
                       src="/img/header/arrow-right.svg"
