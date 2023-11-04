@@ -147,11 +147,14 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                   </a>
                 </li>
                 <li className="footer__partners-item">
-                  <a className="footer__partners-link" href="#">
+                  <a
+                    className="footer__partners-link"
+                    href="http://horlogeparlantepro.com"
+                  >
                     <img
                       className="footer__partners-pic"
                       src="/img/footer/footer__partners-4.svg"
-                      alt=""
+                      alt="3200 Horloge parlante"
                     />
                   </a>
                 </li>
