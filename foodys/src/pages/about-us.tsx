@@ -35,33 +35,30 @@ export default function About() {
                   <ul className="about__info-list">
                     <li className="about__info-item">
                       <a className="about__info-link" href="#">
+                        <img src="/img/about/info/foodys.png" alt="Foodys" />
+                      </a>
+                      <a className="about__info-link" href="#">
                         <img
-                          src="/img/about/about__info-1.png"
-                          alt="partners"
+                          src="/img/about/info/horaires.png"
+                          alt="Horaires"
                         />
                       </a>
                       <a className="about__info-link" href="#">
                         <img
-                          src="/img/about/about__info-2.png"
-                          alt="partners"
+                          src="/img/about/info/annuaire.png"
+                          alt="Annuaire"
                         />
                       </a>
                       <a className="about__info-link" href="#">
                         <img
-                          src="/img/about/about__info-3.png"
-                          alt="partners"
+                          src="/img/about/info/taxipolitan.png"
+                          alt="Taxipolitan"
                         />
                       </a>
                       <a className="about__info-link" href="#">
                         <img
-                          src="/img/about/about__info-4.png"
-                          alt="partners"
-                        />
-                      </a>
-                      <a className="about__info-link" href="#">
-                        <img
-                          src="/img/about/about__info-5.png"
-                          alt="partners"
+                          src="/img/about/info/horloge-parlante.png"
+                          alt="3200 Horloge parlante"
                         />
                       </a>
                     </li>

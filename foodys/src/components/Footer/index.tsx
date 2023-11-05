@@ -44,13 +44,16 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
             <div className="footer__info">
               <div className="footer__info-block">
                 <span className="footer__info-link">
-                  <img src="/img/footer/footer__info-1.png" alt="Cyprus Made" />
+                  <img
+                    src="/img/footer/info/cyprus-made.png"
+                    alt="Cyprus Made"
+                  />
                 </span>
                 <a
                   className="footer__info-link"
                   href="https://www.greekecommerce.gr"
                 >
-                  <img src="/img/footer/footer__info-2.png" alt="GRECA" />
+                  <img src="/img/footer/info/greca.png" alt="GRECA" />
                 </a>
               </div>
               <div className="footer__info-block">
@@ -120,8 +123,8 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                     </span>
                     <img
                       className="footer__partners-pic"
-                      src="/img/footer/footer__partners-1.svg"
-                      alt=""
+                      src="/img/footer/partners/horaires.svg"
+                      alt="Horaires"
                     />
                   </span>
                 </li>
@@ -132,8 +135,8 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                     </span>
                     <img
                       className="footer__partners-pic"
-                      src="/img/footer/footer__partners-2.svg"
-                      alt=""
+                      src="/img/footer/partners/annuaire.svg"
+                      alt="Annuire"
                     />
                   </span>
                 </li>
@@ -144,8 +147,8 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                     </span>
                     <img
                       className="footer__partners-pic"
-                      src="/img/footer/footer__partners-3.svg"
-                      alt=""
+                      src="/img/footer/partners/taxipolitan.svg"
+                      alt="Taxipolitan"
                     />
                   </span>
                 </li>
@@ -156,7 +159,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                   >
                     <img
                       className="footer__partners-pic"
-                      src="/img/footer/footer__partners-4.svg"
+                      src="/img/footer/partners/horloge-parlante.svg"
                       alt="3200 Horloge parlante"
                     />
                   </a>

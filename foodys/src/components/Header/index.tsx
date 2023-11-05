@@ -47,7 +47,7 @@ export function Header(props: HeaderProps) {
           <div className="navbar">
             <div className="logo">
               <Link href="/">
-                <img src="/img/icons/header-logo.svg" alt="Foodys" />
+                <img src="/img/icons/foodys-logo.svg" alt="Foodys" />
               </Link>
             </div>
             <ul
