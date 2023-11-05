@@ -37,6 +37,7 @@
   "textForgottenPwd": "Mot de passe oublié ?",
   "buttonSignIn": "Me connecter",
   "buttonSignUp": "S'inscrire",
+  "buttonSignOut": "Se déconnecter",
   "buttonCreateMyAcc": "Créer mon compte",
   "textCreateAccountInvit": "Pas encore le membre ?<0>Créer un compter en 20 seconds</0>",
   "textSignInInvit": "Déjà inscrit sur Foodys.one ? <0>Connecte-toi</0>",

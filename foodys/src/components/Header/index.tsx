@@ -4,6 +4,7 @@ import { FormEvent, useId } from "react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";
+import { AccountDropdown } from "./AccountDropdown";
 
 export interface HeaderProps {
   className?: string;
@@ -164,83 +165,14 @@ export function Header(props: HeaderProps) {
                   />
                 </Link>
               </li>
-              <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                <a href="#" className="menu__item-link" data-scroll="">
-                  <div className="menu__item-pic">
-                    <img
-                      src="/img/header/my-account.png"
-                      alt="my-account"
-                      loading="lazy"
-                    />
-                    <img
-                      src="/img/header/my-account-white.png"
-                      alt="my-account"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="menu__item-free menu__item-free--grey">
-                    {t("scrollOverScrollOverComingSoon")}
-                  </div>
-                  {t("buttonMyAccount")}
-                  <img
-                    className="menu__item-link-arrow"
-                    src="/img/header/arrow-right.svg"
-                    alt=""
-                  />
-                </a>
+              <li className="menu__item">
+                <AccountDropdown
+                  authentificated={props.authStatus === "authenticated"}
+                  onLogInBtnClick={props.onLogInBtnClick}
+                  onLogOutBtnClick={props.onLogOutBtnClick}
+                  onRegisterBtnClick={props.onRegisterBtnClick}
+                />
               </li>
-              {(props.authStatus === "loading" ||
-                props.authStatus === "unauthenticated") && (
-                <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                  <span
-                    className="menu__item-link"
-                    data-scroll=""
-                    role="button"
-                    onClick={props.onLogInBtnClick}
-                  >
-                    {t("buttonSignIn")}
-                    <img
-                      className="menu__item-link-arrow"
-                      src="/img/header/arrow-right.svg"
-                      alt=""
-                    />
-                  </span>
-                </li>
-              )}
-              {(props.authStatus === "unauthenticated" ||
-                props.authStatus === "loading") && (
-                <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                  <span
-                    className="menu__item-link"
-                    data-scroll=""
-                    role="button"
-                    onClick={props.onRegisterBtnClick}
-                  >
-                    {t("buttonSignUp")}
-                    <img
-                      className="menu__item-link-arrow"
-                      src="/img/header/arrow-right.svg"
-                      alt=""
-                    />
-                  </span>
-                </li>
-              )}
-              {props.authStatus === "authenticated" && (
-                <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                  <span
-                    className="menu__item-link"
-                    data-scroll=""
-                    onClick={props.onLogOutBtnClick}
-                  >
-                    Sign Out
-                    <img
-                      className="menu__item-link-arrow"
-                      src="/img/header/arrow-right.svg"
-                      alt=""
-                    />
-                  </span>
-                </li>
-              )}
               {router.locale && (
                 <li className="menu__item menu__item--desktop">
                   <LanguageSelector

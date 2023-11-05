@@ -1,0 +1,43 @@
+.account-dropdown {
+  padding: 0;
+  margin: 0;
+  text-indent: 0;
+  list-style-type: none;
+  border-radius: 13px;
+  border: 1px solid #eaeaec;
+  background: #fff;
+  box-shadow: 0px 20px 41px -19px rgba(168, 173, 184, 0.1);
+  padding: 12px;
+  min-width: 160px;
+}
+
+.account-dropdown__item {
+  border-bottom: 1px solid #eaeaec;
+}
+
+.account-dropdown__item--last-child {
+  border-bottom: unset;
+}
+
+.account-dropdown__button {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #313743;
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 112.8%;
+  padding: 10px 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.account-dropdown__button:hover {
+  background-color: #fafafa;
+}
