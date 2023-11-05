@@ -27,7 +27,7 @@ enum ViewMode {
 export interface RestaurantCardProps {
   name?: string;
   formattedAddress?: string;
-  photos?: string[];
+  photos?: { src: string; srcSet?: string }[];
   userRatingTotal?: number;
   priceLevel?: number;
   rating?: number;
@@ -44,7 +44,9 @@ export interface RestaurantCardProps {
   onPayInCryptoBtnClick: () => void;
 }
 
-const DEFAULT_PHOTOS = ["/img/dashboard/empty168x168.svg"];
+const DEFAULT_PHOTOS: { src: string; srcSet?: string }[] = [
+  { src: "/img/dashboard/empty168x168.svg" },
+];
 
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
@@ -52,7 +54,8 @@ export function RestaurantCard(props: RestaurantCardProps) {
   const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
 
-  const photos = props.photos ?? DEFAULT_PHOTOS;
+  const photos: { src: string; srcSet?: string }[] =
+    props.photos ?? DEFAULT_PHOTOS;
 
   const handleFavoriteBtnClick = (
     favorite: boolean,
@@ -93,7 +96,8 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <SwiperSlide className="restaurant__slide" key={i}>
               <Link href={placeLink ? placeLink + "#gallery" : "#"}>
                 <img
-                  src={photo}
+                  src={photo.src}
+                  srcSet={photo.srcSet}
                   alt="slide"
                   width="168"
                   height="168"

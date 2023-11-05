@@ -10,8 +10,13 @@ import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
 import { PlaceReviewResource } from "./g-place-review";
 
-const PHOTOS_ENDPOINT =
-  "https://foodys.freeblock.site/place-photos/cover_168x168/";
+const PREVIEW_ENDPOINT = "https://foodys.freeblock.site/place-photos";
+const PREVIEW_PRESETS: { preset: string; scale: number }[] = [
+  { preset: "cover_168x168", scale: 1 },
+  { preset: "cover_336x336", scale: 2 },
+  { preset: "cover_672x672", scale: 4 },
+];
+const DEFAULT_PREVIEW_PRESET = "cover_168x168";
 
 export interface PlaceListingItem {
   formatted_address?: string;
@@ -20,7 +25,7 @@ export interface PlaceListingItem {
   rating?: number;
   user_rating_total?: number;
   price_level?: number;
-  photos?: string[];
+  photos?: { src: string; srcSet?: string }[];
   favorite?: boolean;
   delivery?: boolean;
   dine_in?: boolean;
@@ -42,7 +47,7 @@ export type PlaceResource = Omit<Place, "reviews"> & {
 };
 
 export function createPlaceListingItem(place: Place): PlaceListingItem {
-  let photos: string[] | undefined = undefined;
+  let photos: { src: string; srcSet?: string }[] | undefined = undefined;
 
   if (place.photos && place.photos.length > 0) {
     let length = place.photos.length;
@@ -56,8 +61,25 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
         break;
       }
       const photoReference = photo.photo_reference;
-      const photoUrl = PHOTOS_ENDPOINT + encodeURIComponent(photoReference);
-      photos.push(photoUrl);
+      const photoReferencePath = encodeURIComponent(photoReference);
+      const photoUrl =
+        PREVIEW_ENDPOINT +
+        "/" +
+        DEFAULT_PREVIEW_PRESET +
+        "/" +
+        photoReferencePath;
+      const srcSet = PREVIEW_PRESETS.map(
+        ({ preset, scale }) =>
+          PREVIEW_ENDPOINT +
+          "/" +
+          preset +
+          "/" +
+          photoReferencePath +
+          " " +
+          scale.toString() +
+          "x"
+      ).join(", ");
+      photos.push({ src: photoUrl, srcSet });
     }
   }
 
