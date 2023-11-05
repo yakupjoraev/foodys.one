@@ -152,12 +152,17 @@
     }
   }
 
-  // .dashboard__filter--circle
+  // .dashboard__filter--sort
 
   &__filter--sort {
     padding: 4px;
     padding: 10px 8px;
     border-radius: 31px;
+    margin-left: auto;
+
+    @media (max-width: $breakpoint1200) {
+      margin-left: unset;
+    }
 
     @media (max-width: $breakpoint768) {
       display: flex;

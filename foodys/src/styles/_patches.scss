@@ -46,3 +46,27 @@
   grid-column: span 2;
   margin-top: 10px;
 }
+
+.dashboard__panels {
+  display: grid;
+  grid-template-columns: 1fr 292px;
+  column-gap: 24px;
+
+  @media (max-width: $breakpoint1200) {
+    grid-template-columns: 1fr 170px;
+  }
+
+  @media (max-width: $breakpoint992) {
+    column-gap: 16px;
+  }
+
+  @media (max-width: $breakpoint768) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard__secondary-panel {
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+}
