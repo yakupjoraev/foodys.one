@@ -15,7 +15,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
 
   return (
     <footer className={classNames("footer", props.className)} ref={ref}>
-      <div className="container">
+      <div className="container footer__container">
         <div className="footer__inner">
           <div className="footer__top">
             <nav className="footer__nav">
