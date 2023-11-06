@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 import classNames from "classnames";
 import { useRouter } from "next/router";
+import { GetThere } from "../GetThere";
 
 const BREAKPOINT1440 = 1440;
 const BREAKPOINT768 = 768;
@@ -36,6 +37,8 @@ export interface RestaurantCardProps {
   tags?: string[];
   authentificated?: boolean;
   url?: string;
+  placeCoordinates?: { lat: number; lng: number };
+  clientCoordinates?: { lat: number; lng: number };
   onChangeFavorite?: (
     placeId: string,
     favorite: boolean,
@@ -152,20 +155,17 @@ export function RestaurantCard(props: RestaurantCardProps) {
             >
               <img src="/img/dashboard/geo.svg" alt="geo" />
               <p>{props.formattedAddress ?? "..."}</p>
-              <span>–</span>
+              {props.clientCoordinates && props.placeCoordinates && (
+                <span>–</span>
+              )}
             </Link>
-            <div className="restaurant__address-gets">
-              <Trans
-                i18nKey="common:textGetThere"
-                components={[
-                  // eslint-disable-next-line react/jsx-key
-                  <a className="restaurant__address-get" href="#" />,
-                  // eslint-disable-next-line react/jsx-key
-                  <div className="restaurant__address-distance" />,
-                ]}
-                values={{ distance: 835 }}
+            {props.clientCoordinates && props.placeCoordinates && (
+              <GetThere
+                from={props.clientCoordinates}
+                to={props.placeCoordinates}
+                googlePlaceId={props.placeId}
               />
-            </div>
+            )}
           </div>
         </div>
         <div className="restaurant__checked">

@@ -32,6 +32,7 @@ export interface PlaceListingItem {
   takeout?: boolean;
   curbside_pickup?: boolean;
   url?: string;
+  location?: { lat: number; lng: number };
 }
 
 export interface PlaceListing {
@@ -95,6 +96,7 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
     dine_in: place.dine_in,
     takeout: place.takeout,
     curbside_pickup: place.curbside_pickup,
+    location: place.geometry?.location,
   });
 }
 

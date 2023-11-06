@@ -223,7 +223,8 @@ async function loadPlaceDetails(placeId: string) {
     queries: {
       place_id: placeId,
       key: env.GOOGLE_MAPS_API_KEY,
-      fields: "delivery,dine_in,takeout,curbside_pickup,address_components",
+      fields:
+        "delivery,dine_in,takeout,curbside_pickup,address_components,geometry",
     },
   });
 
@@ -231,10 +232,23 @@ async function loadPlaceDetails(placeId: string) {
     return null;
   }
 
-  const { delivery, dine_in, takeout, curbside_pickup, address_components } =
-    placeDetails.result;
+  const {
+    delivery,
+    dine_in,
+    takeout,
+    curbside_pickup,
+    address_components,
+    geometry,
+  } = placeDetails.result;
 
-  return { delivery, dine_in, takeout, curbside_pickup, address_components };
+  return {
+    delivery,
+    dine_in,
+    takeout,
+    curbside_pickup,
+    address_components,
+    geometry,
+  };
 }
 
 function normalizeQuery(query: string) {

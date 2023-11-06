@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";
+import { useGeolocation } from "@uidotdev/usehooks";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
@@ -23,6 +24,7 @@ const DEFAULT_OPTIMISTIC_FAVORITE: string[] = [];
 export default function Places() {
   const { t } = useTranslation("common");
   const session = useSession();
+  const geolocation = useGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
   const [filterState, setFilterState] =
     useState<FilterState>(DEFAULT_FILTER_STATE);
@@ -177,6 +179,19 @@ export default function Places() {
   };
 
   const authentificated = session.status === "authenticated";
+
+  const clientCoordinates: { lat: number; lng: number } | undefined =
+    useMemo(() => {
+      const lat = geolocation.latitude;
+      const lng = geolocation.longitude;
+      if (lat === null) {
+        return undefined;
+      }
+      if (lng === null) {
+        return undefined;
+      }
+      return { lat, lng };
+    }, [geolocation]);
 
   return (
     <Layout title="Foodys - Search result">
@@ -348,6 +363,8 @@ export default function Places() {
                         favorite={optimisticFavorite.includes(
                           placeListingItem.place_id
                         )}
+                        clientCoordinates={clientCoordinates}
+                        placeCoordinates={placeListingItem.location}
                         authentificated={authentificated}
                         url={placeListingItem.url}
                         onChangeFavorite={handleChangeFavorite}
