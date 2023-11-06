@@ -36,11 +36,13 @@ export interface FilterState {
   sortBy3?: boolean;
   establishment: "restaurant" | "coffeeAndTea" | "bar";
   pageSize: 10 | 20 | 30;
+  sortBy: "relevance" | "distance";
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
   pageSize: 10,
+  sortBy: "relevance",
 };
 
 export interface DashboardFiltersProps {
@@ -53,6 +55,7 @@ export interface DashboardFiltersProps {
 export function DashboardFilters(props: DashboardFiltersProps) {
   const { t } = useTranslation("common");
   const establishmentId = useId();
+  const sortById = useId();
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
 
   const [filter, setFilter] = useInteractive(
@@ -61,8 +64,19 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     props.onChange
   );
 
+  useEffect(() => {
+    if (!props.clientCoordinates) {
+      const nextFilterState = { ...filter };
+      nextFilterState.sortBy = "relevance";
+      setFilter(nextFilterState);
+    }
+  }, [props.clientCoordinates]);
+
   const registerFilterCheckbox = (
-    key: Exclude<keyof FilterState, "establishment" | "pageSize">
+    key: Exclude<
+      keyof FilterState,
+      "establishment" | "pageSize" | "sortBy" | "clientCoordinates"
+    >
   ) => {
     const handleChange = (checked: boolean) => {
       const nextFilterState = { ...filter };
@@ -75,7 +89,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     };
   };
 
-  const registerFilterRadio = <T extends "establishment">(
+  const registerFilterRadio = <T extends "establishment" | "sortBy">(
     key: T,
     value: FilterState[T],
     form?: string
@@ -362,17 +376,15 @@ export function DashboardFilters(props: DashboardFiltersProps) {
             label={t("titleSortBy")}
             appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
           >
-            <DashboardFilterCheckbox
-              label="Lorem ipsum dolor"
-              {...registerFilterCheckbox("sortBy1")}
+            <DashboardFilterRadio
+              label="Relevance"
+              name={sortById}
+              {...registerFilterRadio("sortBy", "relevance")}
             />
-            <DashboardFilterCheckbox
-              label="Lorem ipsum dolor"
-              {...registerFilterCheckbox("sortBy2")}
-            />
-            <DashboardFilterCheckbox
-              label="Lorem ipsum dolor"
-              {...registerFilterCheckbox("sortBy3")}
+            <DashboardFilterRadio
+              label="Distance"
+              name={sortById}
+              {...registerFilterRadio("sortBy", "distance")}
             />
           </DashboardFilter>
         )}

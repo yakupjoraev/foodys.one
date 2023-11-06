@@ -15,6 +15,7 @@ import { useGeolocation } from "@uidotdev/usehooks";
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
   pageSize: 10,
+  sortBy: "relevance",
 };
 
 const FILTER_DELAY = 1000;
@@ -103,6 +104,19 @@ export default function Places() {
       return service;
     }, [debouncedFilterState]);
 
+  const clientCoordinates: { lat: number; lng: number } | undefined =
+    useMemo(() => {
+      const lat = geolocation.latitude;
+      const lng = geolocation.longitude;
+      if (lat === null) {
+        return undefined;
+      }
+      if (lng === null) {
+        return undefined;
+      }
+      return { lat, lng };
+    }, [geolocation]);
+
   const queryResponse = api.places.getPlaces.useQuery({
     query: query ?? "",
     page: pageInt,
@@ -111,6 +125,11 @@ export default function Places() {
     priceLevel,
     service,
     establishment: debouncedFilterState.establishment,
+    sortBy: debouncedFilterState.sortBy,
+    clientCoordinates:
+      debouncedFilterState.sortBy === "distance"
+        ? clientCoordinates
+        : undefined,
   });
 
   const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
@@ -179,19 +198,6 @@ export default function Places() {
   };
 
   const authentificated = session.status === "authenticated";
-
-  const clientCoordinates: { lat: number; lng: number } | undefined =
-    useMemo(() => {
-      const lat = geolocation.latitude;
-      const lng = geolocation.longitude;
-      if (lat === null) {
-        return undefined;
-      }
-      if (lng === null) {
-        return undefined;
-      }
-      return { lat, lng };
-    }, [geolocation]);
 
   return (
     <Layout title="Foodys - Search result">

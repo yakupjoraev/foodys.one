@@ -13,6 +13,7 @@ import {
   createPlaceListingItem,
 } from "../utils/g-place";
 import { createPlaceUrlByGPlace } from "../utils/place-url";
+import haversine from "haversine-distance";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -64,6 +65,15 @@ export const placesRouter = createTRPCRouter({
         pageSize: z
           .union([z.literal(10), z.literal(20), z.literal(30)])
           .default(DEFAULT_PAGE_SIZE),
+        sortBy: z.optional(
+          z.union([z.literal("relevance"), z.literal("distance")])
+        ),
+        clientCoordinates: z.optional(
+          z.object({
+            lat: z.number(),
+            lng: z.number(),
+          })
+        ),
       })
     )
     .query(async ({ input, ctx }): Promise<PlaceListing> => {
@@ -96,6 +106,8 @@ export const placesRouter = createTRPCRouter({
           filterRating: input.rating,
           filterPriceLevel: input.priceLevel,
           filterService: input.service,
+          sortBy: input.sortBy,
+          clientCoordinates: input.clientCoordinates,
         });
         response = await withFavorities(response, ctx);
         response = await withUrls(response, places, ctx);
@@ -143,6 +155,8 @@ export const placesRouter = createTRPCRouter({
         filterRating: input.rating,
         filterPriceLevel: input.priceLevel,
         filterService: input.service,
+        sortBy: input.sortBy,
+        clientCoordinates: input.clientCoordinates,
       });
       response = await withFavorities(response, ctx);
       response = await withUrls(response, searchResponse.results, ctx);
@@ -294,6 +308,8 @@ interface CreateResponseOpts {
   filterPriceLevel: (1 | 2 | 3 | 4)[] | undefined;
   filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
   pageSize: number;
+  sortBy?: "relevance" | "distance";
+  clientCoordinates?: { lat: number; lng: number };
 }
 
 function createResponse(opts: CreateResponseOpts): PlaceListing {
@@ -319,7 +335,10 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
   if (opts.filterService) {
     filteredPlaces = filterPlacesByService(filteredPlaces, opts.filterService);
   }
-  const places = Array.from(filteredPlaces);
+  let places = Array.from(filteredPlaces);
+  if (opts.sortBy === "distance" && opts.clientCoordinates) {
+    places = sortPlacesByDistance(places, opts.clientCoordinates);
+  }
 
   const pageTotal = Math.ceil(places.length / opts.pageSize);
 
@@ -397,4 +416,26 @@ function* filterPlacesByService(
     }
     yield place;
   }
+}
+
+function sortPlacesByDistance(
+  places: Place[],
+  clientCoordinates: { lat: number; lng: number }
+): Place[] {
+  const placesWithDistance: { place: Place; distance: number }[] = places.map(
+    (place) => {
+      const placeCoordinates = place.geometry?.location;
+      if (!placeCoordinates) {
+        return { place, distance: Infinity };
+      }
+      const distance = haversine(clientCoordinates, placeCoordinates);
+      return { place, distance };
+    }
+  );
+
+  placesWithDistance.sort(({ distance: a }, { distance: b }) => a - b);
+
+  const sortedPlaces: Place[] = placesWithDistance.map(({ place }) => place);
+
+  return sortedPlaces;
 }
