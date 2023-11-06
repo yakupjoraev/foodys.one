@@ -37,6 +37,9 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 import superjson from "superjson";
+import haversine from "haversine-distance";
+import { useGeolocation } from "@uidotdev/usehooks";
+import { GetThere } from "~/components/GetThere";
 
 enum Tab {
   Overview,
@@ -130,6 +133,7 @@ export default function Place(
   const { status: authStatus } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
+  const geolocation = useGeolocation();
 
   const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
 
@@ -339,6 +343,20 @@ export default function Place(
       text: props.place.editorial_summary?.overview,
     };
   }, [props.place]);
+
+  const placeCoordinates: { lat: number; lng: number } | null =
+    props.place.geometry?.location ?? null;
+  const clientCoordinates: { lat: number; lng: number } | null = useMemo(() => {
+    const lat = geolocation.latitude;
+    const lng = geolocation.longitude;
+    if (lat === null) {
+      return null;
+    }
+    if (lng === null) {
+      return null;
+    }
+    return { lat, lng };
+  }, [geolocation]);
 
   return (
     <Layout title="Foodys - About page">
@@ -561,20 +579,17 @@ export default function Place(
                       >
                         <img src="/img/dashboard/geo.svg" alt="geo" />
                         <p>{props.place?.formatted_address ?? "..."} </p>
-                        <span>–</span>
+                        {clientCoordinates && placeCoordinates && (
+                          <span>–</span>
+                        )}
                       </a>
-                      <div className="restaurant__address-gets">
-                        <Trans
-                          i18nKey="common:textGetThere"
-                          components={[
-                            // eslint-disable-next-line react/jsx-key
-                            <a className="restaurant__address-get" href="#" />,
-                            // eslint-disable-next-line react/jsx-key
-                            <div className="restaurant__address-distance" />,
-                          ]}
-                          values={{ distance: 835 }}
+                      {clientCoordinates && placeCoordinates && (
+                        <GetThere
+                          from={clientCoordinates}
+                          to={placeCoordinates}
+                          googlePlaceId={props.place.place_id}
                         />
-                      </div>
+                      )}
                     </div>
                   </div>
                   <div className="restaurant-page__reviews">
