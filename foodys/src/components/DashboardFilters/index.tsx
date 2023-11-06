@@ -46,6 +46,7 @@ const DEFAULT_FILTER_STATE: FilterState = {
 export interface DashboardFiltersProps {
   resultsTotal?: number;
   filter: FilterState;
+  clientCoordinates?: { lat: number; lng: number };
   onChange: (filterState: FilterState) => void;
 }
 
@@ -355,24 +356,26 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           </button>
         </div>
 
-        <DashboardFilter
-          className="dashboard__filter--sort"
-          label={t("titleSortBy")}
-          appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
-        >
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("sortBy1")}
-          />
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("sortBy2")}
-          />
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("sortBy3")}
-          />
-        </DashboardFilter>
+        {props.clientCoordinates && (
+          <DashboardFilter
+            className="dashboard__filter--sort"
+            label={t("titleSortBy")}
+            appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
+          >
+            <DashboardFilterCheckbox
+              label="Lorem ipsum dolor"
+              {...registerFilterCheckbox("sortBy1")}
+            />
+            <DashboardFilterCheckbox
+              label="Lorem ipsum dolor"
+              {...registerFilterCheckbox("sortBy2")}
+            />
+            <DashboardFilterCheckbox
+              label="Lorem ipsum dolor"
+              {...registerFilterCheckbox("sortBy3")}
+            />
+          </DashboardFilter>
+        )}
 
         <button
           type="button"

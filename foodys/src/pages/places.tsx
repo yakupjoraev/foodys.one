@@ -320,6 +320,7 @@ export default function Places() {
               <DashboardFilters
                 resultsTotal={queryResponse.data?.total}
                 filter={filterState}
+                clientCoordinates={clientCoordinates}
                 onChange={handleChangeFilter}
               />
             </form>
