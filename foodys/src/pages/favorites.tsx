@@ -1,3 +1,4 @@
+import { useGeolocation } from "@uidotdev/usehooks";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useSession } from "next-auth/react";
 import { useMemo, useReducer, useState } from "react";
@@ -49,6 +50,7 @@ export default function Favorites(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const session = useSession();
+  const geolocation = useGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
   const [optimisticUpdates, dispatchOptimisticUpdatesAction] = useReducer(
     optimisticPlaceUpdatesReducer,
@@ -109,6 +111,19 @@ export default function Favorites(
     [updatedListing, optimisticUpdates]
   );
 
+  const clientCoordinates: { lat: number; lng: number } | undefined =
+    useMemo(() => {
+      const lat = geolocation.latitude;
+      const lng = geolocation.longitude;
+      if (lat === null) {
+        return undefined;
+      }
+      if (lng === null) {
+        return undefined;
+      }
+      return { lat, lng };
+    }, [geolocation]);
+
   return (
     <Layout title="Foodys - Favorites">
       <main className="main">
@@ -132,6 +147,8 @@ export default function Favorites(
                           placeId={placeListingItem.place_id}
                           photos={placeListingItem.photos}
                           favorite={placeListingItem.favorite}
+                          clientCoordinates={clientCoordinates}
+                          placeCoordinates={placeListingItem.location}
                           authentificated={authentificated}
                           url={placeListingItem.url}
                           onChangeFavorite={handleChangeFavorite}
