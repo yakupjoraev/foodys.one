@@ -35,10 +35,10 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 {t("textContactUs")}
               </a>
             </nav>
-            <a className="footer__country" href="#">
+            <span className="footer__country">
               <img src="/img/icons/footer-country.svg" alt="country icon" />
-              <span>{t("buttonCountry")}</span>
-            </a>
+              <span>{t("titleFrance")}</span>
+            </span>
           </div>
           <div className="footer__bottom">
             <div className="footer__info">
@@ -110,10 +110,10 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 </a>
               </div>
             </div>
-            <a className="footer__country footer__country--mob" href="#">
+            <span className="footer__country footer__country--mob">
               <img src="/img/icons/footer-country.svg" alt="country icon" />
-              <span>{t("buttonFavourites")}</span>
-            </a>
+              <span>{t("titleFrance")}</span>
+            </span>
             <div className="footer__partners">
               <ul className="footer__partners-list">
                 <li className="footer__partners-item">
