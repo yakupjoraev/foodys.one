@@ -104,7 +104,7 @@
   "buttonPayInCrypto": "Pay in crypto",
   "textOpenNow": "Open now",
   "textClosedNow": "Closed now",
-  "textOpensAt": "Opens at XXX",
+  "textOpensAt": "Opens at {{time}}",
   "textPreviousPage": "Previous",
   "textNextPage": "Next",
   "textNumberExplanation": "This number is valid for 5 minutes and is not the recipient's number but the number of a service that puts you in touch with the recipient. This service is published by the foodys.one website. <0>Why this number?</0>",

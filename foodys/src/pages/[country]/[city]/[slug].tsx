@@ -40,6 +40,11 @@ import superjson from "superjson";
 import haversine from "haversine-distance";
 import { useGeolocation } from "@uidotdev/usehooks";
 import { GetThere } from "~/components/GetThere";
+import {
+  useGoogleOpeningHours,
+  GoogleOpeningHours,
+} from "~/hooks/use-google-opening-hours";
+import { Translate } from "next-translate";
 
 enum Tab {
   Overview,
@@ -134,6 +139,10 @@ export default function Place(
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
   const geolocation = useGeolocation();
+  const googleOpeningHours = useGoogleOpeningHours(
+    props.place.opening_hours?.periods,
+    props.place.utc_offset
+  );
 
   const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
 
@@ -651,16 +660,22 @@ export default function Place(
                     </div>
                   </div>
                   <div className="restaurant-page__others">
-                    <a
-                      className="restaurant-page__others-open"
-                      href={HASH_OPENING_HOURS}
-                      onClick={(ev) => {
-                        ev.preventDefault();
-                        openTab(Tab.OpeningHours, true);
-                      }}
-                    >
-                      {t("textOpenNow")}
-                    </a>
+                    {googleOpeningHours && (
+                      <a
+                        className={classNames("restaurant-page__others-open", {
+                          "restaurant-page__others-open--closed":
+                            !googleOpeningHours.isOpen,
+                        })}
+                        href={HASH_OPENING_HOURS}
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          openTab(Tab.OpeningHours, true);
+                        }}
+                      >
+                        {renderOpeningLabel(googleOpeningHours, t)}
+                      </a>
+                    )}
+
                     {openingHours && openingHours.length > 0 && (
                       <button
                         className="restaurant-page__others-link"
@@ -863,5 +878,19 @@ function getTabByHash(hash: string): Tab | null {
     default: {
       return null;
     }
+  }
+}
+
+function renderOpeningLabel(
+  googleOpeningHours: GoogleOpeningHours,
+  t: Translate
+) {
+  if (googleOpeningHours.isOpen) {
+    return t("textOpenNow");
+  } else {
+    if (!googleOpeningHours.opensAt) {
+      return t("textClosedNow");
+    }
+    return t("textOpensAt", { time: googleOpeningHours.opensAt });
   }
 }

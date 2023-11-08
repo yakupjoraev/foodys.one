@@ -36,6 +36,7 @@
     "next-auth": "^4.23.0",
     "next-translate": "^2.6.0",
     "normalize.css": "^8.0.1",
+    "opening_hours": "^3.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
