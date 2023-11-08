@@ -1,6 +1,10 @@
 import { env } from "~/env.mjs";
 import { gmClient } from "~/server/gm-client";
-import { Place, PlaceReview } from "~/server/gm-client/types";
+import {
+  Place,
+  PlaceOpeningHoursPeriod,
+  PlaceReview,
+} from "~/server/gm-client/types";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
@@ -33,6 +37,8 @@ export interface PlaceListingItem {
   curbside_pickup?: boolean;
   url?: string;
   location?: { lat: number; lng: number };
+  opening_periods?: PlaceOpeningHoursPeriod[];
+  utc_offset?: number;
 }
 
 export interface PlaceListing {
@@ -97,6 +103,8 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
     takeout: place.takeout,
     curbside_pickup: place.curbside_pickup,
     location: place.geometry?.location,
+    opening_periods: place.opening_hours?.periods,
+    utc_offset: place.utc_offset,
   });
 }
 

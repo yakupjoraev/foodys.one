@@ -15,6 +15,12 @@ import { useWindowSize } from "usehooks-ts";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { GetThere } from "../GetThere";
+import { PlaceOpeningHoursPeriod } from "~/server/gm-client/types";
+import {
+  GoogleOpeningHours,
+  useGoogleOpeningHours,
+} from "~/hooks/use-google-opening-hours";
+import { Translate } from "next-translate";
 
 const BREAKPOINT1440 = 1440;
 const BREAKPOINT768 = 768;
@@ -39,6 +45,8 @@ export interface RestaurantCardProps {
   url?: string;
   placeCoordinates?: { lat: number; lng: number };
   clientCoordinates?: { lat: number; lng: number };
+  openingPeriods?: PlaceOpeningHoursPeriod[];
+  utcOffset?: number;
   onChangeFavorite?: (
     placeId: string,
     favorite: boolean,
@@ -56,6 +64,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
   const router = useRouter();
   const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
+  const googleOpeningHours = useGoogleOpeningHours(
+    props.openingPeriods,
+    props.utcOffset
+  );
 
   const photos: { src: string; srcSet?: string }[] =
     props.photos ?? DEFAULT_PHOTOS;
@@ -169,9 +181,18 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </div>
         </div>
         <div className="restaurant__checked">
-          <div className="restaurant__checked-label restaurant__checked-label--green">
-            {t("textOpenNow")}
-          </div>
+          {googleOpeningHours && (
+            <div
+              className={`restaurant__checked-label ${
+                googleOpeningHours.isOpen
+                  ? "restaurant__checked-label--green"
+                  : "restaurant__checked-label--grey"
+              }`}
+            >
+              {renderOpeningLabel(googleOpeningHours, t)}
+            </div>
+          )}
+
           <Link
             className="restaurant__reviews"
             href={placeLink ? placeLink + "#reviews" : "#"}
@@ -351,6 +372,16 @@ function getViewMode(windowWidth: number): ViewMode {
   return ViewMode.Desktop;
 }
 
-function getPlaceLink(placeId: string) {
-  return "/gplace/" + encodeURIComponent(placeId);
+function renderOpeningLabel(
+  googleOpeningHours: GoogleOpeningHours,
+  t: Translate
+) {
+  if (googleOpeningHours.isOpen) {
+    return t("textOpenNow");
+  } else {
+    if (!googleOpeningHours.opensAt) {
+      return t("textClosedNow");
+    }
+    return t("textOpensAt", { time: googleOpeningHours.opensAt });
+  }
 }

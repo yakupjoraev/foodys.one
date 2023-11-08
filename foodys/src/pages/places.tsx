@@ -374,6 +374,8 @@ export default function Places() {
                         placeCoordinates={placeListingItem.location}
                         authentificated={authentificated}
                         url={placeListingItem.url}
+                        openingPeriods={placeListingItem.opening_periods}
+                        utcOffset={placeListingItem.utc_offset}
                         onChangeFavorite={handleChangeFavorite}
                         onPayInCryptoBtnClick={handlePayInCryptoBtnClick}
                         key={placeListingItem.place_id}

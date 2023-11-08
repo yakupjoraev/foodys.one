@@ -238,7 +238,7 @@ async function loadPlaceDetails(placeId: string) {
       place_id: placeId,
       key: env.GOOGLE_MAPS_API_KEY,
       fields:
-        "delivery,dine_in,takeout,curbside_pickup,address_components,geometry",
+        "delivery,dine_in,takeout,curbside_pickup,address_components,geometry,opening_hours,utc_offset",
     },
   });
 
@@ -253,6 +253,8 @@ async function loadPlaceDetails(placeId: string) {
     curbside_pickup,
     address_components,
     geometry,
+    opening_hours,
+    utc_offset,
   } = placeDetails.result;
 
   return {
@@ -262,6 +264,8 @@ async function loadPlaceDetails(placeId: string) {
     curbside_pickup,
     address_components,
     geometry,
+    opening_hours,
+    utc_offset,
   };
 }
 
