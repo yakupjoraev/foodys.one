@@ -22,18 +22,18 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
               <Link className="footer__nav-link" href="/about-us">
                 {t("titleAboutUs")}
               </Link>
-              <a className="footer__nav-link" href="#">
+              <Link className="footer__nav-link" href="/terms-and-conditions">
                 {t("titleTermsAndConditions")}
-              </a>
-              <a className="footer__nav-link" href="#">
+              </Link>
+              <Link className="footer__nav-link" href="/cookies">
                 {t("titleCookies")}
-              </a>
-              <a className="footer__nav-link" href="#">
+              </Link>
+              <Link className="footer__nav-link" href="/privacy-policy">
                 Privacy Policy
-              </a>
-              <a className="footer__nav-link" href="#">
+              </Link>
+              <Link className="footer__nav-link" href="/contact-us">
                 {t("textContactUs")}
-              </a>
+              </Link>
             </nav>
             <span className="footer__country">
               <img src="/img/icons/footer-country.svg" alt="country icon" />
