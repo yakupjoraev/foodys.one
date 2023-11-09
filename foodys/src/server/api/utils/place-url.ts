@@ -82,7 +82,7 @@ function getCountryFromAddressComponents(
 
 function getCityFromAddressComponents(addressComponents: AddressComponent[]) {
   for (const addressComponent of addressComponents) {
-    if (addressComponent.types.includes("administrative_area_level_1")) {
+    if (addressComponent.types.includes("locality")) {
       return addressComponent.long_name;
     }
   }
