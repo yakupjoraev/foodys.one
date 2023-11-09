@@ -641,7 +641,8 @@ export default function Place(
                       </button>
                       <button
                         type="button"
-                        className="restaurant__btn delivery"
+                        className="restaurant__btn restaurant__btn--disabled delivery"
+                        disabled
                       >
                         <img src="/img/dashboard/delivery.svg" alt="delivery" />
                         {t("buttonDelivery")}
