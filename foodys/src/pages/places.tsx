@@ -11,6 +11,7 @@ import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";
 import { useGeolocation } from "@uidotdev/usehooks";
+import { useClientFavorites } from "~/hooks/use-client-favorites";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   establishment: "restaurant",
@@ -19,8 +20,6 @@ const DEFAULT_FILTER_STATE: FilterState = {
 };
 
 const FILTER_DELAY = 1000;
-
-const DEFAULT_OPTIMISTIC_FAVORITE: string[] = [];
 
 export default function Places() {
   const { t } = useTranslation("common");
@@ -31,9 +30,8 @@ export default function Places() {
     useState<FilterState>(DEFAULT_FILTER_STATE);
   const debouncedFilterState = useDebounce(filterState, FILTER_DELAY);
   const searchParams = useSearchParams();
-  const [optimisticFavorite, setOptimisticFavorite] = useState(
-    DEFAULT_OPTIMISTIC_FAVORITE
-  );
+  const [clientFavorites, appendClientFavorite, removeClientFavorite] =
+    useClientFavorites();
   const query = searchParams.get("query");
   const page = searchParams.get("page") ?? "1";
 
@@ -132,26 +130,6 @@ export default function Places() {
         : undefined,
   });
 
-  const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
-
-  useEffect(() => {
-    if (!queryResponse.data) {
-      setOptimisticFavorite(DEFAULT_OPTIMISTIC_FAVORITE);
-      return;
-    }
-    const nextOptimisticFavorite: string[] = [];
-    for (const place of queryResponse.data.results) {
-      if (place.place_id && place.favorite) {
-        nextOptimisticFavorite.push(place.place_id);
-      }
-    }
-    if (nextOptimisticFavorite.length) {
-      setOptimisticFavorite(nextOptimisticFavorite);
-    } else {
-      setOptimisticFavorite(DEFAULT_OPTIMISTIC_FAVORITE);
-    }
-  }, [queryResponse.data]);
-
   const handleChangeFilter = (nextFilterState: FilterState) => {
     setFilterState(nextFilterState);
   };
@@ -162,25 +140,13 @@ export default function Places() {
     cb?: (favorite: boolean) => void
   ) => {
     if (favorite) {
-      if (!optimisticFavorite.includes(placeId)) {
-        setOptimisticFavorite([...optimisticFavorite, placeId]);
-      }
+      appendClientFavorite(placeId);
     } else {
-      const indexToRemove = optimisticFavorite.indexOf(placeId);
-      if (indexToRemove !== -1) {
-        setOptimisticFavorite([
-          ...optimisticFavorite.slice(0, indexToRemove),
-          ...optimisticFavorite.slice(indexToRemove + 1),
-        ]);
-      }
+      removeClientFavorite(placeId);
     }
     if (cb) {
       cb(favorite);
     }
-    favoriteGPlace.mutate({
-      placeId,
-      favorite,
-    });
   };
 
   const handlePayInCryptoBtnClick = () => {
@@ -367,7 +333,7 @@ export default function Places() {
                         placeId={placeListingItem.place_id}
                         photos={placeListingItem.photos}
                         tags={tags}
-                        favorite={optimisticFavorite.includes(
+                        favorite={clientFavorites.includes(
                           placeListingItem.place_id
                         )}
                         clientCoordinates={clientCoordinates}

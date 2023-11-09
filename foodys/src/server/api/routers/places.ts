@@ -9,11 +9,15 @@ import { gmClient } from "~/server/gm-client";
 import { Place } from "~/server/gm-client/types";
 import {
   PlaceListing,
+  PlaceResource,
   applyFavoritiesToPlaceItems,
   createPlaceListingItem,
+  createPlaceResourceByGoogleId,
 } from "../utils/g-place";
 import { createPlaceUrlByGPlace } from "../utils/place-url";
 import haversine from "haversine-distance";
+import { removeNulls } from "~/utils/remove-nulls";
+import { inputCSS } from "react-select/dist/declarations/src/components/Input";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -161,6 +165,26 @@ export const placesRouter = createTRPCRouter({
       response = await withFavorities(response, ctx);
       response = await withUrls(response, searchResponse.results, ctx);
       return response;
+    }),
+
+  getPlacesByGoogleId: publicProcedure
+    .input(
+      z.object({
+        ids: z.array(z.string()),
+      })
+    )
+    .query(async ({ input }) => {
+      const cachedPlaces: PlaceResource[] = [];
+      for (const id of input.ids) {
+        const resource = await createPlaceResourceByGoogleId(id);
+        if (resource) {
+          cachedPlaces.push(resource);
+        }
+      }
+      const listing = cachedPlaces.map((placeResource) =>
+        createPlaceListingItem(placeResource)
+      );
+      return listing;
     }),
 });
 

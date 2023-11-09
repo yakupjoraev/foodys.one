@@ -133,12 +133,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
             </>
           )}
         </Swiper>
-        {props.authentificated && (
-          <RestaurantFavorite
-            checked={props.favorite}
-            onChange={handleFavoriteBtnClick}
-          />
-        )}
+        <RestaurantFavorite
+          checked={props.favorite}
+          onChange={handleFavoriteBtnClick}
+        />
       </div>
 
       <div className="restaurant__top">
