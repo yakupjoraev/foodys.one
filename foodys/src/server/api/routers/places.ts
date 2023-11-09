@@ -9,6 +9,7 @@ import { gmClient } from "~/server/gm-client";
 import { Place } from "~/server/gm-client/types";
 import {
   PlaceListing,
+  PlaceListingItem,
   PlaceResource,
   applyFavoritiesToPlaceItems,
   createPlaceListingItem,
@@ -122,7 +123,7 @@ export const placesRouter = createTRPCRouter({
           clientCoordinates: input.clientCoordinates,
         });
         response = await withFavorities(response, ctx);
-        response = await withUrls(response, places, ctx);
+        response = await withUrls(response, places);
         return response;
       }
 
@@ -172,7 +173,7 @@ export const placesRouter = createTRPCRouter({
         clientCoordinates: input.clientCoordinates,
       });
       response = await withFavorities(response, ctx);
-      response = await withUrls(response, searchResponse.results, ctx);
+      response = await withUrls(response, searchResponse.results);
       return response;
     }),
 
@@ -182,7 +183,7 @@ export const placesRouter = createTRPCRouter({
         ids: z.array(z.string()),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input }): Promise<PlaceListingItem[]> => {
       const cachedPlaces: PlaceResource[] = [];
       for (const id of input.ids) {
         const resource = await createPlaceResourceByGoogleId(id);
@@ -190,9 +191,17 @@ export const placesRouter = createTRPCRouter({
           cachedPlaces.push(resource);
         }
       }
-      const listing = cachedPlaces.map((placeResource) =>
-        createPlaceListingItem(placeResource)
+      const listing = await Promise.all(
+        cachedPlaces.map(async (place, i) => {
+          const listingItem = createPlaceListingItem(place);
+          const url = await createPlaceUrlByGPlace(place);
+          if (url) {
+            listingItem.url = url;
+          }
+          return listingItem;
+        })
       );
+
       return listing;
     }),
 });
@@ -221,14 +230,7 @@ async function withFavorities(
   return nextListing;
 }
 
-async function withUrls(
-  listing: PlaceListing,
-  places: Place[],
-  ctx: {
-    session: Session | null;
-    db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
-  }
-) {
+async function withUrls(listing: PlaceListing, places: Place[]) {
   const nextListing = {
     ...listing,
   };
