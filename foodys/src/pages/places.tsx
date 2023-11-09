@@ -14,6 +14,7 @@ import { useGeolocation } from "@uidotdev/usehooks";
 import { useClientFavorites } from "~/hooks/use-client-favorites";
 
 const DEFAULT_FILTER_STATE: FilterState = {
+  hours: "anyTime",
   establishment: "restaurant",
   pageSize: 10,
   sortBy: "relevance",
@@ -123,6 +124,7 @@ export default function Places() {
     priceLevel,
     service,
     establishment: debouncedFilterState.establishment,
+    hours: debouncedFilterState.hours,
     sortBy: debouncedFilterState.sortBy,
     clientCoordinates:
       debouncedFilterState.sortBy === "distance"

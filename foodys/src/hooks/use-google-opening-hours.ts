@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { type PlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 import OpeningHours from "opening_hours";
+import {
+  encodeGooglePeriods,
+  getForeignTime,
+} from "~/server/api/utils/encode-periods";
 
 const MILLISECONDS_PER_MINUTE = 60000;
 
@@ -32,7 +36,7 @@ export function useGoogleOpeningHours(
       return;
     }
 
-    const openingHoursString = createOpeningHoursString(periods);
+    const openingHoursString = encodeGooglePeriods(periods);
 
     let oh: OpeningHours;
     try {
@@ -45,11 +49,7 @@ export function useGoogleOpeningHours(
 
     const updateOpeningHours = () => {
       const now = new Date();
-      const foreignNow = new Date(
-        now.getTime() -
-          (utcOffset * -1 * MILLISECONDS_PER_MINUTE -
-            now.getTimezoneOffset() * MILLISECONDS_PER_MINUTE)
-      );
+      const foreignNow = getForeignTime(now, utcOffset);
 
       const isOpen = oh.getState(foreignNow);
 
@@ -72,7 +72,7 @@ export function useGoogleOpeningHours(
 
     updateOpeningHours();
 
-    const intervalId = setTimeout(() => {
+    const intervalId = setInterval(() => {
       updateOpeningHours();
     }, MILLISECONDS_PER_MINUTE);
 
@@ -95,40 +95,3 @@ function formatTime(date: Date) {
   }
   return hours + ":" + minutes;
 }
-
-function createOpeningHoursString(periods: PlaceOpeningHoursPeriod[]): string {
-  if (periods.length === 1) {
-    const firstPeriod = periods[0];
-    if (firstPeriod === undefined) {
-      throw new Error("failed to pick first period");
-    }
-    if (
-      firstPeriod.close === undefined &&
-      firstPeriod.open.day === 0 &&
-      firstPeriod.open.time === "0000"
-    ) {
-      return "24/7";
-    }
-  }
-
-  const chunks: string[] = [];
-  for (const period of periods) {
-    const { close, open } = period;
-    if (!close) {
-      throw new Error('field required: "close"');
-    }
-    const dayName = DAYS[open.day];
-    if (dayName === undefined) {
-      throw new Error("unexpected day index: " + open.day);
-    }
-    const openTime = open.time.slice(0, 2) + ":" + open.time.slice(2);
-    const closeTime = close.time.slice(0, 2) + ":" + close.time.slice(2);
-    chunks.push(dayName + " " + openTime + "-" + closeTime);
-  }
-
-  const encodedPeriod = chunks.join(";");
-
-  return encodedPeriod;
-}
-
-const DAYS: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];

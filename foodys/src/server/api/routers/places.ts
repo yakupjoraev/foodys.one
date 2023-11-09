@@ -16,8 +16,8 @@ import {
 } from "../utils/g-place";
 import { createPlaceUrlByGPlace } from "../utils/place-url";
 import haversine from "haversine-distance";
-import { removeNulls } from "~/utils/remove-nulls";
-import { inputCSS } from "react-select/dist/declarations/src/components/Input";
+import OpeningHours from "opening_hours";
+import { encodeGooglePeriods, getForeignTime } from "../utils/encode-periods";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -78,6 +78,13 @@ export const placesRouter = createTRPCRouter({
             lng: z.number(),
           })
         ),
+        hours: z.optional(
+          z.union([
+            z.literal("anyTime"),
+            z.literal("openNow"),
+            z.literal("open24Hours"),
+          ])
+        ),
       })
     )
     .query(async ({ input, ctx }): Promise<PlaceListing> => {
@@ -110,6 +117,7 @@ export const placesRouter = createTRPCRouter({
           filterRating: input.rating,
           filterPriceLevel: input.priceLevel,
           filterService: input.service,
+          filterHours: input.hours,
           sortBy: input.sortBy,
           clientCoordinates: input.clientCoordinates,
         });
@@ -159,6 +167,7 @@ export const placesRouter = createTRPCRouter({
         filterRating: input.rating,
         filterPriceLevel: input.priceLevel,
         filterService: input.service,
+        filterHours: input.hours,
         sortBy: input.sortBy,
         clientCoordinates: input.clientCoordinates,
       });
@@ -335,6 +344,7 @@ interface CreateResponseOpts {
   filterRating: (1 | 2 | 3 | 4 | 5)[] | undefined;
   filterPriceLevel: (1 | 2 | 3 | 4)[] | undefined;
   filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
+  filterHours?: "anyTime" | "openNow" | "open24Hours";
   pageSize: number;
   sortBy?: "relevance" | "distance";
   clientCoordinates?: { lat: number; lng: number };
@@ -362,6 +372,9 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
   }
   if (opts.filterService) {
     filteredPlaces = filterPlacesByService(filteredPlaces, opts.filterService);
+  }
+  if (opts.filterHours) {
+    filteredPlaces = filterPlacesByHours(filteredPlaces, opts.filterHours);
   }
   let places = Array.from(filteredPlaces);
   if (opts.sortBy === "distance" && opts.clientCoordinates) {
@@ -443,6 +456,89 @@ function* filterPlacesByService(
       }
     }
     yield place;
+  }
+}
+
+function filterPlacesByHours(
+  places: Iterable<Place>,
+  filterHours: "anyTime" | "openNow" | "open24Hours"
+): Iterable<Place> {
+  console.log("FILTER BY: " + filterHours);
+  switch (filterHours) {
+    case "anyTime": {
+      return places;
+    }
+    case "openNow": {
+      return filterPlacesByOpenNow(places);
+    }
+    case "open24Hours": {
+      return filterPlacesBy24H(places);
+    }
+  }
+}
+
+function* filterPlacesByOpenNow(places: Iterable<Place>) {
+  for (const place of places) {
+    const periods = place.opening_hours?.periods;
+    if (!periods) {
+      continue;
+    }
+    let open24H = false;
+    if (periods.length === 1) {
+      const firstPeriod = periods[0];
+      if (!firstPeriod) {
+        continue;
+      }
+      open24H =
+        firstPeriod.open.day === 0 &&
+        !firstPeriod.close &&
+        firstPeriod.open.time === "0000";
+    }
+    if (open24H) {
+      yield place;
+      continue;
+    }
+
+    const utcOffset = place.utc_offset;
+    if (utcOffset === undefined) {
+      continue;
+    }
+
+    const foreignNow = getForeignTime(new Date(), utcOffset);
+
+    console.log("FOREIGN", foreignNow.toString());
+    console.log("PLACE NAME", place.name);
+
+    const osmPeriods = encodeGooglePeriods(periods);
+    const oh = new OpeningHours(osmPeriods);
+
+    const openNow = oh.getState(foreignNow);
+    if (openNow) {
+      yield place;
+    }
+  }
+}
+
+function* filterPlacesBy24H(places: Iterable<Place>) {
+  for (const place of places) {
+    const periods = place.opening_hours?.periods;
+    if (!periods) {
+      continue;
+    }
+    let open24H = false;
+    if (periods.length === 1) {
+      const firstPeriod = periods[0];
+      if (!firstPeriod) {
+        continue;
+      }
+      open24H =
+        firstPeriod.open.day === 0 &&
+        !firstPeriod.close &&
+        firstPeriod.open.time === "0000";
+    }
+    if (open24H) {
+      yield place;
+    }
   }
 }
 

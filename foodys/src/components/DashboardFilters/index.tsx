@@ -34,12 +34,14 @@ export interface FilterState {
   sortBy1?: boolean;
   sortBy2?: boolean;
   sortBy3?: boolean;
+  hours: "anyTime" | "openNow" | "open24Hours";
   establishment: "restaurant" | "coffeeAndTea" | "bar";
   pageSize: 10 | 20 | 30;
   sortBy: "relevance" | "distance";
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
+  hours: "anyTime",
   establishment: "restaurant",
   pageSize: 10,
   sortBy: "relevance",
@@ -56,6 +58,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
   const { t } = useTranslation("common");
   const establishmentId = useId();
   const sortById = useId();
+  const hoursId = useId();
   const [mobileFiltersOpened, setMobileFiltersOpened] = useState(false);
 
   const [filter, setFilter] = useInteractive(
@@ -75,7 +78,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
   const registerFilterCheckbox = (
     key: Exclude<
       keyof FilterState,
-      "establishment" | "pageSize" | "sortBy" | "clientCoordinates"
+      "establishment" | "pageSize" | "sortBy" | "clientCoordinates" | "hours"
     >
   ) => {
     const handleChange = (checked: boolean) => {
@@ -89,7 +92,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     };
   };
 
-  const registerFilterRadio = <T extends "establishment" | "sortBy">(
+  const registerFilterRadio = <T extends "establishment" | "sortBy" | "hours">(
     key: T,
     value: FilterState[T],
     form?: string
@@ -307,21 +310,20 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           className="dashboard__filter--square"
           label={t("titleHours")}
         >
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("hours1")}
+          <DashboardFilterRadio
+            label="Any time"
+            name={hoursId}
+            {...registerFilterRadio("hours", "anyTime")}
           />
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("hours2")}
+          <DashboardFilterRadio
+            label="Open now"
+            name={hoursId}
+            {...registerFilterRadio("hours", "openNow")}
           />
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("hours3")}
-          />
-          <DashboardFilterCheckbox
-            label="Lorem ipsum dolor"
-            {...registerFilterCheckbox("hours4")}
+          <DashboardFilterRadio
+            label="Open 24 hours"
+            name={hoursId}
+            {...registerFilterRadio("hours", "open24Hours")}
           />
         </DashboardFilter>
 
