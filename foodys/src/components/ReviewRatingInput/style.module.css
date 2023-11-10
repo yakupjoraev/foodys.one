@@ -1,0 +1,9 @@
+.review-rating-input {
+  display: flex;
+  column-gap: 14px;
+  align-items: center;
+}
+
+.review-rating-input__stars {
+  max-width: 250px;
+}

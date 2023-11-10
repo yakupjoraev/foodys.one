@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/style.scss";
+import "@smastrom/react-rating/style.css";
 import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType<{ session: Session | null }> = ({

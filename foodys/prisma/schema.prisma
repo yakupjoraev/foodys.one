@@ -160,21 +160,21 @@ model GPlace {
 }
 
 model GPlaceReview {
-  id                        String             @id @default(auto()) @map("_id") @db.ObjectId
-  author_name               String
-  rating                    Float
-  relative_time_description String
-  time                      Int
-  author_url                String?
-  language                  String?
-  original_language         String?
-  profile_photo_url         String?
-  text                      String?
-  translated                Boolean?
-  hash                      String
-  g_place_id                String             @db.ObjectId
-  g_place                   GPlace             @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
-  g_place_review_like       GPlaceReviewLike[]
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  author_name         String
+  rating              Float
+  time                Int
+  author_url          String?
+  language            String?
+  original_language   String?
+  profile_photo_url   String?
+  text                String?
+  translated          Boolean?
+  local_author_id     String?
+  hash                String?
+  g_place_id          String             @db.ObjectId
+  g_place             GPlace             @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+  g_place_review_like GPlaceReviewLike[]
 
   @@unique([g_place_id, hash])
   @@map("g_place_review")
@@ -327,4 +327,9 @@ enum Establishment {
   RESTAURANT
   COFFEE_AND_TEA
   BAR
+}
+
+enum GPlaceReviewType {
+  IMPORTED
+  LOCAL
 }

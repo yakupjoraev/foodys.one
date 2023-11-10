@@ -1,12 +1,12 @@
 import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-import { type Place } from "~/server/gm-client/types";
 import { ServicePhone } from "../ServicePhone";
 import { env } from "~/env.mjs";
+import { type PlaceResource } from "~/server/api/utils/g-place";
 
 export interface LocationTabProps {
-  place: Place;
+  place: PlaceResource;
   show: boolean;
 }
 

@@ -4,7 +4,7 @@ import slugify from "slugify";
 import { type AddressComponent, type Place } from "~/server/gm-client/types";
 
 export async function createPlaceUrlByGPlace(
-  place: Place
+  place: Omit<Place, "reviews">
 ): Promise<string | null> {
   const placeId: string | undefined = place.place_id;
   if (placeId === undefined) {

@@ -45,6 +45,7 @@ import {
   GoogleOpeningHours,
 } from "~/hooks/use-google-opening-hours";
 import { Translate } from "next-translate";
+import Link from "next/link";
 
 enum Tab {
   Overview,
@@ -531,10 +532,13 @@ export default function Place(
                     {props.place.name ?? "..."}
                   </h1>
                   <div className="restaurant-page__instruments">
-                    <div className="restaurant-page__instrument">
+                    <Link
+                      className="restaurant-page__instrument"
+                      href={props.placeUrl + "/review"}
+                    >
                       <img src="/img/restaurant-page/review.svg" alt="review" />
                       <span>{t("buttonReview")}</span>
-                    </div>
+                    </Link>
 
                     <div
                       className={classNames("restaurant-page__instrument", {

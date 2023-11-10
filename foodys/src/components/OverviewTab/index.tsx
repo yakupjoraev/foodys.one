@@ -1,9 +1,9 @@
 import { Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
-import { type Place } from "~/server/gm-client/types";
+import { type PlaceResource } from "~/server/api/utils/g-place";
 
 export interface OverviewTabProps {
-  place: Place;
+  place: PlaceResource;
   show: boolean;
 }
 
@@ -37,7 +37,7 @@ export function OverviewTab(props: OverviewTabProps) {
   );
 }
 
-function renderServices(place: Place, t: Translate) {
+function renderServices(place: PlaceResource, t: Translate) {
   const services: string[] = [];
 
   if (place.dine_in) {

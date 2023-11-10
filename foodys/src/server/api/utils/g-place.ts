@@ -5,7 +5,7 @@ import {
   PlaceOpeningHoursPeriod,
   PlaceReview,
 } from "~/server/gm-client/types";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { GPlaceReview, Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
@@ -53,7 +53,9 @@ export type PlaceResource = Omit<Place, "reviews"> & {
   reviews: PlaceReviewResource[];
 };
 
-export function createPlaceListingItem(place: Place): PlaceListingItem {
+export function createPlaceListingItem(
+  place: Omit<Place, "reviews">
+): PlaceListingItem {
   let photos: { src: string; srcSet?: string }[] | undefined = undefined;
 
   if (place.photos && place.photos.length > 0) {
@@ -68,25 +70,8 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
         break;
       }
       const photoReference = photo.photo_reference;
-      const photoReferencePath = encodeURIComponent(photoReference);
-      const photoUrl =
-        PREVIEW_ENDPOINT +
-        "/" +
-        DEFAULT_PREVIEW_PRESET +
-        "/" +
-        photoReferencePath;
-      const srcSet = PREVIEW_PRESETS.map(
-        ({ preset, scale }) =>
-          PREVIEW_ENDPOINT +
-          "/" +
-          preset +
-          "/" +
-          photoReferencePath +
-          " " +
-          scale.toString() +
-          "x"
-      ).join(", ");
-      photos.push({ src: photoUrl, srcSet });
+      const preview = createPlacePreviewByPhotoReference(photoReference);
+      photos.push(preview);
     }
   }
 
@@ -106,6 +91,26 @@ export function createPlaceListingItem(place: Place): PlaceListingItem {
     opening_periods: place.opening_hours?.periods,
     utc_offset: place.utc_offset,
   });
+}
+
+export function createPlacePreviewByPhotoReference(
+  googlePhotoReference: string
+) {
+  const photoReferencePath = encodeURIComponent(googlePhotoReference);
+  const photoUrl =
+    PREVIEW_ENDPOINT + "/" + DEFAULT_PREVIEW_PRESET + "/" + photoReferencePath;
+  const srcSet = PREVIEW_PRESETS.map(
+    ({ preset, scale }) =>
+      PREVIEW_ENDPOINT +
+      "/" +
+      preset +
+      "/" +
+      photoReferencePath +
+      " " +
+      scale.toString() +
+      "x"
+  ).join(", ");
+  return { src: photoUrl, srcSet };
 }
 
 export async function applyFavoritiesToPlaceItems(
@@ -177,7 +182,7 @@ export async function createPlaceResourceByGoogleId(
     return null;
   }
 
-  const reviewsWithHash: (PlaceReview & { hash: string })[] = [];
+  const reviewModels: Omit<GPlaceReview, "id" | "g_place_id">[] = [];
   if (fetchedPlace.reviews) {
     for (const review of fetchedPlace.reviews) {
       const { author_name, text, time } = review;
@@ -187,8 +192,17 @@ export async function createPlaceResourceByGoogleId(
         time,
         fetchedPlace.place_id
       );
-      reviewsWithHash.push({
-        ...review,
+      reviewModels.push({
+        author_name: review.author_name,
+        rating: review.rating,
+        time: review.time,
+        author_url: review.author_url ?? null,
+        language: review.language ?? null,
+        original_language: review.original_language ?? null,
+        profile_photo_url: review.profile_photo_url ?? null,
+        text: review.text ?? null,
+        translated: review.translated ?? null,
+        local_author_id: null,
         hash,
       });
     }
@@ -199,7 +213,7 @@ export async function createPlaceResourceByGoogleId(
     createdPlace = await db.gPlace.create({
       data: {
         ...fetchedPlace,
-        reviews: { create: reviewsWithHash },
+        reviews: { create: reviewModels },
       },
     });
   } catch (error) {
