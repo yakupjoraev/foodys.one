@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { FormEvent, useId } from "react";
+import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";
 import { AccountDropdown } from "./AccountDropdown";
+import { NoFavoritesModal } from "../NoFavoritesModal";
+import { useClientFavorites } from "~/providers/favorites-provider";
 
 export interface HeaderProps {
   className?: string;
@@ -20,6 +22,8 @@ export function Header(props: HeaderProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const queryFormId = useId();
+  const [noFavoritesModalOpen, setNoFavoritesModalOpen] = useState(false);
+  const [favorites] = useClientFavorites();
 
   const handleQueryFormSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -41,8 +45,16 @@ export function Header(props: HeaderProps) {
     void router.push({ pathname, query }, asPath, { locale });
   };
 
+  const handleNoFavoritesModalClose = () => {
+    setNoFavoritesModalOpen(false);
+  };
+
   return (
     <header className={classNames("header", props.className)}>
+      <NoFavoritesModal
+        open={noFavoritesModalOpen}
+        onClose={handleNoFavoritesModalClose}
+      />
       <nav className="nav">
         <div className="container">
           <div className="navbar">
@@ -139,11 +151,17 @@ export function Header(props: HeaderProps) {
                   />
                 </a>
               </li>
-              <li className="menu__item" onClick={props.onToggleMobileMenu}>
+              <li className="menu__item">
                 <Link
                   href="/favorites"
                   className="menu__item-link"
                   data-scroll=""
+                  onClick={(ev) => {
+                    if (favorites.length === 0) {
+                      ev.preventDefault();
+                      setNoFavoritesModalOpen(true);
+                    }
+                  }}
                 >
                   <div className="menu__item-pic">
                     <img

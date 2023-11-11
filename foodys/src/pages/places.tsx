@@ -11,7 +11,7 @@ import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";
 import { useGeolocation } from "@uidotdev/usehooks";
-import { useClientFavorites } from "~/hooks/use-client-favorites";
+import { useClientFavorites } from "~/providers/favorites-provider";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",

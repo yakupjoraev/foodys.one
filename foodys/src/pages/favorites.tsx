@@ -8,17 +8,15 @@ import { RestaurantCard } from "~/components/RestaurantCard";
 import {
   readAllFavorites,
   useClientFavorites,
-} from "~/hooks/use-client-favorites";
+  useClientFavoritesSnapshot,
+} from "~/providers/favorites-provider";
 import { api } from "~/utils/api";
-
-const DEFAULT_FAVORITES: string[] = [];
 
 export default function Favorites() {
   const session = useSession();
   const geolocation = useGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
-  const [visibleFavoriteIds, setVisibleFavoriteIds] =
-    useState(DEFAULT_FAVORITES);
+  const visibleFavoriteIds = useClientFavoritesSnapshot();
   const [clientFavorites, appendClientFavorite, removeClientFavorite] =
     useClientFavorites();
   const queryResponse = api.places.getPlacesByGoogleId.useQuery(
@@ -27,11 +25,6 @@ export default function Favorites() {
     },
     { enabled: false, refetchOnWindowFocus: false }
   );
-
-  useEffect(() => {
-    const nextIds = readAllFavorites();
-    setVisibleFavoriteIds(nextIds);
-  }, []);
 
   useEffect(() => {
     void queryResponse.refetch();

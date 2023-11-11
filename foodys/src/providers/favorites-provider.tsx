@@ -1,14 +1,53 @@
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 
 const FAVORITES_KEY = "favorites";
 
 const DEFAULT_FAVORITES: string[] = [];
 
-export function useClientFavorites(): [
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const NOOP: (id: string) => void = (_id: string) => {};
+
+const DEFAULT_USE_FAVORITES_OUTPUT: UseFavoritesOutput = [
+  DEFAULT_FAVORITES,
+  NOOP,
+  NOOP,
+];
+
+export type UseFavoritesOutput = [
   string[],
   (id: string) => void,
   (id: string) => void
-] {
+];
+
+export type FavoritesProviderProps = React.PropsWithChildren;
+
+export const FavoritesContext = React.createContext<UseFavoritesOutput>(
+  DEFAULT_USE_FAVORITES_OUTPUT
+);
+
+export function useClientFavorites(): UseFavoritesOutput {
+  const [output, setOutput] = useState(DEFAULT_USE_FAVORITES_OUTPUT);
+
+  const valuesFromContext = useContext(FavoritesContext);
+
+  useEffect(() => {
+    setOutput(valuesFromContext);
+  }, [valuesFromContext]);
+
+  return output;
+}
+
+export function useClientFavoritesSnapshot() {
+  const [ids, setIds] = useState<string[]>(DEFAULT_FAVORITES);
+  useEffect(() => {
+    const nextIds = readAllFavorites();
+    setIds(nextIds);
+  }, []);
+  return ids;
+}
+
+export function FavoritesProvider(props: FavoritesProviderProps) {
   const [ids, setIds] = useState<string[]>(DEFAULT_FAVORITES);
 
   useEffect(() => {
@@ -28,7 +67,11 @@ export function useClientFavorites(): [
     setIds(nextIds);
   };
 
-  return [ids, append, remove];
+  return (
+    <FavoritesContext.Provider value={[ids, append, remove]}>
+      {props.children}
+    </FavoritesContext.Provider>
+  );
 }
 
 export function readAllFavorites() {
