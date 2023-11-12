@@ -46,6 +46,7 @@ import {
 } from "~/hooks/use-google-opening-hours";
 import { Translate } from "next-translate";
 import Link from "next/link";
+import { useClientFavorites } from "~/providers/favorites-provider";
 
 enum Tab {
   Overview,
@@ -134,18 +135,16 @@ export default function Place(
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const [favorite, setFavorite] = useState(props.favorite);
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
   const { status: authStatus } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
   const geolocation = useGeolocation();
+  const [favorites, appendFavorite, removeFavorite] = useClientFavorites();
   const googleOpeningHours = useGoogleOpeningHours(
     props.place.opening_hours?.periods,
     props.place.utc_offset
   );
-
-  const favoriteGPlace = api.favorite.favoriteGPlace.useMutation();
 
   const reviews = api.reviews.getGPlaceReviews.useQuery({
     gPlaceId: props.place.id,
@@ -257,6 +256,12 @@ export default function Place(
     return props.place.photos;
   }, [props.place]);
 
+  const favorite = useMemo(
+    () =>
+      props.place.place_id ? favorites.includes(props.place.place_id) : false,
+    [props.place.place_id, favorites]
+  );
+
   const handleOpenGalleryBtnClick = () => {
     setGalleryOpen(true);
   };
@@ -274,26 +279,11 @@ export default function Place(
     if (!placeId) {
       return;
     }
-    if (authStatus !== "authenticated") {
-      toast.error("Authentification required!");
-      return;
+    if (favorite) {
+      removeFavorite(placeId);
+    } else {
+      appendFavorite(placeId);
     }
-
-    const currentFavorite = favorite;
-    const nextFavorite = !favorite;
-
-    setFavorite(!favorite);
-
-    favoriteGPlace
-      .mutateAsync({
-        placeId,
-        favorite: nextFavorite,
-      })
-      .catch((error) => {
-        console.error(error);
-        setFavorite(currentFavorite);
-        toast.error("Failed to toggle favorite!");
-      });
   };
 
   const handleCallBtnClick = () => {
