@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 export interface FooterProps {
   className?: string;
+  onContactUsBtnClick: () => void;
 }
 
 export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
@@ -31,9 +32,13 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
               <Link className="footer__nav-link" href="/privacy-policy">
                 Privacy Policy
               </Link>
-              <Link className="footer__nav-link" href="/contact-us">
+              <span
+                className="footer__nav-link"
+                role="button"
+                onClick={props.onContactUsBtnClick}
+              >
                 {t("textContactUs")}
-              </Link>
+              </span>
             </nav>
             <span className="footer__country">
               <img src="/img/icons/footer-country.svg" alt="country icon" />

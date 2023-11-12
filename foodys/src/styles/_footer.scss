@@ -5,63 +5,63 @@
   overflow: hidden;
 
   &::after {
-      content: "";
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-  
-      background: linear-gradient(#ef5d3d, #f37736);
-      clip-path: polygon(43% 0, 100% 0, 100% 100%, 41% 100%);
-  
-      @media (max-width: $breakpoint768) {
-        background: linear-gradient(#ef5d3d, #f47a35);
-        clip-path: polygon(-1px calc(66.7806px + 60%),
-            -1px calc(66.7806px + 60%),
-            -0.5594076px calc(60.9838671px + 60%),
-            0.7205272px calc(55.4512848px + 60%),
-            2.7770408px calc(50.2514277px + 60%),
-            5.5473696px calc(45.4528704px + 60%),
-            8.96875px calc(41.1241875px + 60%),
-            12.9784184px calc(37.3339536px + 60%),
-            17.5136112px calc(34.1507433px + 60%),
-            22.5115648px calc(31.6431312px + 60%),
-            27.9095156px calc(29.8796919px + 60%),
-            33.6447px calc(28.929px + 60%),
-            100% 60%,
-            100% 100%,
-            -1px 100%,
-            -1px 66.7806px);
-      }
-  
-      @media (max-width: $breakpoint480) {
-        background: linear-gradient(#ef5d3d, #f47a35);
-        clip-path: polygon(-1px calc(66.7806px + 60%),
-            -1px calc(66.7806px + 60%),
-            -0.5594076px calc(60.9838671px + 60%),
-            0.7205272px calc(55.4512848px + 60%),
-            2.7770408px calc(50.2514277px + 60%),
-            5.5473696px calc(45.4528704px + 60%),
-            8.96875px calc(41.1241875px + 60%),
-            12.9784184px calc(37.3339536px + 60%),
-            17.5136112px calc(34.1507433px + 60%),
-            22.5115648px calc(31.6431312px + 60%),
-            27.9095156px calc(29.8796919px + 60%),
-            33.6447px calc(28.929px + 60%),
-            100% 58%,
-            100% 100%,
-            -1px 100%,
-            -1px 66.7806px);
-      }
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background: linear-gradient(#ef5d3d, #f37736);
+    clip-path: polygon(43% 0, 100% 0, 100% 100%, 41% 100%);
+
+    @media (max-width: $breakpoint768) {
+      background: linear-gradient(#ef5d3d, #f47a35);
+      clip-path: polygon(-1px calc(66.7806px + 60%),
+          -1px calc(66.7806px + 60%),
+          -0.5594076px calc(60.9838671px + 60%),
+          0.7205272px calc(55.4512848px + 60%),
+          2.7770408px calc(50.2514277px + 60%),
+          5.5473696px calc(45.4528704px + 60%),
+          8.96875px calc(41.1241875px + 60%),
+          12.9784184px calc(37.3339536px + 60%),
+          17.5136112px calc(34.1507433px + 60%),
+          22.5115648px calc(31.6431312px + 60%),
+          27.9095156px calc(29.8796919px + 60%),
+          33.6447px calc(28.929px + 60%),
+          100% 60%,
+          100% 100%,
+          -1px 100%,
+          -1px 66.7806px);
     }
-  
-    // .footer__container 
-  
-    &__container {
-      position: relative;
-      z-index: 1;
+
+    @media (max-width: $breakpoint480) {
+      background: linear-gradient(#ef5d3d, #f47a35);
+      clip-path: polygon(-1px calc(66.7806px + 60%),
+          -1px calc(66.7806px + 60%),
+          -0.5594076px calc(60.9838671px + 60%),
+          0.7205272px calc(55.4512848px + 60%),
+          2.7770408px calc(50.2514277px + 60%),
+          5.5473696px calc(45.4528704px + 60%),
+          8.96875px calc(41.1241875px + 60%),
+          12.9784184px calc(37.3339536px + 60%),
+          17.5136112px calc(34.1507433px + 60%),
+          22.5115648px calc(31.6431312px + 60%),
+          27.9095156px calc(29.8796919px + 60%),
+          33.6447px calc(28.929px + 60%),
+          100% 58%,
+          100% 100%,
+          -1px 100%,
+          -1px 66.7806px);
     }
+  }
+
+  // .footer__container 
+
+  &__container {
+    position: relative;
+    z-index: 1;
+  }
 
   // .footer__top
 
@@ -112,6 +112,7 @@
     line-height: 122.8%;
     letter-spacing: -0.28px;
     color: var(--text-color);
+    cursor: pointer;
 
     @media (max-width: $breakpoint992) {
 

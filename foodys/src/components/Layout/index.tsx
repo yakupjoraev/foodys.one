@@ -7,6 +7,7 @@ import { AboutSearch } from "~/components/AboutSearch";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
 import { AuthModalContainer } from "~/containers/AuthModalContainer";
+import { ContactUsModalContainer } from "~/containers/ContactUsModalContainer";
 import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 
 export type LayoutProps = PropsWithChildren<{
@@ -21,6 +22,7 @@ export function Layout(props: LayoutProps) {
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [authModelOpened, setAuthModelOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
+  const [contactUsModalOpened, setContactUsModalOpened] = useState(false);
   const { status: authStatus } = useSession();
 
   useEffect(() => {
@@ -43,6 +45,10 @@ export function Layout(props: LayoutProps) {
 
   const handleRegisterModalClose = () => {
     setRegisterModalOpened(false);
+  };
+
+  const handleContactUsModalClose = () => {
+    setContactUsModalOpened(false);
   };
 
   const handleLogInBtnClick = () => {
@@ -71,6 +77,10 @@ export function Layout(props: LayoutProps) {
     setRegisterModalOpened(false);
   };
 
+  const handleContactUsBtnClick = () => {
+    setContactUsModalOpened(true);
+  };
+
   return (
     <div
       className={classNames("main__body", props.className, {
@@ -91,7 +101,11 @@ export function Layout(props: LayoutProps) {
         onToggleMobileMenu={handleToggleMobileMenu}
       />
       {props.children}
-      <Footer className={props.footerClassName} ref={props.footerRef} />
+      <Footer
+        className={props.footerClassName}
+        ref={props.footerRef}
+        onContactUsBtnClick={handleContactUsBtnClick}
+      />
       <AuthModalContainer
         open={authModelOpened}
         onClose={handleAuthModalClose}
@@ -101,6 +115,10 @@ export function Layout(props: LayoutProps) {
         open={registerModalOpened}
         onClose={handleRegisterModalClose}
         onNavAuth={handleNavAuth}
+      />
+      <ContactUsModalContainer
+        open={contactUsModalOpened}
+        onClose={handleContactUsModalClose}
       />
     </div>
   );
