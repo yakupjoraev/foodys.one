@@ -67,8 +67,8 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                   href="https://twitter.com/FoodysOne"
                 >
                   <svg
-                    width="19"
-                    height="19"
+                    width="16"
+                    height="16"
                     viewBox="0 0 1200 1227"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
