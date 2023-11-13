@@ -484,7 +484,13 @@ export default function Place(
                               "https://foodys.freeblock.site/place-photos/cover_168x168/" +
                               photo.photo_reference
                             }
-                            alt=""
+                            alt={
+                              props.place.name
+                                ? props.place.name +
+                                  " image-" +
+                                  photo.photo_reference.slice(-4)
+                                : ""
+                            }
                             width={168}
                             height={168}
                           />
