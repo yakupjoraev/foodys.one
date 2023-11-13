@@ -63,6 +63,28 @@
     z-index: 1;
   }
 
+    // .footer__inner
+
+    &__inner {
+      position: relative;
+  
+      &::after {
+        content: "";
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 30%, rgba(255, 255, 255, 0.5) 70%);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+  
+        @media (max-width: $breakpoint992) {
+          margin-bottom: 16px;
+          top: 40%;
+        }
+      }
+    }
+
   // .footer__top
 
   &__top {
