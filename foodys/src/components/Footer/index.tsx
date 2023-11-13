@@ -64,7 +64,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
               <div className="footer__info-block">
                 <a
                   className="footer__info-link footer__info-link--telegram"
-                  href="#"
+                  href="https://twitter.com/FoodysOne"
                 >
                   <svg
                     width="19"
@@ -79,7 +79,10 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                     />
                   </svg>
                 </a>
-                <a className="footer__info-link footer__info-link--in" href="#">
+                <a
+                  className="footer__info-link footer__info-link--in"
+                  href="https://www.linkedin.com/company/foodys-one/"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={18}
