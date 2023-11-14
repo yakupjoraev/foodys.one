@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { FavoritesProvider } from "~/providers/favorites-provider";
+import { BlockedReviewsProvider } from "~/providers/blocked-reviews-provider";
 import { api } from "~/utils/api";
 import "~/styles/style.scss";
 import "@smastrom/react-rating/style.css";
@@ -14,7 +15,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <FavoritesProvider>
-        <Component {...pageProps} />
+        <BlockedReviewsProvider>
+          <Component {...pageProps} />
+        </BlockedReviewsProvider>
       </FavoritesProvider>
       <Toaster />
     </SessionProvider>

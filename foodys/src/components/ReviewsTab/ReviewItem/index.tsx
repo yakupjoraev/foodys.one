@@ -18,6 +18,7 @@ export interface ReviewItemProps {
   placeUrl: string;
   highlighted?: boolean;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
+  onBlockReview: (reviewId: string) => void;
 }
 
 export function ReviewItem(props: ReviewItemProps) {
@@ -29,6 +30,10 @@ export function ReviewItem(props: ReviewItemProps) {
 
   const handleLikeBtnClick = () => {
     props.onUpdateLike(props.review.id, !props.review.liked);
+  };
+
+  const hanldeReportBtnClick = () => {
+    props.onBlockReview(props.review.id);
   };
 
   let dateLocale = en;
@@ -105,7 +110,10 @@ export function ReviewItem(props: ReviewItemProps) {
             <span>Share review</span>
           </span>
         </RWebShare>
-        <span className="reviews-content__action" onClick={handleClick}>
+        <span
+          className="reviews-content__action"
+          onClick={hanldeReportBtnClick}
+        >
           <img src="/img/icons/no-see.svg" alt="no-see" />
           <span>Report the review</span>
         </span>

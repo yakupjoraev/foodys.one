@@ -47,6 +47,7 @@ import {
 import { Translate } from "next-translate";
 import Link from "next/link";
 import { useClientFavorites } from "~/providers/favorites-provider";
+import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
 
 enum Tab {
   Overview,
@@ -141,12 +142,13 @@ export default function Place(
   const [hash, setHash] = useHash();
   const geolocation = useGeolocation();
   const [favorites, appendFavorite, removeFavorite] = useClientFavorites();
+  const [blockedReviews, blockReview] = useClientBlockedReviews();
   const googleOpeningHours = useGoogleOpeningHours(
     props.place.opening_hours?.periods,
     props.place.utc_offset
   );
 
-  const reviews = api.reviews.getGPlaceReviews.useQuery({
+  const reviewsQuery = api.reviews.getGPlaceReviews.useQuery({
     gPlaceId: props.place.id,
   });
 
@@ -298,6 +300,10 @@ export default function Place(
     updateGPlaceReviewLike.mutate({ gPlaceReviewId: reviewId, liked });
   };
 
+  const handleBlockReview = (reviewId: string) => {
+    blockReview(reviewId);
+  };
+
   const openTab = (nextTab: Tab, scroll?: boolean) => {
     switch (nextTab) {
       case Tab.Overview: {
@@ -357,6 +363,19 @@ export default function Place(
     }
     return { lat, lng };
   }, [geolocation]);
+
+  const reviews = useMemo(() => {
+    if (!props.place.reviews) {
+      return undefined;
+    }
+    if (!reviewsQuery.data) {
+      return undefined;
+    }
+    const blockedReviewsSet = new Set(blockedReviews);
+    return reviewsQuery.data.filter((review) => {
+      return !blockedReviewsSet.has(review.id);
+    });
+  }, [blockedReviews, reviewsQuery.data]);
 
   return (
     <Layout title="Foodys - About page">
@@ -770,10 +789,11 @@ export default function Place(
 
                     {/*---------------------- Reviews ---------------------*/}
                     <ReviewsTab
-                      reviews={reviews.data}
+                      reviews={reviews}
                       placeUrl={props.placeUrl}
                       show={tab === Tab.Reviews}
                       onUpdateLike={handleUpdateLike}
+                      onBlockReview={handleBlockReview}
                     />
 
                     {/*---------------------- Location ---------------------*/}

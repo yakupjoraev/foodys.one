@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { type PlaceResource } from "~/server/api/utils/g-place";
 import { useHash } from "~/hooks/use-hash";
 import { PlaceReviewResource } from "~/server/api/utils/g-place-review";
+import { ReportReviewModal } from "../ReportReviewModal";
 
 enum ReviewOrder {
   Relevant,
@@ -18,6 +19,7 @@ export interface ReviewsTabProps {
   reviews?: PlaceReviewResource[];
   placeUrl: string;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
+  onBlockReview: (reviewId: string) => void;
 }
 
 export function ReviewsTab(props: ReviewsTabProps) {
@@ -25,6 +27,7 @@ export function ReviewsTab(props: ReviewsTabProps) {
   const [sortOrder, setSortOrder] = useState(ReviewOrder.Relevant);
   const [highlightedId, setHightlightedId] = useState<string | null>(null);
   const [hash] = useHash();
+  const [reviewToBlock, setReviewToBlock] = useState<string | null>(null);
 
   useEffect(() => {
     if (hash.startsWith("#rv") && hash.length > 3) {
@@ -34,6 +37,17 @@ export function ReviewsTab(props: ReviewsTabProps) {
       setHightlightedId(null);
     }
   }, [hash]);
+
+  const handleBlockReview = (reviewId: string) => {
+    setReviewToBlock(reviewId);
+  };
+
+  const handleConfirmReviewBlock = (confirmed: boolean) => {
+    if (confirmed && reviewToBlock !== null) {
+      props.onBlockReview(reviewToBlock);
+    }
+    setReviewToBlock(null);
+  };
 
   const reviews = useMemo(() => {
     if (!props.reviews) {
@@ -104,12 +118,17 @@ export function ReviewsTab(props: ReviewsTabProps) {
                     placeUrl={props.placeUrl}
                     highlighted={highlighted}
                     onUpdateLike={props.onUpdateLike}
+                    onBlockReview={handleBlockReview}
                     key={i}
                   />
                 );
               })}
         </div>
       </div>
+      <ReportReviewModal
+        open={reviewToBlock !== null}
+        onConfirm={handleConfirmReviewBlock}
+      />
     </div>
   );
 }
