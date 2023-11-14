@@ -4,10 +4,14 @@ import Trans from "next-translate/Trans";
 import { ServicePhone } from "../ServicePhone";
 import { env } from "~/env.mjs";
 import { type PlaceResource } from "~/server/api/utils/g-place";
+import haversine from "haversine-distance";
+import { useMemo } from "react";
 
 export interface LocationTabProps {
   place: PlaceResource;
   show: boolean;
+  from?: { lat: number; lng: number };
+  to?: { lat: number; lng: number };
 }
 
 export function LocationTab(props: LocationTabProps) {
@@ -17,6 +21,14 @@ export function LocationTab(props: LocationTabProps) {
   const handleCallBtnClick = () => {
     setServicePhoneVisible(!servicePhoneVisible);
   };
+
+  const distance = useMemo(() => {
+    if (!props.from || !props.to) {
+      return null;
+    }
+    const distance = haversine(props.from, props.to);
+    return Math.round(distance);
+  }, [props.from, props.to]);
 
   return (
     <div
@@ -28,7 +40,8 @@ export function LocationTab(props: LocationTabProps) {
       <div className="location">
         <div className="location__top">
           <p className="location__address">
-            {props.place.formatted_address ?? "..."} – 835m from you
+            {props.place.formatted_address ?? "..."}
+            {distance !== null && " – " + t("textDistance", { distance })}
           </p>
           <div className="location__map">
             {props.place.place_id !== undefined && (

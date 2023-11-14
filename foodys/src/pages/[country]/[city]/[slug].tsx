@@ -135,7 +135,7 @@ export const getServerSideProps = (async (ctx) => {
       trpcState: ssg.dehydrate(),
     },
   };
-}) satisfies GetServerSideProps<{}>;
+}) satisfies GetServerSideProps;
 
 export default function Place(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -891,6 +891,8 @@ export default function Place(
                     <LocationTab
                       show={tab === Tab.Location}
                       place={props.place}
+                      from={clientCoordinates ?? undefined}
+                      to={placeCoordinates ?? undefined}
                     />
                   </div>
                 </div>

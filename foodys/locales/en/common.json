@@ -99,6 +99,7 @@
   "titleClearAll": "Clear all",
   "titleSortBy": "Sort by",
   "textGetThere": "<0>Get there</0><1> | {{distance}}m from you</1>",
+  "textDistance": "{{distance}}m from you",
   "buttonCall": "Call",
   "buttonDelivery": "Delivery",
   "buttonPayInCrypto": "Pay in crypto",
