@@ -18,6 +18,10 @@
       line-height: 112.8%;
       cursor: pointer;
 
+      &--wide {
+        min-width: 160px;
+      }
+
       &.active {
         border-color: var(--primary-color);
         color: var(--primary-color);
@@ -29,6 +33,10 @@
 
         white-space: nowrap;
         font-size: 12px;
+
+        &--wide {
+          min-width: 85px;
+        }
       }
     }
   }

@@ -49,6 +49,7 @@ import Link from "next/link";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
 import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
+import { useRouter } from "next/router";
 
 enum Tab {
   Overview,
@@ -140,7 +141,7 @@ export const getServerSideProps = (async (ctx) => {
 export default function Place(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const { t } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -828,6 +829,7 @@ export default function Place(
                     <div
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Overview,
+                        "tabs__header-item--wide": lang === "fr",
                       })}
                       onClick={() => openTab(Tab.Overview)}
                     >
@@ -837,6 +839,7 @@ export default function Place(
                       <div
                         className={classNames("tabs__header-item", {
                           active: tab === Tab.OpeningHours,
+                          "tabs__header-item--wide": lang === "fr",
                         })}
                         onClick={() => openTab(Tab.OpeningHours)}
                       >
@@ -846,6 +849,7 @@ export default function Place(
                     <div
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Reviews,
+                        "tabs__header-item--wide": lang === "fr",
                       })}
                       onClick={() => openTab(Tab.Reviews)}
                     >
@@ -854,6 +858,7 @@ export default function Place(
                     <div
                       className={classNames("tabs__header-item", {
                         active: tab === Tab.Location,
+                        "tabs__header-item--wide": lang === "fr",
                       })}
                       role="button"
                       onClick={() => openTab(Tab.Location)}
