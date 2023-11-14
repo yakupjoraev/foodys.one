@@ -76,6 +76,23 @@
     }
   }
 
+  // .restaurant-page__nav-back
+
+  &__nav-back {
+    color: #3c527e;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 146.8%;
+    letter-spacing: -0.28px;
+    display: block;
+    text-decoration: underline;
+    margin-bottom: 12px;
+  }
+
+  &__nav-back:hover {
+    text-decoration: none;
+  }
+
   // .restaurant-page__pictures
 
   &__pictures {

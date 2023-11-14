@@ -110,6 +110,12 @@ export const getServerSideProps = (async (ctx) => {
 
   const absolutePlaceUrl = new URL(placeUrl.url, env.NEXT_PUBLIC_SITE_URL);
 
+  const prevResultsUrl = ctx.req.headers.referer?.startsWith(
+    env.NEXT_PUBLIC_SITE_URL + "/places"
+  )
+    ? ctx.req.headers.referer
+    : null;
+
   const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: {
@@ -125,10 +131,11 @@ export const getServerSideProps = (async (ctx) => {
       place,
       favorite,
       placeUrl: absolutePlaceUrl.toString(),
+      prevResultsUrl,
       trpcState: ssg.dehydrate(),
     },
   };
-}) satisfies GetServerSideProps<{ place: PlaceResource }>;
+}) satisfies GetServerSideProps<{}>;
 
 export default function Place(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -562,6 +569,14 @@ export default function Place(
             </form>
             <div className="dashboard__main">
               <div className="restaurant-page__inner">
+                {props.prevResultsUrl !== null && (
+                  <Link
+                    className="restaurant-page__nav-back"
+                    href={props.prevResultsUrl}
+                  >
+                    ❮ Back to previous results
+                  </Link>
+                )}
                 {previewPhotos && (
                   <div className="restaurant-page__pictures">
                     {previewPhotos.map((photo, i) => {
