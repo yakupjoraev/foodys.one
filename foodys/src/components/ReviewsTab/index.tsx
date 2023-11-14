@@ -20,6 +20,7 @@ export interface ReviewsTabProps {
   placeUrl: string;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
   onBlockReview: (reviewId: string) => void;
+  onAnswerReview: (reviewId: string, text: string) => void;
 }
 
 export function ReviewsTab(props: ReviewsTabProps) {
@@ -119,6 +120,7 @@ export function ReviewsTab(props: ReviewsTabProps) {
                     highlighted={highlighted}
                     onUpdateLike={props.onUpdateLike}
                     onBlockReview={handleBlockReview}
+                    onAnswerReview={props.onAnswerReview}
                     key={i}
                   />
                 );

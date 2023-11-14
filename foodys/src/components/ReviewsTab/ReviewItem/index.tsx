@@ -7,11 +7,11 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import en from "date-fns/locale/en-GB";
 import fr from "date-fns/locale/fr";
 import useTranslation from "next-translate/useTranslation";
-import toast from "react-hot-toast";
 import classNames from "classnames";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { RWebShare } from "react-web-share";
 import { type PlaceReviewResource } from "~/server/api/utils/g-place-review";
+import { OwnerAnswerForm, OwnerAnswerFormData } from "../../OwnerAnswerForm";
 
 export interface ReviewItemProps {
   review: PlaceReviewResource;
@@ -19,14 +19,19 @@ export interface ReviewItemProps {
   highlighted?: boolean;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
   onBlockReview: (reviewId: string) => void;
+  onAnswerReview: (
+    reviewId: string,
+    text: string,
+    cb: (success: boolean) => void
+  ) => void;
 }
 
 export function ReviewItem(props: ReviewItemProps) {
   const { lang } = useTranslation("common");
-
-  const handleClick = () => {
-    toast("NOT IMPLEMENTED");
-  };
+  const [ownerAnswerFormVisible, setOwnerAnswerFormVisible] =
+    useState<boolean>(false);
+  const [ownerAnswerFormLoading, setOwnerAnswerFormLoading] =
+    useState<boolean>(false);
 
   const handleLikeBtnClick = () => {
     props.onUpdateLike(props.review.id, !props.review.liked);
@@ -34,6 +39,24 @@ export function ReviewItem(props: ReviewItemProps) {
 
   const hanldeReportBtnClick = () => {
     props.onBlockReview(props.review.id);
+  };
+
+  const handleAnserBtnClick = () => {
+    setOwnerAnswerFormVisible(!ownerAnswerFormVisible);
+  };
+
+  const handleOwnerAnswerFormSubmit = (formData: OwnerAnswerFormData) => {
+    setOwnerAnswerFormLoading(true);
+    props.onAnswerReview(
+      props.review.id,
+      formData.answer,
+      (success: boolean) => {
+        setOwnerAnswerFormLoading(false);
+        if (success) {
+          setOwnerAnswerFormVisible(false);
+        }
+      }
+    );
   };
 
   let dateLocale = en;
@@ -117,11 +140,41 @@ export function ReviewItem(props: ReviewItemProps) {
           <img src="/img/icons/no-see.svg" alt="no-see" />
           <span>Report the review</span>
         </span>
-        <span className="reviews-content__action" onClick={handleClick}>
+        <span className="reviews-content__action" onClick={handleAnserBtnClick}>
           <img src="/img/icons/basket.svg" alt="basket" />
           <span>Business owner? Reply</span>
         </span>
       </div>
+      {ownerAnswerFormVisible && (
+        <OwnerAnswerForm
+          loading={ownerAnswerFormLoading}
+          onSubmit={handleOwnerAnswerFormSubmit}
+        />
+      )}
+      {props.review.ownerAnswers?.length && (
+        <div className="review-content__owner-answers">
+          {props.review.ownerAnswers.map((response) => {
+            return (
+              <div className="review-content__owner-answer" key={response.id}>
+                <div className="review-content__owner">
+                  <div className="review-content__owner-title">
+                    {response.ownerName}, responded to this review
+                  </div>
+                  <div className="review-content__owner-subtitle">
+                    {formatDistanceToNow(response.time * 1000, {
+                      locale: dateLocale,
+                      addSuffix: true,
+                    })}
+                  </div>
+                </div>
+                <div className="reviews-content__owner-answer-text">
+                  {response.text}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

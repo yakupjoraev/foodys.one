@@ -13,6 +13,7 @@ import {
   createLocalGPlaceReview,
   getGPlaceReviewResources,
 } from "../utils/g-place-review";
+import { createGPlaceReviewAnswer } from "../utils/g-place-review-answer";
 
 export const reviewsRouter = createTRPCRouter({
   createGPlaceReview: protectedProcedure
@@ -68,5 +69,16 @@ export const reviewsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
       return getGPlaceReviewResources(input.gPlaceId, userId);
+    }),
+  createGPlaceReviewAnswer: protectedProcedure
+    .input(
+      z.object({
+        gPlaceReviewId: z.string(),
+        text: z.string().min(1).max(500),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      await createGPlaceReviewAnswer(userId, input.gPlaceReviewId, input.text);
     }),
 });

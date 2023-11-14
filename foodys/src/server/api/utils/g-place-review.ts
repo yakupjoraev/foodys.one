@@ -5,6 +5,7 @@ import {
 } from "./g-place-review-like";
 import { removeNulls } from "~/utils/remove-nulls";
 import { type GPlaceReview } from "@prisma/client";
+import { type OwnerAnswerResource } from "./g-place-review-answer";
 
 export interface PlaceReviewResource {
   id: string;
@@ -19,6 +20,7 @@ export interface PlaceReviewResource {
   translated?: boolean;
   liked?: boolean;
   likes?: number;
+  ownerAnswers?: OwnerAnswerResource[];
 }
 
 export interface CreateLocalGPlaceReviewRequest {
@@ -39,6 +41,13 @@ export async function getGPlaceReviewResources(
     where: {
       g_place_id: gPlaceId,
     },
+    include: {
+      g_place_review_answer: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   reviews.sort((a, b) => {
@@ -48,7 +57,18 @@ export async function getGPlaceReviewResources(
   });
 
   const resources: PlaceReviewResource[] = reviews.map((review) => {
-    return createResourceFromGPlaceReview(review);
+    const ownerAnswers: OwnerAnswerResource[] =
+      review.g_place_review_answer.map((answer) => ({
+        id: answer.id,
+        ownerName: answer.user.name ?? "",
+        text: answer.text,
+        time: Math.floor(answer.created_at.getTime() / 1000),
+      }));
+    const reviewResource = createResourceFromGPlaceReview(review);
+    if (ownerAnswers.length) {
+      reviewResource.ownerAnswers = ownerAnswers;
+    }
+    return reviewResource;
   });
 
   await Promise.all(
@@ -86,19 +106,19 @@ export async function createLocalGPlaceReview(
 }
 
 export function createResourceFromGPlaceReview(
-  placeModel: GPlaceReview
+  reviewModel: GPlaceReview
 ): PlaceReviewResource {
   return removeNulls({
-    id: placeModel.id,
-    author_name: placeModel.author_name,
-    rating: placeModel.rating,
-    time: placeModel.time,
-    author_url: placeModel.author_url,
-    language: placeModel.language,
-    original_language: placeModel.original_language,
-    profile_photo_url: placeModel.profile_photo_url,
-    text: placeModel.text,
-    translated: placeModel.translated,
+    id: reviewModel.id,
+    author_name: reviewModel.author_name,
+    rating: reviewModel.rating,
+    time: reviewModel.time,
+    author_url: reviewModel.author_url,
+    language: reviewModel.language,
+    original_language: reviewModel.original_language,
+    profile_photo_url: reviewModel.profile_photo_url,
+    text: reviewModel.text,
+    translated: reviewModel.translated,
     liked: false,
     likes: 0,
   });

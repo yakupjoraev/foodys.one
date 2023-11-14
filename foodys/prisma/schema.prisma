@@ -49,12 +49,12 @@ model Session {
 }
 
 model User {
-  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
   name                String?
   firstName           String?
   lastName            String?
-  nickname            String?            @unique
-  email               String?            @unique
+  nickname            String?              @unique
+  email               String?              @unique
   password            String?
   emailVerified       DateTime?
   image               String?
@@ -62,6 +62,7 @@ model User {
   sessions            Session[]
   FavoriteGPlace      FavoriteGPlace[]
   g_place_review_like GPlaceReviewLike[]
+  GPlaceReviewAnswer  GPlaceReviewAnswer[]
 
   @@map("users")
 }
@@ -160,7 +161,7 @@ model GPlace {
 }
 
 model GPlaceReview {
-  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
   author_name         String
   rating              Float
   time                Int
@@ -172,12 +173,25 @@ model GPlaceReview {
   translated          Boolean?
   local_author_id     String?
   hash                String?
-  g_place_id          String             @db.ObjectId
-  g_place             GPlace             @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+  g_place_id          String               @db.ObjectId
+  g_place             GPlace               @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
   g_place_review_like GPlaceReviewLike[]
+  g_place_review_answer  GPlaceReviewAnswer[]
 
   @@unique([g_place_id, hash])
   @@map("g_place_review")
+}
+
+model GPlaceReviewAnswer {
+  id                String       @id @default(auto()) @map("_id") @db.ObjectId
+  text              String
+  g_place_review_id String       @db.ObjectId
+  g_place_review    GPlaceReview @relation(fields: [g_place_review_id], references: [id], onDelete: Cascade)
+  user_id           String       @db.ObjectId
+  user              User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  created_at        DateTime     @default(now())
+
+  @@map("g_place_review_answer")
 }
 
 model GPlaceReviewLike {

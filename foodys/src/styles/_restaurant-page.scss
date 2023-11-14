@@ -863,6 +863,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: 112.8%;
+  display: block;
 }
 
 .reviews-content__answer-textarea {
@@ -889,6 +890,59 @@
     font-weight: 600;
     line-height: 133.8%;
   }
+}
+
+.reviews-content__answer-error {
+  font-size: 12px;
+  color: red;
+  margin-top: -6px;
+  margin-bottom: 12px;
+}
+
+.review-content__owner-answers {
+  border-left: 1px solid rgba(49, 55, 67, 0.2);
+  padding-left: 20px;
+  padding-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.review-content__owner-answer {
+  margin-bottom: 20px;
+}
+
+.review-content__owner-answer:last-child {
+  margin-bottom: 0;
+}
+
+.review-content__owner-title {
+  font-family: var(--primary-font);
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.2px;
+}
+
+.review-content__owner-subtitle {
+  color: rgba(0, 0, 0, 0.54);
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0.2px;
+  margin-bottom: 8px;
+}
+
+.review-content__owner-answer-text {
+  max-width: 550px;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0.2px;
 }
 
 .restaurant__btn {

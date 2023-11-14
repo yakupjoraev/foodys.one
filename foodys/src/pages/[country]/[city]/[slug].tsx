@@ -48,6 +48,7 @@ import { Translate } from "next-translate";
 import Link from "next/link";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
+import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 
 enum Tab {
   Overview,
@@ -137,7 +138,7 @@ export default function Place(
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
-  const { status: authStatus } = useSession();
+  const { status: authStatus, data: sessionData } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
   const geolocation = useGeolocation();
@@ -215,6 +216,72 @@ export default function Place(
       },
     }
   );
+  const createGPlaceReviewAnswer =
+    api.reviews.createGPlaceReviewAnswer.useMutation({
+      async onMutate(opts) {
+        await utils.reviews.getGPlaceReviews.cancel();
+
+        const prevData = utils.reviews.getGPlaceReviews.getData();
+
+        utils.reviews.getGPlaceReviews.setData(
+          { gPlaceId: props.place.id },
+          (old) => {
+            if (old === undefined) {
+              return old;
+            }
+            const reviewIndex = old.findIndex(
+              (review) => review.id === opts.gPlaceReviewId
+            );
+            if (reviewIndex === -1) {
+              return old;
+            }
+            const target = old[reviewIndex];
+            if (target === undefined) {
+              return old;
+            }
+            const updatedReview = { ...target };
+            const newAnswer: OwnerAnswerResource = {
+              id: Math.random().toString(),
+              ownerName: sessionData?.user.name ?? "",
+              text: opts.text,
+              time: Math.floor(Date.now() / 1000),
+            };
+
+            if (updatedReview.ownerAnswers) {
+              updatedReview.ownerAnswers = [
+                ...updatedReview.ownerAnswers,
+                newAnswer,
+              ];
+            } else {
+              updatedReview.ownerAnswers = [newAnswer];
+            }
+
+            return [
+              ...old.slice(0, reviewIndex),
+              updatedReview,
+              ...old.slice(reviewIndex + 1),
+            ];
+          }
+        );
+
+        return { prevData };
+      },
+      onError(error, opts, ctx) {
+        console.error(error);
+
+        toast("Failed to answer!");
+
+        if (ctx) {
+          utils.reviews.getGPlaceReviews.setData(
+            { gPlaceId: props.place.id },
+            ctx.prevData
+          );
+        }
+      },
+      onSettled() {
+        void utils.reviews.getGPlaceReviews.invalidate();
+      },
+    });
 
   useEffect(() => {
     if (hash === HASH_GALLERY) {
@@ -302,6 +369,14 @@ export default function Place(
 
   const handleBlockReview = (reviewId: string) => {
     blockReview(reviewId);
+  };
+
+  const handleAnswerReview = (reviewId: string, text: string) => {
+    if (authStatus !== "authenticated") {
+      toast.error("Authentification required!");
+      return;
+    }
+    createGPlaceReviewAnswer.mutate({ gPlaceReviewId: reviewId, text });
   };
 
   const openTab = (nextTab: Tab, scroll?: boolean) => {
@@ -794,6 +869,7 @@ export default function Place(
                       show={tab === Tab.Reviews}
                       onUpdateLike={handleUpdateLike}
                       onBlockReview={handleBlockReview}
+                      onAnswerReview={handleAnswerReview}
                     />
 
                     {/*---------------------- Location ---------------------*/}
