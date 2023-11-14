@@ -23,11 +23,11 @@ export function LocationTab(props: LocationTabProps) {
   };
 
   const distance = useMemo(() => {
-    if (!props.from || !props.to) {
+    if (props.from === undefined || props.to === undefined) {
       return null;
     }
     const distance = haversine(props.from, props.to);
-    return Math.round(distance);
+    return formatDistance(distance);
   }, [props.from, props.to]);
 
   return (
@@ -92,4 +92,11 @@ export function LocationTab(props: LocationTabProps) {
       </div>
     </div>
   );
+}
+
+function formatDistance(distance: number) {
+  if (distance < 1000) {
+    return Math.round(distance).toString() + "m";
+  }
+  return (distance / 1000).toFixed(3) + "km";
 }

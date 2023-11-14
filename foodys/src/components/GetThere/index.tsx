@@ -11,7 +11,7 @@ export interface GetThereProps {
 export function GetThere(props: GetThereProps) {
   const distance = useMemo(() => {
     const distance = haversine(props.from, props.to);
-    return Math.round(distance);
+    return formatDistance(distance);
   }, [props.from, props.to]);
 
   const directionUrl = useMemo(() => {
@@ -42,4 +42,11 @@ export function GetThere(props: GetThereProps) {
       />
     </div>
   );
+}
+
+function formatDistance(distance: number) {
+  if (distance < 1000) {
+    return Math.round(distance).toString() + "m";
+  }
+  return (distance / 1000).toFixed(3) + "km";
 }
