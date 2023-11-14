@@ -27,7 +27,7 @@ export interface ReviewItemProps {
 }
 
 export function ReviewItem(props: ReviewItemProps) {
-  const { lang } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
   const [ownerAnswerFormVisible, setOwnerAnswerFormVisible] =
     useState<boolean>(false);
   const [ownerAnswerFormLoading, setOwnerAnswerFormLoading] =
@@ -130,7 +130,7 @@ export function ReviewItem(props: ReviewItemProps) {
         <RWebShare data={shareData}>
           <span className="reviews-content__action">
             <img src="/img/icons/share.svg" alt="share" />
-            <span>Share review</span>
+            <span>{t("buttonShareReview")}</span>
           </span>
         </RWebShare>
         <span
@@ -138,11 +138,11 @@ export function ReviewItem(props: ReviewItemProps) {
           onClick={hanldeReportBtnClick}
         >
           <img src="/img/icons/no-see.svg" alt="no-see" />
-          <span>Report the review</span>
+          <span>{t("buttonReportReview")}</span>
         </span>
         <span className="reviews-content__action" onClick={handleAnserBtnClick}>
           <img src="/img/icons/basket.svg" alt="basket" />
-          <span>Business owner? Reply</span>
+          <span>{t("buttonBusinessOwner")}</span>
         </span>
       </div>
       {ownerAnswerFormVisible && (
