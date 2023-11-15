@@ -2,6 +2,7 @@ import z from "zod";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendEmail } from "~/utils/mailer";
 import format from "date-fns/format";
+import { env } from "~/env.mjs";
 
 const schema = z.object({
   name: z.optional(z.string()),
@@ -32,7 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { name, phone, email, message } = response.data;
 
   sendEmail({
-    to: "login@example.com",
+    to: env.FEEDBACK_EMAIL,
     subject: "User message",
     text: createMail(name, phone, email, message, new Date()),
   })
