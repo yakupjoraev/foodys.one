@@ -63,6 +63,7 @@ model User {
   FavoriteGPlace      FavoriteGPlace[]
   g_place_review_like GPlaceReviewLike[]
   GPlaceReviewAnswer  GPlaceReviewAnswer[]
+  ResetPasswordToken  ResetPasswordToken[]
 
   @@map("users")
 }
@@ -75,6 +76,15 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model ResetPasswordToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id String   @db.ObjectId
+  user    User     @relation(fields: [user_id], references: [id])
+  expires DateTime
+
+  @@map("reset_password_token")
 }
 
 model TextSearch {
@@ -161,22 +171,22 @@ model GPlace {
 }
 
 model GPlaceReview {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  author_name         String
-  rating              Float
-  time                Int
-  author_url          String?
-  language            String?
-  original_language   String?
-  profile_photo_url   String?
-  text                String?
-  translated          Boolean?
-  local_author_id     String?
-  hash                String?
-  g_place_id          String               @db.ObjectId
-  g_place             GPlace               @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
-  g_place_review_like GPlaceReviewLike[]
-  g_place_review_answer  GPlaceReviewAnswer[]
+  id                    String               @id @default(auto()) @map("_id") @db.ObjectId
+  author_name           String
+  rating                Float
+  time                  Int
+  author_url            String?
+  language              String?
+  original_language     String?
+  profile_photo_url     String?
+  text                  String?
+  translated            Boolean?
+  local_author_id       String?
+  hash                  String?
+  g_place_id            String               @db.ObjectId
+  g_place               GPlace               @relation(fields: [g_place_id], references: [id], onDelete: Cascade)
+  g_place_review_like   GPlaceReviewLike[]
+  g_place_review_answer GPlaceReviewAnswer[]
 
   @@unique([g_place_id, hash])
   @@map("g_place_review")

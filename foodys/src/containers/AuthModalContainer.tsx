@@ -8,6 +8,7 @@ export interface AuthModalContainerProps {
   open: boolean;
   onClose: () => void;
   onNavRegister: () => void;
+  onNavResetPassword: () => void;
 }
 
 export function AuthModalContainer(props: AuthModalContainerProps) {
@@ -62,6 +63,7 @@ export function AuthModalContainer(props: AuthModalContainerProps) {
       onClose={props.onClose}
       onAuth={handleAuth}
       onNavRegister={props.onNavRegister}
+      onNavResetPassword={props.onNavResetPassword}
     />
   );
 }

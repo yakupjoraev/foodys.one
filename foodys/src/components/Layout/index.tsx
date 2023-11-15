@@ -9,6 +9,8 @@ import { Header } from "~/components/Header";
 import { AuthModalContainer } from "~/containers/AuthModalContainer";
 import { ContactUsModalContainer } from "~/containers/ContactUsModalContainer";
 import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
+import { RequestPasswordResetModalContainer } from "~/containers/RequestPasswordResetModalContainer";
+import { RequestSentModal } from "../RequestSentModal";
 
 export type LayoutProps = PropsWithChildren<{
   className?: string;
@@ -23,6 +25,12 @@ export function Layout(props: LayoutProps) {
   const [authModelOpened, setAuthModelOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
   const [contactUsModalOpened, setContactUsModalOpened] = useState(false);
+  const [requestPasswordResetModalOpened, setRequestPasswordResetModalOpened] =
+    useState(false);
+  const [requestSentModalOpened, setRequestSentModalOpened] = useState(false);
+  const [requestSentModalEmail, setRequestSentModalEmail] = useState<
+    string | null
+  >(null);
   const { status: authStatus } = useSession();
 
   useEffect(() => {
@@ -39,18 +47,6 @@ export function Layout(props: LayoutProps) {
     }
   }, []);
 
-  const handleAuthModalClose = () => {
-    setAuthModelOpened(false);
-  };
-
-  const handleRegisterModalClose = () => {
-    setRegisterModalOpened(false);
-  };
-
-  const handleContactUsModalClose = () => {
-    setContactUsModalOpened(false);
-  };
-
   const handleLogInBtnClick = () => {
     setAuthModelOpened(true);
   };
@@ -65,16 +61,6 @@ export function Layout(props: LayoutProps) {
 
   const handleToggleMobileMenu = () => {
     setMobileExpanded(!mobileExpanded);
-  };
-
-  const handleNavRegister = () => {
-    setAuthModelOpened(false);
-    setRegisterModalOpened(true);
-  };
-
-  const handleNavAuth = () => {
-    setAuthModelOpened(true);
-    setRegisterModalOpened(false);
   };
 
   const handleContactUsBtnClick = () => {
@@ -108,17 +94,52 @@ export function Layout(props: LayoutProps) {
       />
       <AuthModalContainer
         open={authModelOpened}
-        onClose={handleAuthModalClose}
-        onNavRegister={handleNavRegister}
+        onClose={() => {
+          setAuthModelOpened(false);
+        }}
+        onNavRegister={() => {
+          setAuthModelOpened(false);
+          setRegisterModalOpened(true);
+        }}
+        onNavResetPassword={() => {
+          setAuthModelOpened(false);
+          setRequestPasswordResetModalOpened(true);
+        }}
       />
       <RegisterModalContainer
         open={registerModalOpened}
-        onClose={handleRegisterModalClose}
-        onNavAuth={handleNavAuth}
+        onClose={() => {
+          setRegisterModalOpened(false);
+        }}
+        onNavAuth={() => {
+          setRegisterModalOpened(false);
+          setAuthModelOpened(true);
+        }}
       />
       <ContactUsModalContainer
         open={contactUsModalOpened}
-        onClose={handleContactUsModalClose}
+        onClose={() => {
+          setContactUsModalOpened(false);
+        }}
+      />
+      <RequestPasswordResetModalContainer
+        open={requestPasswordResetModalOpened}
+        onClose={() => {
+          setRequestPasswordResetModalOpened(false);
+        }}
+        onRequestSent={(email: string) => {
+          setRequestPasswordResetModalOpened(false);
+          setRequestSentModalEmail(email);
+          setRequestSentModalOpened(true);
+        }}
+      />
+      <RequestSentModal
+        open={requestSentModalOpened}
+        email={requestSentModalEmail ?? ""}
+        onClose={() => {
+          setRequestSentModalOpened(false);
+          setRequestSentModalEmail(null);
+        }}
       />
     </div>
   );

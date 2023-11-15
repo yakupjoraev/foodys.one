@@ -2,7 +2,6 @@ import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authFormSchema } from "./validators";
-import { toast } from "react-hot-toast";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
@@ -34,6 +33,7 @@ export interface AuthFormProps {
   error?: AuthError;
   onAuth: (opts: AuthRequest) => void;
   onNavRegister: () => void;
+  onNavResetPassword: () => void;
 }
 
 export function AuthForm(props: AuthFormProps) {
@@ -129,7 +129,7 @@ export function AuthForm(props: AuthFormProps) {
             href="#"
             onClick={(ev) => {
               ev.preventDefault();
-              toast("NOT IMPLEMENTED");
+              props.onNavResetPassword();
             }}
           >
             {t("textForgottenPwd")}

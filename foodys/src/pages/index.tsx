@@ -7,6 +7,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
 import throttle from "lodash/throttle";
+import { ChangePasswordModalContainer } from "~/containers/ChangePasswordModalContainer";
+import { PasswordChangedModal } from "~/components/PasswordChangedModal";
+import { useRouter } from "next/router";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -55,8 +58,16 @@ export const getServerSideProps = (async ({ query, res, req }) => {
 export default function Main(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
+  const router = useRouter();
   const footerRef = useRef<HTMLElement>(null);
   const [footerHeight, setFooterHeight] = useState(-1);
+  const [changePasswordModalOpened, setChangePasswordModalOpened] =
+    useState(false);
+  const [passwordChangedModalOpened, setPasswordChangedModalOpened] =
+    useState(false);
+  const [passwordResetToken, setPasswordResetToken] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (footerRef.current === null) {
@@ -77,6 +88,18 @@ export default function Main(
       window.removeEventListener("resize", handleWindowResize);
     };
   }, [footerRef.current]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const serachParams = new URLSearchParams(location.search);
+    const nextPasswordResetToken = serachParams.get("reset");
+    setPasswordResetToken(nextPasswordResetToken);
+    if (nextPasswordResetToken !== null) {
+      setChangePasswordModalOpened(true);
+    }
+  }, []);
 
   return (
     <Layout
@@ -112,6 +135,29 @@ export default function Main(
           </div>
         </section>
       </main>
+      <ChangePasswordModalContainer
+        open={changePasswordModalOpened}
+        token={passwordResetToken ?? ""}
+        onClose={() => {
+          setChangePasswordModalOpened(false);
+          void router.replace("/");
+        }}
+        onPasswordChanged={() => {
+          setChangePasswordModalOpened(false);
+          setPasswordChangedModalOpened(true);
+        }}
+      />
+      <PasswordChangedModal
+        open={passwordChangedModalOpened}
+        onClose={() => {
+          setPasswordChangedModalOpened(false);
+          void router.replace("/");
+        }}
+        onNavAuth={() => {
+          setPasswordChangedModalOpened(false);
+          void router.replace("/");
+        }}
+      />
     </Layout>
   );
 }
