@@ -5,6 +5,8 @@ import { sendEmail } from "~/utils/mailer";
 import { env } from "~/env.mjs";
 import { hashPassword } from "~/utils/hash";
 import { passwordStrength } from "check-password-strength";
+import { render } from "@react-email/render";
+import ResetPasswordEmail from "../../../../emails/ResetPasswordEmail";
 
 export type RequestPasswordResetResponse =
   | {
@@ -55,13 +57,19 @@ export const authRouter = createTRPCRouter({
         },
       });
 
+      const resetUrl = new URL(env.NEXT_PUBLIC_SITE_URL);
+      resetUrl.searchParams.set("reset", tokenModel.id);
+      const email = ResetPasswordEmail({ resetUrl: resetUrl.toString() });
+
+      const emailHtml = render(email);
+      const emailPlain = render(email, { plainText: true });
+
       console.log("send mail");
       await sendEmail({
         to: input.email,
         subject: "Reset your Foodys.one password",
-        text: createPasswordResetMail(
-          env.NEXT_PUBLIC_SITE_URL + "/?reset=" + tokenModel.id
-        ),
+        html: emailHtml,
+        text: emailPlain,
       });
 
       return { code: "SUCCESS" };
@@ -114,20 +122,3 @@ export const authRouter = createTRPCRouter({
       return { code: "SUCCESS" };
     }),
 });
-
-function createPasswordResetMail(link: string) {
-  let body = "# Password Reset";
-  body += "\n";
-  body += "\n";
-  body +=
-    "If you've lost your password or wish to reset it, use the link below to get started.";
-  body += "\n";
-  body += "\n";
-  body += "[Reset Your Password](" + link + ")";
-  body += "\n";
-  body += "\n";
-  body +=
-    "If you did not request a password reset, you can safely ignore this email. Only a person with access to your email can reset your account password.";
-
-  return body;
-}
