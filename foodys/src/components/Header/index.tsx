@@ -117,8 +117,7 @@ export function Header(props: HeaderProps) {
                 </Link>
               </li>
               <li className="menu__item" onClick={props.onToggleMobileMenu}>
-                <a
-                  href="#"
+                <span
                   className="menu__item-link menu__item-link--list-my-business"
                   data-scroll=""
                 >
@@ -149,7 +148,7 @@ export function Header(props: HeaderProps) {
                     src="/img/header/arrow-right.svg"
                     alt=""
                   />
-                </a>
+                </span>
               </li>
               <li className="menu__item">
                 <Link
@@ -209,35 +208,54 @@ export function Header(props: HeaderProps) {
                 </Link>
               </li>
               <li className="menu__item menu__item--mob">
-                <a href="#" className="menu__item-link" data-scroll="">
+                <Link
+                  href="/terms-and-conditions"
+                  className="menu__item-link"
+                  data-scroll=""
+                >
                   {t("titleTermsAndConditions")}
-                </a>
+                </Link>
               </li>
               <li className="menu__item menu__item--mob">
-                <a href="#" className="menu__item-link" data-scroll="">
+                <Link
+                  href="/privacy-policy"
+                  className="menu__item-link"
+                  data-scroll=""
+                >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li className="menu__item menu__item--mob">
-                <a href="#" className="menu__item-link" data-scroll="">
+                <Link
+                  href="/cookies"
+                  className="menu__item-link"
+                  data-scroll=""
+                >
                   {t("titleCookies")}
-                </a>
+                </Link>
               </li>
               <li className="menu__item menu__item--mob">
-                <a href="#" className="menu__item-link" data-scroll="">
+                <Link
+                  href="/contact-us"
+                  className="menu__item-link"
+                  data-scroll=""
+                >
                   {t("textContactUs")}
-                </a>
+                </Link>
               </li>
               <li className="menu__item menu__item--mob menu__item-footer">
-                <a className="menu__item-footer-link" href="#">
+                <span className="menu__item-footer-link">
                   <img src="/img/header/menu__item-footer-1.png" alt="cyprus" />
-                </a>
-                <a className="menu__item-footer-link" href="#">
+                </span>
+                <Link
+                  className="menu__item-footer-link"
+                  href="https://www.greekecommerce.gr"
+                >
                   <img src="/img/header/menu__item-footer-2.png" alt="greca" />
-                </a>
-                <a
+                </Link>
+                <Link
                   className="footer__info-link footer__info-link--telegram"
-                  href="#"
+                  href="https://twitter.com/FoodysOne"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -263,8 +281,11 @@ export function Header(props: HeaderProps) {
                       </clipPath>
                     </defs>
                   </svg>
-                </a>
-                <a className="footer__info-link footer__info-link--in" href="#">
+                </Link>
+                <Link
+                  className="footer__info-link footer__info-link--in"
+                  href="https://www.linkedin.com/company/foodys-one/"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={18}
@@ -297,7 +318,7 @@ export function Header(props: HeaderProps) {
                       </clipPath>
                     </defs>
                   </svg>
-                </a>
+                </Link>
                 {router.locale && (
                   <LanguageSelector
                     locale={router.locale}
