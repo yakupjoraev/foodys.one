@@ -2,7 +2,6 @@
   position: relative;
   overflow: hidden;
   padding: 223px 0 104px;
-  margin-bottom: -6px;
 
 
   @media (max-width: $breakpoint768) {
@@ -244,11 +243,14 @@
 
     &.hero__picture--pasta {
       left: 50%;
-      top: 100%;
-      transform: translate(-30%, -101%);
+      top: unset;
+      bottom: 0;
+      transform: translateX(-30%);
 
       @media (max-width: $breakpoint1200) {
-        transform: translate(-20%, -101%);
+        top: unset;
+        bottom: 0;
+        transform: translateX(-20%);
 
         img {
           max-width: 580px;
