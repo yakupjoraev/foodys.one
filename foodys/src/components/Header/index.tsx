@@ -37,6 +37,7 @@ export function Header(props: HeaderProps) {
       const value = queryInput.value;
       if (value) {
         void router.push(`/places?query=${encodeURIComponent(value)}`);
+        props.onCloseMobileMenu();
       }
     }
   };

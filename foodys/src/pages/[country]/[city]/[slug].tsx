@@ -50,6 +50,7 @@ import { useClientFavorites } from "~/providers/favorites-provider";
 import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
 import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 import { useRouter } from "next/router";
+import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 
 enum Tab {
   Overview,
@@ -465,109 +466,9 @@ export default function Place(
       <main className="main">
         <div className="dashboard restaurant-page">
           <div className="container">
-            <form action="#" className="dashboard__form">
-              <div
-                className="dashboard__form-search search-wrapper"
-                data-search-wrapper=""
-              >
-                <input
-                  className="menu__item-search"
-                  type="search"
-                  placeholder="City, cuisine or restaurant name"
-                  data-search-input=""
-                />
-                <img
-                  className="menu__item-search-icon"
-                  src="/img/icons/glass.svg"
-                  alt=""
-                />
-                <div className="search__list">
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__more" href="#">
-                    View all results <span>(234)</span>
-                  </a>
-                </div>
-              </div>
-            </form>
+            <div className="dashboard__form">
+              <DashboardFormSearch />
+            </div>
             <div className="dashboard__main">
               <div className="restaurant-page__inner">
                 {props.prevResultsUrl !== null && (

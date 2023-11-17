@@ -141,7 +141,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
     filter.priceLevel4;
 
   return (
-    <div className="dashboard__panels">
+    <form className="dashboard__panels" onSubmit={(ev) => ev.preventDefault()}>
       <div
         className={classNames("dashboard__filters dashboard__primary-panel", {
           active: mobileFiltersOpened,
@@ -405,7 +405,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           onChange={handlePageSizeChange}
         />
       </div>
-    </div>
+    </form>
   );
 }
 

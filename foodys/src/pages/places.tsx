@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";
 import { useGeolocation } from "@uidotdev/usehooks";
 import { useClientFavorites } from "~/providers/favorites-provider";
+import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",
@@ -172,108 +173,8 @@ export default function Places() {
       <main className="main">
         <div className="dashboard">
           <div className="container">
-            <form action="#" className="dashboard__form">
-              <div
-                className="dashboard__form-search search-wrapper"
-                data-search-wrapper=""
-              >
-                <input
-                  className="menu__item-search"
-                  type="search"
-                  placeholder="City, cuisine or restaurant name"
-                  data-search-input=""
-                />
-                <img
-                  className="menu__item-search-icon"
-                  src="/img/icons/glass.svg"
-                  alt=""
-                />
-                <div className="search__list">
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__item" href="#">
-                    <img
-                      className="search__item-pic"
-                      src="/img/dashboard/slide-1.jpg"
-                      alt=""
-                    />
-                    <div className="search__item-info">
-                      <h4 className="search__item-label">
-                        Hank Burger Paris Archives
-                      </h4>
-                      <div className="search__item-address">
-                        <img src="/img/dashboard/geo.svg" alt="" />
-                        <p>Paris, lle-de-France, France</p>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="search__more" href="#">
-                    View all results <span>(234)</span>
-                  </a>
-                </div>
-              </div>
+            <div className="dashboard__form">
+              <DashboardFormSearch />
               {queryResponse.data && query !== null && (
                 <div className="dashboard__form-results">
                   <Trans
@@ -297,7 +198,7 @@ export default function Places() {
                 clientCoordinates={clientCoordinates}
                 onChange={handleChangeFilter}
               />
-            </form>
+            </div>
             <div className="dashboard__main">
               <div className="restaurants">
                 {!queryResponse.data && "Loading..."}
