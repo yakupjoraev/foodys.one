@@ -1,6 +1,5 @@
 import { Html } from "@react-email/html";
 import { Text } from "@react-email/text";
-import { Section } from "@react-email/section";
 import { Container } from "@react-email/container";
 import { Body } from "@react-email/body";
 import { Button } from "@react-email/button";
@@ -8,9 +7,12 @@ import { Hr } from "@react-email/hr";
 import { Img } from "@react-email/img";
 import { CSSProperties } from "react";
 
-export interface ResetPasswordProps {}
+export interface ConfirmEmailProps {
+  confirmUrl?: string;
+}
 
-export default function ResetPassword(props: ResetPasswordProps) {
+export default function ConfirmEmailEmail(props: ConfirmEmailProps) {
+  const confirmUrl = props.confirmUrl ?? "#";
   return (
     <Html>
       <Body style={main}>
@@ -28,7 +30,7 @@ export default function ResetPassword(props: ResetPasswordProps) {
             To finalise creation of your Foodys.One account confirm your email
             by clicking on the button below
           </Text>
-          <Button style={confirmButton} href="http://example.com">
+          <Button style={confirmButton} href={confirmUrl}>
             I confirm my email
           </Button>
           <Text style={footer}>

@@ -10,6 +10,9 @@ import throttle from "lodash/throttle";
 import { ChangePasswordModalContainer } from "~/containers/ChangePasswordModalContainer";
 import { PasswordChangedModal } from "~/components/PasswordChangedModal";
 import { useRouter } from "next/router";
+import { EmailConfirmedModal } from "~/components/EmailConfirmedModal";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -52,6 +55,7 @@ export const getServerSideProps = (async ({ query, res, req }) => {
   }
 
   setCookie("pic", FIRST_PICTURE_ID.toString(), { req, res });
+
   return { props: { picture: FIRST_PICTURE_ID } };
 }) satisfies GetServerSideProps<{ picture: number }>;
 
@@ -68,6 +72,13 @@ export default function Main(
   const [passwordResetToken, setPasswordResetToken] = useState<string | null>(
     null
   );
+  const [confirmEmailToken, setEmailConfirmToken] = useState<string | null>(
+    null
+  );
+  const [emailConfirmedModalOpened, setEmailConfirmedModalOpened] =
+    useState(false);
+
+  const confirmUserEmail = api.auth.confirmUserEmail.useMutation();
 
   useEffect(() => {
     if (footerRef.current === null) {
@@ -93,13 +104,42 @@ export default function Main(
     if (typeof window === "undefined") {
       return;
     }
-    const serachParams = new URLSearchParams(location.search);
-    const nextPasswordResetToken = serachParams.get("reset");
+    const searchParams = new URLSearchParams(location.search);
+    const nextPasswordResetToken = searchParams.get("reset");
     setPasswordResetToken(nextPasswordResetToken);
     if (nextPasswordResetToken !== null) {
       setChangePasswordModalOpened(true);
     }
+    const nextEmailConfirmToken = searchParams.get("confirm");
+    setEmailConfirmToken(nextEmailConfirmToken);
   }, []);
+
+  useEffect(() => {
+    if (confirmEmailToken === null) {
+      return;
+    }
+    const toastId = toast.loading("Wait, please...");
+
+    confirmUserEmail
+      .mutateAsync({ token: confirmEmailToken })
+      .then((result) => {
+        if (result.code === "SUCCESS") {
+          setEmailConfirmedModalOpened(true);
+          toast.remove(toastId);
+        } else if (
+          result.code === "TOKEN_NOT_FOUND" ||
+          result.code === "USER_NOT_FOUND"
+        ) {
+          toast.error("The confirmation link is not active!", { id: toastId });
+        } else {
+          toast.error("Failed to confirm email!", { id: toastId });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to confirm email!", { id: toastId });
+      });
+  }, [confirmEmailToken]);
 
   return (
     <Layout
@@ -155,6 +195,17 @@ export default function Main(
         }}
         onNavAuth={() => {
           setPasswordChangedModalOpened(false);
+          void router.replace("/");
+        }}
+      />
+      <EmailConfirmedModal
+        open={emailConfirmedModalOpened}
+        onClose={() => {
+          setEmailConfirmedModalOpened(false);
+          void router.replace("/");
+        }}
+        onNavAuth={() => {
+          setEmailConfirmedModalOpened(false);
           void router.replace("/");
         }}
       />

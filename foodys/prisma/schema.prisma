@@ -64,6 +64,7 @@ model User {
   g_place_review_like GPlaceReviewLike[]
   GPlaceReviewAnswer  GPlaceReviewAnswer[]
   ResetPasswordToken  ResetPasswordToken[]
+  ConfirmEmailToken   ConfirmEmailToken[]
 
   @@map("users")
 }
@@ -76,6 +77,15 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model ConfirmEmailToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  user_id String   @db.ObjectId
+  user    User     @relation(fields: [user_id], references: [id])
+  expires DateTime
+
+  @@map("confirm_email_token")
 }
 
 model ResetPasswordToken {

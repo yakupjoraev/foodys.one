@@ -11,6 +11,7 @@ import { ContactUsModalContainer } from "~/containers/ContactUsModalContainer";
 import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 import { RequestPasswordResetModalContainer } from "~/containers/RequestPasswordResetModalContainer";
 import { RequestSentModal } from "../RequestSentModal";
+import { ConfirmAccountModalContainer } from "~/containers/ConfirmEmailModalContainer";
 
 export type LayoutProps = PropsWithChildren<{
   className?: string;
@@ -22,13 +23,18 @@ export type LayoutProps = PropsWithChildren<{
 
 export function Layout(props: LayoutProps) {
   const [mobileExpanded, setMobileExpanded] = useState(false);
-  const [authModelOpened, setAuthModelOpened] = useState(false);
+  const [authModalOpened, setAuthModalOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
   const [contactUsModalOpened, setContactUsModalOpened] = useState(false);
   const [requestPasswordResetModalOpened, setRequestPasswordResetModalOpened] =
     useState(false);
   const [requestSentModalOpened, setRequestSentModalOpened] = useState(false);
   const [requestSentModalEmail, setRequestSentModalEmail] = useState<
+    string | null
+  >(null);
+  const [confirmAccountModalOpened, setConfirmAccountModalOpened] =
+    useState(false);
+  const [confirmAccountModalEmail, setConfirmAccountModalEmail] = useState<
     string | null
   >(null);
   const { status: authStatus } = useSession();
@@ -48,7 +54,7 @@ export function Layout(props: LayoutProps) {
   }, []);
 
   const handleLogInBtnClick = () => {
-    setAuthModelOpened(true);
+    setAuthModalOpened(true);
   };
 
   const handleRegisterBtnClick = () => {
@@ -93,16 +99,16 @@ export function Layout(props: LayoutProps) {
         onContactUsBtnClick={handleContactUsBtnClick}
       />
       <AuthModalContainer
-        open={authModelOpened}
+        open={authModalOpened}
         onClose={() => {
-          setAuthModelOpened(false);
+          setAuthModalOpened(false);
         }}
         onNavRegister={() => {
-          setAuthModelOpened(false);
+          setAuthModalOpened(false);
           setRegisterModalOpened(true);
         }}
         onNavResetPassword={() => {
-          setAuthModelOpened(false);
+          setAuthModalOpened(false);
           setRequestPasswordResetModalOpened(true);
         }}
       />
@@ -113,7 +119,25 @@ export function Layout(props: LayoutProps) {
         }}
         onNavAuth={() => {
           setRegisterModalOpened(false);
-          setAuthModelOpened(true);
+          setAuthModalOpened(true);
+        }}
+        onNavConfirmAccount={(email: string) => {
+          setRegisterModalOpened(false);
+          setConfirmAccountModalOpened(true);
+          setConfirmAccountModalEmail(email);
+        }}
+      />
+      <ConfirmAccountModalContainer
+        open={confirmAccountModalOpened}
+        email={confirmAccountModalEmail ?? ""}
+        onClose={() => {
+          setConfirmAccountModalOpened(false);
+          setConfirmAccountModalEmail(null);
+        }}
+        onNavAuth={() => {
+          setConfirmAccountModalOpened(false);
+          setConfirmAccountModalEmail(null);
+          setAuthModalOpened(true);
         }}
       />
       <ContactUsModalContainer

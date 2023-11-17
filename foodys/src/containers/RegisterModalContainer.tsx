@@ -5,63 +5,39 @@ import {
   RegisterModal,
   RegisterRequest,
 } from "~/components/RegisterModal";
-import isError from "lodash/isError";
+import { api } from "~/utils/api";
 
 export interface RegisterModalContainerProps {
   open: boolean;
   onClose: () => void;
   onNavAuth: () => void;
+  onNavConfirmAccount: (email: string) => void;
 }
 
 export function RegisterModalContainer(props: RegisterModalContainerProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<RegisterError | undefined>(undefined);
 
+  const createAccount = api.auth.createAccount.useMutation();
+
   const handleRegister = (opts: RegisterRequest) => {
     setLoading(true);
-    fetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        email: opts.email,
-        password: opts.password,
-        firstName: opts.firstName,
-        lastName: opts.lastName,
-        nickname: !!opts.nickname ? opts.nickname : undefined,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then(() => {
-        return signIn("credentials", {
-          redirect: false,
-          login: opts.email,
-          password: opts.password,
-        });
-      })
-      .then((res) => {
-        if (!res) {
-          setError({ type: "unknown" });
-          return;
-        }
-        if (res.ok) {
-          props.onClose();
-          return;
-        }
-        if (res.status === 409) {
+
+    createAccount
+      .mutateAsync(opts)
+      .then((result) => {
+        console.log("R", result);
+        if (result.code === "SUCCESS") {
+          props.onNavConfirmAccount(opts.email);
+        } else if (result.code === "USER_EXISTS") {
           setError({ type: "user_exists" });
-          return;
+        } else {
+          setError({ type: "unknown" });
         }
-        setError({ type: "unknown" });
       })
       .catch((error) => {
         console.error(error);
-        let message: string | undefined = undefined;
-        if (isError(error)) {
-          message = error.message;
-        }
-        setError({ type: "unknown", message });
+        setError({ type: "unknown" });
       })
       .finally(() => {
         setLoading(false);
