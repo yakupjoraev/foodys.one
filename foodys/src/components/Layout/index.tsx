@@ -12,6 +12,8 @@ import { RequestPasswordResetModalContainer } from "~/containers/RequestPassword
 import { RequestSentModal } from "../RequestSentModal";
 import { ConfirmAccountModalContainer } from "~/containers/ConfirmEmailModalContainer";
 
+export const BREAKDOWN_992 = 992;
+
 export type LayoutProps = PropsWithChildren<{
   className?: string;
   headerClassName?: string;
@@ -45,7 +47,7 @@ export function Layout(props: LayoutProps) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
-        if (window.innerWidth > 991.98) {
+        if (window.innerWidth >= BREAKDOWN_992) {
           setMobileExpanded(false);
         }
       };
@@ -68,8 +70,12 @@ export function Layout(props: LayoutProps) {
     void signOut();
   };
 
-  const handleToggleMobileMenu = () => {
-    setMobileExpanded(!mobileExpanded);
+  const handleOpenMobileMenu = () => {
+    setMobileExpanded(true);
+  };
+
+  const handleCloseMobileMenu = () => {
+    setMobileExpanded(false);
   };
 
   const handleContactUsBtnClick = () => {
@@ -93,7 +99,8 @@ export function Layout(props: LayoutProps) {
         onLogInBtnClick={handleLogInBtnClick}
         onRegisterBtnClick={handleRegisterBtnClick}
         onLogOutBtnClick={handleLogOutBtnClick}
-        onToggleMobileMenu={handleToggleMobileMenu}
+        onOpenMibileMenu={handleOpenMobileMenu}
+        onCloseMobileMenu={handleCloseMobileMenu}
       />
       {props.children}
       <Footer

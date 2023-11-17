@@ -12,7 +12,8 @@ export interface HeaderProps {
   className?: string;
   mobileMenuExpanded?: boolean;
   authStatus?: "authenticated" | "loading" | "unauthenticated";
-  onToggleMobileMenu?: () => void;
+  onOpenMibileMenu: () => void;
+  onCloseMobileMenu: () => void;
   onLogInBtnClick?: () => void;
   onLogOutBtnClick?: () => void;
   onRegisterBtnClick?: () => void;
@@ -98,7 +99,7 @@ export function Header(props: HeaderProps) {
                   {t("buttonSearch")}
                 </button>
               </li>
-              <li className="menu__item" onClick={props.onToggleMobileMenu}>
+              <li className="menu__item">
                 <Link href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
                     <img src="/img/header/home.png" alt="home" loading="lazy" />
@@ -116,7 +117,7 @@ export function Header(props: HeaderProps) {
                   />
                 </Link>
               </li>
-              <li className="menu__item" onClick={props.onToggleMobileMenu}>
+              <li className="menu__item">
                 <span
                   className="menu__item-link menu__item-link--list-my-business"
                   data-scroll=""
@@ -332,7 +333,11 @@ export function Header(props: HeaderProps) {
               className={classNames("burger", {
                 "active-burger": props.mobileMenuExpanded,
               })}
-              onClick={props.onToggleMobileMenu}
+              onClick={() => {
+                props.mobileMenuExpanded
+                  ? props.onCloseMobileMenu()
+                  : props.onOpenMibileMenu();
+              }}
             >
               <span />
             </div>
