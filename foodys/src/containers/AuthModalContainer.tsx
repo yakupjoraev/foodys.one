@@ -9,6 +9,7 @@ export interface AuthModalContainerProps {
   onClose: () => void;
   onNavRegister: () => void;
   onNavResetPassword: () => void;
+  onNavConfirmEmail: (email: string) => void;
 }
 
 export function AuthModalContainer(props: AuthModalContainerProps) {
@@ -33,6 +34,9 @@ export function AuthModalContainer(props: AuthModalContainerProps) {
           return;
         } else if (res.ok) {
           props.onClose();
+        }
+        if (res.error === "EMAIL_NOT_VERIFIED") {
+          props.onNavConfirmEmail(opts.login);
         } else if (res.status === 401) {
           setError({ type: "credentials" });
         } else {

@@ -213,6 +213,22 @@ export const authRouter = createTRPCRouter({
 
       return { code: "SUCCESS" };
     }),
+  isEmailConfirmationRequired: publicProcedure
+    .input(
+      z.object({
+        email: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }): Promise<boolean> => {
+      const userCount = await ctx.db.user.count({
+        where: {
+          email: input.email,
+          emailVerified: null,
+        },
+      });
+
+      return userCount > 0;
+    }),
   requestPasswordReset: publicProcedure
     .input(
       z.object({

@@ -80,6 +80,10 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        if (user.emailVerified === null) {
+          throw new Error("EMAIL_NOT_VERIFIED");
+        }
+
         let name = undefined;
         if (user.name) {
           name = user.name;

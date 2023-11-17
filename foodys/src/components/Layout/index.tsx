@@ -111,6 +111,11 @@ export function Layout(props: LayoutProps) {
           setAuthModalOpened(false);
           setRequestPasswordResetModalOpened(true);
         }}
+        onNavConfirmEmail={(email: string) => {
+          setAuthModalOpened(false);
+          setConfirmAccountModalEmail(email);
+          setConfirmAccountModalOpened(true);
+        }}
       />
       <RegisterModalContainer
         open={registerModalOpened}
