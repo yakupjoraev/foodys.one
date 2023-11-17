@@ -50,6 +50,7 @@
     "normalize.css": "^8.0.1",
     "opening_hours": "^3.8.0",
     "react": "18.2.0",
+    "react-bus": "3.0.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-email": "1.9.5",

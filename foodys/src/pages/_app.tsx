@@ -4,6 +4,7 @@ import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { FavoritesProvider } from "~/providers/favorites-provider";
 import { BlockedReviewsProvider } from "~/providers/blocked-reviews-provider";
+import { Provider as BusProvider } from "react-bus";
 import { api } from "~/utils/api";
 import "~/styles/style.scss";
 import "@smastrom/react-rating/style.css";
@@ -16,7 +17,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <FavoritesProvider>
         <BlockedReviewsProvider>
-          <Component {...pageProps} />
+          <BusProvider>
+            <Component {...pageProps} />
+          </BusProvider>
         </BlockedReviewsProvider>
       </FavoritesProvider>
       <Toaster />

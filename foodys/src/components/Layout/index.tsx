@@ -2,8 +2,7 @@ import classNames from "classnames";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { PropsWithChildren, RefObject, useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { AboutSearch } from "~/components/AboutSearch";
+import { useListener } from "react-bus";
 import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
 import { AuthModalContainer } from "~/containers/AuthModalContainer";
@@ -38,6 +37,10 @@ export function Layout(props: LayoutProps) {
     string | null
   >(null);
   const { status: authStatus } = useSession();
+
+  useListener("auth", () => {
+    setAuthModalOpened(true);
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {

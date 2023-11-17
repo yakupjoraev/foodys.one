@@ -12,6 +12,7 @@ import { PasswordChangedModal } from "~/components/PasswordChangedModal";
 import { useRouter } from "next/router";
 import { EmailConfirmedModal } from "~/components/EmailConfirmedModal";
 import { api } from "~/utils/api";
+import { useBus } from "react-bus";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line @typescript-eslint/require-await
@@ -77,6 +78,8 @@ export default function Main(
   );
   const [emailConfirmedModalOpened, setEmailConfirmedModalOpened] =
     useState(false);
+
+  const bus = useBus();
 
   const confirmUserEmail = api.auth.confirmUserEmail.useMutation();
 
@@ -196,6 +199,7 @@ export default function Main(
         onNavAuth={() => {
           setPasswordChangedModalOpened(false);
           void router.replace("/");
+          bus.emit("auth");
         }}
       />
       <EmailConfirmedModal
@@ -207,6 +211,7 @@ export default function Main(
         onNavAuth={() => {
           setEmailConfirmedModalOpened(false);
           void router.replace("/");
+          bus.emit("auth");
         }}
       />
     </Layout>
