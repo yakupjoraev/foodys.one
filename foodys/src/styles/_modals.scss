@@ -396,8 +396,12 @@
   min-width: 14px;
   height: 14px;
   flex-shrink: 0;
-  background-color: var(--primary-color);
+  background-color: #eee;
   border-radius: 4px;
+}
+
+.input__checkbox-decor:hover {
+  background-color: #ccc;
 }
 
 
