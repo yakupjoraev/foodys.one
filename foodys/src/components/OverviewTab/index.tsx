@@ -55,7 +55,9 @@ function renderServices(place: PlaceResource, t: Translate) {
 
   if (services.length) {
     return (
-      <p className="overview-content__text">Services: {services.join(", ")}</p>
+      <p className="overview-content__text">
+        <b>Services:</b> {services.join(", ")}
+      </p>
     );
   } else {
     return null;
