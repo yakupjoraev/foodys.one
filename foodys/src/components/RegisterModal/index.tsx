@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { useRef } from "react";
 import { RegisterError, RegisterForm, RegisterRequest } from "../RegisterForm";
 
 export { type RegisterError, type RegisterRequest } from "../RegisterForm";
@@ -14,29 +13,9 @@ export interface RegisterModalProps {
 }
 
 export function RegisterModal(props: RegisterModalProps) {
-  const modalContentRef = useRef<HTMLDivElement>(null);
-
-  const handleCoverClick = (
-    ev: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    if (modalContentRef.current === null) {
-      return;
-    }
-    if (
-      ev.target instanceof Element &&
-      modalContentRef.current.contains(ev.target)
-    ) {
-      return;
-    }
-    props.onClose();
-  };
-
   return (
-    <div
-      className={classNames("modal", { show: props.open })}
-      onClick={handleCoverClick}
-    >
-      <div className="modal-content" ref={modalContentRef}>
+    <div className={classNames("modal", { show: props.open })}>
+      <div className="modal-content">
         <span className="close-modal-btn" role="button" onClick={props.onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

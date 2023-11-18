@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
-import { useRef } from "react";
 import { Portal } from "../Portal";
 
 export interface NoFavoritesModalProps {
@@ -10,29 +9,10 @@ export interface NoFavoritesModalProps {
 
 export function NoFavoritesModal(props: NoFavoritesModalProps) {
   const { t } = useTranslation("common");
-  const modalContentRef = useRef<HTMLDivElement>(null);
-
-  const handleCoverClick = (
-    ev: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    if (modalContentRef.current === null) {
-      return;
-    }
-    if (
-      ev.target instanceof Element &&
-      modalContentRef.current.contains(ev.target)
-    ) {
-      return;
-    }
-    props.onClose();
-  };
 
   return (
     <Portal rootId="modal">
-      <div
-        className={classNames("modal", { show: props.open })}
-        onClick={handleCoverClick}
-      >
+      <div className={classNames("modal", { show: props.open })}>
         <div className="modal-content">
           <span
             className="close-modal-btn"

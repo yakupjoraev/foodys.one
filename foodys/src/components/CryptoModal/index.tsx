@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import Trans from "next-translate/Trans";
-import { useRef } from "react";
 
 export interface CryptoModalProps {
   open: boolean;
@@ -8,29 +7,9 @@ export interface CryptoModalProps {
 }
 
 export function CryptoModal(props: CryptoModalProps) {
-  const modalContentRef = useRef<HTMLDivElement>(null);
-
-  const handleCoverClick = (
-    ev: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    if (modalContentRef.current === null) {
-      return;
-    }
-    if (
-      ev.target instanceof Element &&
-      modalContentRef.current.contains(ev.target)
-    ) {
-      return;
-    }
-    props.onClose();
-  };
-
   return (
-    <div
-      className={classNames("modal modal--large", { show: props.open })}
-      onClick={handleCoverClick}
-    >
-      <div className="modal-content" ref={modalContentRef}>
+    <div className={classNames("modal modal--large", { show: props.open })}>
+      <div className="modal-content">
         <span className="close-modal-btn" onClick={props.onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
