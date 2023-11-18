@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
-import throttle from "lodash/throttle";
 import { ChangePasswordModalContainer } from "~/containers/ChangePasswordModalContainer";
 import { PasswordChangedModal } from "~/components/PasswordChangedModal";
 import { useRouter } from "next/router";
@@ -90,9 +89,10 @@ export default function Main(
 
     const footer = footerRef.current;
 
-    const handleWindowResize = throttle(() => {
-      setFooterHeight(footer.clientHeight);
-    }, 200);
+    const handleWindowResize = () => {
+      const rect = footer.getBoundingClientRect();
+      setFooterHeight(rect.height);
+    };
 
     setFooterHeight(footer.clientHeight);
 
