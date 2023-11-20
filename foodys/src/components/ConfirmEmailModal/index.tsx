@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
+import Trans from "next-translate/Trans";
+import useTranslation from "next-translate/useTranslation";
 
 export interface ConfirmAccountModalProps {
   open: boolean;
@@ -9,6 +11,8 @@ export interface ConfirmAccountModalProps {
 }
 
 export function ConfirmEmailModal(props: ConfirmAccountModalProps) {
+  const { t } = useTranslation("common");
+
   return (
     <Portal rootId="modal">
       <div className={classNames("modal", { show: props.open })}>
@@ -41,42 +45,45 @@ export function ConfirmEmailModal(props: ConfirmAccountModalProps) {
           <div className="modal-content__form">
             <div className="modal-content__form-top">
               <h3 className="modal-content__title">
-                Finalise your inscription
+                {t("titleFinaliseInscription")}
               </h3>
             </div>
             <div className="input__border modal-content__texts" />
             <div className="modal-content__texts modal-content__texts--center">
               <p className="modal-content__text">
-                An email has just been sent to your email address. To finalise
-                your inscription, please check your mailbox to confirm your
-                email and activate your account.
+                {t("textFinaliseInscription")}
               </p>
               <p className="modal-content__text">
-                No email received?{" "}
-                <a
-                  className="modal-content__texts-policy"
-                  href="#"
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    props.onResendEmail();
-                  }}
-                >
-                  Send email again.
-                </a>
+                <Trans
+                  i18nKey="common:textSendEmailAgain"
+                  components={[
+                    // eslint-disable-next-line react/jsx-key
+                    <a
+                      className="modal-content__texts-policy"
+                      href="#"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        props.onResendEmail();
+                      }}
+                    />,
+                  ]}
+                />
               </p>
               <p className="modal-content__text">
-                If you activated your email already, please{" "}
-                <a
-                  className="modal-content__texts-policy"
-                  href="#"
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    props.onNavAuth();
-                  }}
-                >
-                  click here
-                </a>{" "}
-                to continue the navigation.
+                <Trans
+                  i18nKey="common:textAuthIfAccountIsActivated"
+                  components={[
+                    // eslint-disable-next-line react/jsx-key
+                    <a
+                      className="modal-content__texts-policy"
+                      href="#"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        props.onNavAuth();
+                      }}
+                    />,
+                  ]}
+                />
               </p>
             </div>
           </div>
