@@ -171,6 +171,10 @@ export function Layout(props: LayoutProps) {
           setRequestSentModalEmail(email);
           setRequestSentModalOpened(true);
         }}
+        onNavAuth={() => {
+          setRequestPasswordResetModalOpened(false);
+          setAuthModalOpened(true);
+        }}
       />
       <RequestSentModal
         open={requestSentModalOpened}

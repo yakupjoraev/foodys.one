@@ -12,6 +12,7 @@ export interface RequestPasswordResetFormProps {
   loading?: boolean;
   error?: RequestPasswordResetError;
   onSubmit: (formData: RequestPasswordResetFormData) => void;
+  onNavAuth: () => void;
 }
 
 export interface RequestPasswordResetFormData {
@@ -88,7 +89,13 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
           i18nKey="common:textRememberPassword"
           components={[
             // eslint-disable-next-line react/jsx-key
-            <a href="#" />,
+            <a
+              href="#"
+              onClick={(ev) => {
+                ev.preventDefault();
+                props.onNavAuth();
+              }}
+            />,
           ]}
         />
       </div>

@@ -10,6 +10,7 @@ export interface RequestPasswordResetModalContainerProps {
   open: boolean;
   onClose: () => void;
   onRequestSent: (email: string) => void;
+  onNavAuth: () => void;
 }
 
 export function RequestPasswordResetModalContainer(
@@ -51,6 +52,7 @@ export function RequestPasswordResetModalContainer(
       error={error}
       onClose={props.onClose}
       onRequestPasswordReset={handleRequestPasswordReset}
+      onNavAuth={props.onNavAuth}
     />
   );
 }

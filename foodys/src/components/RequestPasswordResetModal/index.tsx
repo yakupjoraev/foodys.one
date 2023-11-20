@@ -14,6 +14,7 @@ export interface RequetPasswordResetModalProps {
   error?: RequestPasswordResetError;
   onClose: () => void;
   onRequestPasswordReset: (email: string) => void;
+  onNavAuth: () => void;
 }
 
 export function RequetPasswordResetModal(props: RequetPasswordResetModalProps) {
@@ -57,6 +58,7 @@ export function RequetPasswordResetModal(props: RequetPasswordResetModalProps) {
             loading={props.loading}
             error={props.error}
             onSubmit={handleRequestPasswordResetFormSubmit}
+            onNavAuth={props.onNavAuth}
           />
         </div>
       </div>
