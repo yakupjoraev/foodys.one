@@ -98,5 +98,5 @@ function formatDistance(distance: number) {
   if (distance < 1000) {
     return Math.round(distance).toString() + "m";
   }
-  return (distance / 1000).toFixed(3) + "km";
+  return (distance / 1000).toFixed(2) + "km";
 }
