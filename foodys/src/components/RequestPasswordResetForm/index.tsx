@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { requestPasswordResetFormSchema } from "./validators";
 import { useEffect, useId } from "react";
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans";
 
 export type RequestPasswordResetError = { code: "USER_NOT_FOUND" };
 
@@ -21,6 +23,7 @@ const DEFAULT_FORM_DATA: RequestPasswordResetFormData = {
 };
 
 export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
+  const { t } = useTranslation("common");
   const emailId = useId();
   const {
     register,
@@ -51,15 +54,12 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
       onSubmit={(ev) => void handleRequestPasswordResetFormSubmit(ev)}
     >
       <h3 className="modal-content__title">Forgot password?</h3>
-      <h4 className="modal-content__subtitle">
-        Enter your email address to get
-        <br /> instructions on how to reset your password
-      </h4>
+      <h4 className="modal-content__subtitle">{t("textResetPassword")}</h4>
       <div className="modal-content__inputs">
         <div className="input__border" />
         <div className="input__group">
           <label className="input__label" htmlFor={emailId}>
-            Email
+            {t("fieldNameEmail")}
           </label>
           <input
             className="input"
@@ -81,13 +81,16 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
         className="modal-content__btn"
         disabled={props.loading}
       >
-        Confirm
+        {t("buttonConfirm")}
       </button>
       <div className="modal-content__btn-remember">
-        Remember your password?
-        <a href="#" target="_blank">
-          Back to login
-        </a>
+        <Trans
+          i18nKey="common:textRememberPassword"
+          components={[
+            // eslint-disable-next-line react/jsx-key
+            <a href="#" />,
+          ]}
+        />
       </div>
     </form>
   );

@@ -48,7 +48,7 @@
   "textAuthIfAccountIsActivated": "Si vous avez déjà activé votre email, <0>cliquez ici</0> pour continuer la navigation.",
   "textResetPassword": "Saisissez votre email pour obtenir des instructions sur la façon de réinitialiser votre mot de passe.",
   "buttonConfirm": "Confirmer",
-  "textRememberPassword": "Vous avez retrouvé votre mot de passe ? Retour à la connexion",
+  "textRememberPassword": "Vous avez retrouvé votre mot de passe ? <0>Retour à la connexion</0>",
   "titleSuccess": "Succès !",
   "textSuccessPassword": "Votre mot de passe a été modifié",
   "buttonBackToLogin": "Retour à la connexion",

@@ -48,7 +48,7 @@
   "textAuthIfAccountIsActivated": "If you activated your email already, please <0>click here</0> to continue the navigation.",
   "textResetPassword": "Enter your email address to get instructions on how to reset your password",
   "buttonConfirm": "Confirm",
-  "textRememberPassword": "Remember your password ? Back to login",
+  "textRememberPassword": "Remember your password? <0>Back to login</0>",
   "titleSuccess": "Success!",
   "textSuccessPassword": "Your password has been changed",
   "buttonBackToLogin": "Back to login",
