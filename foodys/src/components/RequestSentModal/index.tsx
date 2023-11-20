@@ -38,11 +38,16 @@ export function RequestSentModal(props: RequestSentModalProps) {
             </svg>
           </span>
           <div className="modal-content__form">
-            <h3 className="modal-content__title">Email sent</h3>
-            <h4 className="modal-content__subtitle">
-              We have sent en email to {props.email} with a link to reset your
-              password.
-            </h4>
+            <div className="modal-content__form-top">
+              <h3 className="modal-content__title">Email sent</h3>
+            </div>
+            <div className="input__border modal-content__texts" />
+            <div className="modal-content__texts modal-content__texts--center">
+              <p className="modal-content__text">
+                We have sent en email to {props.email} with a link to reset your
+                password.
+              </p>
+            </div>
           </div>
         </div>
       </div>
