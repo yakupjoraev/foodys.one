@@ -89,9 +89,14 @@
     flex: 0 1 316px;
     width: 100%;
     position: relative;
+    display: flex;
+    column-gap: 8px;
+    margin-right: 8px;
+    
 
     @media (max-width: $breakpoint992) {
       display: none;
+      margin-right: 0;
     }
   }
 
@@ -527,9 +532,9 @@
 }
 
 .menu__item-search-btn {
-  display: none;
+  // display: none;
 
-  @media (max-width: $breakpoint992) {
+  // @media (max-width: $breakpoint992) {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -546,7 +551,7 @@
     text-align: center;
     line-height: 112.8%;
     color: var(--white-color);
-  }
+  //}
 }
 
 .menu__item-link-arrow {

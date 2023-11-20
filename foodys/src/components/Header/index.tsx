@@ -57,6 +57,11 @@ export function Header(props: HeaderProps) {
         open={noFavoritesModalOpen}
         onClose={handleNoFavoritesModalClose}
       />
+      <form
+        id={queryFormId}
+        style={{ display: "none" }}
+        onSubmit={handleQueryFormSubmit}
+      />
       <nav className="nav">
         <div className="container">
           <div className="navbar">
@@ -74,11 +79,6 @@ export function Header(props: HeaderProps) {
                 className="menu__item--searching search-wrapper"
                 data-search-wrapper=""
               >
-                <form
-                  id={queryFormId}
-                  style={{ display: "none" }}
-                  onSubmit={handleQueryFormSubmit}
-                />
                 <input
                   className="menu__item-search"
                   type="search"
