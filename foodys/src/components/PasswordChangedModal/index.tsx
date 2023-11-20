@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
+import useTranslation from "next-translate/useTranslation";
 
 export interface PasswordChangedModalProps {
   open: boolean;
@@ -8,6 +9,7 @@ export interface PasswordChangedModalProps {
 }
 
 export function PasswordChangedModal(props: PasswordChangedModalProps) {
+  const { t } = useTranslation("common");
   return (
     <Portal rootId="modal">
       <div className={classNames("modal", { show: props.open })}>
@@ -38,9 +40,9 @@ export function PasswordChangedModal(props: PasswordChangedModalProps) {
             </svg>
           </span>
           <div className="modal-content__form">
-            <h3 className="modal-content__title">Success!</h3>
+            <h3 className="modal-content__title">{t("titleSuccess")}</h3>
             <h4 className="modal-content__subtitle">
-              Your password has been changed
+              {t("textSuccessPassword")}
             </h4>
             <div className="input__border" />
             <button
@@ -48,7 +50,7 @@ export function PasswordChangedModal(props: PasswordChangedModalProps) {
               className="modal-content__btn"
               onClick={props.onNavAuth}
             >
-              Back to login
+              {t("buttonBackToLogin")}
             </button>
           </div>
         </div>
