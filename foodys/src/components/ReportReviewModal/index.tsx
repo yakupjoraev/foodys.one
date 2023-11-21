@@ -2,12 +2,12 @@ import classNames from "classnames";
 import { Portal } from "../Portal";
 import useTranslation from "next-translate/useTranslation";
 
-export interface ReportReiewModalProps {
+export interface ReportReviewModalProps {
   open: boolean;
   onConfirm: (confirmed: boolean) => void;
 }
 
-export function ReportReviewModal(props: ReportReiewModalProps) {
+export function ReportReviewModal(props: ReportReviewModalProps) {
   const { t } = useTranslation("common");
 
   const handleConfirmBtnClick = () => {
