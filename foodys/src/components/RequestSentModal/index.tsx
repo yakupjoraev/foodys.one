@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
+import useTranslation from "next-translate/useTranslation";
 
 export interface RequestSentModalProps {
   open: boolean;
@@ -8,6 +9,8 @@ export interface RequestSentModalProps {
 }
 
 export function RequestSentModal(props: RequestSentModalProps) {
+  const { t } = useTranslation("common");
+
   return (
     <Portal rootId="modal">
       <div className={classNames("modal", { show: props.open })}>
@@ -39,7 +42,7 @@ export function RequestSentModal(props: RequestSentModalProps) {
           </span>
           <div className="modal-content__form">
             <div className="modal-content__form-top">
-              <h3 className="modal-content__title">Email sent</h3>
+              <h3 className="modal-content__title">{t("titleEmailSent")}</h3>
             </div>
             <div className="input__border modal-content__texts" />
             <div className="modal-content__texts modal-content__texts--center">
