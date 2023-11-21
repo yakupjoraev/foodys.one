@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReviewRatingInput } from "~/components/ReviewRatingInput";
 import { reviewFormSchema } from "./validators";
+import useTranslation from "next-translate/useTranslation";
 
 interface ReviewFormData {
   rating: number;
@@ -27,6 +28,7 @@ export interface ReviewFormProps {
 }
 
 export function ReviewForm(props: ReviewFormProps) {
+  const { t } = useTranslation("common");
   const starsId = useId();
   const reviewId = useId();
   const agreementId = useId();
@@ -57,7 +59,7 @@ export function ReviewForm(props: ReviewFormProps) {
     >
       <div className="review-page__input-group">
         <label className="review-page__input-label" htmlFor={starsId}>
-          How would you rate your experience?
+          {t("fieldNameRating")}
         </label>
         <Controller
           control={control}
@@ -82,7 +84,7 @@ export function ReviewForm(props: ReviewFormProps) {
       </div>
       <div className="review-page__input-group">
         <label className="review-page__input-label" htmlFor={reviewId}>
-          Write your review
+          {t("filedNameReview")}
         </label>
         <textarea
           className="review-page__textarea"
@@ -113,14 +115,7 @@ export function ReviewForm(props: ReviewFormProps) {
             />
             <span className="review-page__custom-checkbox-checkmark" />
           </label>
-          <label htmlFor={agreementId}>
-            I certify that this review is based on my own experience and is my
-            genuine opinion of this restaurant, and that I have no personal or
-            business relationship with this establishment, and have not been
-            offered any incentive or payment originating from the establishment
-            to write this review. I understand that Foodys.one has a
-            zero-tolerance policy on fake reviews.
-          </label>
+          <label htmlFor={agreementId}>{t("textAgreementLabel")}</label>
         </div>
         {errors.agreementConfirmed?.message && (
           <div className="review-page__input-error">
@@ -134,7 +129,7 @@ export function ReviewForm(props: ReviewFormProps) {
           type="submit"
           disabled={props.loading}
         >
-          Save
+          {t("buttonSave")}
         </button>
       </div>
     </form>

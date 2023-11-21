@@ -6,6 +6,8 @@ import {
 } from "@smastrom/react-rating";
 import { RefAttributes, useState } from "react";
 import style from "./style.module.css";
+import useTranslation from "next-translate/useTranslation";
+import { Translate } from "next-translate";
 
 const itemStyles = {
   itemShapes: ThinRoundedStar,
@@ -21,6 +23,7 @@ export type ReviewRatingInputProps = Pick<
   RefAttributes<HTMLDivElement>;
 
 export function ReviewRatingInput(props: ReviewRatingInputProps) {
+  const { t } = useTranslation("common");
   const [hoveredRating, setHoveredRating] = useState(0);
 
   return (
@@ -36,30 +39,46 @@ export function ReviewRatingInput(props: ReviewRatingInputProps) {
         onBlur={props.onBlur}
         onHoverChange={setHoveredRating}
       />
-      {renderHelpText(hoveredRating || props.value)}
+      {renderHelpText(hoveredRating || props.value, t)}
     </div>
   );
 }
 
-function renderHelpText(index: number) {
+function renderHelpText(index: number, t: Translate) {
   switch (index) {
     case 1: {
-      return <div className={style["review-rating-input__help"]}>Terrible</div>;
+      return (
+        <div className={style["review-rating-input__help"]}>
+          {t("textRatingTerrible")}
+        </div>
+      );
     }
     case 2: {
-      return <div className={style["review-rating-input__help"]}>Poor</div>;
+      return (
+        <div className={style["review-rating-input__help"]}>
+          {t("textRatingPoor")}
+        </div>
+      );
     }
     case 3: {
-      return <div className={style["review-rating-input__help"]}>Average</div>;
+      return (
+        <div className={style["review-rating-input__help"]}>
+          {t("textRatingAverage")}
+        </div>
+      );
     }
     case 4: {
       return (
-        <div className={style["review-rating-input__help"]}>Very Good</div>
+        <div className={style["review-rating-input__help"]}>
+          {t("textRatingVeryGood")}
+        </div>
       );
     }
     case 5: {
       return (
-        <div className={style["review-rating-input__help"]}>Excellent</div>
+        <div className={style["review-rating-input__help"]}>
+          {t("textRatingExcellent")}
+        </div>
       );
     }
     default: {

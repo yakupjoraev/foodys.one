@@ -13,6 +13,7 @@ import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import useTranslation from "next-translate/useTranslation";
 
 export const getServerSideProps = (async (ctx) => {
   const country = ctx.params?.country;
@@ -79,6 +80,7 @@ export const getServerSideProps = (async (ctx) => {
 export default function Review(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [reviewFormLoading, setReviewFormLoading] = useState(false);
   const createReview = api.reviews.createGPlaceReview.useMutation();
@@ -111,9 +113,7 @@ export default function Review(
           <div className="container">
             <div className="review-page__inner">
               <div className="review-page__restaurant">
-                <h1 className="review-page__title">
-                  Tell us, how was your visit?
-                </h1>
+                <h1 className="review-page__title">{t("titleCreateReview")}</h1>
                 <div className="review-page__restaurant-card">
                   <Link
                     className="review-page__restaurant-image-link"
