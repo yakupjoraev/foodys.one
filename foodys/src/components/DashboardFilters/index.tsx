@@ -396,7 +396,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           className="dashboard__filter-all"
           onClick={() => void setMobileFiltersOpened(false)}
         >
-          View all results
+          {t("buttonViewAllResults")}
         </button>
       </div>
       <div className="dashboard__secondary-panel">
