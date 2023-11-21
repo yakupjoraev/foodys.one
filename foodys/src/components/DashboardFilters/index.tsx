@@ -37,7 +37,7 @@ export interface FilterState {
   hours: "anyTime" | "openNow" | "open24Hours";
   establishment: "restaurant" | "coffeeAndTea" | "bar";
   pageSize: 10 | 20 | 30;
-  sortBy: "relevance" | "distance";
+  sortBy: "relevance" | "distance" | "price";
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
@@ -372,24 +372,29 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           </button>
         </div>
 
-        {props.clientCoordinates && (
-          <DashboardFilter
-            className="dashboard__filter--sort"
-            label={t("titleSortBy")}
-            appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
-          >
-            <DashboardFilterRadio
-              label="Relevance"
-              name={sortById}
-              {...registerFilterRadio("sortBy", "relevance")}
-            />
+        <DashboardFilter
+          className="dashboard__filter--sort"
+          label={t("titleSortBy")}
+          appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
+        >
+          <DashboardFilterRadio
+            label="Relevance"
+            name={sortById}
+            {...registerFilterRadio("sortBy", "relevance")}
+          />
+          {props.clientCoordinates && (
             <DashboardFilterRadio
               label="Distance"
               name={sortById}
               {...registerFilterRadio("sortBy", "distance")}
             />
-          </DashboardFilter>
-        )}
+          )}
+          <DashboardFilterRadio
+            label="Price"
+            name={sortById}
+            {...registerFilterRadio("sortBy", "price")}
+          />
+        </DashboardFilter>
 
         <button
           type="button"

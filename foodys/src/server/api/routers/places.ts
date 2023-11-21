@@ -71,7 +71,11 @@ export const placesRouter = createTRPCRouter({
           .union([z.literal(10), z.literal(20), z.literal(30)])
           .default(DEFAULT_PAGE_SIZE),
         sortBy: z.optional(
-          z.union([z.literal("relevance"), z.literal("distance")])
+          z.union([
+            z.literal("relevance"),
+            z.literal("distance"),
+            z.literal("price"),
+          ])
         ),
         clientCoordinates: z.optional(
           z.object({
@@ -348,7 +352,7 @@ interface CreateResponseOpts {
   filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
   filterHours?: "anyTime" | "openNow" | "open24Hours";
   pageSize: number;
-  sortBy?: "relevance" | "distance";
+  sortBy?: "relevance" | "distance" | "price";
   clientCoordinates?: { lat: number; lng: number };
 }
 
@@ -381,6 +385,8 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
   let places = Array.from(filteredPlaces);
   if (opts.sortBy === "distance" && opts.clientCoordinates) {
     places = sortPlacesByDistance(places, opts.clientCoordinates);
+  } else if (opts.sortBy === "price") {
+    places = sortPlacesByPrice(places);
   }
 
   const pageTotal = Math.ceil(places.length / opts.pageSize);
@@ -562,6 +568,27 @@ function sortPlacesByDistance(
   placesWithDistance.sort(({ distance: a }, { distance: b }) => a - b);
 
   const sortedPlaces: Place[] = placesWithDistance.map(({ place }) => place);
+
+  return sortedPlaces;
+}
+
+function sortPlacesByPrice(places: Place[]): Place[] {
+  const itemsWithoutPrice: Place[] = [];
+  const placeAndPrice: [Place, number][] = [];
+
+  for (const place of places) {
+    const priceLevel = place.price_level;
+    if (priceLevel === undefined) {
+      itemsWithoutPrice.push(place);
+    } else {
+      placeAndPrice.push([place, priceLevel]);
+    }
+  }
+
+  placeAndPrice.sort(([, a], [, b]) => a - b);
+
+  let sortedPlaces: Place[] = placeAndPrice.map(([place]) => place);
+  sortedPlaces = [...sortedPlaces, ...itemsWithoutPrice];
 
   return sortedPlaces;
 }
