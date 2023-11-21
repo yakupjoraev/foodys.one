@@ -243,6 +243,23 @@ export function RegisterForm(props: RegisterFormProps) {
         )}
         <div className="input__border" />
       </div>
+      <div className="input__checkbox-group">
+        <input
+          className="input__checkbox"
+          type="checkbox"
+          id={agreementConfirmedId}
+          {...register("agreementConfirmed")}
+        />
+        <label className="input__label" htmlFor={agreementConfirmedId}>
+          <div className="input__checkbox-decor"> </div>
+          <span>{t("textAgreeTermsAndCond")}</span>
+        </label>
+        {errors.agreementConfirmed?.message && (
+          <div className="input__error">
+            {errors.agreementConfirmed.message}
+          </div>
+        )}
+      </div>
       <button
         className="modal-content__btn"
         type="submit"
@@ -265,23 +282,6 @@ export function RegisterForm(props: RegisterFormProps) {
             />,
           ]}
         />
-      </div>
-      <div className="input__checkbox-group">
-        <input
-          className="input__checkbox"
-          type="checkbox"
-          id={agreementConfirmedId}
-          {...register("agreementConfirmed")}
-        />
-        <label className="input__label" htmlFor={agreementConfirmedId}>
-          <div className="input__checkbox-decor"> </div>
-          <span>{t("textAgreeTermsAndCond")}</span>
-        </label>
-        {errors.agreementConfirmed?.message && (
-          <div className="input__error">
-            {errors.agreementConfirmed.message}
-          </div>
-        )}
       </div>
     </form>
   );
