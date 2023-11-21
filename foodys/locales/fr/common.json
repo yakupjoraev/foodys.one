@@ -158,8 +158,8 @@
   "titleFrance": "France",
   "textFieldRequiredError": "Ce champ est obligatoire",
   "textAgreementRequiredError": "Veuillez accepter les conditions ci-dessus pour continuer.",
-  "textCharsMinError": "Ce champ doit comporter un minimum de XXX caractères",
-  "textCharsMaxError": "Ce champ doit avoir un maximum de XXX caractères",
+  "textCharsMinError": "Ce champ doit comporter un minimum de {{max}} caractères",
+  "textCharsMaxError": "Ce champ doit avoir un maximum de {{max}} caractères",
   "textPasswordsMatchError": "Les mots de passe ne correspondent pas",
   "textPassCharsError": "Caractères requis : a-z, A-Z, 0-9 et symboles spéciaux.",
   "textRatingTerrible": "Très mauvais",
@@ -179,5 +179,6 @@
   "buttonCancel": "Annuler",
   "titleEmailSent": "Email envoyé",
   "buttonSeeMore": "Voir plus",
-  "buttonRelevance": "Pertinence"
+  "buttonRelevance": "Pertinence",
+  "textEmailRequiredError": "E-mail address is required"
 }

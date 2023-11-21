@@ -1,7 +1,7 @@
-import { useEffect, useId } from "react";
+import { useEffect, useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema } from "./validators";
+import { createAuthFormSchema } from "./validators";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
@@ -41,6 +41,7 @@ export function AuthForm(props: AuthFormProps) {
   const loginId = useId();
   const passwordId = useId();
   const agreementConfirmedId = useId();
+  const authFormSchema = useMemo(() => createAuthFormSchema(t), [t]);
   const {
     register,
     handleSubmit,

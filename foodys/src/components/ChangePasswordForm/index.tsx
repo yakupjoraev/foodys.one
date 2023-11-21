@@ -1,8 +1,8 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { changePasswordFormSchema } from "./validators";
+import { createChangePasswordFromSchema } from "./validators";
 import useTranslation from "next-translate/useTranslation";
 
 export type ChangePasswordError =
@@ -37,7 +37,10 @@ export function ChangePasswordForm(props: RegisterFormProps) {
   const { t } = useTranslation("common");
   const passwordId = useId();
   const passwordConfirmId = useId();
-
+  const changePasswordFormSchema = useMemo(
+    () => createChangePasswordFromSchema(t),
+    [t]
+  );
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 

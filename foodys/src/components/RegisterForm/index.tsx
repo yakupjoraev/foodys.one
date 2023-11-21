@@ -2,9 +2,9 @@ import { useEffect, useId, useState } from "react";
 import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerFormSchema } from "./validators";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
+import { createRegisterFormSchema } from "./validators";
 
 export type RegisterError =
   | { type: "unknown"; message?: string }
@@ -49,7 +49,6 @@ export interface RegisterFormProps {
 
 export function RegisterForm(props: RegisterFormProps) {
   const { t } = useTranslation("common");
-
   const firstNameId = useId();
   const lastNameId = useId();
   const nicknameId = useId();
@@ -57,7 +56,7 @@ export function RegisterForm(props: RegisterFormProps) {
   const passwordId = useId();
   const passwordConfirmId = useId();
   const agreementConfirmedId = useId();
-
+  const registerFormSchema = createRegisterFormSchema(t);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
 

@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { contactUsFormSchema } from "./validators";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useMemo } from "react";
 import useTranslation from "next-translate/useTranslation";
+import { createContactUsFormSchema } from "./validators";
 
 export interface ContactUsFormData {
   name?: string;
@@ -40,6 +40,7 @@ export function ContactUsForm(props: ContactUsFormProps) {
   const emailId = useId();
   const messageId = useId();
   const agreementConfirmedId = useId();
+  const contactUsFormSchema = useMemo(() => createContactUsFormSchema(t), [t]);
   const {
     register,
     handleSubmit,

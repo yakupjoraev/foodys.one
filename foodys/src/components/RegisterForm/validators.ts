@@ -1,32 +1,34 @@
 import { passwordStrength } from "check-password-strength";
-import { object, optional, string, literal } from "zod";
+import { Translate } from "next-translate";
+import { object, string, literal } from "zod";
 
-export const registerFormSchema = object({
-  firstName: string()
-    .min(1, "This field is required")
-    .max(256, "This field must have a maximum of 256 characters"),
-  lastName: string()
-    .min(1, "This field is required")
-    .max(256, "This field must have a maximum of 256 characters"),
-  nickname: string()
-    .max(256, "This field must have a maximum of 256 characters")
-    .regex(/^[a-z0-9_]*$/, "Allowed symbols: a-z, 0-9 and _"),
-  email: string().email(),
-  password: string()
-    .min(8, "This field must have a minimum of 8 characters")
-    .max(256, "This field must have a maximum of 256 characters")
-    .refine(
-      (val) => {
-        return passwordStrength(val).id > 1;
-      },
-      {
-        message:
-          "Requires characters from the ranges a–z, A–Z, 0–9, and special symbols",
-      }
-    ),
-  passwordConfirm: string(),
-  agreementConfirmed: literal(true),
-}).refine((data) => data.password === data.passwordConfirm, {
-  message: "Passwords don't match",
-  path: ["passwordConfirm"],
-});
+export function createRegisterFormSchema(t: Translate) {
+  return object({
+    firstName: string()
+      .min(1, t("textFieldRequiredError"))
+      .max(256, t("textCharsMaxError", { max: 256 })),
+    lastName: string()
+      .min(1, t("textFieldRequiredError"))
+      .max(256, t("textCharsMaxError", { max: 256 })),
+    nickname: string()
+      .max(256, t("textCharsMaxError", { max: 256 }))
+      .regex(/^[a-z0-9_]*$/),
+    email: string().email(),
+    password: string()
+      .min(8, t("textCharsMinError", { min: 256 }))
+      .max(256, t("textCharsMaxError", { max: 256 }))
+      .refine(
+        (val) => {
+          return passwordStrength(val).id > 1;
+        },
+        {
+          message: t("textPassCharsError"),
+        }
+      ),
+    passwordConfirm: string(),
+    agreementConfirmed: literal(true),
+  }).refine((data) => data.password === data.passwordConfirm, {
+    message: t("textPasswordsMatchError"),
+    path: ["passwordConfirm"],
+  });
+}

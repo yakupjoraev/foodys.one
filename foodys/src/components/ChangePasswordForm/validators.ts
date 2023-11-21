@@ -1,21 +1,23 @@
 import { passwordStrength } from "check-password-strength";
+import { Translate } from "next-translate";
 import { object, string } from "zod";
 
-export const changePasswordFormSchema = object({
-  password: string()
-    .min(8, "This field must have a minimum of 8 characters")
-    .max(256, "This field must have a maximum of 256 characters")
-    .refine(
-      (val) => {
-        return passwordStrength(val).id > 1;
-      },
-      {
-        message:
-          "Requires characters from the ranges a–z, A–Z, 0–9, and special symbols",
-      }
-    ),
-  passwordConfirm: string(),
-}).refine((data) => data.password === data.passwordConfirm, {
-  message: "Passwords don't match",
-  path: ["passwordConfirm"],
-});
+export function createChangePasswordFromSchema(t: Translate) {
+  return object({
+    password: string()
+      .min(8, t("textCharsMinError", { min: 8 }))
+      .max(256, t("textCharsMaxError", { max: 256 }))
+      .refine(
+        (val) => {
+          return passwordStrength(val).id > 1;
+        },
+        {
+          message: t("textPassCharsError"),
+        }
+      ),
+    passwordConfirm: string(),
+  }).refine((data) => data.password === data.passwordConfirm, {
+    message: t("textPasswordsMatchError"),
+    path: ["passwordConfirm"],
+  });
+}

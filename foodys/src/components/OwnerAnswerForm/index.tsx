@@ -1,7 +1,8 @@
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ownerAnswerFormSchema } from "./validators";
+import { createOwnerAnswerFormSchema } from "./validators";
+import useTranslation from "next-translate/useTranslation";
 
 export interface OwnerAnswerFormData {
   answer: string;
@@ -17,7 +18,12 @@ const DEFAULT_FORM_DATA: OwnerAnswerFormData = {
 };
 
 export function OwnerAnswerForm(props: OwnerAnswerFormProps) {
+  const { t } = useTranslation("common");
   const answerId = useId();
+  const ownerAnswerFormSchema = useMemo(
+    () => createOwnerAnswerFormSchema(t),
+    [t]
+  );
   const {
     register,
     handleSubmit,

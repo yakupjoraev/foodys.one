@@ -1,5 +1,10 @@
+import { Translate } from "next-translate";
 import { object, string } from "zod";
 
-export const ownerAnswerFormSchema = object({
-  answer: string().min(1).max(500),
-});
+export function createOwnerAnswerFormSchema(t: Translate) {
+  return object({
+    answer: string()
+      .min(1, t("textFieldRequiredError"))
+      .max(500, t("textCharsMaxError", { max: 500 })),
+  });
+}

@@ -1,9 +1,12 @@
+import { Translate } from "next-translate";
 import { object, string, boolean } from "zod";
 
-export const authFormSchema = object({
-  login: string().min(1, "This field is required"),
-  password: string().min(1, "This field is required"),
-  agreementConfirmed: boolean().refine((val) => val === true, {
-    message: "Please agree to the terms above to continue.",
-  }),
-});
+export function createAuthFormSchema(t: Translate) {
+  return object({
+    login: string().min(1, t("textFieldRequiredError")),
+    password: string().min(1, t("textFieldRequiredError")),
+    agreementConfirmed: boolean().refine((val) => val === true, {
+      message: t("textAgreementRequiredError"),
+    }),
+  });
+}

@@ -1,5 +1,8 @@
+import { Translate } from "next-translate";
 import { object, string } from "zod";
 
-export const requestPasswordResetFormSchema = object({
-  email: string().email(),
-});
+export function createRequestPasswordResetFormSchema(t: Translate) {
+  return object({
+    email: string().email(t("textEmailRequiredError")),
+  });
+}

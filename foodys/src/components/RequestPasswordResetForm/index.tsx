@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { requestPasswordResetFormSchema } from "./validators";
-import { useEffect, useId } from "react";
+import { createRequestPasswordResetFormSchema } from "./validators";
+import { useEffect, useId, useMemo } from "react";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 
@@ -25,6 +25,10 @@ const DEFAULT_FORM_DATA: RequestPasswordResetFormData = {
 
 export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
   const { t } = useTranslation("common");
+  const requestPasswordResetFormSchema = useMemo(
+    () => createRequestPasswordResetFormSchema(t),
+    [t]
+  );
   const emailId = useId();
   const {
     register,
