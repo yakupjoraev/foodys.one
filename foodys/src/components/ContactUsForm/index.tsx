@@ -143,13 +143,6 @@ export function ContactUsForm(props: ContactUsFormProps) {
         </div>
         <div className="input__border" />
       </div>
-      <button
-        className="modal-content__btn"
-        disabled={props.loading}
-        type="submit"
-      >
-        Send
-      </button>
       <div className="input__checkbox-group">
         <input
           className="input__checkbox"
@@ -166,6 +159,13 @@ export function ContactUsForm(props: ContactUsFormProps) {
           <p className="input__error">{errors.agreementConfirmed.message}</p>
         )}
       </div>
+      <button
+        className="modal-content__btn"
+        disabled={props.loading}
+        type="submit"
+      >
+        Send
+      </button>
     </form>
   );
 }
