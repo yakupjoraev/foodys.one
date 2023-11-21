@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
+import useTranslation from "next-translate/useTranslation";
 
 export interface ReportReiewModalProps {
   open: boolean;
@@ -7,6 +8,8 @@ export interface ReportReiewModalProps {
 }
 
 export function ReportReviewModal(props: ReportReiewModalProps) {
+  const { t } = useTranslation("common");
+
   const handleConfirmBtnClick = () => {
     props.onConfirm(true);
   };
@@ -47,21 +50,21 @@ export function ReportReviewModal(props: ReportReiewModalProps) {
           <div className="modal-content__form">
             <div className="modal-content__btns modal-content__btns-column">
               <h4 className="modal-content__subtitle">
-                Please confirm reporting the review.
+                {t("titleConfirmReviewReporting")}
               </h4>
               <button
                 type="button"
                 className="modal-content__btn"
                 onClick={handleConfirmBtnClick}
               >
-                Confirm
+                {t("buttonConfirm")}
               </button>
               <button
                 type="button"
                 className="modal-content__btn modal-content__btn-outline"
                 onClick={handleCloseBtnClick}
               >
-                Cancel
+                {t("buttonCancel")}
               </button>
             </div>
           </div>
