@@ -173,7 +173,7 @@
   "textAgreementLabel": "I certify that this review is based on my own experience and is my genuine opinion of this restaurant, and that I have no personal or business relationship with this establishment, and have not been offered any incentive or payment originating from the establishment to write this review. I understand that Foodys.one has a zero-tolerance policy on fake reviews.",
   "textPrivacyPolicy": "Privacy Policy",
   "buttonViewAllResults": "View all results",
-  "textOwnerResponded": "XXX, responded to this review",
+  "textOwnerResponded": "{{name}}, responded to this review",
   "titleConfirmReviewReporting": "Please confirm reporting the review.",
   "textEmailConfirmed": "Your e-mail has been confirmed",
   "buttonCancel": "Cancel",

@@ -173,7 +173,7 @@
   "textAgreementLabel": "Je certifie que cet avis est basé sur ma propre expérience et qu'il s'agit de mon opinion sincère sur ce restaurant, que je n'ai aucune relation personnelle ou commerciale avec cet établissement et que je n'ai reçu aucune incitation ou paiement de la part de l'établissement pour rédiger cet avis. Je comprends que Foodys.one applique une politique qui ne tolère pas les faux avis.",
   "textPrivacyPolicy": "Politique de confidentialité",
   "buttonViewAllResults": "Voir tous les résultats",
-  "textOwnerResponded": "XXX, a répondu à ce commentaire",
+  "textOwnerResponded": "{{name}}, a répondu à ce commentaire",
   "titleConfirmReviewReporting": "Veuillez confirmer le signalement de l'avis.",
   "textEmailConfirmed": "Votre e-mail a été confirmé",
   "buttonCancel": "Annuler",

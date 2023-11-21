@@ -158,7 +158,7 @@ export function ReviewItem(props: ReviewItemProps) {
               <div className="review-content__owner-answer" key={response.id}>
                 <div className="review-content__owner">
                   <div className="review-content__owner-title">
-                    {response.ownerName}, responded to this review
+                    {t("textOwnerResponded", { name: response.ownerName })}
                   </div>
                   <div className="review-content__owner-subtitle">
                     {formatDistanceToNow(response.time * 1000, {
