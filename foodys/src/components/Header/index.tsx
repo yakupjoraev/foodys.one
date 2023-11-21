@@ -1,12 +1,14 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { FormEvent, useId, useState } from "react";
+import { FormEvent, useEffect, useId, useState } from "react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";
 import { AccountDropdown } from "./AccountDropdown";
 import { NoFavoritesModal } from "../NoFavoritesModal";
 import { useClientFavorites } from "~/providers/favorites-provider";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { ExpandableSearch } from "../ExpandableSearch";
 
 export interface HeaderProps {
   className?: string;
@@ -23,22 +25,33 @@ export function Header(props: HeaderProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const queryFormId = useId();
+  const [query, setQuery] = useState("");
   const [noFavoritesModalOpen, setNoFavoritesModalOpen] = useState(false);
   const [favorites] = useClientFavorites();
+  const [searchExpandable, setSearchExpandable] = useState(false);
+  const winSize = useWindowSize();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("m-expandable") === "true") {
+      setSearchExpandable(
+        winSize?.width !== null ? winSize.width >= 992 : false
+      );
+    }
+  }, [winSize]);
 
   const handleQueryFormSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    const queryInput = ev.currentTarget.elements.namedItem("query");
-    if (!queryInput) {
-      return;
-    }
-
-    if (queryInput instanceof HTMLInputElement) {
-      const value = queryInput.value;
-      if (value) {
-        void router.push(`/places?query=${encodeURIComponent(value)}`);
-        props.onCloseMobileMenu();
+    if (query.length > 0) {
+      let nextUrl = `/places?query=${encodeURIComponent(query)}`;
+      if (searchExpandable) {
+        nextUrl += "&m-expandable=true";
       }
+      void router.push(nextUrl);
+      props.onCloseMobileMenu();
     }
   };
 
@@ -75,31 +88,53 @@ export function Header(props: HeaderProps) {
                 active: props.mobileMenuExpanded,
               })}
             >
-              <li
-                className="menu__item--searching search-wrapper"
-                data-search-wrapper=""
-              >
-                <input
-                  className="menu__item-search"
-                  type="search"
-                  placeholder={t("textSupportSearchExample")}
-                  data-search-input=""
-                  name="query"
-                  form={queryFormId}
-                />
-                <img
-                  className="menu__item-search-icon"
-                  src="/img/icons/glass.svg"
-                  alt=""
-                />
-                <button
-                  className="menu__item-search-btn"
-                  type="submit"
-                  form={queryFormId}
+              {!searchExpandable ? (
+                <li
+                  className="menu__item--searching search-wrapper"
+                  data-search-wrapper=""
                 >
-                  {t("buttonSearch")}
-                </button>
-              </li>
+                  <input
+                    className="menu__item-search"
+                    type="search"
+                    placeholder={t("textSupportSearchExample")}
+                    data-search-input=""
+                    name="query"
+                    form={queryFormId}
+                    value={query}
+                    onChange={(ev) => {
+                      setQuery(ev.currentTarget.value);
+                    }}
+                  />
+                  <img
+                    className="menu__item-search-icon"
+                    src="/img/icons/glass.svg"
+                    alt=""
+                  />
+                  <button
+                    className="menu__item-search-btn"
+                    type="submit"
+                    form={queryFormId}
+                  >
+                    {t("buttonSearch")}
+                  </button>
+                </li>
+              ) : (
+                <li
+                  className="menu__item--searching-expandable"
+                  data-search-wrapper=""
+                >
+                  <ExpandableSearch
+                    name="query2"
+                    placeholder={t("textSupportSearchExample")}
+                    value={query}
+                    onChange={(ev) => {
+                      setQuery(ev.currentTarget.value);
+                    }}
+                    form={queryFormId}
+                  />
+                </li>
+              )}
+
               <li className="menu__item">
                 <Link href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
