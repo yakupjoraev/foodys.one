@@ -75,6 +75,7 @@ export const placesRouter = createTRPCRouter({
             z.literal("relevance"),
             z.literal("distance"),
             z.literal("price"),
+            z.literal("rating"),
           ])
         ),
         clientCoordinates: z.optional(
@@ -352,7 +353,7 @@ interface CreateResponseOpts {
   filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
   filterHours?: "anyTime" | "openNow" | "open24Hours";
   pageSize: number;
-  sortBy?: "relevance" | "distance" | "price";
+  sortBy?: "relevance" | "distance" | "price" | "rating";
   clientCoordinates?: { lat: number; lng: number };
 }
 
@@ -384,9 +385,13 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
   }
   let places = Array.from(filteredPlaces);
   if (opts.sortBy === "distance" && opts.clientCoordinates) {
+    places = sortPlacesByRating(places);
     places = sortPlacesByDistance(places, opts.clientCoordinates);
   } else if (opts.sortBy === "price") {
+    places = sortPlacesByRating(places);
     places = sortPlacesByPrice(places);
+  } else if (opts.sortBy === "rating") {
+    places = sortPlacesByRating(places);
   }
 
   const pageTotal = Math.ceil(places.length / opts.pageSize);
@@ -589,6 +594,27 @@ function sortPlacesByPrice(places: Place[]): Place[] {
 
   let sortedPlaces: Place[] = placeAndPrice.map(([place]) => place);
   sortedPlaces = [...sortedPlaces, ...itemsWithoutPrice];
+
+  return sortedPlaces;
+}
+
+function sortPlacesByRating(places: Place[]): Place[] {
+  const itemsWithoutRating: Place[] = [];
+  const placeAndRating: [Place, number][] = [];
+
+  for (const place of places) {
+    const rating = place.rating;
+    if (rating === undefined) {
+      itemsWithoutRating.push(place);
+    } else {
+      placeAndRating.push([place, rating]);
+    }
+  }
+
+  placeAndRating.sort(([, a], [, b]) => b - a);
+
+  let sortedPlaces: Place[] = placeAndRating.map(([place]) => place);
+  sortedPlaces = [...sortedPlaces, ...itemsWithoutRating];
 
   return sortedPlaces;
 }

@@ -37,7 +37,7 @@ export interface FilterState {
   hours: "anyTime" | "openNow" | "open24Hours";
   establishment: "restaurant" | "coffeeAndTea" | "bar";
   pageSize: 10 | 20 | 30;
-  sortBy: "relevance" | "distance" | "price";
+  sortBy: "relevance" | "distance" | "price" | "rating";
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
@@ -393,6 +393,11 @@ export function DashboardFilters(props: DashboardFiltersProps) {
             label="Price"
             name={sortById}
             {...registerFilterRadio("sortBy", "price")}
+          />
+          <DashboardFilterRadio
+            label="Rating"
+            name={sortById}
+            {...registerFilterRadio("sortBy", "rating")}
           />
         </DashboardFilter>
 
