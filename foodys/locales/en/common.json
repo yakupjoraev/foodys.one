@@ -79,7 +79,7 @@
   "titleBusinessListingConfirmation": "\"Restaurant name\" is already listed on Foodys.one",
   "buttonAddPhotoBusinessPage": "Add a photo",
   "textSupportWriteAnswer": "Write your reply here",
-  "textNumberResults": "{{count}} results for \"{{query}}\"",
+  "textNumberResults": "<0>{{count}} results</0> <1>for \"{{query}}\"</1>",
   "buttonHome": "Home",
   "titleEstablishmentType": "Establishment type",
   "valueEstablishmentTypeRestaurant": "Restaurant",
