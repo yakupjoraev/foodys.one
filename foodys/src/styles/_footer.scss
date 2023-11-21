@@ -82,6 +82,10 @@
           margin-bottom: 16px;
           top: 40%;
         }
+
+        @media (max-width: $breakpoint768) {
+          content: none;
+        }
       }
     }
 
