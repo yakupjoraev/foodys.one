@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
+import useTranslation from "next-translate/useTranslation";
 
 export interface EmailConfirmedModalProps {
   open: boolean;
@@ -8,6 +9,8 @@ export interface EmailConfirmedModalProps {
 }
 
 export function EmailConfirmedModal(props: EmailConfirmedModalProps) {
+  const { t } = useTranslation("common");
+
   return (
     <Portal rootId="modal">
       <div className={classNames("modal", { show: props.open })}>
@@ -38,9 +41,9 @@ export function EmailConfirmedModal(props: EmailConfirmedModalProps) {
             </svg>
           </span>
           <div className="modal-content__form">
-            <h3 className="modal-content__title">Success!</h3>
+            <h3 className="modal-content__title">{t("titleSuccess")}</h3>
             <h4 className="modal-content__subtitle">
-              Your e-mail has been confirmed
+              {t("textEmailConfirmed")}
             </h4>
             <div className="input__border" />
             <button
@@ -48,7 +51,7 @@ export function EmailConfirmedModal(props: EmailConfirmedModalProps) {
               className="modal-content__btn"
               onClick={props.onNavAuth}
             >
-              Login
+              {t("buttonSignIn")}
             </button>
           </div>
         </div>
