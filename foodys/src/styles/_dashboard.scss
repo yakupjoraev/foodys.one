@@ -7,6 +7,11 @@
   &__form {
     padding-top: 15px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+    @media (max-width: $breakpoint768) {
+      border-top: none;
+      padding-top: 5px;
+    }
   }
 
   // .dashboard__form-search
@@ -51,7 +56,9 @@
     }
 
     @media (max-width: $breakpoint768) {
+      padding-top: 0;
       padding-bottom: 15px;
+      border-top: none;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
   }
