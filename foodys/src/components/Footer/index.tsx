@@ -30,7 +30,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 {t("titleCookies")}
               </Link>
               <Link className="footer__nav-link" href="/privacy-policy">
-                Privacy Policy
+                {t("textPrivacyPolicy")}
               </Link>
               <span
                 className="footer__nav-link"

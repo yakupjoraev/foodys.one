@@ -224,7 +224,7 @@ export function Header(props: HeaderProps) {
                   className="menu__item-link"
                   data-scroll=""
                 >
-                  Privacy Policy
+                  {t("textPrivacyPolicy")}
                 </Link>
               </li>
               <li className="menu__item menu__item--mob">
