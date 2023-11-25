@@ -291,7 +291,7 @@ export function Header(props: HeaderProps) {
                   <img src="/img/header/menu__item-footer-2.png" alt="greca" />
                 </Link>
                 <Link
-                  className="footer__info-link footer__info-link--telegram"
+                  className="footer__info-link footer__info-link--x"
                   href="https://twitter.com/FoodysOne"
                 >
                   <svg

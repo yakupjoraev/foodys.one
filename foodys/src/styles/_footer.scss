@@ -301,6 +301,24 @@
     }
   }
 
+    // .footer__info-link--x
+
+    &__info-link--x {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: black;
+      border-radius: 100%;
+  
+      transition: background-color 0.2s linear;
+  
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+
   // .footer__info-link--in
 
   &__info-link--in {
