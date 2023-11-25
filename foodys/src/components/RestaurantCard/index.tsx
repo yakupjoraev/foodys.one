@@ -269,7 +269,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
         {placeLink && (
           <Link className="restaurant__more" href={placeLink}>
-            See more
+            {t("buttonSeeMore")}
           </Link>
         )}
       </div>
