@@ -181,5 +181,6 @@
   "buttonSeeMore": "See more",
   "buttonRelevance": "Relevance",
   "textEmailRequiredError": "E-mail address is required",
-  "textReviewPlaceholder": "This spot is great for a casual night out…"
+  "textReviewPlaceholder": "This spot is great for a casual night out…",
+  "textPositionDisplay": "Position display"
 }

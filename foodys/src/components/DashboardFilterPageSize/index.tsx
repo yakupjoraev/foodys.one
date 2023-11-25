@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useEffect, useId, useRef, useState } from "react";
 import { DashboardFilterRadio } from "../DashboradFilterRadio";
 import style from "./style.module.css";
+import useTranslation from "next-translate/useTranslation";
 
 type PageSizeStr = "10" | "20" | "30";
 
@@ -13,6 +14,7 @@ export interface DashboardPageSizeProps {
 }
 
 export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
+  const { t } = useTranslation("common");
   const selectedOptionRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const pageSizeId = useId();
@@ -66,7 +68,7 @@ export function DashboardFilterPageSize(props: DashboardPageSizeProps) {
         active && "active"
       )}
     >
-      <p className="dashboard__filter-text">Position display</p>
+      <p className="dashboard__filter-text">{t("textPositionDisplay")}</p>
       <div className="dashboard__filter-positions">
         <div
           className="dashboard__filter-position-selected"
