@@ -1,9 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
 import { type Translate } from "next-translate";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Popover } from "react-tiny-popover";
 import classNames from "classnames";
 import style from "./style.module.css";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { BREAKDOWN_992 } from "~/components/Layout";
 
 export interface AccountDropdownProps {
   popoverContainerStyle?: Partial<CSSStyleDeclaration>;
@@ -16,13 +18,52 @@ export interface AccountDropdownProps {
 export function AccountDropdown(props: AccountDropdownProps) {
   const { t } = useTranslation("common");
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [mobileMode, setMobileMode] = useState(false);
+  const winSize = useWindowSize();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (
+      winSize?.width !== null &&
+      winSize.width < BREAKDOWN_992
+    ) {
+      setMobileMode(true);
+    } else {
+      setMobileMode(false);
+    }
+  }, [winSize]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (
+      winSize?.width === null ||
+      winSize.width >= BREAKDOWN_992
+    ) {
+      setPopoverOpen(false);
+    }
+  }, [winSize]);
 
   const handleClickOutside = () => {
     setPopoverOpen(false);
   };
 
   const handleMainBtnClick = () => {
-    setPopoverOpen(!popoverOpen);
+    if (
+      winSize?.width === null ||
+      winSize.width < BREAKDOWN_992
+    ) {
+      if (!props.authentificated) {
+        props.onLogInBtnClick && props.onLogInBtnClick();
+      } else {
+        props.onLogOutBtnClick && props.onLogOutBtnClick();
+      }
+    } else {
+      setPopoverOpen(!popoverOpen);
+    }
   };
 
   const menu = (
@@ -79,28 +120,32 @@ export function AccountDropdown(props: AccountDropdownProps) {
       content={menu}
       containerStyle={props.popoverContainerStyle}
     >
-      {renderMainBtn(t, handleMainBtnClick)}
-    </Popover>
-  );
-}
-
-function renderMainBtn(t: Translate, onClick: () => void) {
-  return (
-    <span className="menu__item-link" role="button" onClick={onClick}>
-      <div className="menu__item-pic">
-        <img src="/img/header/my-account.png" alt="my-account" loading="lazy" />
+      <span
+        className="menu__item-link"
+        role="button"
+        onClick={handleMainBtnClick}
+      >
+        <div className="menu__item-pic">
+          <img
+            src="/img/header/my-account.png"
+            alt="my-account"
+            loading="lazy"
+          />
+          <img
+            src="/img/header/my-account-white.png"
+            alt="my-account"
+            loading="lazy"
+          />
+        </div>
+        {mobileMode && props.authentificated
+          ? t("buttonSignOut")
+          : t("buttonMyAccount")}
         <img
-          src="/img/header/my-account-white.png"
-          alt="my-account"
-          loading="lazy"
+          className="menu__item-link-arrow"
+          src="/img/header/arrow-right.svg"
+          alt=""
         />
-      </div>
-      {t("buttonMyAccount")}
-      <img
-        className="menu__item-link-arrow"
-        src="/img/header/arrow-right.svg"
-        alt=""
-      />
-    </span>
+      </span>
+    </Popover>
   );
 }
