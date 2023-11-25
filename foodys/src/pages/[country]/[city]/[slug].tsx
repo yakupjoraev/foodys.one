@@ -543,7 +543,7 @@ export default function Place(
                       className="restaurant-page__instrument"
                       href={props.placeUrl + "/review"}
                     >
-                      <img src="/img/restaurant-page/review.svg" alt="review" />
+                      <img src="/img/restaurant-page/review-gray.svg" alt="review" />
                       <span>{t("buttonReview")}</span>
                     </Link>
 
