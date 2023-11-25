@@ -158,7 +158,7 @@ export function Header(props: HeaderProps) {
               <li className="menu__item">
                 <Link href="/" className="menu__item-link" data-scroll="">
                   <div className="menu__item-pic">
-                    <img src="/img/header/home.png" alt="home" loading="lazy" />
+                    <img src="/img/header/home.svg" alt="home" loading="lazy" />
                     <img
                       src="/img/header/home-white.png"
                       alt="home"
