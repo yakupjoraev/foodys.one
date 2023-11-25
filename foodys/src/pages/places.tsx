@@ -13,6 +13,7 @@ import { CryptoModal } from "~/components/CryptoModal";
 import { useGeolocation } from "@uidotdev/usehooks";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
+import { useRouter } from "next/router";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",
@@ -25,6 +26,7 @@ const FILTER_DELAY = 1000;
 
 export default function Places() {
   const { t } = useTranslation("common");
+  const router = useRouter();
   const session = useSession();
   const geolocation = useGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
@@ -243,6 +245,7 @@ export default function Places() {
                         placeCoordinates={placeListingItem.location}
                         authentificated={authentificated}
                         url={placeListingItem.url}
+                        searchUrl={router.asPath}
                         openingPeriods={placeListingItem.opening_periods}
                         utcOffset={placeListingItem.utc_offset}
                         onChangeFavorite={handleChangeFavorite}

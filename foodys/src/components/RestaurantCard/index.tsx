@@ -21,6 +21,7 @@ import {
   useGoogleOpeningHours,
 } from "~/hooks/use-google-opening-hours";
 import { Translate } from "next-translate";
+import { env } from "~/env.mjs";
 
 const BREAKPOINT1440 = 1440;
 const BREAKPOINT768 = 768;
@@ -43,6 +44,7 @@ export interface RestaurantCardProps {
   tags?: string[];
   authentificated?: boolean;
   url?: string;
+  searchUrl?: string;
   placeCoordinates?: { lat: number; lng: number };
   clientCoordinates?: { lat: number; lng: number };
   openingPeriods?: PlaceOpeningHoursPeriod[];
@@ -61,7 +63,6 @@ const DEFAULT_PHOTOS: { src: string; srcSet?: string }[] = [
 
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
-  const router = useRouter();
   const { width: windowWidth } = useWindowSize();
   const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
   const googleOpeningHours = useGoogleOpeningHours(
@@ -87,7 +88,17 @@ export function RestaurantCard(props: RestaurantCardProps) {
 
   const viewMode = getViewMode(windowWidth);
 
-  const placeLink = props.url;
+  const placeLink = useMemo(() => {
+    if (props.url === undefined) {
+      return undefined;
+    }
+    if (props.searchUrl === undefined) {
+      return props.url;
+    }
+    const url = new URL(props.url, env.NEXT_PUBLIC_SITE_URL);
+    url.searchParams.set("search", props.searchUrl);
+    return url.toString();
+  }, [props.url]);
 
   return (
     <div className="restaurant">
@@ -109,7 +120,10 @@ export function RestaurantCard(props: RestaurantCardProps) {
         >
           {photos.map((photo, i) => (
             <SwiperSlide className="restaurant__slide" key={i}>
-              <Link href={placeLink ? placeLink + "#gallery" : "#"}>
+              <Link
+                href={placeLink ? placeLink + "#gallery" : "#"}
+                as={props.url ?? props.url + "#gallery"}
+              >
                 <img
                   src={photo.src}
                   srcSet={photo.srcSet}
@@ -143,7 +157,11 @@ export function RestaurantCard(props: RestaurantCardProps) {
         <div className="restaurant__texts">
           <h3 className="restaurant__name">
             {placeLink ? (
-              <Link className="restaurant__name-link" href={placeLink}>
+              <Link
+                className="restaurant__name-link"
+                href={placeLink}
+                as={props.url}
+              >
                 {props.name ?? "..."}
               </Link>
             ) : (
@@ -162,6 +180,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <Link
               className="restaurant__address-info"
               href={placeLink ? placeLink + "#location" : "#"}
+              as={props.url ?? props.url + "#location"}
             >
               <img src="/img/dashboard/geo.svg" alt="geo" />
               <p>{props.formattedAddress ?? "..."}</p>
@@ -194,6 +213,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
           <Link
             className="restaurant__reviews"
             href={placeLink ? placeLink + "#reviews" : "#"}
+            as={props.url ?? props.url + "#reviews"}
           >
             {props.rating !== undefined && (
               <>
@@ -268,7 +288,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
         )}
 
         {placeLink && (
-          <Link className="restaurant__more" href={placeLink}>
+          <Link className="restaurant__more" href={placeLink} as={props.url}>
             {t("buttonSeeMore")}
           </Link>
         )}

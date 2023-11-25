@@ -112,12 +112,6 @@ export const getServerSideProps = (async (ctx) => {
 
   const absolutePlaceUrl = new URL(placeUrl.url, env.NEXT_PUBLIC_SITE_URL);
 
-  const prevResultsUrl = ctx.req.headers.referer?.startsWith(
-    env.NEXT_PUBLIC_SITE_URL + "/places"
-  )
-    ? ctx.req.headers.referer
-    : null;
-
   const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: {
@@ -133,7 +127,6 @@ export const getServerSideProps = (async (ctx) => {
       place,
       favorite,
       placeUrl: absolutePlaceUrl.toString(),
-      prevResultsUrl,
       trpcState: ssg.dehydrate(),
     },
   };
@@ -143,6 +136,7 @@ export default function Place(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const { t, lang } = useTranslation("common");
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -461,6 +455,11 @@ export default function Place(
     });
   }, [blockedReviews, reviewsQuery.data]);
 
+  const prevResultsUrl: string | null = useMemo(() => {
+    const { search } = router.query;
+    return typeof search === "string" ? search : null;
+  }, [router.query]);
+
   return (
     <Layout title="Foodys - About page">
       <main className="main">
@@ -471,10 +470,10 @@ export default function Place(
             </div>
             <div className="dashboard__main">
               <div className="restaurant-page__inner">
-                {props.prevResultsUrl !== null && (
+                {prevResultsUrl !== null && (
                   <Link
                     className="restaurant-page__nav-back"
-                    href={props.prevResultsUrl}
+                    href={prevResultsUrl}
                   >
                     ❮ Back to previous results
                   </Link>
@@ -543,7 +542,10 @@ export default function Place(
                       className="restaurant-page__instrument"
                       href={props.placeUrl + "/review"}
                     >
-                      <img src="/img/restaurant-page/review-gray.svg" alt="review" />
+                      <img
+                        src="/img/restaurant-page/review-gray.svg"
+                        alt="review"
+                      />
                       <span>{t("buttonReview")}</span>
                     </Link>
 
