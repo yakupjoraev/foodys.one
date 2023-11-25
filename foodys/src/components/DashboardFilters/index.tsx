@@ -311,17 +311,17 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           label={t("titleHours")}
         >
           <DashboardFilterRadio
-            label="Any time"
+            label={t("buttonAnyTime")}
             name={hoursId}
             {...registerFilterRadio("hours", "anyTime")}
           />
           <DashboardFilterRadio
-            label="Open now"
+            label={t("buttonOpenNow")}
             name={hoursId}
             {...registerFilterRadio("hours", "openNow")}
           />
           <DashboardFilterRadio
-            label="Open 24 hours"
+            label={t("buttonOpen24H")}
             name={hoursId}
             {...registerFilterRadio("hours", "open24Hours")}
           />
@@ -378,24 +378,24 @@ export function DashboardFilters(props: DashboardFiltersProps) {
           appendLeft={<img src="/img/dashboard/sort.svg" alt="sort view" />}
         >
           <DashboardFilterRadio
-            label="Relevance"
+            label={t("buttonRelevance")}
             name={sortById}
             {...registerFilterRadio("sortBy", "relevance")}
           />
           {props.clientCoordinates && (
             <DashboardFilterRadio
-              label="Distance"
+              label={t("buttonDistance")}
               name={sortById}
               {...registerFilterRadio("sortBy", "distance")}
             />
           )}
           <DashboardFilterRadio
-            label="Price"
+            label={t("titlePrice")}
             name={sortById}
             {...registerFilterRadio("sortBy", "price")}
           />
           <DashboardFilterRadio
-            label="Rating"
+            label={t("titleRating")}
             name={sortById}
             {...registerFilterRadio("sortBy", "rating")}
           />

@@ -182,5 +182,9 @@
   "buttonRelevance": "Relevance",
   "textEmailRequiredError": "E-mail address is required",
   "textReviewPlaceholder": "This spot is great for a casual night out…",
-  "textPositionDisplay": "Position display"
+  "textPositionDisplay": "Position display",
+  "buttonDistance": "Distance",
+  "buttonOpenNow": "Open now",
+  "buttonAnyTime": "Any time",
+  "buttonOpen24H": "Open 24 hours"
 }

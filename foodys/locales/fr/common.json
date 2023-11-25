@@ -181,5 +181,6 @@
   "buttonSeeMore": "Voir plus",
   "buttonRelevance": "Pertinence",
   "textEmailRequiredError": "E-mail address is required",
-  "textReviewPlaceholder": "Cet endroit est idéal pour une soirée détendue..."
+  "textReviewPlaceholder": "Cet endroit est idéal pour une soirée détendue...",
+  "buttonOpenNow": "Ouvert"
 }
