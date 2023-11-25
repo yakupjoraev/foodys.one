@@ -95,9 +95,6 @@ function renderMainBtn(t: Translate, onClick: () => void) {
           loading="lazy"
         />
       </div>
-      <div className="menu__item-free menu__item-free--grey">
-        {t("scrollOverScrollOverComingSoon")}
-      </div>
       {t("buttonMyAccount")}
       <img
         className="menu__item-link-arrow"
