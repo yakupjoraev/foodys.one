@@ -34,33 +34,33 @@ export default function About() {
                 <div className="about__info-third">
                   <ul className="about__info-list">
                     <li className="about__info-item">
-                      <a className="about__info-link" href="#">
+                      <span className="about__info-link">
                         <img src="/img/about/info/foodys.png" alt="Foodys" />
-                      </a>
-                      <a className="about__info-link" href="#">
+                      </span>
+                      <span className="about__info-link">
                         <img
                           src="/img/about/info/horaires.png"
                           alt="Horaires"
                         />
-                      </a>
-                      <a className="about__info-link" href="#">
+                      </span>
+                      <span className="about__info-link">
                         <img
                           src="/img/about/info/annuaire.png"
                           alt="Annuaire"
                         />
-                      </a>
-                      <a className="about__info-link" href="#">
+                      </span>
+                      <span className="about__info-link">
                         <img
                           src="/img/about/info/taxipolitan.png"
                           alt="Taxipolitan"
                         />
-                      </a>
-                      <a className="about__info-link" href="#">
+                      </span>
+                      <span className="about__info-link">
                         <img
                           src="/img/about/info/horloge-parlante.png"
                           alt="3200 Horloge parlante"
                         />
-                      </a>
+                      </span>
                     </li>
                   </ul>
                   <a className="about__btn" href={t("urlLearnMoreAboutUs")}>
