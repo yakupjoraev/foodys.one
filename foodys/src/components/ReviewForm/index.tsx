@@ -91,7 +91,7 @@ export function ReviewForm(props: ReviewFormProps) {
           id={reviewId}
           rows={10}
           disabled={props.loading}
-          placeholder="This spot is great for a casual night out…"
+          placeholder={t("textReviewPlaceholder")}
           {...register("review")}
         />
         {errors.review?.message && (
