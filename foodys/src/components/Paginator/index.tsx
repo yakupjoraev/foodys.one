@@ -1,5 +1,6 @@
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
+import classNames from "classnames";
 
 interface PaginatorProps {
   page: number;
@@ -10,7 +11,7 @@ interface PaginatorProps {
 const NAV_LINK_LIMIT = 17;
 
 export function Paginator(props: PaginatorProps) {
-  const { t } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
 
   if (props.page < 1 || props.total <= 1) {
     return null;
@@ -54,28 +55,50 @@ export function Paginator(props: PaginatorProps) {
     );
   }
 
+  const wide = lang === "fr";
+
   return (
     <div className="nav-lists">
       {prevPage >= 1 ? (
         <Link
-          className="nav-lists__btn active"
+          className={classNames(
+            "nav-lists__btn active",
+            wide && "nav-lists__btn--wide"
+          )}
           href={props.createUrl(prevPage)}
         >
           {t("textPreviousPage")}
         </Link>
       ) : (
-        <span className="nav-lists__btn">{t("textPreviousPage")}</span>
+        <span
+          className={classNames(
+            "nav-lists__btn",
+            wide && "nav-lists__btn--wide"
+          )}
+        >
+          {t("textPreviousPage")}
+        </span>
       )}
       <ul className="nav-lists__list">{navLinks}</ul>
       {nextPage <= props.total ? (
         <Link
-          className="nav-lists__btn active"
+          className={classNames(
+            "nav-lists__btn active",
+            wide && "nav-lists__btn--wide"
+          )}
           href={props.createUrl(nextPage)}
         >
           {t("textNextPage")}
         </Link>
       ) : (
-        <span className="nav-lists__btn">{t("textNextPage")}</span>
+        <span
+          className={classNames(
+            "nav-lists__btn",
+            wide && "nav-lists__btn--wide"
+          )}
+        >
+          {t("textNextPage")}
+        </span>
       )}
     </div>
   );
