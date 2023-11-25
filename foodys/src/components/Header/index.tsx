@@ -64,6 +64,8 @@ export function Header(props: HeaderProps) {
     setNoFavoritesModalOpen(false);
   };
 
+  const hasFavorites = favorites.length > 0;
+
   return (
     <header className={classNames("header", props.className)}>
       <NoFavoritesModal
@@ -221,12 +223,20 @@ export function Header(props: HeaderProps) {
                 >
                   <div className="menu__item-pic">
                     <img
-                      src="/img/header/favorite.png"
+                      src={
+                        hasFavorites
+                          ? "/img/header/favorite-active.svg"
+                          : "/img/header/favorite.svg"
+                      }
                       alt="favorite"
                       loading="lazy"
                     />
                     <img
-                      src="/img/header/favorite-white.png"
+                      src={
+                        hasFavorites
+                          ? "/img/header/favorite-white-active.svg"
+                          : "/img/header/favorite-white.svg"
+                      }
                       alt="favorite"
                       loading="lazy"
                     />
