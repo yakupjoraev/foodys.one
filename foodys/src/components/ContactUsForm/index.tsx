@@ -97,13 +97,13 @@ export function ContactUsForm(props: ContactUsFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={phoneId}>
-            Phone
+            {t("fieldNamePhoneNumber")}
           </label>
           <input
             className="input"
             id={phoneId}
             type="tel"
-            placeholder="Phone"
+            placeholder={t("fieldNamePhoneNumber")}
             disabled={props.loading}
             {...register("phone")}
           />
@@ -113,13 +113,13 @@ export function ContactUsForm(props: ContactUsFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={emailId}>
-            Email*
+            {t("fieldNameEmail")}*
           </label>
           <input
             className="input"
             id={emailId}
             type="email"
-            placeholder="Email*"
+            placeholder={t("fieldNameEmail")}
             disabled={props.loading}
             {...register("email")}
           />
@@ -129,7 +129,7 @@ export function ContactUsForm(props: ContactUsFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={messageId}>
-            Message*
+            {t("fieldNameMessage")}*
           </label>
           <textarea
             className="input input__textarea"
@@ -164,7 +164,7 @@ export function ContactUsForm(props: ContactUsFormProps) {
         disabled={props.loading}
         type="submit"
       >
-        Send
+        {t("buttonSend")}
       </button>
     </form>
   );

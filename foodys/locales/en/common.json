@@ -186,5 +186,7 @@
   "buttonDistance": "Distance",
   "buttonOpenNow": "Open now",
   "buttonAnyTime": "Any time",
-  "buttonOpen24H": "Open 24 hours"
+  "buttonOpen24H": "Open 24 hours",
+  "fieldNameMessage": "Message",
+  "buttonSend": "Send"
 }
