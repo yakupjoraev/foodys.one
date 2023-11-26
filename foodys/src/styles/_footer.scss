@@ -3,6 +3,7 @@
   position: relative;
   padding: 46px 0 28px;
   overflow: hidden;
+  background-color: white;
 
   &::after {
     content: "";
@@ -496,6 +497,7 @@
 }
 
 .footer-second {
+  background-color: transparent;
 
   &::after {
     content: none;
