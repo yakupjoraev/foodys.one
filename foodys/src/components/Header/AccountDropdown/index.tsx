@@ -25,10 +25,7 @@ export function AccountDropdown(props: AccountDropdownProps) {
     if (typeof window === "undefined") {
       return;
     }
-    if (
-      winSize?.width !== null &&
-      winSize.width < BREAKDOWN_992
-    ) {
+    if (winSize?.width !== null && winSize.width < BREAKDOWN_992) {
       setMobileMode(true);
     } else {
       setMobileMode(false);
@@ -39,10 +36,7 @@ export function AccountDropdown(props: AccountDropdownProps) {
     if (typeof window === "undefined") {
       return;
     }
-    if (
-      winSize?.width === null ||
-      winSize.width >= BREAKDOWN_992
-    ) {
+    if (winSize?.width === null || winSize.width >= BREAKDOWN_992) {
       setPopoverOpen(false);
     }
   }, [winSize]);
@@ -52,10 +46,7 @@ export function AccountDropdown(props: AccountDropdownProps) {
   };
 
   const handleMainBtnClick = () => {
-    if (
-      winSize?.width === null ||
-      winSize.width < BREAKDOWN_992
-    ) {
+    if (winSize?.width === null || winSize.width < BREAKDOWN_992) {
       if (!props.authentificated) {
         props.onLogInBtnClick && props.onLogInBtnClick();
       } else {
@@ -127,12 +118,20 @@ export function AccountDropdown(props: AccountDropdownProps) {
       >
         <div className="menu__item-pic">
           <img
-            src="/img/header/my-account.png"
+            src={
+              props.authentificated
+                ? "/img/header/my-account-active.svg"
+                : "/img/header/my-account.svg"
+            }
             alt="my-account"
             loading="lazy"
           />
           <img
-            src="/img/header/my-account-white.png"
+            src={
+              props.authentificated
+                ? "/img/header/my-account-white-active.svg"
+                : "/img/header/my-account-white.png"
+            }
             alt="my-account"
             loading="lazy"
           />
