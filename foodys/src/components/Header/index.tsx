@@ -24,7 +24,7 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const { t } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
   const router = useRouter();
   const queryFormId = useId();
   const [query, setQuery] = useState("");
@@ -84,7 +84,14 @@ export function Header(props: HeaderProps) {
           <div className="navbar">
             <div className="logo">
               <Link href="/">
-                <img src="/img/icons/foodys-logo.svg" alt="Foodys" />
+                <img
+                  src={
+                    lang === "fr"
+                      ? "/img/icons/fr/foodys-logo.svg"
+                      : "/img/icons/foodys-logo.svg"
+                  }
+                  alt="Foodys"
+                />
               </Link>
             </div>
             <ul
