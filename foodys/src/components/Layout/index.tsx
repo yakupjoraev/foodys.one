@@ -101,6 +101,7 @@ export function Layout(props: LayoutProps) {
         onLogOutBtnClick={handleLogOutBtnClick}
         onOpenMibileMenu={handleOpenMobileMenu}
         onCloseMobileMenu={handleCloseMobileMenu}
+        onContactUsBtnClick={handleContactUsBtnClick}
       />
       {props.children}
       <Footer

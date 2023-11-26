@@ -20,6 +20,7 @@ export interface HeaderProps {
   onLogInBtnClick?: () => void;
   onLogOutBtnClick?: () => void;
   onRegisterBtnClick?: () => void;
+  onContactUsBtnClick?: () => void;
 }
 
 export function Header(props: HeaderProps) {
@@ -307,14 +308,18 @@ export function Header(props: HeaderProps) {
                   {t("titleCookies")}
                 </Link>
               </li>
-              <li className="menu__item menu__item--mob">
-                <Link
-                  href="/contact-us"
-                  className="menu__item-link"
-                  data-scroll=""
-                >
+              <li
+                className="menu__item menu__item--mob"
+                onClick={() => {
+                  if (props.onContactUsBtnClick) {
+                    props.onContactUsBtnClick();
+                    props.onCloseMobileMenu();
+                  }
+                }}
+              >
+                <span className="menu__item-link" data-scroll="">
                   {t("textContactUs")}
-                </Link>
+                </span>
               </li>
               <li className="menu__item menu__item--mob menu__item-footer">
                 <span className="menu__item-footer-link">
