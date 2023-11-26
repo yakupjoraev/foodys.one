@@ -8,6 +8,7 @@ import { Provider as BusProvider } from "react-bus";
 import { api } from "~/utils/api";
 import "~/styles/style.scss";
 import "@smastrom/react-rating/style.css";
+import { SharedGeolocationProvider } from "~/providers/shared-geolocation-provider";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -15,13 +16,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <FavoritesProvider>
-        <BlockedReviewsProvider>
-          <BusProvider>
-            <Component {...pageProps} />
-          </BusProvider>
-        </BlockedReviewsProvider>
-      </FavoritesProvider>
+      <SharedGeolocationProvider>
+        <FavoritesProvider>
+          <BlockedReviewsProvider>
+            <BusProvider>
+              <Component {...pageProps} />
+            </BusProvider>
+          </BlockedReviewsProvider>
+        </FavoritesProvider>
+      </SharedGeolocationProvider>
       <Toaster />
     </SessionProvider>
   );

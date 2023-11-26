@@ -38,7 +38,6 @@ import { appRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 import superjson from "superjson";
 import haversine from "haversine-distance";
-import { useGeolocation } from "@uidotdev/usehooks";
 import { GetThere } from "~/components/GetThere";
 import {
   useGoogleOpeningHours,
@@ -51,6 +50,7 @@ import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
 import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 import { useRouter } from "next/router";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
+import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 
 enum Tab {
   Overview,
@@ -144,7 +144,7 @@ export default function Place(
   const { status: authStatus, data: sessionData } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
-  const geolocation = useGeolocation();
+  const geolocation = useSharedGeolocation();
   const [favorites, appendFavorite, removeFavorite] = useClientFavorites();
   const [blockedReviews, blockReview] = useClientBlockedReviews();
   const googleOpeningHours = useGoogleOpeningHours(

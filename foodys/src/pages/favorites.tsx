@@ -1,4 +1,3 @@
-import { useGeolocation } from "@uidotdev/usehooks";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { CryptoModal } from "~/components/CryptoModal";
@@ -10,11 +9,12 @@ import {
   useClientFavorites,
   useClientFavoritesSnapshot,
 } from "~/providers/favorites-provider";
+import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { api } from "~/utils/api";
 
 export default function Favorites() {
   const session = useSession();
-  const geolocation = useGeolocation();
+  const geolocation = useSharedGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
   const visibleFavoriteIds = useClientFavoritesSnapshot();
   const [clientFavorites, appendClientFavorite, removeClientFavorite] =

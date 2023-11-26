@@ -10,10 +10,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";
-import { useGeolocation } from "@uidotdev/usehooks";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useRouter } from "next/router";
+import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",
@@ -28,7 +28,7 @@ export default function Places() {
   const { t } = useTranslation("common");
   const router = useRouter();
   const session = useSession();
-  const geolocation = useGeolocation();
+  const geolocation = useSharedGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
   const [filterState, setFilterState] =
     useState<FilterState>(DEFAULT_FILTER_STATE);
