@@ -9,6 +9,7 @@ import { NoFavoritesModal } from "../NoFavoritesModal";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { ExpandableSearch } from "../ExpandableSearch";
+import toast from "react-hot-toast";
 
 export interface HeaderProps {
   className?: string;
@@ -175,7 +176,12 @@ export function Header(props: HeaderProps) {
                   />
                 </Link>
               </li>
-              <li className="menu__item">
+              <li
+                className="menu__item"
+                onClick={() => {
+                  toast(t("scrollOverScrollOverComingSoon"));
+                }}
+              >
                 <span
                   className="menu__item-link menu__item-link--list-my-business"
                   data-scroll=""
