@@ -1,3 +1,4 @@
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -16,6 +17,7 @@ export interface RequestPasswordResetModalContainerProps {
 export function RequestPasswordResetModalContainer(
   props: RequestPasswordResetModalContainerProps
 ) {
+  const { t } = useTranslation("common");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<RequestPasswordResetError | undefined>();
 
@@ -34,11 +36,11 @@ export function RequestPasswordResetModalContainer(
         } else if (response.code === "USER_NOT_FOUND") {
           setError({ code: "USER_NOT_FOUND" });
         } else {
-          toast.error("Failed to reset password!");
+          toast.error(t("toastFailedToResetPassword"));
         }
       })
       .catch(() => {
-        toast.error("Failed to reset password!");
+        toast.error(t("toastFailedToResetPassword"));
       })
       .finally(() => {
         setLoading(false);

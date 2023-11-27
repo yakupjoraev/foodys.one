@@ -94,12 +94,12 @@ export default function Review(
         review: formData.review,
       })
       .then(() => {
-        toast.success("Review created.");
+        toast.success(t("toastReviewCreated"));
         void router.replace(props.url + "#reviews");
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Failed to create review!");
+        toast.error(t("toastFailedToCreateReview"));
       })
       .finally(() => {
         setReviewFormLoading(false);

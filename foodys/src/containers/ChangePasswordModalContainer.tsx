@@ -1,3 +1,4 @@
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -17,6 +18,7 @@ export interface ChangePasswordModalContainerProps {
 export function ChangePasswordModalContainer(
   props: ChangePasswordModalContainerProps
 ) {
+  const { t } = useTranslation("common");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ChangePasswordError | undefined>(
     undefined
@@ -42,7 +44,7 @@ export function ChangePasswordModalContainer(
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Faield to reset password!");
+        toast.error(t("toastFailedToResetPassword"));
       });
 
     setLoading(false);

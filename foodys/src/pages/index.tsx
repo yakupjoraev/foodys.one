@@ -14,6 +14,7 @@ import { api } from "~/utils/api";
 import { useBus } from "react-bus";
 import toast from "react-hot-toast";
 import { HeroChatContainer } from "~/containers/HeroChatContainer";
+import useTranslation from "next-translate/useTranslation";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -63,6 +64,7 @@ export const getServerSideProps = (async ({ query, res, req }) => {
 export default function Main(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const footerRef = useRef<HTMLElement>(null);
   const [footerHeight, setFooterHeight] = useState(-1);
@@ -122,7 +124,7 @@ export default function Main(
     if (confirmEmailToken === null) {
       return;
     }
-    const toastId = toast.loading("Wait, please...");
+    const toastId = toast.loading(t("toastLoading"));
 
     confirmUserEmail
       .mutateAsync({ token: confirmEmailToken })
@@ -134,14 +136,14 @@ export default function Main(
           result.code === "TOKEN_NOT_FOUND" ||
           result.code === "USER_NOT_FOUND"
         ) {
-          toast.error("The confirmation link is not active!", { id: toastId });
+          toast.error(t("toastConfLinkNotActive"), { id: toastId });
         } else {
-          toast.error("Failed to confirm email!", { id: toastId });
+          toast.error(t("toastFailedConfirmEmail"), { id: toastId });
         }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Failed to confirm email!", { id: toastId });
+        toast.error(t("toastFailedConfirmEmail"), { id: toastId });
       });
   }, [confirmEmailToken]);
 

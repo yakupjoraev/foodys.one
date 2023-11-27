@@ -42,7 +42,7 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
 
   useEffect(() => {
     if (props.error) {
-      setError("email", { message: "User not found!" });
+      setError("email", { message: t("toastUserNotFound") });
     }
   }, [props.error]);
 

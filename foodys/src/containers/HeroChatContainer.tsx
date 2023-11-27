@@ -1,7 +1,10 @@
+import useTranslation from "next-translate/useTranslation";
 import toast from "react-hot-toast";
 import { HeroChat, HeroChatFormData } from "~/components/HeroChat";
 
 export function HeroChatContainer() {
+  const { t } = useTranslation("common");
+
   const handleSubmit = (
     formData: HeroChatFormData,
     cb: (success: boolean) => void
@@ -23,16 +26,16 @@ export function HeroChatContainer() {
       .then((bodyAndStatus) => {
         if (!bodyAndStatus.ok) {
           console.error("failed to submit Contact Us form", bodyAndStatus.body);
-          toast.error("Failed to send message!");
+          toast.error(t("toastFailedToSendMessage"));
           cb(false);
         } else {
-          toast.success("Message sent.");
+          toast.success(t("toastMessageSent"));
           cb(true);
         }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Failed to send message");
+        toast.error(t("toastFailedToSendMessage"));
         cb(false);
       });
   };

@@ -1,3 +1,4 @@
+import useTranslation from "next-translate/useTranslation";
 import toast from "react-hot-toast";
 import { ConfirmEmailModal } from "~/components/ConfirmEmailModal";
 import { api } from "~/utils/api";
@@ -12,10 +13,11 @@ export interface ConfirmAccountModalContainerProps {
 export function ConfirmAccountModalContainer(
   props: ConfirmAccountModalContainerProps
 ) {
+  const { t } = useTranslation("common");
   const sendConfirmEmailLink = api.auth.sendConfirmEmailLink.useMutation();
 
   const hanldeResendEmail = () => {
-    const toastId = toast.loading("Wait, please...", {
+    const toastId = toast.loading(t("toastLoading"), {
       style: {
         minWidth: "150px",
       },
@@ -26,25 +28,25 @@ export function ConfirmAccountModalContainer(
       .then((response) => {
         switch (response.code) {
           case "SUCCESS": {
-            toast.success("Email sent", { id: toastId });
+            toast.success(t("toastEmailSent"), { id: toastId });
             break;
           }
           case "USER_NOT_FOUND": {
-            toast.error("User not found!", { id: toastId });
+            toast.error(t("toastUserNotFound"), { id: toastId });
             break;
           }
           case "EMAIL_CONFIRMED": {
-            toast("E-mail is already verified", { id: toastId });
+            toast(t("toastEmailVerified"), { id: toastId });
             break;
           }
           default: {
-            toast.error("Failed to send email", { id: toastId });
+            toast.error(t("toastFailedToSendEmail"), { id: toastId });
           }
         }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Failed to send email", { id: toastId });
+        toast.error(t("toastFailedToSendEmail"), { id: toastId });
       });
   };
 

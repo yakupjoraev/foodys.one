@@ -202,9 +202,9 @@ export default function Place(
         console.error(error);
 
         if (opts.liked) {
-          toast.error("Failed to like review!");
+          toast.error(t("toastFailedToLikeReview"));
         } else {
-          toast.error("Failed to unlike review!");
+          toast.error(t("toastFailedToUnlikeReview"));
         }
 
         if (ctx) {
@@ -272,7 +272,7 @@ export default function Place(
       onError(error, opts, ctx) {
         console.error(error);
 
-        toast("Failed to answer!");
+        toast(t("toastAnswerFailed"));
 
         if (ctx) {
           utils.reviews.getGPlaceReviews.setData(
@@ -364,7 +364,7 @@ export default function Place(
 
   const handleUpdateLike = (reviewId: string, liked: boolean) => {
     if (authStatus !== "authenticated") {
-      toast.error("Authentification required!");
+      toast.error(t("toastAuthRequired"));
       return;
     }
     updateGPlaceReviewLike.mutate({ gPlaceReviewId: reviewId, liked });
@@ -376,7 +376,7 @@ export default function Place(
 
   const handleAnswerReview = (reviewId: string, text: string) => {
     if (authStatus !== "authenticated") {
-      toast.error("Authentification required!");
+      toast.error(t("toastAuthRequired"));
       return;
     }
     createGPlaceReviewAnswer.mutate({ gPlaceReviewId: reviewId, text });
