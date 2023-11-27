@@ -11,6 +11,7 @@ import { RegisterModalContainer } from "~/containers/RegisterModalContainer";
 import { RequestPasswordResetModalContainer } from "~/containers/RequestPasswordResetModalContainer";
 import { RequestSentModal } from "../RequestSentModal";
 import { ConfirmAccountModalContainer } from "~/containers/ConfirmEmailModalContainer";
+import useTranslation from "next-translate/useTranslation";
 
 export const BREAKDOWN_992 = 992;
 
@@ -23,6 +24,7 @@ export type LayoutProps = PropsWithChildren<{
 }>;
 
 export function Layout(props: LayoutProps) {
+  const { lang } = useTranslation("common");
   const [mobileExpanded, setMobileExpanded] = useState(false);
   const [authModalOpened, setAuthModalOpened] = useState(false);
   const [registerModalOpened, setRegisterModalOpened] = useState(false);
@@ -86,6 +88,7 @@ export function Layout(props: LayoutProps) {
     <div
       className={classNames("main__body", props.className, {
         locked: mobileExpanded,
+        wide: lang === "fr",
       })}
     >
       <Head>
