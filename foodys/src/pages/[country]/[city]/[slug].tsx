@@ -374,12 +374,26 @@ export default function Place(
     blockReview(reviewId);
   };
 
-  const handleAnswerReview = (reviewId: string, text: string) => {
+  const handleAnswerReview = (
+    reviewId: string,
+    text: string,
+    cb: (success: boolean) => void
+  ) => {
     if (authStatus !== "authenticated") {
       toast.error(t("toastAuthRequired"));
+      cb(false);
       return;
     }
-    createGPlaceReviewAnswer.mutate({ gPlaceReviewId: reviewId, text });
+    void createGPlaceReviewAnswer
+      .mutateAsync({ gPlaceReviewId: reviewId, text })
+      .then(
+        () => {
+          cb(true);
+        },
+        () => {
+          cb(false);
+        }
+      );
   };
 
   const openTab = (nextTab: Tab, scroll?: boolean) => {
