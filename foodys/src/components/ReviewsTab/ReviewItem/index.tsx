@@ -12,11 +12,13 @@ import { useMemo, useState } from "react";
 import { RWebShare } from "react-web-share";
 import { type PlaceReviewResource } from "~/server/api/utils/g-place-review";
 import { OwnerAnswerForm, OwnerAnswerFormData } from "../../OwnerAnswerForm";
+import toast from "react-hot-toast";
 
 export interface ReviewItemProps {
   review: PlaceReviewResource;
   placeUrl: string;
   highlighted?: boolean;
+  authentificated: boolean;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
   onBlockReview: (reviewId: string) => void;
   onAnswerReview: (
@@ -42,7 +44,11 @@ export function ReviewItem(props: ReviewItemProps) {
   };
 
   const handleAnserBtnClick = () => {
-    setOwnerAnswerFormVisible(!ownerAnswerFormVisible);
+    if (props.authentificated) {
+      setOwnerAnswerFormVisible(!ownerAnswerFormVisible);
+    } else {
+      toast.error(t("toastAuthRequired"));
+    }
   };
 
   const handleOwnerAnswerFormSubmit = (formData: OwnerAnswerFormData) => {

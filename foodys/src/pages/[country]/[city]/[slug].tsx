@@ -804,6 +804,7 @@ export default function Place(
                       reviews={reviews}
                       placeUrl={props.placeUrl}
                       show={tab === Tab.Reviews}
+                      authentificated={authStatus === "authenticated"}
                       onUpdateLike={handleUpdateLike}
                       onBlockReview={handleBlockReview}
                       onAnswerReview={handleAnswerReview}

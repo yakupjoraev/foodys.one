@@ -18,6 +18,7 @@ export interface ReviewsTabProps {
   show: boolean;
   reviews?: PlaceReviewResource[];
   placeUrl: string;
+  authentificated: boolean;
   onUpdateLike: (reviewId: string, liked: boolean) => void;
   onBlockReview: (reviewId: string) => void;
   onAnswerReview: (
@@ -122,6 +123,7 @@ export function ReviewsTab(props: ReviewsTabProps) {
                     review={review}
                     placeUrl={props.placeUrl}
                     highlighted={highlighted}
+                    authentificated={props.authentificated}
                     onUpdateLike={props.onUpdateLike}
                     onBlockReview={handleBlockReview}
                     onAnswerReview={props.onAnswerReview}
