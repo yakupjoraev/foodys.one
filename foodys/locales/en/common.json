@@ -204,5 +204,6 @@
   "toastFailedToUnlikeReview": "Failed to unlike review!",
   "toastAuthRequired": "Authentification required!",
   "toastFailedToCreateReview": "Failed to create review!",
-  "toastLoading": "Wait, please..."
+  "toastLoading": "Wait, please...",
+  "fieldNameAnswer": "Your answer"
 }

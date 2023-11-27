@@ -46,12 +46,12 @@ export function OwnerAnswerForm(props: OwnerAnswerFormProps) {
     >
       <div className="input__border" />
       <label className="reviews-content__answer-label" htmlFor={answerId}>
-        Your answer
+        {t("fieldNameAnswer")}
       </label>
       <textarea
         className="reviews-content__answer-textarea"
         id={answerId}
-        placeholder="Your answer"
+        placeholder={t("fieldNameAnswer")}
         disabled={props.loading}
         {...register("answer")}
       />
@@ -65,7 +65,7 @@ export function OwnerAnswerForm(props: OwnerAnswerFormProps) {
         className="restaurant__btn restaurant__btn--outline"
         disabled={props.loading}
       >
-        Send
+        {t("buttonSend")}
       </button>
     </form>
   );
