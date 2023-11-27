@@ -1,6 +1,7 @@
 import Trans from "next-translate/Trans";
 import haversine from "haversine-distance";
 import { useMemo } from "react";
+import { formatDistance } from "~/utils/distance-format";
 
 export interface GetThereProps {
   from: { lat: number; lng: number };
@@ -42,11 +43,4 @@ export function GetThere(props: GetThereProps) {
       />
     </div>
   );
-}
-
-function formatDistance(distance: number) {
-  if (distance < 1000) {
-    return Math.round(distance).toString() + "m";
-  }
-  return (distance / 1000).toFixed(1) + "km";
 }

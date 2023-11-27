@@ -6,6 +6,7 @@ import { env } from "~/env.mjs";
 import { type PlaceResource } from "~/server/api/utils/g-place";
 import haversine from "haversine-distance";
 import { useMemo } from "react";
+import { formatDistance } from "~/utils/distance-format";
 
 export interface LocationTabProps {
   place: PlaceResource;
@@ -92,11 +93,4 @@ export function LocationTab(props: LocationTabProps) {
       </div>
     </div>
   );
-}
-
-function formatDistance(distance: number) {
-  if (distance < 1000) {
-    return Math.round(distance).toString() + "m";
-  }
-  return (distance / 1000).toFixed(1) + "km";
 }
