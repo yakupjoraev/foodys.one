@@ -188,5 +188,7 @@
   "buttonAnyTime": "Any time",
   "buttonOpen24H": "Open 24 hours",
   "fieldNameMessage": "Message",
-  "buttonSend": "Send"
+  "buttonSend": "Send",
+  "fieldNameName": "Name",
+  "titleChat": "Chat"
 }
