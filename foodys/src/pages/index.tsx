@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
+import { HeroChatBot } from "~/components/HeroChatBot";
 import { ChangePasswordModalContainer } from "~/containers/ChangePasswordModalContainer";
 import { PasswordChangedModal } from "~/components/PasswordChangedModal";
 import { useRouter } from "next/router";
@@ -164,7 +165,8 @@ export default function Main(
               </div>
               <div className="hero__pictures">
                 <HeroUk />
-                <a className="hero__chatbot" href="#">
+                <HeroChatBot />
+                {/* <div className="hero__chatbot">
                   <picture>
                     <source
                       media="(max-width: 767px)"
@@ -172,7 +174,55 @@ export default function Main(
                     />
                     <img src="/img/main-page/chatbot.png" alt="chatbot" />
                   </picture>
-                </a>
+                </div>
+
+                <div className="hero__chat">
+                  <span className="hero__chat-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                      <circle cx="16.5" cy="16.5" r="16.5" fill="#F0F0F0" />
+                      <path d="M22 11L16.5 16.5L11 11" stroke="#A8ADB8" stroke-width="2" />
+                      <path d="M11 22L16.5 16.5L22 22" stroke="#A8ADB8" stroke-width="2" />
+                    </svg>
+                  </span>
+                  <form className="modal-content__form" action="#">
+                    <div className="modal-content__form-top">
+                      <h2 className="modal-content__title-main">
+                        Chat
+                      </h2>
+                    </div>
+
+                    <div className="modal-content__inputs">
+
+                      <div className="input__group">
+                        <label className="input__label" htmlFor="input20">
+                          Name
+                        </label>
+
+                        <input className="input" type="text" placeholder="Name" id="input20" />
+                      </div>
+
+                      <div className="input__group">
+                        <label className="input__label" htmlFor="input21">
+                          Email*
+                        </label>
+
+                        <input className="input" type="email" placeholder="Email*" id="input21" />
+                      </div>
+
+                      <div className="input__group">
+                        <label className="input__label" htmlFor="input22">
+                          Message*
+                        </label>
+
+                        <textarea className="input input__textarea" id="input22"></textarea>
+                      </div>
+
+                      <div className="input__border"></div>
+                    </div>
+
+                    <button type="button" className="modal-content__btn">Send</button>
+                  </form>
+                </div> */}
               </div>
             </div>
           </div>
