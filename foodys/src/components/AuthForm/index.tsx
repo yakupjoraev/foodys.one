@@ -60,10 +60,10 @@ export function AuthForm(props: AuthFormProps) {
   useEffect(() => {
     if (props.error) {
       if (props.error.type === "credentials") {
-        setError("root", { message: "Wrong login or password." });
+        setError("root", { message: t("textPasswordError") });
       } else {
         setError("root", {
-          message: props.error.message ?? "Failed to auth.",
+          message: props.error.message ?? t("textSignInError"),
         });
       }
     }

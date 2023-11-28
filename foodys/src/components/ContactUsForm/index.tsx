@@ -81,13 +81,13 @@ export function ContactUsForm(props: ContactUsFormProps) {
       <div className="modal-content__inputs">
         <div className="input__group">
           <label className="input__label" htmlFor={nameId}>
-            Name
+            {t("fieldNameName")}
           </label>
           <input
             className="input"
             id={nameId}
             type="text"
-            placeholder="Name"
+            placeholder={t("fieldNameName")}
             disabled={props.loading}
             {...register("name")}
           />

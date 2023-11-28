@@ -63,11 +63,11 @@ export function ChangePasswordForm(props: RegisterFormProps) {
     if (props.error) {
       switch (props.error.code) {
         case "TOKEN_NOT_FOUND": {
-          setError("root", { message: "The password reset link has expired." });
+          setError("root", { message: t("textPassResetLinkExpiredError") });
           break;
         }
         default: {
-          setError("root", { message: "Failed to change password." });
+          setError("root", { message: t("textPasswordChangeError") });
           break;
         }
       }

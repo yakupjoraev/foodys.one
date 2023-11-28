@@ -74,11 +74,11 @@ export function RegisterForm(props: RegisterFormProps) {
     if (props.error) {
       if (props.error.type === "user_exists") {
         setError("root", {
-          message: "A user with the same nickanme or email already exists!",
+          message: t("textUserExistsError"),
         });
       } else {
         setError("root", {
-          message: props.error.message ?? "Failed to register.",
+          message: props.error.message ?? t("textSignUpError"),
         });
       }
     }

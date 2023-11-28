@@ -489,7 +489,7 @@ export default function Place(
                     className="restaurant-page__nav-back"
                     href={prevResultsUrl}
                   >
-                    ❮ Back to previous results
+                    {"❮ " + t("textBackToSearch")}
                   </Link>
                 )}
                 {previewPhotos && (

@@ -205,5 +205,14 @@
   "toastAuthRequired": "Authentification required!",
   "toastFailedToCreateReview": "Failed to create review!",
   "toastLoading": "Wait, please...",
-  "fieldNameAnswer": "Your answer"
+  "fieldNameName": "Name",
+  "titleChat": "Chat",
+  "fieldNameAnswer": "Your answer",
+  "textSignUpError": "Failed to sign up",
+  "textPasswordError": "Wrong login or password.",
+  "textSignInError": "Failed to auth",
+  "textPassResetLinkExpiredError": "The password reset link has expired.",
+  "textPasswordChangeError": "Failed to change password.",
+  "textUserExistsError": "A user with the same nickname or email already exists!",
+  "textBackToSearch": "Back to search results"
 }
