@@ -129,7 +129,7 @@ export function ReviewForm(props: ReviewFormProps) {
           type="submit"
           disabled={props.loading}
         >
-          {t("buttonSave")}
+          {t("buttonSend")}
         </button>
       </div>
     </form>
