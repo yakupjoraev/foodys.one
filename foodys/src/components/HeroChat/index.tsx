@@ -100,12 +100,12 @@ export function HeroChat(props: HeroChatProps) {
             <path
               d="M22 11L16.5 16.5L11 11"
               stroke="#A8ADB8"
-              stroke-width="2"
+              strokeWidth="2"
             />
             <path
               d="M11 22L16.5 16.5L22 22"
               stroke="#A8ADB8"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </span>
