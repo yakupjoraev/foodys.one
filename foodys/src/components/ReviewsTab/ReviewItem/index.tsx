@@ -43,7 +43,7 @@ export function ReviewItem(props: ReviewItemProps) {
     props.onBlockReview(props.review.id);
   };
 
-  const handleAnserBtnClick = () => {
+  const handleAnswerBtnClick = () => {
     if (props.authentificated) {
       setOwnerAnswerFormVisible(!ownerAnswerFormVisible);
     } else {
@@ -146,7 +146,7 @@ export function ReviewItem(props: ReviewItemProps) {
           <img src="/img/icons/no-see.svg" alt="no-see" />
           <span>{t("buttonReportReview")}</span>
         </span>
-        <span className="reviews-content__action" onClick={handleAnserBtnClick}>
+        <span className="reviews-content__action" onClick={handleAnswerBtnClick}>
           <img src="/img/icons/basket.svg" alt="basket" />
           <span>{t("buttonBusinessOwner")}</span>
         </span>
