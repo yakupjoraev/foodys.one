@@ -52,6 +52,7 @@ import { useRouter } from "next/router";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
+import { useClientLikes } from "~/providers/likes-provider";
 
 enum Tab {
   Overview,
@@ -152,74 +153,12 @@ export default function Place(
     props.place.opening_hours?.periods,
     props.place.utc_offset
   );
-  const triggerAuth = useAuthTrigger();
+  const [likes, like, unlike] = useClientLikes();
   const reviewsQuery = api.reviews.getGPlaceReviews.useQuery({
     gPlaceId: props.place.id,
   });
 
   const utils = api.useContext();
-  const updateGPlaceReviewLike = api.reviews.updateGPlaceReviewLike.useMutation(
-    {
-      async onMutate(opts) {
-        await utils.reviews.getGPlaceReviews.cancel();
-
-        const prevData = utils.reviews.getGPlaceReviews.getData();
-
-        utils.reviews.getGPlaceReviews.setData(
-          { gPlaceId: props.place.id },
-          (old) => {
-            if (old === undefined) {
-              return old;
-            }
-            const reviewIndex = old.findIndex(
-              (review) => review.id === opts.gPlaceReviewId
-            );
-            if (reviewIndex === -1) {
-              return old;
-            }
-            const target = old[reviewIndex];
-            if (target === undefined) {
-              return old;
-            }
-            if (target.likes === 0 && !opts.liked) {
-              return old;
-            }
-            const likes = target.likes ?? 0;
-            const updatedReview = { ...target };
-            updatedReview.liked = opts.liked;
-            updatedReview.likes = opts.liked ? likes + 1 : likes - 1;
-
-            return [
-              ...old.slice(0, reviewIndex),
-              updatedReview,
-              ...old.slice(reviewIndex + 1),
-            ];
-          }
-        );
-
-        return { prevData };
-      },
-      onError(error, opts, ctx) {
-        console.error(error);
-
-        if (opts.liked) {
-          toast.error(t("toastFailedToLikeReview"));
-        } else {
-          toast.error(t("toastFailedToUnlikeReview"));
-        }
-
-        if (ctx) {
-          utils.reviews.getGPlaceReviews.setData(
-            { gPlaceId: props.place.id },
-            ctx.prevData
-          );
-        }
-      },
-      onSettled() {
-        void utils.reviews.getGPlaceReviews.invalidate();
-      },
-    }
-  );
   const createGPlaceReviewAnswer =
     api.reviews.createGPlaceReviewAnswer.useMutation({
       async onMutate(opts) {
@@ -364,11 +303,11 @@ export default function Place(
   };
 
   const handleUpdateLike = (reviewId: string, liked: boolean) => {
-    if (authStatus !== "authenticated") {
-      toast.error(t("toastAuthRequired"));
-      return;
+    if (liked) {
+      like(reviewId);
+    } else {
+      unlike(reviewId);
     }
-    updateGPlaceReviewLike.mutate({ gPlaceReviewId: reviewId, liked });
   };
 
   const handleBlockReview = (reviewId: string) => {
@@ -465,10 +404,25 @@ export default function Place(
       return undefined;
     }
     const blockedReviewsSet = new Set(blockedReviews);
-    return reviewsQuery.data.filter((review) => {
+    const visible = reviewsQuery.data.filter((review) => {
       return !blockedReviewsSet.has(review.id);
     });
-  }, [blockedReviews, reviewsQuery.data]);
+
+    const withLikes = visible.map((review) => {
+      const nextReview = { ...review };
+      const liked = likes.includes(review.id);
+      if (liked) {
+        nextReview.liked = true;
+        nextReview.likes = 1;
+      } else {
+        nextReview.liked = false;
+        nextReview.likes = 0;
+      }
+      return nextReview;
+    });
+
+    return withLikes;
+  }, [likes, blockedReviews, reviewsQuery.data]);
 
   const prevResultsUrl: string | null = useMemo(() => {
     const { search } = router.query;

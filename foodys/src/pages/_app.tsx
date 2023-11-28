@@ -9,6 +9,7 @@ import { api } from "~/utils/api";
 import "~/styles/style.scss";
 import "@smastrom/react-rating/style.css";
 import { SharedGeolocationProvider } from "~/providers/shared-geolocation-provider";
+import { LikesProvider } from "~/providers/likes-provider";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -19,9 +20,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <SharedGeolocationProvider>
         <FavoritesProvider>
           <BlockedReviewsProvider>
-            <BusProvider>
-              <Component {...pageProps} />
-            </BusProvider>
+            <LikesProvider>
+              <BusProvider>
+                <Component {...pageProps} />
+              </BusProvider>
+            </LikesProvider>
           </BlockedReviewsProvider>
         </FavoritesProvider>
       </SharedGeolocationProvider>
