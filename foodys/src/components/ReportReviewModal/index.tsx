@@ -48,10 +48,11 @@ export function ReportReviewModal(props: ReportReviewModalProps) {
             </svg>
           </span>
           <div className="modal-content__form">
+            <h4 className="modal-content__subtitle">
+              {t("titleConfirmReviewReporting")}
+            </h4>
+            <div className="input__border"></div>
             <div className="modal-content__btns modal-content__btns-column">
-              <h4 className="modal-content__subtitle">
-                {t("titleConfirmReviewReporting")}
-              </h4>
               <button
                 type="button"
                 className="modal-content__btn"
