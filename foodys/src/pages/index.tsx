@@ -11,10 +11,10 @@ import { PasswordChangedModal } from "~/components/PasswordChangedModal";
 import { useRouter } from "next/router";
 import { EmailConfirmedModal } from "~/components/EmailConfirmedModal";
 import { api } from "~/utils/api";
-import { useBus } from "react-bus";
 import toast from "react-hot-toast";
 import { HeroChatContainer } from "~/containers/HeroChatContainer";
 import useTranslation from "next-translate/useTranslation";
+import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -81,7 +81,7 @@ export default function Main(
   const [emailConfirmedModalOpened, setEmailConfirmedModalOpened] =
     useState(false);
 
-  const bus = useBus();
+  const triggerAuth = useAuthTrigger();
 
   const confirmUserEmail = api.auth.confirmUserEmail.useMutation();
 
@@ -194,7 +194,7 @@ export default function Main(
         onNavAuth={() => {
           setPasswordChangedModalOpened(false);
           void router.replace("/");
-          bus.emit("auth");
+          triggerAuth();
         }}
       />
       <EmailConfirmedModal
@@ -206,7 +206,7 @@ export default function Main(
         onNavAuth={() => {
           setEmailConfirmedModalOpened(false);
           void router.replace("/");
-          bus.emit("auth");
+          triggerAuth();
         }}
       />
     </Layout>

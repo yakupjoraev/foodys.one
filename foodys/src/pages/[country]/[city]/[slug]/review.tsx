@@ -14,6 +14,8 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import useTranslation from "next-translate/useTranslation";
+import { useAuthTrigger } from "~/hooks/use-auth-trigger";
+import { useSession } from "next-auth/react";
 
 export const getServerSideProps = (async (ctx) => {
   const country = ctx.params?.country;
@@ -82,10 +84,17 @@ export default function Review(
 ) {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const { status: authStatus } = useSession();
+  const triggerAuth = useAuthTrigger();
   const [reviewFormLoading, setReviewFormLoading] = useState(false);
   const createReview = api.reviews.createGPlaceReview.useMutation();
 
   const handleReviewFormSubmit = (formData: ReviewFormSubmitData) => {
+    if (authStatus !== "authenticated") {
+      toast.error(t("toastAuthRequired"));
+      triggerAuth();
+      return;
+    }
     setReviewFormLoading(true);
     createReview
       .mutateAsync({

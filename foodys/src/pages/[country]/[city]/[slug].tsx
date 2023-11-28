@@ -51,6 +51,7 @@ import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 import { useRouter } from "next/router";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
+import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 
 enum Tab {
   Overview,
@@ -151,7 +152,7 @@ export default function Place(
     props.place.opening_hours?.periods,
     props.place.utc_offset
   );
-
+  const triggerAuth = useAuthTrigger();
   const reviewsQuery = api.reviews.getGPlaceReviews.useQuery({
     gPlaceId: props.place.id,
   });
