@@ -256,6 +256,8 @@
     padding: 5px 8px;
     border-radius: 75px;
     border: 1px solid rgba(49, 55, 67, 0.2);
+    min-height: 37px;
+    box-sizing: border-box;
     cursor: pointer;
 
     &.liked {
