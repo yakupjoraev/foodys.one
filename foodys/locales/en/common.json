@@ -214,5 +214,6 @@
   "textPassResetLinkExpiredError": "The password reset link has expired.",
   "textPasswordChangeError": "Failed to change password.",
   "textUserExistsError": "A user with the same nickname or email already exists!",
-  "textBackToSearch": "Back to search results"
+  "textBackToSearch": "Back to search results",
+  "textBackToPlace": "Back to the restaurant page"
 }

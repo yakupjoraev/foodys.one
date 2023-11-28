@@ -2,6 +2,30 @@
   padding: 25px 0 68px;
 }
 
+.review-page__delimiter-top {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 25px;
+
+  @media (max-width: $breakpoint992) {
+    padding-bottom: 16px;
+  }
+}
+
+.review-page__nav-back {
+  color: #3c527e;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 146.8%;
+  letter-spacing: -0.28px;
+  display: block;
+  text-decoration: underline;
+  margin-bottom: 12px;
+}
+
+.review-page__nav-back:hover {
+  text-decoration: none;
+}
+
 .review-page__inner {
   display: grid;
   grid-template-columns: 400px 1fr;

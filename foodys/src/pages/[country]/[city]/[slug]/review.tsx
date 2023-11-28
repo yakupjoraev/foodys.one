@@ -111,6 +111,10 @@ export default function Review(
       <main className="main">
         <section className="review-page">
           <div className="container">
+            <div className="review-page__delimiter-top" />
+            <a className="review-page__nav-back" href={props.url}>
+              {"❮ " + t("textBackToPlace")}
+            </a>
             <div className="review-page__inner">
               <div className="review-page__restaurant">
                 <h1 className="review-page__title">{t("titleCreateReview")}</h1>

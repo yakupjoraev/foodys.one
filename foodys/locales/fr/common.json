@@ -214,5 +214,6 @@
   "textPassResetLinkExpiredError": "Le lien de réinitialisation du mot de passe a expiré.",
   "textPasswordChangeError": "Échec de la modification du mot de passe.",
   "textUserExistsError": "Un utilisateur avec le même pseudo ou email existe déjà !",
-  "textBackToSearch": "Retour aux résultats de recherche"
+  "textBackToSearch": "Retour aux résultats de recherche",
+  "textBackToPlace": "Retour à la page du restaurant"
 }
