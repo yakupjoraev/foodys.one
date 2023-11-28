@@ -3,6 +3,7 @@ import { Layout } from "~/components/Layout";
 import { AboutPartners } from "~/components/AboutPartners";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
+import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 
 export default function About() {
   const { t } = useTranslation("common");
@@ -74,6 +75,7 @@ export default function About() {
           </div>
         </section>
       </main>
+      <CookiesModalContainer />
     </Layout>
   );
 }

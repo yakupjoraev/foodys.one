@@ -1,6 +1,7 @@
 import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
+import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 
 export default function Cookies() {
   const { t } = useTranslation("common");
@@ -51,6 +52,7 @@ export default function Cookies() {
           </div>
         </section>
       </main>
+      <CookiesModalContainer />
     </Layout>
   );
 }

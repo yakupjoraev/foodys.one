@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { HeroChatContainer } from "~/containers/HeroChatContainer";
 import useTranslation from "next-translate/useTranslation";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
+import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -209,6 +210,7 @@ export default function Main(
           triggerAuth();
         }}
       />
+      <CookiesModalContainer />
     </Layout>
   );
 }

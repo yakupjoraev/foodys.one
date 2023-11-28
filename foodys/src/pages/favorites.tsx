@@ -4,6 +4,7 @@ import { CryptoModal } from "~/components/CryptoModal";
 import { DashboardAside } from "~/components/DashboardAside";
 import { Layout } from "~/components/Layout";
 import { RestaurantCard } from "~/components/RestaurantCard";
+import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import {
   readAllFavorites,
   useClientFavorites,
@@ -116,6 +117,7 @@ export default function Favorites() {
         </div>
       </main>
       <CryptoModal open={cryptoModelOpen} onClose={handleCryptoModalClose} />
+      <CookiesModalContainer />
     </Layout>
   );
 }

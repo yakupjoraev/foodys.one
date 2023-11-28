@@ -53,6 +53,7 @@ import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { useClientLikes } from "~/providers/likes-provider";
+import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 
 enum Tab {
   Overview,
@@ -794,6 +795,7 @@ export default function Place(
         </div>
       </main>
       <CryptoModal open={cryptoModalOpen} onClose={handleCloseCryptoModal} />
+      <CookiesModalContainer />
     </Layout>
   );
 }
