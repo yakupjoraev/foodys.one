@@ -150,14 +150,16 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
-      for (const place of searchResponse.results) {
-        if (place.place_id) {
-          const placeDetails = await loadPlaceDetails(place.place_id);
-          if (placeDetails) {
-            Object.assign(place, placeDetails);
+      await Promise.all(
+        searchResponse.results.map(async (place) => {
+          if (place.place_id) {
+            const placeDetails = await loadPlaceDetails(place.place_id);
+            if (placeDetails) {
+              Object.assign(place, placeDetails);
+            }
           }
-        }
-      }
+        })
+      );
 
       await db.textSearch.create({
         data: {

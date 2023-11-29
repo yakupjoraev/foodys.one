@@ -4,6 +4,7 @@ import {
   placesDetailsResponseSchema,
   placesTextSearchResponseSchema,
 } from "./schemas";
+import { pluginRateLimit } from "./rate-limit-plugin";
 
 export const gmClient = new Zodios("https://maps.googleapis.com", [
   {
@@ -74,3 +75,5 @@ export const gmClient = new Zodios("https://maps.googleapis.com", [
     ],
   },
 ]);
+
+gmClient.use(pluginRateLimit({ limit: 6000, interval: 60000 }));
