@@ -288,7 +288,7 @@ function renderHeroPicture(picId: number) {
   switch (picId) {
     case 1: {
       return (
-        <div className="hero__picture">
+        <div className="hero__picture hero__picture--burger">
           <img src="/img/main-page/hero/burgers.png" alt="#Burgers!" />
         </div>
       );
@@ -302,7 +302,7 @@ function renderHeroPicture(picId: number) {
     }
     case 3: {
       return (
-        <div className="hero__picture">
+        <div className="hero__picture hero__picture--salade">
           <img src="/img/main-page/hero/salade.png" alt="#Salade!" />
         </div>
       );

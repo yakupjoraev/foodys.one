@@ -9,6 +9,14 @@
     margin-bottom: 0;
   }
 
+  @media (max-width: $breakpoint480) {
+    padding: 40px 0;
+  }
+
+  @media (max-width: 320px) {
+    padding: 40px 0 40px;
+  }
+
   // .hero__inner
 
   &__inner {
@@ -24,11 +32,19 @@
 
     @media (max-width: $breakpoint768) {
       grid-template-columns: 1fr;
-      min-height: 85vh;
+      min-height: 77vh;
+    }
+
+    @media (max-width: $breakpoint768) {
+      min-height: 82vh;
     }
 
     @media (max-width: 370px) {
-      min-height: 90vh;
+      // min-height: 90vh;
+    }
+
+    @media (max-width: 320px) {
+      min-height: 78vh;
     }
   }
 
@@ -295,6 +311,67 @@
           max-width: 100vw;
         }
       }
+
+      @media (max-height: 680px) {
+        left: 0;
+        transform: translate(0, -50%);
+
+        img {
+          max-width: 300px;
+          margin-right: auto;
+          text-align: left;
+        }
+      }
+    }
+
+    &.hero__picture--salade {
+      @media (max-width: $breakpoint768) {
+        img {
+          max-width: 280px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        img {
+          max-width: 240px;
+        }
+      }
+
+      @media (max-width: 320px) {
+        img {
+          max-width: 180px;
+        }
+      }
+
+
+      @media (max-height: 680px) {
+        img {
+          max-width: 200px;
+        }
+      }
+    }
+
+    &.hero__picture--burger {
+
+      @media (max-width: $breakpoint768) {
+        img {
+          max-width: 360px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        margin-top: 30px;
+
+        img {
+          max-width: 300px;
+        }
+      }
+
+      @media (max-width: 320px) {
+        img {
+          max-width: 240px;
+        }
+      }
     }
 
     @media (max-width: $breakpoint1200) {
@@ -324,8 +401,16 @@
         max-width: 400px;
       }
 
-      @media (max-width: $breakpoint768) {
-        max-width: 260px;
+      @media (max-width: 360px) {
+        max-width: 340px;
+      }
+
+      @media (max-width: 320px) {
+        max-width: 240px;
+      }
+
+      @media (max-height: 680px) {
+        max-width: 200px;
       }
     }
   }
