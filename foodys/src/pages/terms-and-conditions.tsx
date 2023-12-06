@@ -271,7 +271,9 @@ export default function TermsAndConditions() {
                       the Republic of Cyprus will govern such disputes. The
                       Courts of Nicosia are competent to settle any dispute.
                     </p>
-                    <p className="about__date">December 2023</p>
+                    <p>
+                      <i>December 2023</i>
+                    </p>
                   </div>
                 </div>
               </div>

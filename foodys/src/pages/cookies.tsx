@@ -223,8 +223,12 @@ export default function Cookies() {
                       please provide a brief explanation of your concern to our
                       Privacy Officer:
                     </p>
-                    <p>info [at) foodys.one</p>
-                    <p className="about__date">Amended: December 2023</p>
+                    <p>
+                      <i>info [at) foodys.one</i>
+                    </p>
+                    <p>
+                      <i>Amended: December 2023</i>
+                    </p>
                   </div>
                 </div>
               </div>

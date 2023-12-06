@@ -309,7 +309,9 @@ export default function PrivacyPolicy() {
                       omissions in your personal information, please notify us
                       in writing, and we will make corrections as appropriate.
                     </p>
-                    <p className="about__date">December 2023</p>
+                    <p>
+                      <i>December 2023</i>
+                    </p>
                   </div>
                 </div>
               </div>
