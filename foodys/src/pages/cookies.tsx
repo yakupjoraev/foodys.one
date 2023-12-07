@@ -16,10 +16,11 @@ export default function Cookies() {
                   <h1 className="about__title">{t("titleCookies")}</h1>
                   <div className="about__descrs">
                     <p>
-                      Aragon Telecom Group (CY) Ltd. (referred to as "we," "us,"
-                      or "FOODYS.ONE") has formulated this cookie statement
-                      (referred to as the "Statement") to uphold your privacy
-                      rights. Aragon Telecom Group (CY) Ltd. is an organization
+                      Aragon Telecom Group (CY) Ltd. (referred to as
+                      &quot;we,&quot; &quot;us,&quot; or &quot;FOODYS.ONE&quot;)
+                      has formulated this cookie statement (referred to as the
+                      &quot;Statement&quot;) to uphold your privacy rights.
+                      Aragon Telecom Group (CY) Ltd. is an organization
                       established under the laws of Cyprus, with its primary
                       location at Minoos Str. 24, Strovolos, 2042 Nicosia,
                       Cyprus.
@@ -181,7 +182,8 @@ export default function Cookies() {
                       cookies when visiting our sites, you can manage and
                       control cookies in your browser settings. Most browsers
                       offer options to refuse or delete cookies, and you can
-                      clear your cache using the browser's "help" function.
+                      clear your cache using the browser's &quot;help&quot;
+                      function.
                     </p>
                     <p>
                       To reject some or all third-party cookies, visit the
