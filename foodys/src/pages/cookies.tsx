@@ -42,7 +42,7 @@ export default function Cookies() {
                       preferences.
                     </p>
                     <p>
-                      This Statement adheres to Cyprus's legal privacy
+                      This Statement adheres to Cyprus&#39;s legal privacy
                       requirements and reaffirms our unwavering commitment to
                       safeguarding your personal information.
                     </p>
@@ -174,28 +174,29 @@ export default function Cookies() {
                     <p>
                       On your initial visit to a FOODYS.ONE Website, you will
                       receive information about our use of cookies and tracking
-                      pixels. To fully enjoy the website's functionality, you
-                      must consent to using cookies.
+                      pixels. To fully enjoy the website&#39;s functionality,
+                      you must consent to using cookies.
                     </p>
                     <p>
                       If you later change your mind and decide not to allow
                       cookies when visiting our sites, you can manage and
                       control cookies in your browser settings. Most browsers
                       offer options to refuse or delete cookies, and you can
-                      clear your cache using the browser's &quot;help&quot;
+                      clear your cache using the browser&#39;s &quot;help&quot;
                       function.
                     </p>
                     <p>
                       To reject some or all third-party cookies, visit the
-                      relevant party's website directly to manage the cookies
-                      stored on your device by them.
+                      relevant party&#39;s website directly to manage the
+                      cookies stored on your device by them.
                     </p>
                     <p>
                       Please be aware that disabling cookies may impact the
                       functionality of some site features. For additional
                       information on managing cookies, consult your browser’s
-                      help documentation. To withdraw consent you've previously
-                      provided, please contact us at info [at) foodys.one
+                      help documentation. To withdraw consent you&#39;ve
+                      previously provided, please contact us at info [at)
+                      foodys.one
                     </p>
                     <h2>6. Duration of Consent</h2>
                     <p>
