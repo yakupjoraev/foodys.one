@@ -137,6 +137,7 @@ export const placesRouter = createTRPCRouter({
           query: input.query,
           location: PARIS_LOCATION,
           type: getEstablishmentGP(input.establishment),
+          region: "fr",
           key: env.GOOGLE_MAPS_API_KEY,
         },
       });
