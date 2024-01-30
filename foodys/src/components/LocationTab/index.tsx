@@ -7,20 +7,27 @@ import { type PlaceResource } from "~/server/api/utils/g-place";
 import haversine from "haversine-distance";
 import { useMemo } from "react";
 import { formatDistance } from "~/utils/distance-format";
+import { useServicePhone } from "~/hooks/use-service-phone";
 
 export interface LocationTabProps {
   place: PlaceResource;
   show: boolean;
   from?: { lat: number; lng: number };
   to?: { lat: number; lng: number };
+  hasTrackedPhone: boolean;
 }
 
 export function LocationTab(props: LocationTabProps) {
   const { t } = useTranslation("common");
-  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
+
+  const [servicePhone, servicePhoneLoading, fetchServicePhone] =
+    useServicePhone(props.place.place_id);
 
   const handleCallBtnClick = () => {
-    setServicePhoneVisible(!servicePhoneVisible);
+    if (servicePhone !== null) {
+      return;
+    }
+    fetchServicePhone();
   };
 
   const distance = useMemo(() => {
@@ -62,18 +69,20 @@ export function LocationTab(props: LocationTabProps) {
           </div>
           <div className="location__footer">
             <div className="location__footer-btns">
-              <button
-                className="restaurant__btn call"
-                type="button"
-                onClick={handleCallBtnClick}
-              >
-                <img src="/img/dashboard/call.svg" alt="call" />
-                {t("buttonCall")}
-              </button>
+              {props.hasTrackedPhone && (
+                <button
+                  className="restaurant__btn call"
+                  type="button"
+                  onClick={handleCallBtnClick}
+                >
+                  <img src="/img/dashboard/call.svg" alt="call" />
+                  {t("buttonCall")}
+                </button>
+              )}
             </div>
-            {servicePhoneVisible && (
+            {servicePhone !== null && (
               <div className="service-phone-group location__service-phone">
-                <ServicePhone />
+                <ServicePhone phone={servicePhone} />
                 <p className="service-phone-help">
                   <Trans
                     i18nKey="common:textNumberExplanation"

@@ -39,6 +39,7 @@ export interface PlaceListingItem {
   location?: { lat: number; lng: number };
   opening_periods?: PlaceOpeningHoursPeriod[];
   utc_offset?: number;
+  has_tracked_phone?: boolean;
 }
 
 export interface PlaceListing {
@@ -75,6 +76,19 @@ export function createPlaceListingItem(
     }
   }
 
+  let hasTrackedPhone = false;
+  if (place.international_phone_number && place.address_components) {
+    const countryComponent = place.address_components.find((ac) =>
+      ac.types.includes("country")
+    );
+    if (
+      countryComponent !== undefined &&
+      countryComponent.short_name === "FR"
+    ) {
+      hasTrackedPhone = true;
+    }
+  }
+
   return removeUndefined({
     formatted_address: place.formatted_address,
     name: place.name,
@@ -90,6 +104,7 @@ export function createPlaceListingItem(
     location: place.geometry?.location,
     opening_periods: place.opening_hours?.periods,
     utc_offset: place.utc_offset,
+    has_tracked_phone: hasTrackedPhone,
   });
 }
 

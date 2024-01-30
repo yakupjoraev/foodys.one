@@ -1,4 +1,8 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useMemo } from "react";
+
+export interface ServicePhoneProps {
+  phone: string;
+}
 
 const constainerStyle: CSSProperties = {
   background: 'url("/img/dashboard/service-phone-bg.png") no-repeat',
@@ -22,10 +26,14 @@ const phoneStyle: CSSProperties = {
   width: "124px",
 };
 
-export function ServicePhone() {
+export function ServicePhone(props: ServicePhoneProps) {
+  const href = useMemo(
+    () => "tel:" + props.phone.replace(/\s/g, ""),
+    [props.phone]
+  );
   return (
-    <a href="tel:0899186149" style={constainerStyle}>
-      <span style={phoneStyle}>0899 186 149</span>
+    <a href={href} style={constainerStyle}>
+      <span style={phoneStyle}>{props.phone}</span>
     </a>
   );
 }

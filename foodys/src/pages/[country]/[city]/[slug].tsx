@@ -54,6 +54,7 @@ import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { useClientLikes } from "~/providers/likes-provider";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
+import { useServicePhone } from "~/hooks/use-service-phone";
 
 enum Tab {
   Overview,
@@ -125,10 +126,24 @@ export const getServerSideProps = (async (ctx) => {
   });
   await ssg.reviews.getGPlaceReviews.prefetch({ gPlaceId: place.id });
 
+  let hasTrackedPhone = false;
+  if (place.international_phone_number && place.address_components) {
+    const countryComponent = place.address_components.find((ac) =>
+      ac.types.includes("country")
+    );
+    if (
+      countryComponent !== undefined &&
+      countryComponent.short_name === "FR"
+    ) {
+      hasTrackedPhone = true;
+    }
+  }
+
   return {
     props: {
       place,
       favorite,
+      hasTrackedPhone,
       placeUrl: absolutePlaceUrl.toString(),
       trpcState: ssg.dehydrate(),
     },
@@ -143,7 +158,8 @@ export default function Place(
   const [tab, setTab] = useState<Tab>(Tab.Overview);
   const [cryptoModalOpen, setCryptoModelOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
+  const [servicePhone, servicePhoneLoading, fetchServicePhone] =
+    useServicePhone(props.place.place_id);
   const { status: authStatus, data: sessionData } = useSession();
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hash, setHash] = useHash();
@@ -300,7 +316,13 @@ export default function Place(
   };
 
   const handleCallBtnClick = () => {
-    setServicePhoneVisible(!servicePhoneVisible);
+    if (servicePhoneLoading) {
+      return;
+    }
+    if (servicePhone) {
+      return;
+    }
+    fetchServicePhone();
   };
 
   const handleUpdateLike = (reviewId: string, liked: boolean) => {
@@ -614,14 +636,16 @@ export default function Place(
                   </div>
                   <div className="restaurant-page__btns">
                     <div className="restaurant__btns">
-                      <button
-                        type="button"
-                        className="restaurant__btn call"
-                        onClick={handleCallBtnClick}
-                      >
-                        <img src="/img/dashboard/call.svg" alt="call" />
-                        {t("buttonCall")}
-                      </button>
+                      {props.hasTrackedPhone && (
+                        <button
+                          type="button"
+                          className="restaurant__btn call"
+                          onClick={handleCallBtnClick}
+                        >
+                          <img src="/img/dashboard/call.svg" alt="call" />
+                          {t("buttonCall")}
+                        </button>
+                      )}
                       <button
                         type="button"
                         className="restaurant__btn restaurant__btn--disabled delivery"
@@ -677,9 +701,9 @@ export default function Place(
                       </span>
                     </a>
                   </div>
-                  {servicePhoneVisible && (
+                  {servicePhone && (
                     <div className="service-phone-group restaurant-page__service-phone">
-                      <ServicePhone />
+                      <ServicePhone phone={servicePhone} />
                       <p className="service-phone-help">
                         <Trans
                           i18nKey="common:textNumberExplanation"
@@ -772,6 +796,7 @@ export default function Place(
                       place={props.place}
                       from={clientCoordinates ?? undefined}
                       to={placeCoordinates ?? undefined}
+                      hasTrackedPhone={props.hasTrackedPhone}
                     />
                   </div>
                 </div>

@@ -22,6 +22,7 @@ import {
 } from "~/hooks/use-google-opening-hours";
 import { Translate } from "next-translate";
 import { env } from "~/env.mjs";
+import { useServicePhone } from "~/hooks/use-service-phone";
 
 const BREAKPOINT1440 = 1440;
 const BREAKPOINT768 = 768;
@@ -49,6 +50,7 @@ export interface RestaurantCardProps {
   clientCoordinates?: { lat: number; lng: number };
   openingPeriods?: PlaceOpeningHoursPeriod[];
   utcOffset?: number;
+  hasTrackedPhone?: boolean;
   onChangeFavorite?: (
     placeId: string,
     favorite: boolean,
@@ -64,11 +66,12 @@ const DEFAULT_PHOTOS: { src: string; srcSet?: string }[] = [
 export function RestaurantCard(props: RestaurantCardProps) {
   const { t } = useTranslation("common");
   const { width: windowWidth } = useWindowSize();
-  const [servicePhoneVisible, setServicePhoneVisible] = useState(false);
   const googleOpeningHours = useGoogleOpeningHours(
     props.openingPeriods,
     props.utcOffset
   );
+  const [servicePhone, servicePhoneLoading, fetchServicePhone] =
+    useServicePhone(props.placeId);
 
   const photos: { src: string; srcSet?: string }[] =
     props.photos ?? DEFAULT_PHOTOS;
@@ -83,7 +86,13 @@ export function RestaurantCard(props: RestaurantCardProps) {
   };
 
   const handleCallBtnClick = () => {
-    setServicePhoneVisible(true);
+    if (!props.hasTrackedPhone) {
+      return;
+    }
+    if (servicePhone !== null) {
+      return;
+    }
+    fetchServicePhone();
   };
 
   const viewMode = getViewMode(windowWidth);
@@ -240,14 +249,17 @@ export function RestaurantCard(props: RestaurantCardProps) {
       </div>
       <div className="restaurant__bottom">
         <div className="restaurant__btns">
-          <button
-            className="restaurant__btn call"
-            type="button"
-            onClick={handleCallBtnClick}
-          >
-            <img src="/img/dashboard/call.svg" alt="call" />
-            {t("buttonCall")}
-          </button>
+          {props.hasTrackedPhone && (
+            <button
+              className="restaurant__btn call"
+              type="button"
+              onClick={handleCallBtnClick}
+            >
+              <img src="/img/dashboard/call.svg" alt="call" />
+              {t("buttonCall")}
+            </button>
+          )}
+
           <button
             type="button"
             className="restaurant__btn restaurant__btn--disabled delivery"
@@ -264,14 +276,14 @@ export function RestaurantCard(props: RestaurantCardProps) {
             <img src="/img/dashboard/pay-crypto.svg" alt="pay-crypto" />
             {t("buttonPayInCrypto")}
           </button>
-          {servicePhoneVisible && viewMode === ViewMode.Desktop && (
-            <ServicePhone />
+          {servicePhone !== null && viewMode === ViewMode.Desktop && (
+            <ServicePhone phone={servicePhone} />
           )}
         </div>
 
-        {servicePhoneVisible && viewMode === ViewMode.Mobile && (
+        {servicePhone !== null && viewMode === ViewMode.Mobile && (
           <div className="service-phone-group">
-            <ServicePhone />
+            <ServicePhone phone={servicePhone} />
             <p className="service-phone-help">
               <Trans
                 i18nKey="common:textNumberExplanation"
@@ -293,9 +305,9 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </Link>
         )}
       </div>
-      {servicePhoneVisible && viewMode === ViewMode.Tablet && (
+      {servicePhone !== null && viewMode === ViewMode.Tablet && (
         <div className="service-phone-group restaurant__service-phone-group">
-          <ServicePhone />
+          <ServicePhone phone={servicePhone} />
           <p className="service-phone-help service-phone-group__item">
             <Trans
               i18nKey="common:textNumberExplanation"
@@ -310,7 +322,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
           </p>
         </div>
       )}
-      {servicePhoneVisible && viewMode === ViewMode.Desktop && (
+      {servicePhone !== null && viewMode === ViewMode.Desktop && (
         <p className="service-phone-help restaurant__service-phone-help">
           <Trans
             i18nKey="common:textNumberExplanation"

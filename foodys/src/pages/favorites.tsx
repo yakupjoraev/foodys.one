@@ -104,6 +104,7 @@ export default function Favorites() {
                             url={placeListingItem.url}
                             openingPeriods={placeListingItem.opening_periods}
                             utcOffset={placeListingItem.utc_offset}
+                            hasTrackedPhone={placeListingItem.has_tracked_phone}
                             onChangeFavorite={handleChangeFavorite}
                             onPayInCryptoBtnClick={handlePayInCryptoBtnClick}
                             key={placeListingItem.place_id}
