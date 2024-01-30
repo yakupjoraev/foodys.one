@@ -20,7 +20,6 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
 import {
-  PlaceResource,
   createPlaceResourceByGoogleId,
   isGplaceFavorite,
 } from "~/server/api/utils/g-place";
@@ -35,9 +34,7 @@ import { useHash } from "~/hooks/use-hash";
 import { env } from "~/env.mjs";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
-import { createTRPCContext } from "~/server/api/trpc";
 import superjson from "superjson";
-import haversine from "haversine-distance";
 import { GetThere } from "~/components/GetThere";
 import {
   useGoogleOpeningHours,
@@ -51,7 +48,6 @@ import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 import { useRouter } from "next/router";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
-import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { useClientLikes } from "~/providers/likes-provider";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import { useServicePhone } from "~/hooks/use-service-phone";
