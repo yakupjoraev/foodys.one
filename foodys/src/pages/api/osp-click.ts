@@ -1,7 +1,7 @@
 import z from "zod";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "~/server/db";
 import { sendOspClick } from "~/utils/optico";
+import { createPlaceResourceByGoogleId } from "~/server/api/utils/g-place";
 
 const clientRequestSchema = z.object({
   g_place_id: z.string(),
@@ -29,22 +29,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const userAgent = req.headers["user-agent"];
 
-  console.log("GPLACE", clientRequest.g_place_id);
-
-  db.gPlace
-    .findFirst({
-      where: { place_id: clientRequest.g_place_id },
-      select: {
-        international_phone_number: true,
-        address_components: true,
-      },
-    })
+  createPlaceResourceByGoogleId(clientRequest.g_place_id)
     .then((place) => {
       if (place === null) {
         res.status(404).json({ message: "place not found" });
         return;
       }
-      if (place.international_phone_number === null) {
+      if (!place.international_phone_number) {
         res.status(404).json({ message: "place does not have phone" });
         return;
       }
