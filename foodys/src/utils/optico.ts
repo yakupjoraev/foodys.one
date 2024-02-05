@@ -26,7 +26,7 @@ export class OspServerError extends OspError {}
 
 function normalizePhone(phone: string) {
   if (phone.startsWith("+")) {
-    phone = phone.slice(1);
+    phone = phone.slice(3);
   }
   phone = phone.replace(/\s/g, "");
   return phone;
