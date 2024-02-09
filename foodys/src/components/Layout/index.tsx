@@ -97,7 +97,6 @@ export function Layout(props: LayoutProps) {
         {props.description ?? (
           <meta name="description" content={props.description} />
         )}
-        <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
       </Head>
       <Header
         className={props.headerClassName}
