@@ -321,7 +321,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
             {...registerFilterRadio("hours", "openNow")}
           />
           <DashboardFilterRadio
-            label={t("buttonOpen24H")}
+            label={t("buttonOpen24h")}
             name={hoursId}
             {...registerFilterRadio("hours", "open24Hours")}
           />
