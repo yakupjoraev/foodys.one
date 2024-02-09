@@ -216,6 +216,7 @@
   "textUserExistsError": "Un utilisateur avec le même pseudo ou email existe déjà !",
   "textBackToSearch": "Retour aux résultats de recherche",
   "textBackToPlace": "Retour à la page du restaurant",
+  "placeholderLoading": "Attendez, s'il vous plaît...",
   "pageTitleHome": "Restaurants autour de moi. Meilleurs restaurants à proximité de ma position | Foodys",
   "pageDescriptionHome": "⭐ Meilleurs restaurants proche de moi. ⚡Trouvez un bon autour de moi ouvert. ✔Consultez les menus et regardez les photos. ⭐Lisez les avis des clients sur les restaurants.",
   "pageTitlePlace": "Restaurant {{restaurant_name}}, {{city}} – réservation en ligne | Foodys",

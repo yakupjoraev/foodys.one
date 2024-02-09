@@ -206,7 +206,7 @@ export default function Places() {
             </div>
             <div className="dashboard__main">
               <div className="restaurants">
-                {!queryResponse.data && "Loading..."}
+                {!queryResponse.data && t("placeholderLoading")}
                 {!!queryResponse.data &&
                   queryResponse.data.results.length === 0 &&
                   "Not found"}
