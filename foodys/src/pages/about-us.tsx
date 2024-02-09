@@ -4,12 +4,16 @@ import { AboutPartners } from "~/components/AboutPartners";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
+import Head from "next/head";
 
 export default function About() {
   const { t } = useTranslation("common");
 
   return (
     <Layout title={t("pageTitleAboutUs")}>
+      <Head>
+        <meta name="robots" content="index, follow" />
+      </Head>
       <main className="main">
         <section className="about">
           <div className="container">

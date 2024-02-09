@@ -1,12 +1,16 @@
 import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
+import Head from "next/head";
 
 export default function Cookies() {
   const { t } = useTranslation("common");
 
   return (
     <Layout title={t("pageTitleCookies")}>
+      <Head>
+        <meta name="robots" content="index, follow" />
+      </Head>
       <main className="main">
         <section className="about">
           <div className="container">

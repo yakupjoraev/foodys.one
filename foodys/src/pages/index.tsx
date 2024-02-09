@@ -16,6 +16,7 @@ import { HeroChatContainer } from "~/containers/HeroChatContainer";
 import useTranslation from "next-translate/useTranslation";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
+import Head from "next/head";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -157,6 +158,9 @@ export default function Main(
       description={t("pageDescriptionHome")}
       footerRef={footerRef}
     >
+      <Head>
+        <meta name="robots" content="index, follow" />
+      </Head>
       {footerHeight !== -1 && <HomeBackground footerHeight={footerHeight} />}
       <main className="main">
         <section className="hero">

@@ -14,6 +14,7 @@ import { useClientFavorites } from "~/providers/favorites-provider";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useRouter } from "next/router";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
+import Head from "next/head";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",
@@ -175,6 +176,9 @@ export default function Places() {
 
   return (
     <Layout title={(query ?? "-") + " | Foodys"}>
+      <Head>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <main className="main">
         <div className="dashboard">
           <div className="container">

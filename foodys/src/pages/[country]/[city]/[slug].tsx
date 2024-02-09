@@ -51,6 +51,7 @@ import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { useClientLikes } from "~/providers/likes-provider";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import { useServicePhone } from "~/hooks/use-service-phone";
+import Head from "next/head";
 
 enum Tab {
   Overview,
@@ -470,6 +471,9 @@ export default function Place(
         city,
       })}
     >
+      <Head>
+        <meta name="robots" content="index, follow" />
+      </Head>
       <main className="main">
         <div className="dashboard restaurant-page">
           <div className="container">
