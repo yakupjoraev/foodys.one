@@ -136,7 +136,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
                 <img
                   src={photo.src}
                   srcSet={photo.srcSet}
-                  alt="slide"
+                  alt={props.name ? props.name + " image-" + i.toString() : ""}
                   width="168"
                   height="168"
                   loading="lazy"
