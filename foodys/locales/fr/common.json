@@ -217,5 +217,7 @@
   "textBackToSearch": "Retour aux résultats de recherche",
   "textBackToPlace": "Retour à la page du restaurant",
   "pageTitleHome": "Restaurants autour de moi. Meilleurs restaurants à proximité de ma position | Foodys",
-  "pageDescriptionHome": "⭐ Meilleurs restaurants proche de moi. ⚡Trouvez un bon autour de moi ouvert. ✔Consultez les menus et regardez les photos. ⭐Lisez les avis des clients sur les restaurants."
+  "pageDescriptionHome": "⭐ Meilleurs restaurants proche de moi. ⚡Trouvez un bon autour de moi ouvert. ✔Consultez les menus et regardez les photos. ⭐Lisez les avis des clients sur les restaurants.",
+  "pageTitlePlace": "Restaurant {{restaurant_name}}, {{city}} – réservation en ligne | Foodys",
+  "pageDescriptionPlace": "⚡{{restaurant_name}}, {{city}} – réservez une table en ligne {{restaurant_name}}. ✔Des informations sur les prix et les horaires d'ouverture. ✔ Consultez le menu du restaurant et regardez les photos. ⭐Lisez les avis des clients."
 }

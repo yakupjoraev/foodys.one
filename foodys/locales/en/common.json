@@ -217,5 +217,7 @@
   "textBackToSearch": "Back to search results",
   "textBackToPlace": "Back to the restaurant page",
   "pageTitleHome": "Restaurants around me. Best restaurants near my location | Foodys",
-  "pageDescriptionHome": "⭐ Best restaurants near me. ⚡Find a good one around me open. ✔Check out the menus and look at the photos. ⭐Read customer reviews of restaurants."
+  "pageDescriptionHome": "⭐ Best restaurants near me. ⚡Find a good one around me open. ✔Check out the menus and look at the photos. ⭐Read customer reviews of restaurants.",
+  "pageTitlePlace": "Restaurant {{restaurant_name}}, {{city}} – online reservation | Foodys",
+  "pageDescriptionPlace": "⚡{{restaurant_name}}, {{city}} – reserve a table {{restaurant_name}} online. ✔Information on prices and opening hours. ✔ View the restaurant menu and view photos. ⭐Read customer reviews."
 }

@@ -448,8 +448,28 @@ export default function Place(
     return typeof search === "string" ? search : null;
   }, [router.query]);
 
+  const city = useMemo(() => {
+    if (props.place.address_components) {
+      const cityAddressComponent = props.place.address_components.find((ac) => {
+        return ac.types.includes("locality");
+      });
+      if (cityAddressComponent) {
+        return cityAddressComponent.long_name;
+      }
+    }
+    return "";
+  }, [props.place]);
+
+  const restaurantName = props.place.name ?? "";
+
   return (
-    <Layout title="Foodys - About page">
+    <Layout
+      title={t("pageTitlePlace", { restaurant_name: restaurantName, city })}
+      description={t("pageDescriptionPlace", {
+        restaurant_name: restaurantName,
+        city,
+      })}
+    >
       <main className="main">
         <div className="dashboard restaurant-page">
           <div className="container">
@@ -523,7 +543,7 @@ export default function Place(
                 <div className="input__border" />
                 <div className="restaurant-page__info">
                   <h1 className="restaurant-page__name">
-                    {props.place.name ?? "..."}
+                    {`${restaurantName}, ${city}`}
                   </h1>
                   <div className="restaurant-page__instruments">
                     <Link
