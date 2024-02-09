@@ -174,7 +174,7 @@ export default function Places() {
   const authentificated = session.status === "authenticated";
 
   return (
-    <Layout title="Foodys - Search result">
+    <Layout title={(query ?? "-") + " | Foodys"}>
       <main className="main">
         <div className="dashboard">
           <div className="container">
