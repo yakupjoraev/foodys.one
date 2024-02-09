@@ -100,7 +100,7 @@ export function AuthForm(props: AuthFormProps) {
           <input
             className="input"
             type="text"
-            placeholder="Example@mail.ru"
+            // placeholder="Example@mail.ru"
             id={loginId}
             disabled={props.loading}
             {...register("login")}
@@ -116,7 +116,7 @@ export function AuthForm(props: AuthFormProps) {
           <input
             className="input"
             type="password"
-            placeholder={t("fieldNamePassword")}
+            // placeholder={t("fieldNamePassword")}
             id={passwordId}
             disabled={props.loading}
             {...register("password")}
