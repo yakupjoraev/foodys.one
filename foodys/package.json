@@ -31,7 +31,6 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
-    "@uidotdev/usehooks": "^2.4.1",
     "@zodios/core": "^10.9.6",
     "bcryptjs": "^2.4.3",
     "check-password-strength": "^2.0.7",

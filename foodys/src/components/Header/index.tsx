@@ -7,7 +7,7 @@ import { LanguageSelector } from "./LanguageSelector";
 import { AccountDropdown } from "./AccountDropdown";
 import { NoFavoritesModal } from "../NoFavoritesModal";
 import { useClientFavorites } from "~/providers/favorites-provider";
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useWindowSize } from "usehooks-ts";
 import { ExpandableSearch } from "../ExpandableSearch";
 import toast from "react-hot-toast";
 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Popover } from "react-tiny-popover";
 import classNames from "classnames";
 import style from "./style.module.css";
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useWindowSize } from "usehooks-ts";
 import { BREAKDOWN_992 } from "~/components/Layout";
 
 export interface AccountDropdownProps {
