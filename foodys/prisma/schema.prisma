@@ -279,6 +279,8 @@ type Place {
   vicinity                       String?
   website                        String?
   wheelchair_accessible_entrance Boolean?
+  created_at                     DateTime               @default(now())
+  updated_at                     DateTime               @default(now())
 }
 
 type TPlacePhoto {
