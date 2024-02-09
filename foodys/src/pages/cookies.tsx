@@ -6,7 +6,7 @@ export default function Cookies() {
   const { t } = useTranslation("common");
 
   return (
-    <Layout title={"Foodys - " + t("titleCookies")}>
+    <Layout title={t("pageTitleCookies")}>
       <main className="main">
         <section className="about">
           <div className="container">

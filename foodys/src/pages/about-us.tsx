@@ -9,7 +9,7 @@ export default function About() {
   const { t } = useTranslation("common");
 
   return (
-    <Layout title="Foodys - About us">
+    <Layout title={t("pageTitleAboutUs")}>
       <main className="main">
         <section className="about">
           <div className="container">

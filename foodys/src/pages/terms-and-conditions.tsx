@@ -6,7 +6,7 @@ export default function TermsAndConditions() {
   const { t } = useTranslation("common");
 
   return (
-    <Layout title={"Foodys - " + t("titleTermsAndConditions")}>
+    <Layout title={t("pageTitleTermsAndConditions")}>
       <main className="main">
         <section className="about">
           <div className="container">

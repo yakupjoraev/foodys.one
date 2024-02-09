@@ -1,9 +1,12 @@
+import useTranslation from "next-translate/useTranslation";
 import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
 
 export default function PrivacyPolicy() {
+  const { t } = useTranslation("common");
+
   return (
-    <Layout title="Foodys - Privacy Policy">
+    <Layout title={t("pageTitlePrivacyPolicy")}>
       <main className="main">
         <section className="about">
           <div className="container">
