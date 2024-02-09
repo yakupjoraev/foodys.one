@@ -153,7 +153,8 @@ export default function Main(
       className="main-page-body"
       headerClassName="header-second"
       footerClassName="footer-second"
-      title="Foodys - Home"
+      title={t("pageTitleHome")}
+      description={t("pageDescriptionHome")}
       footerRef={footerRef}
     >
       {footerHeight !== -1 && <HomeBackground footerHeight={footerHeight} />}
