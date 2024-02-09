@@ -26,7 +26,9 @@ export function createRegisterFormSchema(t: Translate) {
         }
       ),
     passwordConfirm: string(),
-    agreementConfirmed: literal(true),
+    agreementConfirmed: literal(true, {
+      errorMap: () => ({ message: t("textAgreementRequiredError") }),
+    }),
   }).refine((data) => data.password === data.passwordConfirm, {
     message: t("textPasswordsMatchError"),
     path: ["passwordConfirm"],
