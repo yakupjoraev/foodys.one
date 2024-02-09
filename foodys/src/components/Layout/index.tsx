@@ -20,6 +20,7 @@ export type LayoutProps = PropsWithChildren<{
   headerClassName?: string;
   footerClassName?: string;
   title?: string;
+  description?: string;
   footerRef?: RefObject<HTMLElement>;
 }>;
 
@@ -93,6 +94,9 @@ export function Layout(props: LayoutProps) {
     >
       <Head>
         <title>{props.title ?? "Foodys"}</title>
+        {props.description ?? (
+          <meta name="description" content={props.description} />
+        )}
         <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
       </Head>
       <Header
