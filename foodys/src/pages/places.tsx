@@ -36,8 +36,8 @@ export default function Places() {
   const searchParams = useSearchParams();
   const [clientFavorites, appendClientFavorite, removeClientFavorite] =
     useClientFavorites();
-  const query = searchParams.get("query");
-  const page = searchParams.get("page") ?? "1";
+  const query = searchParams ? searchParams.get("query") : null;
+  const page = searchParams ? searchParams.get("page") ?? "1" : "1";
 
   let pageInt = parseInt(page, 10);
   if (isNaN(pageInt)) {
@@ -163,6 +163,9 @@ export default function Places() {
   };
 
   const createNextPageUrl = (page: number) => {
+    if (searchParams === null) {
+      return "/places";
+    }
     const nextUrlSerachParams = new URLSearchParams(searchParams);
     nextUrlSerachParams.set("page", page.toString());
     return "/places?" + nextUrlSerachParams.toString();
