@@ -2,6 +2,10 @@ import { AboutSearch } from "~/components/AboutSearch";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
+import { env } from "~/env.mjs";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { HreflangMeta } from "~/components/HreflangMeta";
 
 export default function TermsAndConditions() {
   const { t } = useTranslation("common");
@@ -11,6 +15,7 @@ export default function TermsAndConditions() {
       <Head>
         <meta name="robots" content="index, follow" />
       </Head>
+      <HreflangMeta />
       <main className="main">
         <section className="about">
           <div className="container">

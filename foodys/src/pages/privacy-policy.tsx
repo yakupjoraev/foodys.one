@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import { AboutSearch } from "~/components/AboutSearch";
+import { HreflangMeta } from "~/components/HreflangMeta";
 import { Layout } from "~/components/Layout";
 
 export default function PrivacyPolicy() {
@@ -11,6 +12,7 @@ export default function PrivacyPolicy() {
       <Head>
         <meta name="robots" content="index, follow" />
       </Head>
+      <HreflangMeta />
       <main className="main">
         <section className="about">
           <div className="container">

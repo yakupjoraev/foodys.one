@@ -52,6 +52,7 @@ import { useClientLikes } from "~/providers/likes-provider";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import { useServicePhone } from "~/hooks/use-service-phone";
 import Head from "next/head";
+import { HreflangMeta } from "~/components/HreflangMeta";
 
 enum Tab {
   Overview,
@@ -474,6 +475,7 @@ export default function Place(
       <Head>
         <meta name="robots" content="index, follow" />
       </Head>
+      <HreflangMeta />
       <main className="main">
         <div className="dashboard restaurant-page">
           <div className="container">

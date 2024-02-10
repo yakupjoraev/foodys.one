@@ -3,6 +3,7 @@ import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import Head from "next/head";
+import { HreflangMeta } from "~/components/HreflangMeta";
 
 export default function Cookies() {
   const { t } = useTranslation("common");
@@ -12,6 +13,7 @@ export default function Cookies() {
       <Head>
         <meta name="robots" content="index, follow" />
       </Head>
+      <HreflangMeta />
       <main className="main">
         <section className="about">
           <div className="container">

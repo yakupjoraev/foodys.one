@@ -5,6 +5,7 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import Head from "next/head";
+import { HreflangMeta } from "~/components/HreflangMeta";
 
 export default function About() {
   const { t } = useTranslation("common");
@@ -14,6 +15,7 @@ export default function About() {
       <Head>
         <meta name="robots" content="index, follow" />
       </Head>
+      <HreflangMeta />
       <main className="main">
         <section className="about">
           <div className="container">
