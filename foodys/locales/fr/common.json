@@ -224,5 +224,7 @@
   "pageTitleAboutUs": "A propos de nous | Foodys",
   "pageTitleTermsAndConditions": "Mentions légales | Foodys",
   "pageTitleCookies": "Cookies | Foodys",
-  "pageTitlePrivacyPolicy": "Politique de confidentialité | Foodys"
+  "pageTitlePrivacyPolicy": "Politique de confidentialité | Foodys",
+  "textPageNotFound": "Page non trouvée",
+  "buttonGoToHomePage": "Aller à la page d'accueil"
 }
