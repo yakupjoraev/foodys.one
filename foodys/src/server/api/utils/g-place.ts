@@ -301,7 +301,7 @@ export async function fetchAllFavoriteGPlaces(
   return placeListingItems;
 }
 
-export async function isGplaceFavorite(
+export async function isGPlaceFavorite(
   gPlaceId: string,
   userId: string
 ): Promise<boolean> {

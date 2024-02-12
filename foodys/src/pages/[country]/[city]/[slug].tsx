@@ -21,7 +21,7 @@ import { CryptoModal } from "~/components/CryptoModal";
 import { LocationTab } from "~/components/LocationTab";
 import {
   createPlaceResourceByGoogleId,
-  isGplaceFavorite,
+  isGPlaceFavorite,
 } from "~/server/api/utils/g-place";
 import { RWebShare } from "react-web-share";
 import { getServerAuthSession } from "~/server/auth";
@@ -109,7 +109,7 @@ export const getServerSideProps = (async (ctx) => {
   const session = await getServerAuthSession(ctx);
   if (session) {
     const userId = session.user.id;
-    favorite = await isGplaceFavorite(placeId, userId);
+    favorite = await isGPlaceFavorite(placeId, userId);
   }
 
   const absolutePlaceUrl = new URL(placeUrl.url, env.NEXT_PUBLIC_SITE_URL);
