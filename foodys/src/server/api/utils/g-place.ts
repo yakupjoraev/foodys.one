@@ -1,9 +1,9 @@
 import { env } from "~/env.mjs";
 import { gmClient } from "~/server/gm-client";
 import {
-  Place,
-  PlaceOpeningHoursPeriod,
-  PlaceReview,
+  GApiPlace,
+  GApiPlaceOpeningHoursPeriod,
+  GApiPlaceReview,
 } from "~/server/gm-client/types";
 import { GPlaceReview, Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
@@ -37,7 +37,7 @@ export interface PlaceListingItem {
   curbside_pickup?: boolean;
   url?: string;
   location?: { lat: number; lng: number };
-  opening_periods?: PlaceOpeningHoursPeriod[];
+  opening_periods?: GApiPlaceOpeningHoursPeriod[];
   utc_offset?: number;
   has_tracked_phone?: boolean;
 }
@@ -49,13 +49,13 @@ export interface PlaceListing {
   total: number;
 }
 
-export type PlaceResource = Omit<Place, "reviews"> & {
+export type PlaceResource = Omit<GApiPlace, "reviews"> & {
   id: string;
   reviews: PlaceReviewResource[];
 };
 
 export function createPlaceListingItem(
-  place: Omit<Place, "reviews">
+  place: Omit<GApiPlace, "reviews">
 ): PlaceListingItem {
   let photos: { src: string; srcSet?: string }[] | undefined = undefined;
 

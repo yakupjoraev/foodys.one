@@ -1,4 +1,4 @@
-export type PlacesSearchStatus =
+export type GApiPlacesSearchStatus =
   | "OK"
   | "ZERO_RESULTS"
   | "INVALID_REQUEST"
@@ -6,7 +6,7 @@ export type PlacesSearchStatus =
   | "REQUEST_DENIED"
   | "UNKNOWN_ERROR";
 
-export type PlacesDetailsStatus =
+export type GApiPlacesDetailsStatus =
   | "OK"
   | "ZERO_RESULTS"
   | "NOT_FOUND"
@@ -15,49 +15,49 @@ export type PlacesDetailsStatus =
   | "REQUEST_DENIED"
   | "UNKNOWN_ERROR";
 
-export interface PlacesTextSearchResponse {
+export interface GApiPlacesTextSearchResponse {
   html_attributions: Array<string>;
-  results: Array<Place>;
-  status: PlacesSearchStatus;
+  results: Array<GApiPlace>;
+  status: GApiPlacesSearchStatus;
   error_message?: string;
   info_messages?: Array<string>;
   next_page_token?: string;
 }
 
-export interface PlacesDetailsResponse {
+export interface GApiPlacesDetailsResponse {
   html_attributions: Array<string>;
-  result?: Place;
-  status: PlacesDetailsStatus;
+  result?: GApiPlace;
+  status: GApiPlacesDetailsStatus;
   info_messages?: Array<string>;
   error_message?: string;
 }
 
-export interface Place {
-  address_components?: Array<AddressComponent>;
+export interface GApiPlace {
+  address_components?: Array<GApiAddressComponent>;
   adr_address?: string;
   business_status?: string;
   curbside_pickup?: boolean;
-  current_opening_hours?: PlaceOpeningHours;
+  current_opening_hours?: GApiPlaceOpeningHours;
   delivery?: boolean;
   dine_in?: boolean;
-  editorial_summary?: PlaceEditorialSummary;
+  editorial_summary?: GApiPlaceEditorialSummary;
   formatted_address?: string;
   formatted_phone_number?: string;
-  geometry?: Geometry;
+  geometry?: GApiGeometry;
   icon?: string;
   icon_background_color?: string;
   icon_mask_base_uri?: string;
   international_phone_number?: string;
   name?: string;
-  opening_hours?: PlaceOpeningHours;
-  photos?: Array<PlacePhoto>;
+  opening_hours?: GApiPlaceOpeningHours;
+  photos?: Array<GApiPlacePhoto>;
   place_id?: string;
-  plus_code?: PlusCode;
+  plus_code?: GApiPlusCode;
   price_level?: number;
   rating?: number;
   reservable?: boolean;
-  reviews?: Array<PlaceReview>;
-  secondary_opening_hours?: Array<PlaceOpeningHours>;
+  reviews?: Array<GApiPlaceReview>;
+  secondary_opening_hours?: Array<GApiPlaceOpeningHours>;
   serves_beer?: boolean;
   serves_breakfast?: boolean;
   serves_brunch?: boolean;
@@ -75,70 +75,70 @@ export interface Place {
   wheelchair_accessible_entrance?: boolean;
 }
 
-export interface AddressComponent {
+export interface GApiAddressComponent {
   long_name: string;
   short_name: string;
   types: Array<string>;
 }
 
-export interface PlaceEditorialSummary {
+export interface GApiPlaceEditorialSummary {
   language?: string;
   overview?: string;
 }
 
-export interface Geometry {
-  location: LatLngLiteral;
-  viewport: Bounds;
+export interface GApiGeometry {
+  location: GApiLatLngLiteral;
+  viewport: GApiBounds;
 }
 
-export interface LatLngLiteral {
+export interface GApiLatLngLiteral {
   lat: number;
   lng: number;
 }
 
-export interface Bounds {
-  northeast: LatLngLiteral;
-  southwest: LatLngLiteral;
+export interface GApiBounds {
+  northeast: GApiLatLngLiteral;
+  southwest: GApiLatLngLiteral;
 }
 
-export interface PlaceOpeningHours {
+export interface GApiPlaceOpeningHours {
   open_now?: boolean;
-  periods?: Array<PlaceOpeningHoursPeriod>;
-  special_days?: Array<PlaceSpecialDay>;
+  periods?: Array<GApiPlaceOpeningHoursPeriod>;
+  special_days?: Array<GApiPlaceSpecialDay>;
   type?: string;
   weekday_text?: Array<string>;
 }
 
-export interface PlaceOpeningHoursPeriod {
-  open: PlaceOpeningHoursPeriodDetail;
-  close?: PlaceOpeningHoursPeriodDetail;
+export interface GApiPlaceOpeningHoursPeriod {
+  open: GApiPlaceOpeningHoursPeriodDetail;
+  close?: GApiPlaceOpeningHoursPeriodDetail;
 }
 
-export interface PlaceSpecialDay {
+export interface GApiPlaceSpecialDay {
   date?: string;
   exceptional_hours?: boolean;
 }
 
-export interface PlaceOpeningHoursPeriodDetail {
+export interface GApiPlaceOpeningHoursPeriodDetail {
   day: number;
   time: string;
   date?: string;
   truncated?: boolean;
 }
 
-export interface PlacePhoto {
+export interface GApiPlacePhoto {
   height: number;
   html_attributions: Array<string>;
   photo_reference: string;
   width: number;
 }
 
-export interface PlusCode {
+export interface GApiPlusCode {
   global_code: string;
   compound_code?: string;
 }
 
-export interface PlaceReview {
+export interface GApiPlaceReview {
   author_name: string;
   rating: number;
   relative_time_description: string;

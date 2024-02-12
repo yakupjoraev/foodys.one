@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { type PlaceOpeningHoursPeriod } from "~/server/gm-client/types";
+import { type GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 import OpeningHours from "opening_hours";
 import {
   encodeGooglePeriods,
@@ -19,7 +19,7 @@ export type GoogleOpeningHours =
     };
 
 export function useGoogleOpeningHours(
-  periods?: PlaceOpeningHoursPeriod[],
+  periods?: GApiPlaceOpeningHoursPeriod[],
   utcOffset?: number
 ): GoogleOpeningHours | null {
   const [openingHours, setOpeningHours] = useState<GoogleOpeningHours | null>(

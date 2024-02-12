@@ -1,11 +1,11 @@
-import { type PlaceOpeningHoursPeriod } from "~/server/gm-client/types";
+import { type GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 
 const MILLISECONDS_PER_MINUTE = 60000;
 
 const DAYS: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 export function encodeGooglePeriods(
-  periods: PlaceOpeningHoursPeriod[]
+  periods: GApiPlaceOpeningHoursPeriod[]
 ): string {
   if (periods.length === 1) {
     const firstPeriod = periods[0];

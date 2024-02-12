@@ -15,7 +15,7 @@ import { useWindowSize } from "usehooks-ts";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { GetThere } from "../GetThere";
-import { PlaceOpeningHoursPeriod } from "~/server/gm-client/types";
+import { GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 import {
   GoogleOpeningHours,
   useGoogleOpeningHours,
@@ -48,7 +48,7 @@ export interface RestaurantCardProps {
   searchUrl?: string;
   placeCoordinates?: { lat: number; lng: number };
   clientCoordinates?: { lat: number; lng: number };
-  openingPeriods?: PlaceOpeningHoursPeriod[];
+  openingPeriods?: GApiPlaceOpeningHoursPeriod[];
   utcOffset?: number;
   hasTrackedPhone?: boolean;
   onChangeFavorite?: (

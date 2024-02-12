@@ -6,7 +6,7 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { OpeningHoursTab } from "~/components/OpeningHoursTab";
 import { OverviewTab } from "~/components/OverviewTab";
-import { Place } from "~/server/gm-client/types";
+import { GApiPlace } from "~/server/gm-client/types";
 import { ReviewsTab } from "~/components/ReviewsTab";
 import {
   STAR_HALF,
