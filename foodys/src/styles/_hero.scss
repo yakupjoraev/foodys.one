@@ -372,6 +372,31 @@
           max-width: 240px;
         }
       }
+
+      @media (max-height: 680px) {
+        img {
+          max-width: 320px;
+          margin-bottom: -30px;
+        }
+      }
+    }
+
+    &.hero__picture--steak {
+      @media (max-height: 680px) {
+        img {
+          margin-bottom: -30px;
+        }
+
+      }
+    }
+
+    &.hero__picture--desert {
+      @media (max-height: 680px) {
+        img {
+          margin-bottom: -30px;
+        }
+
+      }
     }
 
     @media (max-width: $breakpoint1200) {
@@ -410,7 +435,7 @@
       }
 
       @media (max-height: 680px) {
-        max-width: 200px;
+        max-width: 320px;
       }
     }
   }

@@ -314,7 +314,7 @@ function renderHeroPicture(picId: number) {
     }
     case 4: {
       return (
-        <div className="hero__picture">
+        <div className="hero__picture hero__picture--steak">
           <img src="/img/main-page/hero/steak.png" alt="#Steak!" />
         </div>
       );
@@ -345,7 +345,7 @@ function renderHeroPicture(picId: number) {
     }
     case 7: {
       return (
-        <div className="hero__picture">
+        <div className="hero__picture hero__picture--desert">
           <img src="/img/main-page/hero/dessert.png" alt="#OnTop!" />
         </div>
       );
