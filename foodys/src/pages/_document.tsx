@@ -11,6 +11,7 @@ export default function Document() {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fea934"/>
         <meta name="msapplication-TileColor" content="#da532c"/>
         <meta name="theme-color" content="#ffffff"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
       </Head>
       <body>
