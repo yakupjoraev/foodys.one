@@ -126,9 +126,6 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
               <ul className="footer__partners-list">
                 <li className="footer__partners-item">
                   <span className="footer__partners-link">
-                    <span className="footer__partners-link-cooming">
-                      {t("scrollOverScrollOverComingSoon")}
-                    </span>
                     <img
                       className="footer__partners-pic"
                       src="/img/footer/partners/horaires.svg"
@@ -138,9 +135,6 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 </li>
                 <li className="footer__partners-item">
                   <span className="footer__partners-link">
-                    <span className="footer__partners-link-cooming">
-                      {t("scrollOverScrollOverComingSoon")}
-                    </span>
                     <img
                       className="footer__partners-pic"
                       src="/img/footer/partners/annuaire.svg"
@@ -150,9 +144,6 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer(
                 </li>
                 <li className="footer__partners-item">
                   <span className="footer__partners-link">
-                    <span className="footer__partners-link-cooming">
-                      {t("scrollOverScrollOverComingSoon")}
-                    </span>
                     <img
                       className="footer__partners-pic"
                       src="/img/footer/partners/taxipolitan.svg"
