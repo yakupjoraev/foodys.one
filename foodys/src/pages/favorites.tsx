@@ -112,7 +112,6 @@ export default function Favorites() {
                         );
                       }))}
               </div>
-              <DashboardAside />
             </div>
           </div>
         </div>
