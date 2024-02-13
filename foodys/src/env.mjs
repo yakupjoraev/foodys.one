@@ -50,6 +50,7 @@ export const env = createEnv({
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
     NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API: z.string().min(1),
     NEXT_PUBLIC_SITE_URL: z.string().min(1),
+    NEXT_PUBLIC_IMAGE_SERVER_URL: z.string(),
   },
 
   /**
@@ -74,6 +75,7 @@ export const env = createEnv({
     SMTP_FROM_EMAIL: process.env.SMTP_FROM_EMAIL,
     FEEDBACK_EMAIL: process.env.FEEDBACK_EMAIL,
     OPTICO_API_KEY: process.env.OPTICO_API_KEY,
+    NEXT_PUBLIC_IMAGE_SERVER_URL: process.env.NEXT_PUBLIC_IMAGE_SERVER_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

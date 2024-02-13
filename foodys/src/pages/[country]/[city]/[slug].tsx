@@ -505,7 +505,8 @@ export default function Place(
                         >
                           <img
                             src={
-                              "https://foodys.freeblock.site/place-photos/cover_168x168/" +
+                              env.NEXT_PUBLIC_IMAGE_SERVER_URL +
+                              "/cover_168x168/" +
                               photo.photo_reference
                             }
                             alt={
@@ -540,7 +541,8 @@ export default function Place(
                     slides={galleryPhotos.map((photo) => {
                       return {
                         src:
-                          "https://foodys.freeblock.site/place-photos/orig/" +
+                          env.NEXT_PUBLIC_IMAGE_SERVER_URL +
+                          "/orig/" +
                           photo.photo_reference,
                       };
                     })}

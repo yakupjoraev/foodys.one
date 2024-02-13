@@ -14,7 +14,6 @@ import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
 import { PlaceReviewResource } from "./g-place-review";
 
-const PREVIEW_ENDPOINT = "https://foodys.freeblock.site/place-photos";
 const PREVIEW_PRESETS: { preset: string; scale: number }[] = [
   { preset: "cover_168x168", scale: 1 },
   { preset: "cover_336x336", scale: 2 },
@@ -113,10 +112,14 @@ export function createPlacePreviewByPhotoReference(
 ) {
   const photoReferencePath = encodeURIComponent(googlePhotoReference);
   const photoUrl =
-    PREVIEW_ENDPOINT + "/" + DEFAULT_PREVIEW_PRESET + "/" + photoReferencePath;
+    env.NEXT_PUBLIC_IMAGE_SERVER_URL +
+    "/" +
+    DEFAULT_PREVIEW_PRESET +
+    "/" +
+    photoReferencePath;
   const srcSet = PREVIEW_PRESETS.map(
     ({ preset, scale }) =>
-      PREVIEW_ENDPOINT +
+      env.NEXT_PUBLIC_IMAGE_SERVER_URL +
       "/" +
       preset +
       "/" +
