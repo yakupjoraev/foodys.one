@@ -127,7 +127,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type="text"
-            placeholder={t("fieldNameFirstName")}
             id={firstNameId}
             disabled={props.loading}
             {...register("firstName")}
@@ -143,7 +142,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type="text"
-            placeholder={t("fieldNameLastName")}
             id={lastNameId}
             disabled={props.loading}
             {...register("lastName")}
@@ -159,7 +157,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type="text"
-            placeholder={t("fieldNameNickname")}
             id={nicknameId}
             disabled={props.loading}
             {...register("nickname")}
@@ -175,7 +172,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type="email"
-            placeholder="Example@mail.ru"
             id={emailId}
             disabled={props.loading}
             {...register("email")}
@@ -191,7 +187,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type={passwordVisible ? "text" : "password"}
-            placeholder={t("fieldNamePassword")}
             id={passwordId}
             disabled={props.loading}
             {...register("password")}
@@ -218,7 +213,6 @@ export function RegisterForm(props: RegisterFormProps) {
           <input
             className="input"
             type={passwordConfirmVisible ? "text" : "password"}
-            placeholder={t("textConfirmPassword")}
             id={passwordConfirmId}
             disabled={props.loading}
             {...register("passwordConfirm")}

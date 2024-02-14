@@ -69,7 +69,6 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
           <input
             className="input"
             type="email"
-            placeholder="Example@mail.ru"
             id={emailId}
             disabled={props.loading}
             {...register("email")}

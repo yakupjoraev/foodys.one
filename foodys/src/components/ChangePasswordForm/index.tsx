@@ -105,7 +105,6 @@ export function ChangePasswordForm(props: RegisterFormProps) {
           <input
             className="input"
             type={passwordVisible ? "text" : "password"}
-            placeholder={t("fieldNamePassword")}
             id={passwordId}
             disabled={props.loading}
             {...register("password")}
@@ -132,7 +131,6 @@ export function ChangePasswordForm(props: RegisterFormProps) {
           <input
             className="input"
             type={passwordConfirmVisible ? "text" : "password"}
-            placeholder={t("textConfirmPassword")}
             id={passwordConfirmId}
             disabled={props.loading}
             {...register("passwordConfirm")}
