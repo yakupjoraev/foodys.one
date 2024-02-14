@@ -16,7 +16,7 @@ import { api } from "~/utils/api";
 import { getLangFromLocale } from "~/utils/lang";
 
 export default function Favorites() {
-  const { lang: locale } = useTranslation("common");
+  const { t, lang: locale } = useTranslation("common");
   const session = useSession();
   const geolocation = useSharedGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
@@ -80,7 +80,7 @@ export default function Favorites() {
           <div className="container">
             <div className="dashboard__main">
               <div className="restaurants">
-                {queryResponse.isLoading && "Loading..."}
+                {queryResponse.isLoading && t("placeholderLoading")}
                 {queryResponse.data &&
                   (queryResponse.data.length === 0
                     ? "Not found."
