@@ -226,5 +226,6 @@
   "pageTitleCookies": "Cookies | Foodys",
   "pageTitlePrivacyPolicy": "Privacy Policy | Foodys",
   "textPageNotFound": "Page no found",
-  "buttonGoToHomePage": "Go to home page"
+  "buttonGoToHomePage": "Go to home page",
+  "buttonDistance": "Distance"
 }
