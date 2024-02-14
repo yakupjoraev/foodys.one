@@ -227,5 +227,6 @@
   "pageTitlePrivacyPolicy": "Privacy Policy | Foodys",
   "textPageNotFound": "Page no found",
   "buttonGoToHomePage": "Go to home page",
-  "buttonDistance": "Distance"
+  "buttonDistance": "Distance",
+  "textConfirmPassword": "Confirm password"
 }

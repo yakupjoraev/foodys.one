@@ -127,12 +127,12 @@ export function ChangePasswordForm(props: RegisterFormProps) {
         </div>
         <div className="input__group">
           <label className="input__label" htmlFor={passwordConfirmId}>
-            Confirm password
+            {t("textConfirmPassword")}
           </label>
           <input
             className="input"
             type={passwordConfirmVisible ? "text" : "password"}
-            placeholder="Confirm password"
+            placeholder={t("textConfirmPassword")}
             id={passwordConfirmId}
             disabled={props.loading}
             {...register("passwordConfirm")}
