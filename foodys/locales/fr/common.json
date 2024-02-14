@@ -228,5 +228,6 @@
   "textPageNotFound": "Page non trouvée",
   "buttonGoToHomePage": "Aller à la page d'accueil",
   "buttonDistance": "Distance",
-  "textConfirmPassword": "Confirmez le mot de passe"
+  "textConfirmPassword": "Confirmez le mot de passe",
+  "textNotFound": "Pas trouvé."
 }

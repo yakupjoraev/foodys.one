@@ -215,7 +215,7 @@ export default function Places() {
                 {!queryResponse.data && t("placeholderLoading")}
                 {!!queryResponse.data &&
                   queryResponse.data.results.length === 0 &&
-                  "Not found"}
+                  t("textNotFound")}
                 {!!queryResponse.data &&
                   queryResponse.data.results.length > 0 &&
                   queryResponse.data.results.map((placeListingItem) => {
