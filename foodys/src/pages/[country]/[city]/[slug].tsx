@@ -53,6 +53,7 @@ import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import { useServicePhone } from "~/hooks/use-service-phone";
 import Head from "next/head";
 import { HreflangMeta } from "~/components/HreflangMeta";
+import { getLangFromLocale } from "~/utils/lang";
 
 enum Tab {
   Overview,
@@ -98,7 +99,12 @@ export const getServerSideProps = (async (ctx) => {
     };
   }
 
-  const place = await createPlaceResourceByGoogleId(placeId);
+  console.log("FETCH", placeUrl, ctx.locale, getLangFromLocale(ctx.locale));
+
+  const place = await createPlaceResourceByGoogleId(
+    placeId,
+    getLangFromLocale(ctx.locale)
+  );
   if (place === null) {
     return {
       notFound: true,
@@ -122,7 +128,10 @@ export const getServerSideProps = (async (ctx) => {
     },
     transformer: superjson,
   });
-  await ssg.reviews.getGPlaceReviews.prefetch({ gPlaceId: place.id });
+  await ssg.reviews.getGPlaceReviews.prefetch({
+    gPlaceId: place.id,
+    lang: getLangFromLocale(ctx.locale),
+  });
 
   let hasTrackedPhone = false;
   if (place.international_phone_number && place.address_components) {
@@ -171,6 +180,7 @@ export default function Place(
   const [likes, like, unlike] = useClientLikes();
   const reviewsQuery = api.reviews.getGPlaceReviews.useQuery({
     gPlaceId: props.place.id,
+    lang: getLangFromLocale(lang),
   });
 
   const utils = api.useContext();
@@ -182,7 +192,7 @@ export default function Place(
         const prevData = utils.reviews.getGPlaceReviews.getData();
 
         utils.reviews.getGPlaceReviews.setData(
-          { gPlaceId: props.place.id },
+          { gPlaceId: props.place.id, lang: getLangFromLocale(lang) },
           (old) => {
             if (old === undefined) {
               return old;
@@ -231,7 +241,7 @@ export default function Place(
 
         if (ctx) {
           utils.reviews.getGPlaceReviews.setData(
-            { gPlaceId: props.place.id },
+            { gPlaceId: props.place.id, lang: getLangFromLocale(lang) },
             ctx.prevData
           );
         }

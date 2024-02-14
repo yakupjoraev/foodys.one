@@ -5,7 +5,13 @@ import {
   GApiPlaceOpeningHoursPeriod,
   GApiPlaceReview,
 } from "~/server/gm-client/types";
-import { GPlaceReview, Prisma, PrismaClient } from "@prisma/client";
+import {
+  GPlaceReview,
+  type Lang,
+  Prisma,
+  PrismaClient,
+  GPlace,
+} from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
@@ -53,9 +59,7 @@ export type PlaceResource = Omit<GApiPlace, "reviews"> & {
   reviews: PlaceReviewResource[];
 };
 
-export function createPlaceListingItem(
-  place: Omit<GApiPlace, "reviews">
-): PlaceListingItem {
+export function createPlaceListingItem(place: GPlace): PlaceListingItem {
   let photos: { src: string; srcSet?: string }[] | undefined = undefined;
 
   if (place.photos && place.photos.length > 0) {
@@ -88,7 +92,7 @@ export function createPlaceListingItem(
     }
   }
 
-  return removeUndefined({
+  return removeNulls({
     formatted_address: place.formatted_address,
     name: place.name,
     place_id: place.place_id,
@@ -172,21 +176,49 @@ export async function applyFavoritiesToPlaceItems(
 }
 
 export async function createPlaceResourceByGoogleId(
-  placeId: string
+  placeId: string,
+  lang: Lang
 ): Promise<PlaceResource | null> {
+  const gPlace = await createGPlaceByExternalId(placeId, lang);
+
+  if (gPlace !== null) {
+    return createPlaceResource(gPlace);
+  }
+
+  return null;
+}
+
+export async function createGPlaceByExternalId(
+  externalId: string,
+  lang: Lang
+): Promise<GPlace | null> {
   const existsPlace = await db.gPlace.findFirst({
     where: {
-      place_id: placeId,
+      place_id: externalId,
+      lang,
     },
   });
-  if (existsPlace !== null) {
-    const { created_at, updated_at, ...rest } = existsPlace;
-    return { ...removeNulls(rest), reviews: [] };
+
+  if (existsPlace) {
+    return existsPlace;
+  }
+
+  let gLanguage: "fr" | "en";
+  switch (lang) {
+    case "FR": {
+      gLanguage = "fr";
+      break;
+    }
+    case "EN": {
+      gLanguage = "en";
+      break;
+    }
   }
 
   const placeDetails = await gmClient.placeDetails({
     queries: {
-      place_id: placeId,
+      place_id: externalId,
+      language: gLanguage,
       key: env.GOOGLE_MAPS_API_KEY,
     },
   });
@@ -231,6 +263,7 @@ export async function createPlaceResourceByGoogleId(
     createdPlace = await db.gPlace.create({
       data: {
         ...fetchedPlace,
+        lang: lang,
         reviews: { create: reviewModels },
       },
     });
@@ -241,34 +274,29 @@ export async function createPlaceResourceByGoogleId(
     ) {
       const existsPlace = await db.gPlace.findFirst({
         where: {
-          place_id: placeId,
+          place_id: externalId,
         },
         include: {
           reviews: true,
         },
       });
-      if (existsPlace !== null) {
-        const { created_at, updated_at, ...rest } = existsPlace;
-        return removeNulls(rest);
-      } else {
-        return null;
-      }
+      return existsPlace;
     } else {
       throw error;
     }
   }
 
-  {
-    const { created_at, updated_at, ...rest } = createdPlace;
-    return removeNulls({
-      ...rest,
-      reviews: [],
-    });
-  }
+  return createdPlace;
+}
+
+export function createPlaceResource(gPlace: GPlace): PlaceResource {
+  const { created_at, updated_at, lang, ...rest } = gPlace;
+  return removeNulls({ ...rest, reviews: [] });
 }
 
 export async function fetchAllFavoriteGPlaces(
-  userId: string
+  userId: string,
+  lang: Lang
 ): Promise<PlaceListingItem[]> {
   const favoritePlaces = await db.favoriteGPlace.findMany({
     where: {
@@ -286,15 +314,23 @@ export async function fetchAllFavoriteGPlaces(
 
   const placeListingItems: PlaceListingItem[] = [];
   for (const id of favoriteIds) {
-    const place = await createPlaceResourceByGoogleId(id);
-
-    if (place === null) {
+    const gPlace = await createGPlaceByExternalId(id, lang);
+    if (gPlace === null) {
+      continue;
+    }
+    let gPlaceEn: GPlace | null;
+    if (lang === "EN") {
+      gPlaceEn = gPlace;
+    } else {
+      gPlaceEn = await createGPlaceByExternalId(id, "EN");
+    }
+    if (gPlaceEn === null) {
       continue;
     }
 
-    const listingItem = createPlaceListingItem(place);
+    const listingItem = createPlaceListingItem(gPlace);
     listingItem.favorite = true;
-    const placeUrl = await createPlaceUrlByGPlace(place);
+    const placeUrl = await createPlaceUrlByGPlace(gPlaceEn);
     if (placeUrl !== null) {
       listingItem.url = placeUrl;
     }

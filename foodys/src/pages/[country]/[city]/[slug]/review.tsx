@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import useTranslation from "next-translate/useTranslation";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { useSession } from "next-auth/react";
+import { getLangFromLocale } from "~/utils/lang";
 
 export const getServerSideProps = (async (ctx) => {
   const country = ctx.params?.country;
@@ -48,7 +49,10 @@ export const getServerSideProps = (async (ctx) => {
     };
   }
 
-  const place = await createPlaceResourceByGoogleId(placeId);
+  const place = await createPlaceResourceByGoogleId(
+    placeId,
+    getLangFromLocale(ctx.locale)
+  );
   if (place === null) {
     return {
       notFound: true,

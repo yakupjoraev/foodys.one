@@ -1,4 +1,10 @@
-import { Establishment, Prisma, PrismaClient } from "@prisma/client";
+import {
+  Establishment,
+  GPlace,
+  Lang,
+  Prisma,
+  PrismaClient,
+} from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { Session } from "next-auth";
 import { z } from "zod";
@@ -10,15 +16,15 @@ import { GApiPlace } from "~/server/gm-client/types";
 import {
   PlaceListing,
   PlaceListingItem,
-  PlaceResource,
   applyFavoritiesToPlaceItems,
+  createGPlaceByExternalId,
   createPlaceListingItem,
-  createPlaceResourceByGoogleId,
 } from "../utils/g-place";
 import { createPlaceUrlByGPlace } from "../utils/place-url";
 import haversine from "haversine-distance";
 import OpeningHours from "opening_hours";
 import { encodeGooglePeriods, getForeignTime } from "../utils/encode-periods";
+import { removeNulls } from "~/utils/remove-nulls";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -28,6 +34,7 @@ export const placesRouter = createTRPCRouter({
   getPlaces: publicProcedure
     .input(
       z.object({
+        lang: z.union([z.literal("FR"), z.literal("EN")]),
         query: z.string(),
         establishment: z.union([
           z.literal("restaurant"),
@@ -94,6 +101,8 @@ export const placesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }): Promise<PlaceListing> => {
+      ctx.session;
+
       const page = input.page ?? 1;
 
       const normalizedQuery = normalizeQuery(input.query);
@@ -115,11 +124,26 @@ export const placesRouter = createTRPCRouter({
       });
 
       if (cachedResponse) {
-        const places = cachedResponse.places as GApiPlace[];
+        const gApiPlaces = cachedResponse.places as GApiPlace[];
+        const gPlaces: GPlace[] = [];
+        await Promise.all(
+          gApiPlaces.map(async ({ place_id: externalId }) => {
+            if (!externalId) {
+              return;
+            }
+            const gPlace = await createGPlaceByExternalId(
+              externalId,
+              input.lang
+            );
+            if (gPlace) {
+              gPlaces.push(gPlace);
+            }
+          })
+        );
         let response = createResponse({
           page,
           pageSize: input.pageSize,
-          places,
+          places: gPlaces,
           filterRating: input.rating,
           filterPriceLevel: input.priceLevel,
           filterService: input.service,
@@ -128,7 +152,7 @@ export const placesRouter = createTRPCRouter({
           clientCoordinates: input.clientCoordinates,
         });
         response = await withFavorities(response, ctx);
-        response = await withUrls(response, places);
+        response = await withUrls(response, gPlaces, input.lang);
         return response;
       }
 
@@ -151,17 +175,6 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
-      await Promise.all(
-        searchResponse.results.map(async (place) => {
-          if (place.place_id) {
-            const placeDetails = await loadPlaceDetails(place.place_id);
-            if (placeDetails) {
-              Object.assign(place, placeDetails);
-            }
-          }
-        })
-      );
-
       await db.textSearch.create({
         data: {
           query: normalizedQuery,
@@ -169,10 +182,24 @@ export const placesRouter = createTRPCRouter({
           establishment: getEstablishmentDB(input.establishment),
         },
       });
+
+      const gPlaces: GPlace[] = [];
+      await Promise.all(
+        searchResponse.results.map(async ({ place_id: externalId }) => {
+          if (!externalId) {
+            return;
+          }
+          const gPlace = await createGPlaceByExternalId(externalId, input.lang);
+          if (gPlace) {
+            gPlaces.push(gPlace);
+          }
+        })
+      );
+
       let response = createResponse({
         page,
         pageSize: input.pageSize,
-        places: searchResponse.results,
+        places: gPlaces,
         filterRating: input.rating,
         filterPriceLevel: input.priceLevel,
         filterService: input.service,
@@ -181,34 +208,65 @@ export const placesRouter = createTRPCRouter({
         clientCoordinates: input.clientCoordinates,
       });
       response = await withFavorities(response, ctx);
-      response = await withUrls(response, searchResponse.results);
+      response = await withUrls(response, gPlaces, input.lang);
       return response;
     }),
 
   getPlacesByGoogleId: publicProcedure
     .input(
       z.object({
+        lang: z.union([z.literal("FR"), z.literal("EN")]),
         ids: z.array(z.string()),
       })
     )
     .query(async ({ input }): Promise<PlaceListingItem[]> => {
-      const cachedPlaces: PlaceResource[] = [];
-      for (const id of input.ids) {
-        const resource = await createPlaceResourceByGoogleId(id);
-        if (resource) {
-          cachedPlaces.push(resource);
-        }
-      }
-      const listing = await Promise.all(
-        cachedPlaces.map(async (place, i) => {
-          const listingItem = createPlaceListingItem(place);
-          const url = await createPlaceUrlByGPlace(place);
-          if (url) {
-            listingItem.url = url;
+      const gPlaces: GPlace[] = [];
+      await Promise.all(
+        input.ids.map(async (id) => {
+          const gPlace = await createGPlaceByExternalId(id, input.lang);
+          if (gPlace) {
+            gPlaces.push(gPlace);
           }
-          return listingItem;
         })
       );
+
+      const listing = gPlaces.map((place) => createPlaceListingItem(place));
+
+      let placesEn: GPlace[];
+
+      if (input.lang === "EN") {
+        placesEn = gPlaces;
+      } else {
+        placesEn = [];
+        await Promise.all(
+          input.ids.map(async (externalId) => {
+            const gPlaceEn = await createGPlaceByExternalId(externalId, "EN");
+            if (gPlaceEn !== null) {
+              placesEn.push(gPlaceEn);
+            }
+          })
+        );
+      }
+
+      const externalIdToUrl = new Map<string, string>();
+      await Promise.all(
+        placesEn.map(async (placeEn) => {
+          const url = await createPlaceUrlByGPlace(placeEn);
+          if (url !== null && placeEn.place_id) {
+            externalIdToUrl.set(placeEn.place_id, url);
+          }
+        })
+      );
+
+      listing.forEach((listingItem) => {
+        if (!listingItem.place_id) {
+          return;
+        }
+        const url = externalIdToUrl.get(listingItem.place_id);
+        if (url !== undefined) {
+          listingItem.url = url;
+        }
+      });
 
       return listing;
     }),
@@ -238,15 +296,15 @@ async function withFavorities(
   return nextListing;
 }
 
-async function withUrls(listing: PlaceListing, places: GApiPlace[]) {
+async function withUrls(listing: PlaceListing, placesEn: GPlace[], lang: Lang) {
   const nextListing = {
     ...listing,
   };
 
-  const idToPlace = new Map<string, GApiPlace>();
-  for (const place of places) {
+  const idToPlace = new Map<string, GPlace>();
+  for (const place of placesEn) {
     const id = place.place_id;
-    if (id === undefined) {
+    if (id === null) {
       continue;
     }
     idToPlace.set(id, place);
@@ -262,6 +320,7 @@ async function withUrls(listing: PlaceListing, places: GApiPlace[]) {
       if (place === undefined) {
         return listingItem;
       }
+
       const url = await createPlaceUrlByGPlace(place);
       if (url === null) {
         return listingItem;
@@ -273,47 +332,6 @@ async function withUrls(listing: PlaceListing, places: GApiPlace[]) {
   );
 
   return nextListing;
-}
-
-async function loadPlaceDetails(placeId: string) {
-  const placeDetails = await gmClient.placeDetails({
-    queries: {
-      place_id: placeId,
-      key: env.GOOGLE_MAPS_API_KEY,
-      fields:
-        "delivery,dine_in,takeout,curbside_pickup,address_components,geometry,opening_hours,utc_offset,photos,international_phone_number",
-    },
-  });
-
-  if (placeDetails.status !== "OK" || placeDetails.result === undefined) {
-    return null;
-  }
-
-  const {
-    delivery,
-    dine_in,
-    takeout,
-    curbside_pickup,
-    address_components,
-    geometry,
-    opening_hours,
-    utc_offset,
-    photos,
-    international_phone_number,
-  } = placeDetails.result;
-
-  return {
-    delivery,
-    dine_in,
-    takeout,
-    curbside_pickup,
-    address_components,
-    geometry,
-    opening_hours,
-    utc_offset,
-    photos,
-    international_phone_number,
-  };
 }
 
 function normalizeQuery(query: string) {
@@ -354,7 +372,7 @@ function getEstablishmentGP(
 
 interface CreateResponseOpts {
   page: number;
-  places: GApiPlace[];
+  places: GPlace[];
   filterRating: (1 | 2 | 3 | 4 | 5)[] | undefined;
   filterPriceLevel: (1 | 2 | 3 | 4)[] | undefined;
   filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
@@ -374,7 +392,7 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
     };
   }
 
-  let filteredPlaces: Iterable<GApiPlace> = opts.places;
+  let filteredPlaces: Iterable<GPlace> = opts.places;
   if (opts.filterRating) {
     filteredPlaces = filterPlacesByRating(filteredPlaces, opts.filterRating);
   }
@@ -427,14 +445,14 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
 }
 
 function* filterPlacesByRating(
-  places: Iterable<GApiPlace>,
+  places: Iterable<GPlace>,
   filterRating: number[]
 ) {
   if (filterRating.length === 0) {
     yield* places;
   }
   for (const place of places) {
-    if (place.rating === undefined) {
+    if (place.rating === null) {
       continue;
     }
     const ratingInt = Math.floor(place.rating);
@@ -445,14 +463,14 @@ function* filterPlacesByRating(
 }
 
 function* filterPlacesByPriceLevel(
-  places: Iterable<GApiPlace>,
+  places: Iterable<GPlace>,
   filterPriceLevel: number[]
 ) {
   if (filterPriceLevel.length === 0) {
     yield* places;
   }
   for (const place of places) {
-    if (place.price_level === undefined) {
+    if (place.price_level === null) {
       continue;
     }
     if (filterPriceLevel.includes(place.price_level)) {
@@ -462,7 +480,7 @@ function* filterPlacesByPriceLevel(
 }
 
 function* filterPlacesByService(
-  places: Iterable<GApiPlace>,
+  places: Iterable<GPlace>,
   filterService: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[]
 ) {
   if (filterService.length === 0) {
@@ -480,9 +498,9 @@ function* filterPlacesByService(
 }
 
 function filterPlacesByHours(
-  places: Iterable<GApiPlace>,
+  places: Iterable<GPlace>,
   filterHours: "anyTime" | "openNow" | "open24Hours"
-): Iterable<GApiPlace> {
+): Iterable<GPlace> {
   console.log("FILTER BY: " + filterHours);
   switch (filterHours) {
     case "anyTime": {
@@ -497,7 +515,7 @@ function filterPlacesByHours(
   }
 }
 
-function* filterPlacesByOpenNow(places: Iterable<GApiPlace>) {
+function* filterPlacesByOpenNow(places: Iterable<GPlace>) {
   for (const place of places) {
     const periods = place.opening_hours?.periods;
     if (!periods) {
@@ -520,16 +538,13 @@ function* filterPlacesByOpenNow(places: Iterable<GApiPlace>) {
     }
 
     const utcOffset = place.utc_offset;
-    if (utcOffset === undefined) {
+    if (utcOffset === null) {
       continue;
     }
 
     const foreignNow = getForeignTime(new Date(), utcOffset);
 
-    console.log("FOREIGN", foreignNow.toString());
-    console.log("PLACE NAME", place.name);
-
-    const osmPeriods = encodeGooglePeriods(periods);
+    const osmPeriods = encodeGooglePeriods(removeNulls(periods));
     const oh = new OpeningHours(osmPeriods);
 
     const openNow = oh.getState(foreignNow);
@@ -539,7 +554,7 @@ function* filterPlacesByOpenNow(places: Iterable<GApiPlace>) {
   }
 }
 
-function* filterPlacesBy24H(places: Iterable<GApiPlace>) {
+function* filterPlacesBy24H(places: Iterable<GPlace>) {
   for (const place of places) {
     const periods = place.opening_hours?.periods;
     if (!periods) {
@@ -563,10 +578,10 @@ function* filterPlacesBy24H(places: Iterable<GApiPlace>) {
 }
 
 function sortPlacesByDistance(
-  places: GApiPlace[],
+  places: GPlace[],
   clientCoordinates: { lat: number; lng: number }
-): GApiPlace[] {
-  const placesWithDistance: { place: GApiPlace; distance: number }[] = places.map(
+): GPlace[] {
+  const placesWithDistance: { place: GPlace; distance: number }[] = places.map(
     (place) => {
       const placeCoordinates = place.geometry?.location;
       if (!placeCoordinates) {
@@ -579,18 +594,18 @@ function sortPlacesByDistance(
 
   placesWithDistance.sort(({ distance: a }, { distance: b }) => a - b);
 
-  const sortedPlaces: GApiPlace[] = placesWithDistance.map(({ place }) => place);
+  const sortedPlaces: GPlace[] = placesWithDistance.map(({ place }) => place);
 
   return sortedPlaces;
 }
 
-function sortPlacesByPrice(places: GApiPlace[]): GApiPlace[] {
-  const itemsWithoutPrice: GApiPlace[] = [];
-  const placeAndPrice: [GApiPlace, number][] = [];
+function sortPlacesByPrice(places: GPlace[]): GPlace[] {
+  const itemsWithoutPrice: GPlace[] = [];
+  const placeAndPrice: [GPlace, number][] = [];
 
   for (const place of places) {
     const priceLevel = place.price_level;
-    if (priceLevel === undefined) {
+    if (priceLevel === null) {
       itemsWithoutPrice.push(place);
     } else {
       placeAndPrice.push([place, priceLevel]);
@@ -599,19 +614,19 @@ function sortPlacesByPrice(places: GApiPlace[]): GApiPlace[] {
 
   placeAndPrice.sort(([, a], [, b]) => a - b);
 
-  let sortedPlaces: GApiPlace[] = placeAndPrice.map(([place]) => place);
+  let sortedPlaces: GPlace[] = placeAndPrice.map(([place]) => place);
   sortedPlaces = [...sortedPlaces, ...itemsWithoutPrice];
 
   return sortedPlaces;
 }
 
-function sortPlacesByRating(places: GApiPlace[]): GApiPlace[] {
-  const itemsWithoutRating: GApiPlace[] = [];
-  const placeAndRating: [GApiPlace, number][] = [];
+function sortPlacesByRating(places: GPlace[]): GPlace[] {
+  const itemsWithoutRating: GPlace[] = [];
+  const placeAndRating: [GPlace, number][] = [];
 
   for (const place of places) {
     const rating = place.rating;
-    if (rating === undefined) {
+    if (rating === null) {
       itemsWithoutRating.push(place);
     } else {
       placeAndRating.push([place, rating]);
@@ -620,7 +635,7 @@ function sortPlacesByRating(places: GApiPlace[]): GApiPlace[] {
 
   placeAndRating.sort(([, a], [, b]) => b - a);
 
-  let sortedPlaces: GApiPlace[] = placeAndRating.map(([place]) => place);
+  let sortedPlaces: GPlace[] = placeAndRating.map(([place]) => place);
   sortedPlaces = [...sortedPlaces, ...itemsWithoutRating];
 
   return sortedPlaces;

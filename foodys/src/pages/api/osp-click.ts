@@ -29,7 +29,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const userAgent = req.headers["user-agent"];
 
-  createPlaceResourceByGoogleId(clientRequest.g_place_id)
+  createPlaceResourceByGoogleId(clientRequest.g_place_id, "EN")
     .then((place) => {
       if (place === null) {
         res.status(404).json({ message: "place not found" });

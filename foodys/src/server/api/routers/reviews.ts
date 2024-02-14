@@ -65,10 +65,15 @@ export const reviewsRouter = createTRPCRouter({
       return countGPlaceReviewLikes(input.gPlaceReviewId);
     }),
   getGPlaceReviews: publicProcedure
-    .input(z.object({ gPlaceId: z.string().min(1) }))
+    .input(
+      z.object({
+        gPlaceId: z.string().min(1),
+        lang: z.union([z.literal("FR"), z.literal("EN")]),
+      })
+    )
     .query(async ({ ctx, input }) => {
       const userId = ctx.session?.user.id;
-      return getGPlaceReviewResources(input.gPlaceId, userId);
+      return getGPlaceReviewResources(input.gPlaceId, input.lang, userId);
     }),
   createGPlaceReviewAnswer: protectedProcedure
     .input(

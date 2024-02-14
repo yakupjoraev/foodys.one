@@ -15,6 +15,7 @@ import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useRouter } from "next/router";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import Head from "next/head";
+import { getLangFromLocale } from "~/utils/lang";
 
 const DEFAULT_FILTER_STATE: FilterState = {
   hours: "anyTime",
@@ -26,7 +27,7 @@ const DEFAULT_FILTER_STATE: FilterState = {
 const FILTER_DELAY = 1000;
 
 export default function Places() {
-  const { t } = useTranslation("common");
+  const { t, lang: locale } = useTranslation("common");
   const router = useRouter();
   const session = useSession();
   const geolocation = useSharedGeolocation();
@@ -121,6 +122,7 @@ export default function Places() {
     }, [geolocation]);
 
   const queryResponse = api.places.getPlaces.useQuery({
+    lang: getLangFromLocale(locale),
     query: query ?? "",
     page: pageInt,
     pageSize: debouncedFilterState.pageSize,

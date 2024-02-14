@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import useTranslation from "next-translate/useTranslation";
 import { useEffect, useMemo, useState } from "react";
 import { CryptoModal } from "~/components/CryptoModal";
 import { DashboardAside } from "~/components/DashboardAside";
@@ -12,8 +13,10 @@ import {
 } from "~/providers/favorites-provider";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";
 import { api } from "~/utils/api";
+import { getLangFromLocale } from "~/utils/lang";
 
 export default function Favorites() {
+  const { lang: locale } = useTranslation("common");
   const session = useSession();
   const geolocation = useSharedGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
@@ -22,6 +25,7 @@ export default function Favorites() {
     useClientFavorites();
   const queryResponse = api.places.getPlacesByGoogleId.useQuery(
     {
+      lang: getLangFromLocale(locale),
       ids: visibleFavoriteIds,
     },
     { enabled: false, refetchOnWindowFocus: false }

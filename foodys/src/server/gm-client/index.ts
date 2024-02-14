@@ -62,6 +62,11 @@ export const gmClient = new Zodios("https://maps.googleapis.com", [
         schema: z.optional(z.string()),
       },
       {
+        name: "language",
+        type: "Query",
+        schema: z.optional(z.union([z.literal("fr"), z.literal("en")])),
+      },
+      {
         name: "key",
         type: "Query",
         schema: z.optional(z.string()),

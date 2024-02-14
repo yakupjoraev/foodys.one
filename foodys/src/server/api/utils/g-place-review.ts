@@ -4,7 +4,7 @@ import {
   filterLikedGPlaceReviewIds,
 } from "./g-place-review-like";
 import { removeNulls } from "~/utils/remove-nulls";
-import { type GPlaceReview } from "@prisma/client";
+import { type Lang, type GPlaceReview } from "@prisma/client";
 import { type OwnerAnswerResource } from "./g-place-review-answer";
 
 export interface PlaceReviewResource {
@@ -35,11 +35,25 @@ export interface CreateLocalGPlaceReviewRequest {
 
 export async function getGPlaceReviewResources(
   gPlaceId: string,
+  lang: Lang,
   userId?: string
 ) {
+  let gLanguage: "fr" | "en";
+  switch (lang) {
+    case "FR": {
+      gLanguage = "fr";
+      break;
+    }
+    case "EN": {
+      gLanguage = "en";
+      break;
+    }
+  }
+
   const reviews = await db.gPlaceReview.findMany({
     where: {
       g_place_id: gPlaceId,
+      language: gLanguage,
     },
     include: {
       g_place_review_answer: {

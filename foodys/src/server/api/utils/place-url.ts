@@ -1,13 +1,13 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import slugify from "slugify";
-import { type GApiAddressComponent, type GApiPlace } from "~/server/gm-client/types";
+import type { GPlace, AddressComponent } from "@prisma/client";
 
 export async function createPlaceUrlByGPlace(
-  place: Omit<GApiPlace, "reviews">
+  place: GPlace
 ): Promise<string | null> {
-  const placeId: string | undefined = place.place_id;
-  if (placeId === undefined) {
+  const placeId: string | null = place.place_id;
+  if (placeId === null) {
     return null;
   }
   const name: string = place.name ?? "unknown";
@@ -70,7 +70,7 @@ export async function createPlaceUrl(
 }
 
 function getCountryFromAddressComponents(
-  addressComponents: GApiAddressComponent[]
+  addressComponents: AddressComponent[]
 ) {
   for (const addressComponent of addressComponents) {
     if (addressComponent.types.includes("country")) {
@@ -80,7 +80,7 @@ function getCountryFromAddressComponents(
   return null;
 }
 
-function getCityFromAddressComponents(addressComponents: GApiAddressComponent[]) {
+function getCityFromAddressComponents(addressComponents: AddressComponent[]) {
   for (const addressComponent of addressComponents) {
     if (addressComponent.types.includes("locality")) {
       return addressComponent.long_name;

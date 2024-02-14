@@ -130,6 +130,7 @@ model FavoriteGPlace {
 
 model GPlace {
   id                             String                 @id @default(auto()) @map("_id") @db.ObjectId
+  lang                           Lang
   address_components             AddressComponent[]
   adr_address                    String?
   business_status                String?
@@ -177,7 +178,7 @@ model GPlace {
   updated_at                     DateTime               @updatedAt
 
   @@unique([place_id])
-  @@map("g_place")
+  @@map("g_place2")
 }
 
 model GPlaceReview {
@@ -368,4 +369,9 @@ enum Establishment {
 enum GPlaceReviewType {
   IMPORTED
   LOCAL
+}
+
+enum Lang {
+  FR
+  EN
 }
