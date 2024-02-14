@@ -229,5 +229,6 @@
   "buttonGoToHomePage": "Go to home page",
   "buttonDistance": "Distance",
   "textConfirmPassword": "Confirm password",
-  "textNotFound": "Not found."
+  "textNotFound": "Not found.",
+  "buttonCookiesNotAccept": "Continue without agreeing"
 }

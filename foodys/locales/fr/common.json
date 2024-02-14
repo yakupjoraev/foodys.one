@@ -225,9 +225,10 @@
   "pageTitleTermsAndConditions": "Mentions légales | Foodys",
   "pageTitleCookies": "Cookies | Foodys",
   "pageTitlePrivacyPolicy": "Politique de confidentialité | Foodys",
-  "textPageNotFound": "Page non trouvée",
-  "buttonGoToHomePage": "Aller à la page d'accueil",
+  "textPageNotFound": "Page introuvable",
+  "buttonGoToHomePage": "Revenir à la page d'accueil",
   "buttonDistance": "Distance",
   "textConfirmPassword": "Confirmez le mot de passe",
-  "textNotFound": "Pas trouvé."
+  "textNotFound": "Pas trouvé.",
+  "buttonCookiesNotAccept": "Continuer sans accepter"
 }

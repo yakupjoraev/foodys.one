@@ -9,7 +9,7 @@ export interface CookiesModalProps {
 }
 
 export function CookiesModal(props: CookiesModalProps) {
-  const { lang } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
 
   return (
     <Portal rootId="modal">
@@ -20,7 +20,7 @@ export function CookiesModal(props: CookiesModalProps) {
             role="button"
             onClick={() => void props.onClose(false)}
           >
-            Continue without agreeing
+            {t("buttonCookiesNotAccept")}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={33}
