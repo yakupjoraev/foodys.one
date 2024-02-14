@@ -12,6 +12,7 @@
 .nav {
   @media (max-width: $breakpoint768) {
     position: relative;
+    width: 100%;
     background-color: #fff;
 
     &::before {
@@ -300,7 +301,7 @@
       display: flex;
       left: 0;
       bottom: 0;
-      height: calc(100vh - 45px);
+      height: calc(100dvh - 45px);
       width: 100vw;
       padding: 30px 16px;
       flex-direction: column;
@@ -439,7 +440,13 @@
   z-index: 10;
 
   @media (max-width: $breakpoint992) {
-    position: static;
+    position: relative;
+    z-index: 33;
+    top: auto;
+    left: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     background-color: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
