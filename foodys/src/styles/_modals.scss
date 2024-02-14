@@ -227,6 +227,19 @@
     font-weight: 600;
     line-height: 112.8%;
     opacity: 0.4;
+    
+    a {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 112.8%;
+      text-decoration: underline;
+      color: var(--text-color);
+
+      &:hover {
+        text-decoration: none;
+      }
+    }  
   }
 }
 
