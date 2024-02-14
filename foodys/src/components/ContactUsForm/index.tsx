@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useId, useMemo } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { createContactUsFormSchema } from "./validators";
+import Link from "next/link";
+import Trans from "next-translate/Trans";
 
 export interface ContactUsFormData {
   name?: string;
@@ -153,7 +155,19 @@ export function ContactUsForm(props: ContactUsFormProps) {
         />
         <label className="input__label" htmlFor={agreementConfirmedId}>
           <div className="input__checkbox-decor"> </div>
-          <span>{t("textAgreeTermsAndCond")}</span>
+          <span>
+            {
+              <Trans
+                i18nKey="common:textAgreeTermsAndCond"
+                components={[
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/terms-and-conditions" />,
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/cookies" />,
+                ]}
+              />
+            }
+          </span>
         </label>
         {errors.agreementConfirmed?.message && (
           <p className="input__error">{errors.agreementConfirmed.message}</p>

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createAuthFormSchema } from "./validators";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 
 export type AuthError =
   | { type: "unknown"; message?: string }
@@ -150,7 +151,19 @@ export function AuthForm(props: AuthFormProps) {
         />
         <label className="input__label" htmlFor={agreementConfirmedId}>
           <div className="input__checkbox-decor"> </div>
-          <span>{t("textAgreeTermsAndCond")}</span>
+          <span>
+            {
+              <Trans
+                i18nKey="common:textAgreeTermsAndCond"
+                components={[
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/terms-and-conditions" />,
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/cookies" />,
+                ]}
+              />
+            }
+          </span>
         </label>
         {errors.agreementConfirmed?.message && (
           <div className="input__error">

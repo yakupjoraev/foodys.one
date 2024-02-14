@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { createRegisterFormSchema } from "./validators";
+import Link from "next/link";
 
 export type RegisterError =
   | { type: "unknown"; message?: string }
@@ -251,7 +252,19 @@ export function RegisterForm(props: RegisterFormProps) {
         />
         <label className="input__label" htmlFor={agreementConfirmedId}>
           <div className="input__checkbox-decor"> </div>
-          <span>{t("textAgreeTermsAndCond")}</span>
+          <span>
+            {
+              <Trans
+                i18nKey="common:textAgreeTermsAndCond"
+                components={[
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/terms-and-conditions" />,
+                  // eslint-disable-next-line react/jsx-key
+                  <Link href="/cookies" />,
+                ]}
+              />
+            }
+          </span>
         </label>
         {errors.agreementConfirmed?.message && (
           <div className="input__error">

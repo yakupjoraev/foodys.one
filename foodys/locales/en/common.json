@@ -41,7 +41,7 @@
   "buttonCreateMyAcc": "Create my account",
   "textCreateAccountInvit": "Not a member yet?<0>Create an account in 20 seconds</0>",
   "textSignInInvit": "Already have an account on Foodys.one? <0>Sign in</0>",
-  "textAgreeTermsAndCond": "To proceed you must agree to our Terms and Conditions and confirm you have read our Cookies policy",
+  "textAgreeTermsAndCond": "To proceed you must agree to our <0>Terms and Conditions</0> and confirm you have read our <1>Cookies policy</1>",
   "titleFinaliseInscription": "Finalise your inscription",
   "textFinaliseInscription": "An email has just been sent to your email address. To finalise your inscription, please check your mailbox to confirm your email and activate your account.",
   "textSendEmailAgain": "No email received? <0>Send email again.</0>",
