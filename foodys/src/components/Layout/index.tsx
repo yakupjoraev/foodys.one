@@ -102,6 +102,7 @@ export function Layout(props: LayoutProps) {
         {props.description ?? (
           <meta name="description" content={props.description} />
         )}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Header
         className={props.headerClassName}
