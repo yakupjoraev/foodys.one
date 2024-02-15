@@ -109,7 +109,7 @@ export default function Main(
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
-  }, [footerRef.current]);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {

@@ -42,7 +42,7 @@ export function HomeBackground(props: HomePageBackgroundProps) {
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
-  }, [croppedLayoutRef.current]);
+  }, []);
 
   return (
     <div
