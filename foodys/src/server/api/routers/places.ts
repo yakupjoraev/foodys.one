@@ -346,13 +346,13 @@ async function withUrls(listing: PlaceListing, placesEn: GPlace[]) {
     ...listing,
   };
 
-  const idToPlace = new Map<string, GPlace>();
+  const idToPlaceEn = new Map<string, GPlace>();
   for (const place of placesEn) {
     const id = place.place_id;
     if (id === null) {
       continue;
     }
-    idToPlace.set(id, place);
+    idToPlaceEn.set(id, place);
   }
 
   nextListing.results = await Promise.all(
@@ -361,12 +361,12 @@ async function withUrls(listing: PlaceListing, placesEn: GPlace[]) {
       if (placeId === undefined) {
         return listingItem;
       }
-      const place = idToPlace.get(placeId);
-      if (place === undefined) {
+      const placeEn = idToPlaceEn.get(placeId);
+      if (placeEn === undefined) {
         return listingItem;
       }
 
-      const url = await createPlaceUrlByGPlace(place);
+      const url = await createPlaceUrlByGPlace(placeEn);
       if (url === null) {
         return listingItem;
       }
