@@ -83,7 +83,7 @@ export default function Favorites() {
                 {queryResponse.isLoading && t("placeholderLoading")}
                 {queryResponse.data &&
                   (queryResponse.data.length === 0
-                    ? t("textNotFound")
+                    ? t("favoritesNotFound")
                     : queryResponse.data.map((placeListingItem) => {
                         if (placeListingItem.place_id === undefined) {
                           return null;

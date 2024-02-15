@@ -229,6 +229,7 @@
   "buttonGoToHomePage": "Go to home page",
   "buttonDistance": "Distance",
   "textConfirmPassword": "Confirm password",
-  "textNotFound": "Not found.",
-  "buttonCookiesNotAccept": "Continue without agreeing"
+  "buttonCookiesNotAccept": "Continue without agreeing",
+  "textSearchNotFound": "There are no results matching your search",
+  "favoritesNotFound": "No saved items yet"
 }

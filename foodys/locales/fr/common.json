@@ -229,6 +229,7 @@
   "buttonGoToHomePage": "Revenir à la page d'accueil",
   "buttonDistance": "Distance",
   "textConfirmPassword": "Confirmez le mot de passe",
-  "textNotFound": "Pas trouvé.",
-  "buttonCookiesNotAccept": "Continuer sans accepter"
+  "buttonCookiesNotAccept": "Continuer sans accepter",
+  "textSearchNotFound": "Il n'y a pas de résultats correspondants à votre recherche",
+  "favoritesNotFound": "Pas d'éléments sauvegardés"
 }
