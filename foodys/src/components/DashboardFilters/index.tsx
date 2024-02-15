@@ -72,7 +72,8 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       nextFilterState.sortBy = "relevance";
       setFilter(nextFilterState);
     }
-  }, [props.clientCoordinates, filter, setFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.clientCoordinates]);
 
   const registerFilterCheckbox = (
     key: Exclude<
