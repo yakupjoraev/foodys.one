@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { CryptoModal } from "~/components/CryptoModal";
 import { Layout } from "~/components/Layout";
 import { RestaurantCard } from "~/components/RestaurantCard";
@@ -18,7 +18,8 @@ export default function Favorites() {
   const session = useSession();
   const geolocation = useSharedGeolocation();
   const [cryptoModelOpen, setCryptoModalOpen] = useState(false);
-  const visibleFavoriteIds = useClientFavoritesSnapshot();
+  const [visibleFavoritesLoading, visibleFavoriteIds] =
+    useClientFavoritesSnapshot();
   const [clientFavorites, appendClientFavorite, removeClientFavorite] =
     useClientFavorites();
   const queryResponse = api.places.getPlacesByGoogleId.useQuery(
@@ -26,12 +27,8 @@ export default function Favorites() {
       lang: getLangFromLocale(locale),
       ids: visibleFavoriteIds,
     },
-    { enabled: false, refetchOnWindowFocus: false }
+    { enabled: !visibleFavoritesLoading, refetchOnWindowFocus: false }
   );
-
-  useEffect(() => {
-    void queryResponse.refetch();
-  }, [visibleFavoriteIds, queryResponse]);
 
   const handlePayInCryptoBtnClick = () => {
     setCryptoModalOpen(true);

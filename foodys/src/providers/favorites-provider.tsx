@@ -38,13 +38,15 @@ export function useClientFavorites(): UseFavoritesOutput {
   return output;
 }
 
-export function useClientFavoritesSnapshot() {
+export function useClientFavoritesSnapshot(): [boolean, string[]] {
+  const [loading, setLoading] = useState(true);
   const [ids, setIds] = useState<string[]>(DEFAULT_FAVORITES);
   useEffect(() => {
     const nextIds = readAllFavorites();
     setIds(nextIds);
+    setLoading(false);
   }, []);
-  return ids;
+  return [loading, ids];
 }
 
 export function FavoritesProvider(props: FavoritesProviderProps) {
