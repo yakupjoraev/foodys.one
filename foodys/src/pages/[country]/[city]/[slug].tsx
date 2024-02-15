@@ -1,5 +1,8 @@
 import classNames from "classnames";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {
+  type GetServerSideProps,
+  type InferGetServerSidePropsType,
+} from "next";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
