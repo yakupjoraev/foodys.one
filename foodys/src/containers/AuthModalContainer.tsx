@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
 import { AuthError, AuthModal, AuthRequest } from "~/components/AuthModal";
 import isError from "lodash/isError";
 
@@ -13,7 +12,6 @@ export interface AuthModalContainerProps {
 }
 
 export function AuthModalContainer(props: AuthModalContainerProps) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AuthError | undefined>(undefined);
 

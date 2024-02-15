@@ -2,12 +2,10 @@ import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useMemo, useState } from "react";
 import { CryptoModal } from "~/components/CryptoModal";
-import { DashboardAside } from "~/components/DashboardAside";
 import { Layout } from "~/components/Layout";
 import { RestaurantCard } from "~/components/RestaurantCard";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import {
-  readAllFavorites,
   useClientFavorites,
   useClientFavoritesSnapshot,
 } from "~/providers/favorites-provider";

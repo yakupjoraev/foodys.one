@@ -1,7 +1,6 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Layout } from "~/components/Layout";
 import { ReviewForm, ReviewFormSubmitData } from "~/components/ReviewForm";
-import { ReviewRatingInput } from "~/components/ReviewRatingInput";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { db } from "~/server/db";
 import {
