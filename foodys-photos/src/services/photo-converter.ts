@@ -1,4 +1,4 @@
-import { GOOGLE_MAPS_API_KEY } from "../config/env.js";
+import { GOOGLE_PLACES_API_KEY } from "../config/env.js";
 import { PresetId, presets } from "../config/presets.js";
 import sharp from "sharp";
 import path from "path";
@@ -54,7 +54,7 @@ async function createConvertPhotoTask(
 }
 
 async function downloadPhotoFromGP(photoReference: string, outputPath: string) {
-  const fileUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photoReference}&key=${GOOGLE_MAPS_API_KEY}`;
+  const fileUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photoReference}&key=${GOOGLE_PLACES_API_KEY}`;
 
   const res = await fetch(fileUrl);
 
