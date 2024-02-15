@@ -10,6 +10,14 @@ export async function createPlaceUrlByGPlace(
   if (placeId === null) {
     return null;
   }
+  const urlRecord = await db.placeUrl.findFirst({
+    where: {
+      g_place_id: placeId,
+    },
+  });
+  if (urlRecord) {
+    return urlRecord.url;
+  }
   const name: string = place.name ?? "unknown";
   let country = "unknown";
   let city = "unknown";
