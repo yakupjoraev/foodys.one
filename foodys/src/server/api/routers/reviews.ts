@@ -61,7 +61,7 @@ export const reviewsRouter = createTRPCRouter({
     }),
   gPlaceReviewLikesCount: publicProcedure
     .input(z.object({ gPlaceReviewId: z.string().min(1) }))
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
       return countGPlaceReviewLikes(input.gPlaceReviewId);
     }),
   getGPlaceReviews: publicProcedure

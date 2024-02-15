@@ -1,5 +1,3 @@
-import { GPlaceReviewAnswer } from "@prisma/client";
-import { mode } from "opening_hours";
 import { db } from "~/server/db";
 
 export interface OwnerAnswerResource {
