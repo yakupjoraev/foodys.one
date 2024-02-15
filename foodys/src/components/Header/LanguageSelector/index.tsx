@@ -100,6 +100,7 @@ function renderLanguageMenu(onChange: (locale: string) => void) {
             src="/img/header/fr.svg"
             width={24}
             height={24}
+            alt=""
           />
           Français
         </button>
@@ -120,6 +121,7 @@ function renderLanguageMenu(onChange: (locale: string) => void) {
             src="/img/header/gb.svg"
             width={24}
             height={24}
+            alt=""
           />
           English
         </button>
