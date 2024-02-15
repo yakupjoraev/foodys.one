@@ -1,8 +1,10 @@
 import {
   Establishment,
+  type TextSearch,
   type GPlace,
   type Prisma,
   type PrismaClient,
+  type Lang,
 } from "@prisma/client";
 import { type DefaultArgs } from "@prisma/client/runtime/library";
 import { type Session } from "next-auth";
@@ -115,81 +117,36 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
-      const cachedResponse = await db.textSearch.findFirst({
+      let cachedResponse: TextSearch | null = await db.textSearch.findFirst({
         where: {
           query: normalizedQuery,
           establishment: getEstablishmentDB(input.establishment),
         },
       });
 
-      if (cachedResponse) {
-        const gApiPlaces = cachedResponse.places as GApiPlace[];
-
-        const gPlaces: GPlace[] = [];
-        await Promise.all(
-          gApiPlaces.map(async ({ place_id: externalId }) => {
-            if (!externalId) {
-              return;
-            }
-            const gPlace = await createGPlaceByExternalId(
-              externalId,
-              input.lang
-            );
-            if (gPlace) {
-              gPlaces.push(gPlace);
-            }
-          })
-        );
-
-        let gPlacesEn: GPlace[];
-        if (input.lang === "EN") {
-          gPlacesEn = gPlaces;
-        } else {
-          gPlacesEn = [];
-          await Promise.all(
-            gPlaces.map(async (gPlaces) => {
-              if (!gPlaces.place_id) {
-                return;
-              }
-              const placeEn = await createGPlaceByExternalId(
-                gPlaces.place_id,
-                "EN"
-              );
-              if (placeEn) {
-                gPlacesEn.push(placeEn);
-              }
-            })
-          );
-        }
-
-        let response = createResponse({
-          page,
-          pageSize: input.pageSize,
-          places: gPlaces,
-          filterRating: input.rating,
-          filterPriceLevel: input.priceLevel,
-          filterService: input.service,
-          filterHours: input.hours,
-          sortBy: input.sortBy,
-          clientCoordinates: input.clientCoordinates,
+      if (cachedResponse === null) {
+        const searchResponse = await gmClient.textSearch({
+          queries: {
+            query: input.query,
+            location: PARIS_LOCATION,
+            type: getEstablishmentGP(input.establishment),
+            region: "fr",
+            key: env.GOOGLE_MAPS_API_KEY,
+          },
         });
-        response = await withFavorities(response, ctx);
-        response = await withUrls(response, gPlacesEn);
 
-        return response;
+        if (searchResponse.results) {
+          cachedResponse = await db.textSearch.create({
+            data: {
+              query: normalizedQuery,
+              places: searchResponse.results,
+              establishment: getEstablishmentDB(input.establishment),
+            },
+          });
+        }
       }
 
-      const searchResponse = await gmClient.textSearch({
-        queries: {
-          query: input.query,
-          location: PARIS_LOCATION,
-          type: getEstablishmentGP(input.establishment),
-          region: "fr",
-          key: env.GOOGLE_MAPS_API_KEY,
-        },
-      });
-
-      if (!searchResponse.results) {
+      if (cachedResponse === null) {
         return {
           results: [],
           page: 1,
@@ -198,46 +155,16 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
-      await db.textSearch.create({
-        data: {
-          query: normalizedQuery,
-          places: searchResponse.results,
-          establishment: getEstablishmentDB(input.establishment),
-        },
-      });
-
-      const gPlaces: GPlace[] = [];
-      await Promise.all(
-        searchResponse.results.map(async ({ place_id: externalId }) => {
-          if (!externalId) {
-            return;
-          }
-          const gPlace = await createGPlaceByExternalId(externalId, input.lang);
-          if (gPlace) {
-            gPlaces.push(gPlace);
-          }
-        })
+      const gPlaces = await createGPlacesByTextSearch(
+        cachedResponse,
+        input.lang
       );
 
       let gPlacesEn: GPlace[];
       if (input.lang === "EN") {
         gPlacesEn = gPlaces;
       } else {
-        gPlacesEn = [];
-        await Promise.all(
-          gPlaces.map(async (gPlaces) => {
-            if (!gPlaces.place_id) {
-              return;
-            }
-            const placeEn = await createGPlaceByExternalId(
-              gPlaces.place_id,
-              "EN"
-            );
-            if (placeEn) {
-              gPlacesEn.push(placeEn);
-            }
-          })
-        );
+        gPlacesEn = await createGPlacesByTextSearch(cachedResponse, "EN");
       }
 
       let response = createResponse({
@@ -265,33 +192,18 @@ export const placesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }): Promise<PlaceListingItem[]> => {
-      const gPlaces: GPlace[] = [];
-      await Promise.all(
-        input.ids.map(async (id) => {
-          const gPlace = await createGPlaceByExternalId(id, input.lang);
-          if (gPlace) {
-            gPlaces.push(gPlace);
-          }
-        })
+      const gPlaces: GPlace[] = await createGPlacesByExternalIdBatch(
+        input.ids,
+        input.lang
       );
-
-      const listing = gPlaces.map((place) => createPlaceListingItem(place));
-
       let placesEn: GPlace[];
-
       if (input.lang === "EN") {
         placesEn = gPlaces;
       } else {
-        placesEn = [];
-        await Promise.all(
-          input.ids.map(async (externalId) => {
-            const gPlaceEn = await createGPlaceByExternalId(externalId, "EN");
-            if (gPlaceEn !== null) {
-              placesEn.push(gPlaceEn);
-            }
-          })
-        );
+        placesEn = await createGPlacesByExternalIdBatch(input.ids, "EN");
       }
+
+      const listing = gPlaces.map((place) => createPlaceListingItem(place));
 
       const externalIdToUrl = new Map<string, string>();
       await Promise.all(
@@ -316,6 +228,41 @@ export const placesRouter = createTRPCRouter({
       return listing;
     }),
 });
+
+async function createGPlacesByTextSearch(textSearch: TextSearch, lang: Lang) {
+  const gApiPlaces = textSearch.places as GApiPlace[];
+
+  const externalIds: string[] = [];
+  for (const gApiPlace of gApiPlaces) {
+    if (gApiPlace.place_id !== undefined) {
+      externalIds.push(gApiPlace.place_id);
+    }
+  }
+
+  const gPlaces: GPlace[] = await createGPlacesByExternalIdBatch(
+    externalIds,
+    lang
+  );
+
+  return gPlaces;
+}
+
+async function createGPlacesByExternalIdBatch(
+  externalIds: string[],
+  lang: Lang
+) {
+  const gPlaces: GPlace[] = [];
+  const gPlacesRaw: (GPlace | null)[] = await Promise.all(
+    externalIds.map((externalId) => createGPlaceByExternalId(externalId, lang))
+  );
+  for (const gPlace of gPlacesRaw) {
+    if (gPlace !== null) {
+      gPlaces.push(gPlace);
+    }
+  }
+
+  return gPlaces;
+}
 
 async function withFavorities(
   listing: PlaceListing,
