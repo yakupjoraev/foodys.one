@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Layout } from "~/components/Layout";
-import { ReviewForm, ReviewFormSubmitData } from "~/components/ReviewForm";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { ReviewForm, type ReviewFormSubmitData } from "~/components/ReviewForm";
+import {
+  type GetServerSideProps,
+  type InferGetServerSidePropsType,
+} from "next";
 import { db } from "~/server/db";
 import {
   createPlacePreviewByPhotoReference,

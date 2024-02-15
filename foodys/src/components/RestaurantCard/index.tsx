@@ -18,7 +18,7 @@ import {
   type GoogleOpeningHours,
   useGoogleOpeningHours,
 } from "~/hooks/use-google-opening-hours";
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import { env } from "~/env.mjs";
 import { useServicePhone } from "~/hooks/use-service-phone";
 

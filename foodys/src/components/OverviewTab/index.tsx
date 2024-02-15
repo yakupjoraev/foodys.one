@@ -1,4 +1,4 @@
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
 import { type PlaceResource } from "~/server/api/utils/g-place";
 

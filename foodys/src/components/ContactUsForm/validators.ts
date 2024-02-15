@@ -1,4 +1,4 @@
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import { object, string, boolean } from "zod";
 
 export function createContactUsFormSchema(t: Translate) {

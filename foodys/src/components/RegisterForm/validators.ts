@@ -1,5 +1,5 @@
 import { passwordStrength } from "check-password-strength";
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import { object, string, literal } from "zod";
 
 export function createRegisterFormSchema(t: Translate) {

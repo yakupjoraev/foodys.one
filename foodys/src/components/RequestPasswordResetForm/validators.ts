@@ -1,4 +1,4 @@
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import { object, string } from "zod";
 
 export function createRequestPasswordResetFormSchema(t: Translate) {
