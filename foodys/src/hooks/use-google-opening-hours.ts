@@ -79,7 +79,7 @@ export function useGoogleOpeningHours(
     return () => {
       clearInterval(intervalId);
     };
-  }, [periods]);
+  }, [periods, utcOffset]);
 
   return openingHours;
 }

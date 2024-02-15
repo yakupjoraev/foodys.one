@@ -150,7 +150,7 @@ export default function Main(
         console.error(error);
         toast.error(t("toastFailedConfirmEmail"), { id: toastId });
       });
-  }, [confirmEmailToken]);
+  }, [confirmEmailToken, confirmUserEmail, t]);
 
   return (
     <Layout

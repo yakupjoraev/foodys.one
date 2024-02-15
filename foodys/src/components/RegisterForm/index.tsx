@@ -83,7 +83,7 @@ export function RegisterForm(props: RegisterFormProps) {
         });
       }
     }
-  }, [props.error]);
+  }, [props.error, setError, t]);
 
   const handleRegisterFormSubmit = handleSubmit((formData) => {
     props.onRegister({

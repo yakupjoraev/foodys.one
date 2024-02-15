@@ -56,7 +56,7 @@ export function AuthForm(props: AuthFormProps) {
 
   useEffect(() => {
     reset();
-  }, [props.show]);
+  }, [props.show, reset]);
 
   useEffect(() => {
     if (props.error) {
@@ -68,7 +68,7 @@ export function AuthForm(props: AuthFormProps) {
         });
       }
     }
-  }, [props.error]);
+  }, [props.error, setError, t]);
 
   const handleAuthFormSubmit = handleSubmit((formData) => {
     props.onAuth({

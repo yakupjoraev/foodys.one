@@ -73,7 +73,7 @@ export function DashboardFilters(props: DashboardFiltersProps) {
       nextFilterState.sortBy = "relevance";
       setFilter(nextFilterState);
     }
-  }, [props.clientCoordinates]);
+  }, [props.clientCoordinates, filter, setFilter]);
 
   const registerFilterCheckbox = (
     key: Exclude<
@@ -436,7 +436,7 @@ function useInteractive(
       onSubmit(update);
       submitedUpdateRef.current = update;
     }
-  }, [interactive, update]);
+  }, [interactive, update, onSubmit]);
 
   return [update, setUpdate];
 }

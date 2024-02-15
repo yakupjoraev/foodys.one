@@ -31,7 +31,7 @@ export default function Favorites() {
 
   useEffect(() => {
     void queryResponse.refetch();
-  }, [visibleFavoriteIds]);
+  }, [visibleFavoriteIds, queryResponse]);
 
   const handlePayInCryptoBtnClick = () => {
     setCryptoModalOpen(true);

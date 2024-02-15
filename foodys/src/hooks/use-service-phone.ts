@@ -68,7 +68,7 @@ export function useServicePhone(placeId?: string): UseServicePhoneOutput {
       .finally(() => {
         setServicePhoneLoading(false);
       });
-  }, [placeId, servicePhone, servicePhoneLoading]);
+  }, [placeId, servicePhone, servicePhoneLoading, t]);
 
   return [servicePhone, servicePhoneLoading, fetchServicePhone];
 }

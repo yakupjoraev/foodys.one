@@ -44,7 +44,7 @@ export function RequestPasswordResetForm(props: RequestPasswordResetFormProps) {
     if (props.error) {
       setError("email", { message: t("toastUserNotFound") });
     }
-  }, [props.error]);
+  }, [props.error, setError, t]);
 
   const handleRequestPasswordResetFormSubmit = handleSubmit((formData) => {
     if (props.loading) {

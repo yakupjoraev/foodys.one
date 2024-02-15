@@ -107,7 +107,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
     const url = new URL(props.url, env.NEXT_PUBLIC_SITE_URL);
     url.searchParams.set("search", props.searchUrl);
     return url.toString();
-  }, [props.url]);
+  }, [props.url, props.searchUrl]);
 
   return (
     <div className="restaurant">

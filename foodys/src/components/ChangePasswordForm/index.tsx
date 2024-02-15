@@ -57,7 +57,7 @@ export function ChangePasswordForm(props: RegisterFormProps) {
 
   useEffect(() => {
     reset(DEFAULT_FORM_DATA);
-  }, [props.show]);
+  }, [props.show, reset]);
 
   useEffect(() => {
     if (props.error) {
@@ -72,7 +72,7 @@ export function ChangePasswordForm(props: RegisterFormProps) {
         }
       }
     }
-  }, [props.error]);
+  }, [props.error, setError, t]);
 
   const handleRegisterFormSubmit = handleSubmit((formData) => {
     props.onChangePassword({

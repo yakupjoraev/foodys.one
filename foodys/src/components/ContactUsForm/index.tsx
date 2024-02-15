@@ -56,7 +56,7 @@ export function ContactUsForm(props: ContactUsFormProps) {
 
   useEffect(() => {
     reset(DEFAULT_FORM_DATA);
-  }, [props.show]);
+  }, [props.show, reset]);
 
   const handleContactUsFormSubmit = handleSubmit((formData) => {
     if (props.loading) {
