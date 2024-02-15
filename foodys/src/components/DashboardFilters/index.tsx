@@ -4,7 +4,6 @@ import { DashboardFilterCheckbox } from "../DashboardFilterCheckbox";
 import classNames from "classnames";
 import useTranslation from "next-translate/useTranslation";
 import { DashboardFilterRadio } from "../DashboradFilterRadio";
-import { procedureTypes } from "@trpc/server";
 import { DashboardFilterPageSize } from "../DashboardFilterPageSize";
 
 export interface FilterState {

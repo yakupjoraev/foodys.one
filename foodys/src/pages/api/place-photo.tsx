@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import httpProxy from "http-proxy";
 import { env } from "~/env.mjs";
 
 export const config = {

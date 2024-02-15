@@ -1,5 +1,4 @@
 import { useEffect, useId, useMemo, useState } from "react";
-import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createChangePasswordFromSchema } from "./validators";

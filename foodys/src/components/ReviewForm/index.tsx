@@ -38,8 +38,6 @@ export function ReviewForm(props: ReviewFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
-    reset,
   } = useForm<ReviewFormData>({
     defaultValues: DEFAULT_FORM_DATA,
     resolver: zodResolver(reviewFormSchema),

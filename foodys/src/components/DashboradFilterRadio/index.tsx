@@ -14,7 +14,7 @@ export function DashboardFilterRadio<T extends string>(
 ) {
   const id = useId();
 
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (_ev: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(props.value);
   };
 

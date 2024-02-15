@@ -47,7 +47,6 @@ export function ContactUsForm(props: ContactUsFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
     reset,
   } = useForm<ContactUsFormDataInternal>({
     defaultValues: DEFAULT_FORM_DATA,

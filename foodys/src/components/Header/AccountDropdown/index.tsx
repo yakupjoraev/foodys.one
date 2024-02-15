@@ -1,6 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
-import { type Translate } from "next-translate";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover } from "react-tiny-popover";
 import classNames from "classnames";
 import style from "./style.module.css";

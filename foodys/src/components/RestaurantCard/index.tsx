@@ -10,10 +10,8 @@ import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import Link from "next/link";
 import { ServicePhone } from "../ServicePhone";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useWindowSize } from "usehooks-ts";
-import classNames from "classnames";
-import { useRouter } from "next/router";
 import { GetThere } from "../GetThere";
 import { type GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 import {
@@ -70,7 +68,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
     props.openingPeriods,
     props.utcOffset
   );
-  const [servicePhone, servicePhoneLoading, fetchServicePhone] =
+  const [servicePhone, _servicePhoneLoading, fetchServicePhone] =
     useServicePhone(props.placeId);
 
   const photos: { src: string; srcSet?: string }[] =

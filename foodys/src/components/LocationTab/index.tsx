@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { ServicePhone } from "../ServicePhone";
@@ -20,7 +19,7 @@ export interface LocationTabProps {
 export function LocationTab(props: LocationTabProps) {
   const { t } = useTranslation("common");
 
-  const [servicePhone, servicePhoneLoading, fetchServicePhone] =
+  const [servicePhone, _servicePhoneLoading, fetchServicePhone] =
     useServicePhone(props.place.place_id);
 
   const handleCallBtnClick = () => {
