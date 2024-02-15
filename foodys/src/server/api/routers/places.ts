@@ -125,6 +125,7 @@ export const placesRouter = createTRPCRouter({
 
       if (cachedResponse) {
         const gApiPlaces = cachedResponse.places as GApiPlace[];
+
         const gPlaces: GPlace[] = [];
         await Promise.all(
           gApiPlaces.map(async ({ place_id: externalId }) => {
@@ -140,6 +141,28 @@ export const placesRouter = createTRPCRouter({
             }
           })
         );
+
+        let gPlacesEn: GPlace[];
+        if (input.lang === "EN") {
+          gPlacesEn = gPlaces;
+        } else {
+          gPlacesEn = [];
+          await Promise.all(
+            gPlaces.map(async (gPlaces) => {
+              if (!gPlaces.place_id) {
+                return;
+              }
+              const placeEn = await createGPlaceByExternalId(
+                gPlaces.place_id,
+                "EN"
+              );
+              if (placeEn) {
+                gPlacesEn.push(placeEn);
+              }
+            })
+          );
+        }
+
         let response = createResponse({
           page,
           pageSize: input.pageSize,
@@ -152,7 +175,8 @@ export const placesRouter = createTRPCRouter({
           clientCoordinates: input.clientCoordinates,
         });
         response = await withFavorities(response, ctx);
-        response = await withUrls(response, gPlaces, input.lang);
+        response = await withUrls(response, gPlacesEn);
+
         return response;
       }
 
@@ -196,6 +220,27 @@ export const placesRouter = createTRPCRouter({
         })
       );
 
+      let gPlacesEn: GPlace[];
+      if (input.lang === "EN") {
+        gPlacesEn = gPlaces;
+      } else {
+        gPlacesEn = [];
+        await Promise.all(
+          gPlaces.map(async (gPlaces) => {
+            if (!gPlaces.place_id) {
+              return;
+            }
+            const placeEn = await createGPlaceByExternalId(
+              gPlaces.place_id,
+              "EN"
+            );
+            if (placeEn) {
+              gPlacesEn.push(placeEn);
+            }
+          })
+        );
+      }
+
       let response = createResponse({
         page,
         pageSize: input.pageSize,
@@ -208,7 +253,8 @@ export const placesRouter = createTRPCRouter({
         clientCoordinates: input.clientCoordinates,
       });
       response = await withFavorities(response, ctx);
-      response = await withUrls(response, gPlaces, input.lang);
+      response = await withUrls(response, gPlacesEn);
+
       return response;
     }),
 
@@ -296,7 +342,7 @@ async function withFavorities(
   return nextListing;
 }
 
-async function withUrls(listing: PlaceListing, placesEn: GPlace[], lang: Lang) {
+async function withUrls(listing: PlaceListing, placesEn: GPlace[]) {
   const nextListing = {
     ...listing,
   };
