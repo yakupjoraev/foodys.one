@@ -3,7 +3,7 @@ import {
   type GetServerSideProps,
   type InferGetServerSidePropsType,
 } from "next";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
@@ -253,6 +253,40 @@ export default function Place(
       },
     });
 
+  const openTab = useCallback(
+    (nextTab: Tab, scroll?: boolean) => {
+      switch (nextTab) {
+        case Tab.Overview: {
+          setTab(nextTab);
+          setHash(HASH_OVERVIEW);
+          break;
+        }
+        case Tab.Reviews: {
+          setTab(nextTab);
+          setHash(HASH_REVIEWS);
+          break;
+        }
+        case Tab.OpeningHours: {
+          setTab(nextTab);
+          setHash(HASH_OPENING_HOURS);
+          break;
+        }
+        case Tab.Location: {
+          setTab(nextTab);
+          setHash(HASH_LOCATION);
+          break;
+        }
+        default: {
+          return;
+        }
+      }
+      if (scroll && tabsRef.current !== null) {
+        tabsRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [setTab, setHash]
+  );
+
   useEffect(() => {
     if (hash === HASH_GALLERY) {
       setGalleryOpen(true);
@@ -269,13 +303,14 @@ export default function Place(
         tabsRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [hash]);
+  }, [openTab, hash]);
 
   useEffect(() => {
     const tab = getTabByHash(hash);
     if (tab !== null && tabsRef.current) {
       tabsRef.current.scrollIntoView({ behavior: "smooth" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const previewPhotos = useMemo(() => {
@@ -369,37 +404,6 @@ export default function Place(
       );
   };
 
-  const openTab = (nextTab: Tab, scroll?: boolean) => {
-    switch (nextTab) {
-      case Tab.Overview: {
-        setTab(nextTab);
-        setHash(HASH_OVERVIEW);
-        break;
-      }
-      case Tab.Reviews: {
-        setTab(nextTab);
-        setHash(HASH_REVIEWS);
-        break;
-      }
-      case Tab.OpeningHours: {
-        setTab(nextTab);
-        setHash(HASH_OPENING_HOURS);
-        break;
-      }
-      case Tab.Location: {
-        setTab(nextTab);
-        setHash(HASH_LOCATION);
-        break;
-      }
-      default: {
-        return;
-      }
-    }
-    if (scroll && tabsRef.current !== null) {
-      tabsRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const lastPreviewIndex = previewPhotos ? previewPhotos.length - 1 : -1;
 
   const openingHours = props.place.opening_hours?.periods;
@@ -455,7 +459,7 @@ export default function Place(
     });
 
     return withLikes;
-  }, [likes, blockedReviews, reviewsQuery.data]);
+  }, [likes, blockedReviews, reviewsQuery.data, props.place.reviews]);
 
   const prevResultsUrl: string | null = useMemo(() => {
     const { search } = router.query;
