@@ -17,6 +17,7 @@ import { removeNulls } from "~/utils/remove-nulls";
 import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
 import { type PlaceReviewResource } from "./g-place-review";
+import omit from "lodash/omit";
 
 const PREVIEW_PRESETS: { preset: string; scale: number }[] = [
   { preset: "cover_168x168", scale: 1 },
@@ -288,12 +289,7 @@ export async function createGPlaceByExternalId(
 }
 
 export function createPlaceResource(gPlace: GPlace): PlaceResource {
-  const {
-    created_at: _created_at,
-    updated_at: _updated_at,
-    lang: _lang,
-    ...rest
-  } = gPlace;
+  const rest = omit(gPlace, ["created_at", "updated_at", "lang"]);
   return removeNulls({ ...rest, reviews: [] });
 }
 
