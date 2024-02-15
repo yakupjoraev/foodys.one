@@ -72,7 +72,7 @@ export default function Favorites() {
     }, [geolocation]);
 
   return (
-    <Layout title="Foodys - Favorites">
+    <Layout title={t("pageTitleFavourites")}>
       <main className="main">
         <div className="dashboard">
           <div className="container">
