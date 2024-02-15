@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FormEvent, useId } from "react";
+import { type FormEvent, useId } from "react";
 import useTranslation from "next-translate/useTranslation";
 
 export function AboutSearch() {
