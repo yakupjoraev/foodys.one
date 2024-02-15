@@ -3,7 +3,6 @@ import { gmClient } from "~/server/gm-client";
 import {
   type GApiPlace,
   type GApiPlaceOpeningHoursPeriod,
-  type GApiPlaceReview,
 } from "~/server/gm-client/types";
 import {
   type GPlaceReview,
@@ -15,7 +14,6 @@ import {
 import { type DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
-import { removeUndefined } from "~/utils/remove-undefined";
 import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
 import { type PlaceReviewResource } from "./g-place-review";
@@ -290,7 +288,12 @@ export async function createGPlaceByExternalId(
 }
 
 export function createPlaceResource(gPlace: GPlace): PlaceResource {
-  const { created_at, updated_at, lang, ...rest } = gPlace;
+  const {
+    created_at: _created_at,
+    updated_at: _updated_at,
+    lang: _lang,
+    ...rest
+  } = gPlace;
   return removeNulls({ ...rest, reviews: [] });
 }
 
