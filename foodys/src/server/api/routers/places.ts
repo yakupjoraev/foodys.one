@@ -1,7 +1,6 @@
 import {
   Establishment,
   type GPlace,
-  type Lang,
   type Prisma,
   type PrismaClient,
 } from "@prisma/client";

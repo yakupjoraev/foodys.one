@@ -19,8 +19,9 @@ export interface LocationTabProps {
 export function LocationTab(props: LocationTabProps) {
   const { t } = useTranslation("common");
 
-  const [servicePhone, _servicePhoneLoading, fetchServicePhone] =
-    useServicePhone(props.place.place_id);
+  const [servicePhone, , fetchServicePhone] = useServicePhone(
+    props.place.place_id
+  );
 
   const handleCallBtnClick = () => {
     if (servicePhone !== null) {

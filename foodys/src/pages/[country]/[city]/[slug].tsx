@@ -1,12 +1,11 @@
 import classNames from "classnames";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Layout } from "~/components/Layout";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { OpeningHoursTab } from "~/components/OpeningHoursTab";
 import { OverviewTab } from "~/components/OverviewTab";
-import { GApiPlace } from "~/server/gm-client/types";
 import { ReviewsTab } from "~/components/ReviewsTab";
 import {
   STAR_HALF,

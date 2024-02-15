@@ -9,7 +9,7 @@ import {
 } from "~/components/DashboardFilters";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 import { CryptoModal } from "~/components/CryptoModal";

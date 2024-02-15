@@ -68,8 +68,7 @@ export function RestaurantCard(props: RestaurantCardProps) {
     props.openingPeriods,
     props.utcOffset
   );
-  const [servicePhone, _servicePhoneLoading, fetchServicePhone] =
-    useServicePhone(props.placeId);
+  const [servicePhone, , fetchServicePhone] = useServicePhone(props.placeId);
 
   const photos: { src: string; srcSet?: string }[] =
     props.photos ?? DEFAULT_PHOTOS;
