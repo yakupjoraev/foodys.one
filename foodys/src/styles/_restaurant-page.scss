@@ -87,18 +87,18 @@
   // .restaurant-page__nav-back
 
   &__nav-back {
-    color: #3c527e;
+    color: #acaeb3;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 146.8%;
     letter-spacing: -0.28px;
     display: block;
-    text-decoration: underline;
+    text-decoration: none;
     margin-bottom: 12px;
   }
 
   &__nav-back:hover {
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   // .restaurant-page__pictures
