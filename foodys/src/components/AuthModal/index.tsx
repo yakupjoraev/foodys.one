@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useRef } from "react";
-import { AuthForm, AuthRequest, AuthError } from "../AuthForm";
+import { AuthForm, type AuthRequest, type AuthError } from "../AuthForm";
 
 export { type AuthRequest, type AuthError } from "../AuthForm";
 

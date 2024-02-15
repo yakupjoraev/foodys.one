@@ -11,7 +11,10 @@ import classNames from "classnames";
 import { useMemo, useState } from "react";
 import { RWebShare } from "react-web-share";
 import { type PlaceReviewResource } from "~/server/api/utils/g-place-review";
-import { OwnerAnswerForm, OwnerAnswerFormData } from "../../OwnerAnswerForm";
+import {
+  OwnerAnswerForm,
+  type OwnerAnswerFormData,
+} from "../../OwnerAnswerForm";
 import toast from "react-hot-toast";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 

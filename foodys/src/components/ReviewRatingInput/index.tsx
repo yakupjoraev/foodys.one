@@ -1,13 +1,13 @@
 import {
-  InputProps,
+  type InputProps,
   Rating,
-  SharedProps,
+  type SharedProps,
   ThinRoundedStar,
 } from "@smastrom/react-rating";
-import { RefAttributes, useState } from "react";
+import { type RefAttributes, useState } from "react";
 import style from "./style.module.css";
 import useTranslation from "next-translate/useTranslation";
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 
 const itemStyles = {
   itemShapes: ThinRoundedStar,

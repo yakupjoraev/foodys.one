@@ -1,4 +1,4 @@
-import { SVGCommand, roundCommands } from "svg-round-corners";
+import { type SVGCommand, roundCommands } from "svg-round-corners";
 
 const TRAPEZOID_CORNER_RADIUS = 40;
 const BREAKPOINT_MIDDLE_TABLET = 820;

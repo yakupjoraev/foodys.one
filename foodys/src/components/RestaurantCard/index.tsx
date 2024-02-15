@@ -15,9 +15,9 @@ import { useWindowSize } from "usehooks-ts";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { GetThere } from "../GetThere";
-import { GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
+import { type GApiPlaceOpeningHoursPeriod } from "~/server/gm-client/types";
 import {
-  GoogleOpeningHours,
+  type GoogleOpeningHours,
   useGoogleOpeningHours,
 } from "~/hooks/use-google-opening-hours";
 import { Translate } from "next-translate";

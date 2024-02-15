@@ -1,6 +1,9 @@
 import classNames from "classnames";
 import { Portal } from "../Portal";
-import { ChangePasswordError, ChangePasswordForm } from "../ChangePasswordForm";
+import {
+  type ChangePasswordError,
+  ChangePasswordForm,
+} from "../ChangePasswordForm";
 import { type ChangePasswordRequest } from "../ChangePasswordForm";
 
 export {

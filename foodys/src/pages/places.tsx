@@ -3,7 +3,10 @@ import { useSearchParams } from "next/navigation";
 import { RestaurantCard } from "~/components/RestaurantCard";
 import { api } from "~/utils/api";
 import { Paginator } from "~/components/Paginator";
-import { DashboardFilters, FilterState } from "~/components/DashboardFilters";
+import {
+  DashboardFilters,
+  type FilterState,
+} from "~/components/DashboardFilters";
 import useTranslation from "next-translate/useTranslation";
 import Trans from "next-translate/Trans";
 import { useEffect, useMemo, useState } from "react";

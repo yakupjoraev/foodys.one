@@ -1,24 +1,24 @@
 import { env } from "~/env.mjs";
 import { gmClient } from "~/server/gm-client";
 import {
-  GApiPlace,
-  GApiPlaceOpeningHoursPeriod,
-  GApiPlaceReview,
+  type GApiPlace,
+  type GApiPlaceOpeningHoursPeriod,
+  type GApiPlaceReview,
 } from "~/server/gm-client/types";
 import {
-  GPlaceReview,
+  type GPlaceReview,
   type Lang,
   Prisma,
-  PrismaClient,
-  GPlace,
+  type PrismaClient,
+  type GPlace,
 } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { type DefaultArgs } from "@prisma/client/runtime/library";
 import { db } from "~/server/db";
 import { removeNulls } from "~/utils/remove-nulls";
 import { removeUndefined } from "~/utils/remove-undefined";
 import { createPlaceUrlByGPlace } from "./place-url";
 import { createGReviewHash } from "~/utils/review-hash";
-import { PlaceReviewResource } from "./g-place-review";
+import { type PlaceReviewResource } from "./g-place-review";
 
 const PREVIEW_PRESETS: { preset: string; scale: number }[] = [
   { preset: "cover_168x168", scale: 1 },

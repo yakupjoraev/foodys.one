@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, PropsWithChildren } from "react";
+import { useRef, useEffect, useState, type PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 
 export type PortalProps = PropsWithChildren<{ rootId: string }>;

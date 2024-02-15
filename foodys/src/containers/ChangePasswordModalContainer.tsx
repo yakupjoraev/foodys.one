@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import {
   ChangePasswordModal,
   type ChangePasswordError,
-  ChangePasswordRequest,
+  type ChangePasswordRequest,
 } from "~/components/ChangePasswordModal";
 import { api } from "~/utils/api";
 

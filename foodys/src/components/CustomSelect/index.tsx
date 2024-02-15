@@ -1,4 +1,8 @@
-import Select, { CSSObjectWithLabel, GroupBase, Props } from "react-select";
+import Select, {
+  type CSSObjectWithLabel,
+  type GroupBase,
+  type Props,
+} from "react-select";
 
 export function CustomSelect<
   Option,

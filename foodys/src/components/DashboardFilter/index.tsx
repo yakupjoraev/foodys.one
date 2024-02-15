@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { type PropsWithChildren, useEffect, useRef, useState } from "react";
 
 export type DashboardFilterProps = PropsWithChildren<{
   className?: string;

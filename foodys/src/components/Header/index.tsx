@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { FormEvent, useEffect, useId, useState } from "react";
+import { type FormEvent, useEffect, useId, useState } from "react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { LanguageSelector } from "./LanguageSelector";

@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { FormEvent, useId } from "react";
+import { type FormEvent, useId } from "react";
 
 export function DashboardFormSearch() {
   const { t } = useTranslation("common");

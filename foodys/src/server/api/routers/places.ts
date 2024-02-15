@@ -1,21 +1,21 @@
 import {
   Establishment,
-  GPlace,
-  Lang,
-  Prisma,
-  PrismaClient,
+  type GPlace,
+  type Lang,
+  type Prisma,
+  type PrismaClient,
 } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
-import { Session } from "next-auth";
+import { type DefaultArgs } from "@prisma/client/runtime/library";
+import { type Session } from "next-auth";
 import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
 import { gmClient } from "~/server/gm-client";
-import { GApiPlace } from "~/server/gm-client/types";
+import { type GApiPlace } from "~/server/gm-client/types";
 import {
-  PlaceListing,
-  PlaceListingItem,
+  type PlaceListing,
+  type PlaceListingItem,
   applyFavoritiesToPlaceItems,
   createGPlaceByExternalId,
   createPlaceListingItem,

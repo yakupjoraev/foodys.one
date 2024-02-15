@@ -1,9 +1,9 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import {
-  RegisterError,
+  type RegisterError,
   RegisterModal,
-  RegisterRequest,
+  type RegisterRequest,
 } from "~/components/RegisterModal";
 import { api } from "~/utils/api";
 

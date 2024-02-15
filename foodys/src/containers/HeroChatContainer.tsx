@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import toast from "react-hot-toast";
-import { HeroChat, HeroChatFormData } from "~/components/HeroChat";
+import { HeroChat, type HeroChatFormData } from "~/components/HeroChat";
 
 export function HeroChatContainer() {
   const { t } = useTranslation("common");

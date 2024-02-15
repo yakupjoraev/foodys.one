@@ -3,7 +3,10 @@ import { Layout } from "~/components/Layout";
 import Trans from "next-translate/Trans";
 import { HomeBackground } from "~/components/HomeBackground";
 import { useEffect, useRef, useState } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {
+  type GetServerSideProps,
+  type InferGetServerSidePropsType,
+} from "next";
 import { getCookie, setCookie } from "cookies-next";
 import { HeroUk } from "~/components/HeroUk";
 import { ChangePasswordModalContainer } from "~/containers/ChangePasswordModalContainer";

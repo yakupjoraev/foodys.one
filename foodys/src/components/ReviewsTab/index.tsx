@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import classNames from "classnames";
 import { type PlaceResource } from "~/server/api/utils/g-place";
 import { useHash } from "~/hooks/use-hash";
-import { PlaceReviewResource } from "~/server/api/utils/g-place-review";
+import { type PlaceReviewResource } from "~/server/api/utils/g-place-review";
 import { ReportReviewModal } from "../ReportReviewModal";
 
 enum ReviewOrder {

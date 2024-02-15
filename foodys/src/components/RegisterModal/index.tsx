@@ -1,5 +1,9 @@
 import classNames from "classnames";
-import { RegisterError, RegisterForm, RegisterRequest } from "../RegisterForm";
+import {
+  type RegisterError,
+  RegisterForm,
+  type RegisterRequest,
+} from "../RegisterForm";
 
 export { type RegisterError, type RegisterRequest } from "../RegisterForm";
 

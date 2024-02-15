@@ -38,13 +38,13 @@ import superjson from "superjson";
 import { GetThere } from "~/components/GetThere";
 import {
   useGoogleOpeningHours,
-  GoogleOpeningHours,
+  type GoogleOpeningHours,
 } from "~/hooks/use-google-opening-hours";
-import { Translate } from "next-translate";
+import { type Translate } from "next-translate";
 import Link from "next/link";
 import { useClientFavorites } from "~/providers/favorites-provider";
 import { useClientBlockedReviews } from "~/providers/blocked-reviews-provider";
-import { OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
+import { type OwnerAnswerResource } from "~/server/api/utils/g-place-review-answer";
 import { useRouter } from "next/router";
 import { DashboardFormSearch } from "~/components/DashboardFormSearch";
 import { useSharedGeolocation } from "~/providers/shared-geolocation-provider";

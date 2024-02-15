@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { AuthError, AuthModal, AuthRequest } from "~/components/AuthModal";
+import {
+  type AuthError,
+  AuthModal,
+  type AuthRequest,
+} from "~/components/AuthModal";
 import isError from "lodash/isError";
 
 export interface AuthModalContainerProps {
