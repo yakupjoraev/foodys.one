@@ -33,7 +33,7 @@ export function getPhoto(
   }
 
   const handleConvertSuccess = (convertedFilePath: string) => {
-    res.sendFile(convertedFilePath);
+    res.type("image/jpeg").sendFile(convertedFilePath);
   };
 
   const handleConvertFailure = (error: any) => {
