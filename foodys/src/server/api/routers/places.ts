@@ -26,7 +26,14 @@ import haversine from "haversine-distance";
 import OpeningHours from "opening_hours";
 import { encodeGooglePeriods, getForeignTime } from "../utils/encode-periods";
 import { removeNulls } from "~/utils/remove-nulls";
-import { PriceLevel, searchTextNew } from "~/services/g-places-new-api";
+import {
+  PRICE_LEVEL_EXPENSIVE,
+  PRICE_LEVEL_INEXPENSIVE,
+  PRICE_LEVEL_MODERATE,
+  PRICE_LEVEL_VERY_EXPENSIVE,
+  PriceLevel,
+  searchTextNew,
+} from "~/services/g-places-new-api";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -293,12 +300,41 @@ export const placesRouter = createTRPCRouter({
         };
       }
 
+      let priceLevels: PriceLevel[] | undefined = undefined;
+      if (input.priceLevel !== undefined && input.priceLevel.length > 0) {
+        priceLevels = [];
+        for (const code of input.priceLevel) {
+          switch (code) {
+            case 1: {
+              priceLevels.push(PRICE_LEVEL_INEXPENSIVE);
+              break;
+            }
+            case 2: {
+              priceLevels.push(PRICE_LEVEL_MODERATE);
+              break;
+            }
+            case 3: {
+              priceLevels.push(PRICE_LEVEL_EXPENSIVE);
+              break;
+            }
+            case 4: {
+              priceLevels.push(PRICE_LEVEL_VERY_EXPENSIVE);
+              break;
+            }
+            default: {
+              assertUnreachable(code);
+            }
+          }
+        }
+      }
+
       const searchResponse = await searchTextNew({
         textQuery: normalizedQuery,
         includedType: getEstablishmentGP(input.establishment),
         languageCode: getLanguageCodeGP(input.lang),
         locationBias,
         openNow: input.hours === "openNow" ? true : undefined,
+        priceLevels,
       });
 
       const externalIds: string[] = [];
@@ -324,12 +360,11 @@ export const placesRouter = createTRPCRouter({
         gPlacesEn = queryResult[1];
       }
 
-      let response = createResponse({
+      let response = createResponse2({
         page,
         pageSize: input.pageSize,
         places: gPlaces,
         filterRating: input.rating,
-        filterPriceLevel: input.priceLevel,
         filterService: input.service,
         filterHours: input.hours,
         sortBy: input.sortBy,
@@ -532,10 +567,6 @@ function getLanguageCodeGP(lang: "FR" | "EN"): "fr" | "en" {
   }
 }
 
-function assertUnreachable(_x: never): never {
-  throw new Error("didn't expect to get here");
-}
-
 interface CreateResponseOpts {
   page: number;
   places: GPlace[];
@@ -567,6 +598,73 @@ function createResponse(opts: CreateResponseOpts): PlaceListing {
       filteredPlaces,
       opts.filterPriceLevel
     );
+  }
+  if (opts.filterService) {
+    filteredPlaces = filterPlacesByService(filteredPlaces, opts.filterService);
+  }
+  if (opts.filterHours) {
+    filteredPlaces = filterPlacesByHours(filteredPlaces, opts.filterHours);
+  }
+  let places = Array.from(filteredPlaces);
+  if (opts.sortBy === "distance" && opts.clientCoordinates) {
+    places = sortPlacesByRating(places);
+    places = sortPlacesByDistance(places, opts.clientCoordinates);
+  } else if (opts.sortBy === "price") {
+    places = sortPlacesByRating(places);
+    places = sortPlacesByPrice(places);
+  } else if (opts.sortBy === "rating") {
+    places = sortPlacesByRating(places);
+  }
+
+  const pageTotal = Math.ceil(places.length / opts.pageSize);
+
+  let normalizedPage = opts.page;
+  if (normalizedPage < 1) {
+    normalizedPage = 1;
+  } else if (normalizedPage > pageTotal) {
+    normalizedPage = pageTotal;
+  }
+
+  const startIndex = (normalizedPage - 1) * opts.pageSize;
+  const endIndex = startIndex + opts.pageSize;
+  const placesSlice = places.slice(startIndex, endIndex);
+
+  const placeListingItems = placesSlice.map((place) =>
+    createPlaceListingItem(place)
+  );
+
+  return {
+    results: placeListingItems,
+    page: normalizedPage,
+    pages: pageTotal,
+    total: places.length,
+  };
+}
+
+interface CreateResponse2Opts {
+  page: number;
+  places: GPlace[];
+  filterRating: (1 | 2 | 3 | 4 | 5)[] | undefined;
+  filterService?: ("delivery" | "dine_in" | "takeout" | "curbside_pickup")[];
+  filterHours?: "anyTime" | "openNow" | "open24Hours";
+  pageSize: number;
+  sortBy?: "relevance" | "distance" | "price" | "rating";
+  clientCoordinates?: { lat: number; lng: number };
+}
+
+function createResponse2(opts: CreateResponse2Opts): PlaceListing {
+  if (opts.places.length === 0) {
+    return {
+      results: [],
+      page: 1,
+      pages: 1,
+      total: 0,
+    };
+  }
+
+  let filteredPlaces: Iterable<GPlace> = opts.places;
+  if (opts.filterRating) {
+    filteredPlaces = filterPlacesByRating(filteredPlaces, opts.filterRating);
   }
   if (opts.filterService) {
     filteredPlaces = filterPlacesByService(filteredPlaces, opts.filterService);
@@ -805,4 +903,8 @@ function sortPlacesByRating(places: GPlace[]): GPlace[] {
   sortedPlaces = [...sortedPlaces, ...itemsWithoutRating];
 
   return sortedPlaces;
+}
+
+function assertUnreachable(_x: never): never {
+  throw new Error("didn't expect to get here");
 }
