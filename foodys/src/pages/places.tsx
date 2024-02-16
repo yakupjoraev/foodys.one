@@ -124,7 +124,7 @@ export default function Places() {
       return { lat, lng };
     }, [geolocation]);
 
-  const queryResponse = api.places.getPlaces.useQuery({
+  const queryResponse = api.places.getPlaces2.useQuery({
     lang: getLangFromLocale(locale),
     query: query ?? "",
     page: pageInt,
@@ -135,10 +135,7 @@ export default function Places() {
     establishment: debouncedFilterState.establishment,
     hours: debouncedFilterState.hours,
     sortBy: debouncedFilterState.sortBy,
-    clientCoordinates:
-      debouncedFilterState.sortBy === "distance"
-        ? clientCoordinates
-        : undefined,
+    clientCoordinates,
   });
 
   const handleChangeFilter = (nextFilterState: FilterState) => {

@@ -26,8 +26,19 @@ import haversine from "haversine-distance";
 import OpeningHours from "opening_hours";
 import { encodeGooglePeriods, getForeignTime } from "../utils/encode-periods";
 import { removeNulls } from "~/utils/remove-nulls";
+import { searchTextNew } from "~/services/g-places-new-api";
 
 const PARIS_LOCATION = "48.864716,2.349014";
+
+const PARIS_LOCATION_BIAS = {
+  circle: {
+    center: {
+      latitude: 48.864716,
+      longitude: 2.349014,
+    },
+    radius: 5000,
+  },
+};
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -184,6 +195,150 @@ export const placesRouter = createTRPCRouter({
       return response;
     }),
 
+  getPlaces2: publicProcedure
+    .input(
+      z.object({
+        lang: z.union([z.literal("FR"), z.literal("EN")]),
+        query: z.string(),
+        establishment: z.union([
+          z.literal("restaurant"),
+          z.literal("coffeeAndTea"),
+          z.literal("bar"),
+        ]),
+        rating: z.optional(
+          z
+            .array(
+              z.union([
+                z.literal(1),
+                z.literal(2),
+                z.literal(3),
+                z.literal(4),
+                z.literal(5),
+              ])
+            )
+            .max(5)
+        ),
+        priceLevel: z.optional(
+          z
+            .array(
+              z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)])
+            )
+            .max(4)
+        ),
+        service: z.optional(
+          z
+            .array(
+              z.union([
+                z.literal("delivery"),
+                z.literal("dine_in"),
+                z.literal("takeout"),
+                z.literal("curbside_pickup"),
+              ])
+            )
+            .max(4)
+        ),
+        page: z.optional(z.number().min(1)),
+        pageSize: z
+          .union([z.literal(10), z.literal(20), z.literal(30)])
+          .default(DEFAULT_PAGE_SIZE),
+        sortBy: z.optional(
+          z.union([
+            z.literal("relevance"),
+            z.literal("distance"),
+            z.literal("price"),
+            z.literal("rating"),
+          ])
+        ),
+        clientCoordinates: z.optional(
+          z.object({
+            lat: z.number(),
+            lng: z.number(),
+          })
+        ),
+        hours: z.optional(
+          z.union([
+            z.literal("anyTime"),
+            z.literal("openNow"),
+            z.literal("open24Hours"),
+          ])
+        ),
+      })
+    )
+    .query(async ({ input, ctx }): Promise<PlaceListing> => {
+      ctx.session;
+
+      const page = input.page ?? 1;
+
+      const normalizedQuery = normalizeQuery(input.query);
+
+      if (!normalizedQuery) {
+        return {
+          results: [],
+          page: 1,
+          pages: 1,
+          total: 0,
+        };
+      }
+
+      let locationBias = PARIS_LOCATION_BIAS;
+      if (input.clientCoordinates) {
+        locationBias = {
+          circle: {
+            center: {
+              latitude: input.clientCoordinates.lat,
+              longitude: input.clientCoordinates.lng,
+            },
+            radius: 5000,
+          },
+        };
+      }
+
+      const searchResponse = await searchTextNew({
+        textQuery: normalizedQuery,
+        includedType: getEstablishmentGP(input.establishment),
+        languageCode: getLanguageCodeGP(input.lang),
+        locationBias,
+      });
+
+      const externalIds: string[] = [];
+      if (searchResponse.places !== undefined) {
+        for (const { id: externalId } of searchResponse.places) {
+          if (externalId !== undefined) {
+            externalIds.push(externalId);
+          }
+        }
+      }
+
+      let gPlaces: GPlace[];
+      let gPlacesEn: GPlace[];
+      if (input.lang === "EN") {
+        gPlaces = await createGPlacesByExternalIdBatch(externalIds, input.lang);
+        gPlacesEn = gPlaces;
+      } else {
+        const queryResult = await Promise.all([
+          createGPlacesByExternalIdBatch(externalIds, input.lang),
+          createGPlacesByExternalIdBatch(externalIds, "EN"),
+        ]);
+        gPlaces = queryResult[0];
+        gPlacesEn = queryResult[1];
+      }
+
+      let response = createResponse({
+        page,
+        pageSize: input.pageSize,
+        places: gPlaces,
+        filterRating: input.rating,
+        filterPriceLevel: input.priceLevel,
+        filterService: input.service,
+        filterHours: input.hours,
+        sortBy: input.sortBy,
+        clientCoordinates: input.clientCoordinates,
+      });
+      response = await withFavorities(response, ctx);
+      response = await withUrls(response, gPlacesEn);
+
+      return response;
+    }),
   getPlacesByGoogleId: publicProcedure
     .input(
       z.object({
@@ -360,6 +515,24 @@ function getEstablishmentGP(
       return "bar";
     }
   }
+}
+
+function getLanguageCodeGP(lang: "FR" | "EN"): "fr" | "en" {
+  switch (lang) {
+    case "FR": {
+      return "fr";
+    }
+    case "EN": {
+      return "en";
+    }
+    default: {
+      return assertUnreachable(lang);
+    }
+  }
+}
+
+function assertUnreachable(_x: never): never {
+  throw new Error("didn't expect to get here");
 }
 
 interface CreateResponseOpts {

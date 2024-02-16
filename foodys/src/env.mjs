@@ -31,6 +31,7 @@ export const env = createEnv({
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
+    GOOGLE_PLACES_NEW_API_KEY: z.string(),
     GOOGLE_PLACES_API_KEY: z.string(),
     SMTP_HOST: z.string(),
     SMTP_PORT: z.string(),
@@ -65,6 +66,7 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    GOOGLE_PLACES_NEW_API_KEY: process.env.GOOGLE_PLACES_NEW_API_KEY,
     GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
     NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API:
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API,
