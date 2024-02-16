@@ -218,7 +218,7 @@ export async function createGPlaceByExternalId(
     queries: {
       place_id: externalId,
       language: gLanguage,
-      key: env.GOOGLE_MAPS_API_KEY,
+      key: env.GOOGLE_PLACES_API_KEY,
     },
   });
 
