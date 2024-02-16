@@ -37,13 +37,15 @@ import {
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
+const DEFAULT_RADIUS = 5000;
+
 const PARIS_LOCATION_BIAS = {
   circle: {
     center: {
       latitude: 48.864716,
       longitude: 2.349014,
     },
-    radius: 5000,
+    radius: DEFAULT_RADIUS,
   },
 };
 
@@ -295,7 +297,7 @@ export const placesRouter = createTRPCRouter({
               latitude: input.clientCoordinates.lat,
               longitude: input.clientCoordinates.lng,
             },
-            radius: 5000,
+            radius: DEFAULT_RADIUS,
           },
         };
       }
