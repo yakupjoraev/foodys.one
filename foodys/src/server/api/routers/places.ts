@@ -26,7 +26,7 @@ import haversine from "haversine-distance";
 import OpeningHours from "opening_hours";
 import { encodeGooglePeriods, getForeignTime } from "../utils/encode-periods";
 import { removeNulls } from "~/utils/remove-nulls";
-import { searchTextNew } from "~/services/g-places-new-api";
+import { PriceLevel, searchTextNew } from "~/services/g-places-new-api";
 
 const PARIS_LOCATION = "48.864716,2.349014";
 
@@ -298,6 +298,7 @@ export const placesRouter = createTRPCRouter({
         includedType: getEstablishmentGP(input.establishment),
         languageCode: getLanguageCodeGP(input.lang),
         locationBias,
+        openNow: input.hours === "openNow" ? true : undefined,
       });
 
       const externalIds: string[] = [];
