@@ -7,6 +7,23 @@ import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import Head from "next/head";
 import { HreflangMeta } from "~/components/HreflangMeta";
 
+const ABOUT_US_SCHEMA = `{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Foodys",
+  "url": "https://foodys.one/about-us",
+  "logo": "https://foodys.one/img/icons/fr/foodys-logo.svg",
+  "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "info@foodys.one",
+      "contactType": "customer service"
+  },
+  "sameAs": [
+      "https://twitter.com/FoodysOne",
+      "https://www.linkedin.com/company/foodys-one/"
+  ]
+}`;
+
 export default function About() {
   const { t } = useTranslation("common");
 
@@ -14,6 +31,11 @@ export default function About() {
     <Layout title={t("pageTitleAboutUs")}>
       <Head>
         <meta name="robots" content="index, follow" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: ABOUT_US_SCHEMA }}
+          key="organization-jsonld"
+        ></script>
       </Head>
       <HreflangMeta />
       <main className="main">
