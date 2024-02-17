@@ -234,5 +234,6 @@
   "textSearchNotFound": "Il n'y a pas de résultats correspondants à votre recherche",
   "favoritesNotFound": "Pas d'éléments sauvegardés",
   "textCookiesContent": "Foodys.one et ses partenaires utilisent des cookies destinés à nous permettre d'améliorer nos services, mesurer la fréquentation du site, établir des statistiques et de vous proposer des contenus, services et publicités adaptés à votre profil. Cliquez sur \"Accepter et fermer\" si vous consentez à l'utilisation de ces cookies ou sur \"En savoir plus\" pour prendre connaissance de notre politique en matière de cookies.",
-  "buttonOurPartners": "Nos partenaires"
+  "buttonOurPartners": "Nos partenaires",
+  "textNicknameExplanation": "Les espaces et les caractères spéciaux ne sont pas autorisés"
 }

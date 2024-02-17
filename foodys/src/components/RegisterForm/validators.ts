@@ -12,7 +12,7 @@ export function createRegisterFormSchema(t: Translate) {
       .max(256, t("textCharsMaxError", { max: 256 })),
     nickname: string()
       .max(256, t("textCharsMaxError", { max: 256 }))
-      .regex(/^[a-z0-9_]*$/),
+      .regex(/^[a-z0-9_]*$/, t('textNicknameExplanation')),
     email: string().email(),
     password: string()
       .min(8, t("textCharsMinError", { min: 256 }))
