@@ -20,6 +20,7 @@ import useTranslation from "next-translate/useTranslation";
 import { useAuthTrigger } from "~/hooks/use-auth-trigger";
 import { CookiesModalContainer } from "~/containers/CookiesModalContainer";
 import Head from "next/head";
+import { HeroPicture } from "~/components/HeroPicture";
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getServerSideProps = (async ({ query, res, req }) => {
@@ -171,7 +172,7 @@ export default function Main(
             <div className="hero__inner">
               <div className="hero__info">
                 {renderHeroTitle(props.picture)}
-                {renderHeroPicture(props.picture)}
+                <HeroPicture picId={props.picture} />
                 <HeroSearch />
               </div>
               <div className="hero__pictures">
@@ -287,77 +288,6 @@ function renderHeroTitle(picId: number) {
             components={[<span />, <br />]}
           />
         </h1>
-      );
-    }
-  }
-}
-
-function renderHeroPicture(picId: number) {
-  switch (picId) {
-    case 1: {
-      return (
-        <div className="hero__picture hero__picture--burger">
-          <img src="/img/main-page/hero/burgers.png" alt="#Burgers!" />
-        </div>
-      );
-    }
-    case 2: {
-      return (
-        <div className="hero__picture">
-          <img src="/img/main-page/hero/sushi.png" alt="#Sushi!" />
-        </div>
-      );
-    }
-    case 3: {
-      return (
-        <div className="hero__picture hero__picture--salade">
-          <img src="/img/main-page/hero/salade.png" alt="#Salade!" />
-        </div>
-      );
-    }
-    case 4: {
-      return (
-        <div className="hero__picture hero__picture--steak">
-          <img src="/img/main-page/hero/steak.png" alt="#Steak!" />
-        </div>
-      );
-    }
-    case 5: {
-      return (
-        <div className="hero__picture hero__picture--pasta">
-          <img src="/img/main-page/hero/spaghetti.png" alt="#Spaghetti!" />
-        </div>
-      );
-    }
-    case 6: {
-      return (
-        <div className="hero__picture hero__picture--pizza">
-          <picture>
-            <source
-              media="(max-width:767px)"
-              srcSet="/img/main-page/hero/mob/pizza.png"
-            />
-            <source
-              media="(min-width:768px)"
-              srcSet="/img/main-page/hero/pizza.png"
-            />
-            <img src="/img/main-page/hero/pizza.png" alt="#Pizza!" />
-          </picture>
-        </div>
-      );
-    }
-    case 7: {
-      return (
-        <div className="hero__picture hero__picture--desert">
-          <img src="/img/main-page/hero/dessert.png" alt="#OnTop!" />
-        </div>
-      );
-    }
-    default: {
-      return (
-        <div className="hero__picture">
-          <img src="/img/main-page/hero/burgers.png" alt="#Burgers!" />
-        </div>
       );
     }
   }
