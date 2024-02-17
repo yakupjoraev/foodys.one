@@ -59,16 +59,7 @@ export function CookiesModal(props: CookiesModalProps) {
               />
             </Link>
             <div className="modal-content__texts">
-              <p className="modal-content__text">
-                Fooding and its partners use cookies intended to enable us to
-                improve our services, measure traffic to web-site, compile
-                statistics and offer you content, services and ads adapted to
-                you profile. Click on &quot;Accept&quot; if you consent to the
-                use of these cookies or on &quot;Learn more and Manage your
-                settings&quot; to setup your preferences. You can change your
-                choice at any time by clicking on the &quot;cookies&quot; tab
-                accessible form our site.
-              </p>
+              <p className="modal-content__text">{t("textCookiesContent")}</p>
               <Link className="modal-content__texts-policy" href="/cookies">
                 Our Cookie Policy
               </Link>
@@ -80,7 +71,7 @@ export function CookiesModal(props: CookiesModalProps) {
                 Information storage and access, Measurement, Personalisation.
               </p>
               <Link className="modal-content__texts-out" href="/cookies">
-                View our partners
+                {t("buttonOurPartners")}
               </Link>
             </div>
             <div className="input__border" />
@@ -89,14 +80,14 @@ export function CookiesModal(props: CookiesModalProps) {
                 className="modal-content__btn modal-content__btn-outline"
                 href="/cookies"
               >
-                Learn more
+                {t("buttonLearnMore")}
               </Link>
               <button
                 type="button"
                 className="modal-content__btn"
                 onClick={() => props.onClose(true)}
               >
-                Agree and close
+                {t("buttonAgreeAndClose")}
               </button>
             </div>
           </form>

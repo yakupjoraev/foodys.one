@@ -232,5 +232,7 @@
   "textConfirmPassword": "Confirm password",
   "buttonCookiesNotAccept": "Continue without agreeing",
   "textSearchNotFound": "There are no results matching your search",
-  "favoritesNotFound": "No saved items yet"
+  "favoritesNotFound": "No saved items yet",
+  "textCookiesContent": "Foodys.one and its partners use cookies intended to enable us to improve our services, measure traffic to web-site, compile statistics and offer you content, services and ads adapted to you profile. Click on \"Accept and close\" if you consent to the use of these cookies or on \"Learn more\" to read about our policy in matter of cookies.",
+  "buttonOurPartners": "Our partners"
 }
