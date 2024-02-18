@@ -17,4 +17,7 @@ async function main() {
   console.log("outdated TextSearch removed: " + response.count);
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
