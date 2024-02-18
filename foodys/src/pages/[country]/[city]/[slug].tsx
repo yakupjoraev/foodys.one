@@ -56,6 +56,7 @@ import { useServicePhone } from "~/hooks/use-service-phone";
 import Head from "next/head";
 import { HreflangMeta } from "~/components/HreflangMeta";
 import { getLangFromLocale } from "~/utils/lang";
+import { createRestaurantJsonLd } from "~/utils/restaurant-ld";
 
 enum Tab {
   Overview,
@@ -148,12 +149,19 @@ export const getServerSideProps = (async (ctx) => {
     }
   }
 
+  const restaurantLd = createRestaurantJsonLd(
+    place,
+    absolutePlaceUrl.toString()
+  );
+  const restaurantLdStr = JSON.stringify(restaurantLd, null, 2);
+
   return {
     props: {
       place,
       favorite,
       hasTrackedPhone,
       placeUrl: absolutePlaceUrl.toString(),
+      restaurantLd: restaurantLdStr,
       trpcState: ssg.dehydrate(),
     },
   };
@@ -490,6 +498,10 @@ export default function Place(
     >
       <Head>
         <meta name="robots" content="index, follow" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: props.restaurantLd }}
+        ></script>
       </Head>
       <HreflangMeta />
       <main className="main">

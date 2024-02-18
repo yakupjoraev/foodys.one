@@ -56,6 +56,7 @@ export interface PlaceListing {
 export type PlaceResource = Omit<GApiPlace, "reviews"> & {
   id: string;
   reviews: PlaceReviewResource[];
+  created_at: string;
 };
 
 export function createPlaceListingItem(place: GPlace): PlaceListingItem {
@@ -290,7 +291,11 @@ export async function createGPlaceByExternalId(
 
 export function createPlaceResource(gPlace: GPlace): PlaceResource {
   const rest = omit(gPlace, ["created_at", "updated_at", "lang"]);
-  return removeNulls({ ...rest, reviews: [] });
+  return removeNulls({
+    ...rest,
+    reviews: [],
+    created_at: gPlace.created_at.toISOString(),
+  });
 }
 
 export async function fetchAllFavoriteGPlaces(
