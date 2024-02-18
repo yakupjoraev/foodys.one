@@ -10,7 +10,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "preview-email": "email dev"
+    "preview-email": "email dev",
+    "clean-text-search": "node ./cron/clean-text-search.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
