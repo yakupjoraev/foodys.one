@@ -60,9 +60,6 @@ export function CookiesModal(props: CookiesModalProps) {
             </Link>
             <div className="modal-content__texts">
               <p className="modal-content__text">{t("textCookiesContent")}</p>
-              <Link className="modal-content__texts-policy" href="/cookies">
-                Our Cookie Policy
-              </Link>
             </div>
             <div className="input__border" />
             <div className="modal-content__btns">
