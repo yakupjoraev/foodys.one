@@ -338,7 +338,7 @@
     @media (max-width: $breakpoint768) {
       order: 6;
       justify-self: start;
-      overflow-y: auto;
+      //overflow-y: auto;
       width: 100%;
 
       &::-webkit-scrollbar {
@@ -409,10 +409,11 @@
   &__others-link-label {
     position: absolute;
     left: 50%;
-    top: -5px;
+    top: -7px;
     transform: translateX(-50%);
-    width: 70px;
-    height: 12px;
+    min-width: 70px;
+    padding: 0 8px;
+    height: 14px;
     border-radius: 22px;
     background: linear-gradient(180deg, #d2d3d5 0%, #d2d3d5 100%);
 
@@ -420,7 +421,10 @@
     text-align: center;
     font-size: 9px;
     font-weight: 900;
-    line-height: 112.8%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   // .restaurant-page__service-phone
