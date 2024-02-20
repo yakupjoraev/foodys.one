@@ -63,16 +63,6 @@ export function CookiesModal(props: CookiesModalProps) {
               <Link className="modal-content__texts-policy" href="/cookies">
                 Our Cookie Policy
               </Link>
-              <h4 className="modal-content__texts-label">
-                We and our partners do the following data processing:
-              </h4>
-              <p className="modal-content__text">
-                Ad selection, delivery, reporting, Content selection,
-                Information storage and access, Measurement, Personalisation.
-              </p>
-              <Link className="modal-content__texts-out" href="/cookies">
-                {t("buttonOurPartners")}
-              </Link>
             </div>
             <div className="input__border" />
             <div className="modal-content__btns">
