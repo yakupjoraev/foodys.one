@@ -1,6 +1,11 @@
 import classNames from "classnames";
 import Trans from "next-translate/Trans";
 
+const APPLE_STORE_APP_URL =
+  "https://apps.apple.com/fr/app/paypolitan-pay-cash-crypto/id1562351292?l=en-GB";
+const GOOGLE_PLAY_APP_URL =
+  "https://play.google.com/store/apps/details?id=com.paypolitan.app&hl=fr&gl=US";
+
 export interface CryptoModalProps {
   open: boolean;
   onClose: () => void;
@@ -52,12 +57,18 @@ export function CryptoModal(props: CryptoModalProps) {
               />
               <ul className="modal-content__crypto-list">
                 <li className="modal-content__crypto-item">
-                  <a className="modal-content__crypto-link" href="#">
+                  <a
+                    className="modal-content__crypto-link"
+                    href={APPLE_STORE_APP_URL}
+                  >
                     <img src="/img/appstore.svg" alt="appstore" />
                   </a>
                 </li>
                 <li className="modal-content__crypto-item">
-                  <a className="modal-content__crypto-link" href="#">
+                  <a
+                    className="modal-content__crypto-link"
+                    href={GOOGLE_PLAY_APP_URL}
+                  >
                     <img src="/img/googleplay.svg" alt="googleplay" />
                   </a>
                 </li>
