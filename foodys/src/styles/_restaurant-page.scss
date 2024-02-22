@@ -6,6 +6,11 @@
     display: flex;
     justify-content: flex-start;
     column-gap: 10px;
+    overflow-y: auto;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
 
     &-item {
       min-width: 118px;
@@ -338,7 +343,8 @@
     @media (max-width: $breakpoint768) {
       order: 6;
       justify-self: start;
-      //overflow-y: auto;
+      overflow-y: auto;
+      padding-top: 8px;
       width: 100%;
 
       &::-webkit-scrollbar {
@@ -377,7 +383,7 @@
   &__others-open--closed {
     background-color: #A8ADB8;
     transition: none;
-    
+
     &:hover {
       background-color: #A8ADB8;
     }
@@ -421,7 +427,7 @@
     text-align: center;
     font-size: 9px;
     font-weight: 900;
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -823,8 +829,7 @@
   // column-gap: 2px;
 }
 
-.reviews-content__commit-star {
-}
+.reviews-content__commit-star {}
 
 .reviews-content__commit-age {
   color: rgba(0, 0, 0, 0.54);
@@ -882,8 +887,7 @@
   fill: currentColor;
 }
 
-.reviews-content__answer {
-}
+.reviews-content__answer {}
 
 .reviews-content__answer-label {
   margin-top: 12px;
@@ -989,8 +993,7 @@
   cursor: default;
 }
 
-.restaurant__btn--outline {
-}
+.restaurant__btn--outline {}
 
 .view-more {
   display: flex;

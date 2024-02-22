@@ -6,16 +6,46 @@
   align-items: center;
   justify-content: center;
   row-gap: 20px;
+  padding: 60px 0;
   min-height: 100vh;
+
+  @media (max-width: $breakpoint768) {
+    padding: 40px 0;
+  }
+}
+
+.not-found__logo {
+  img {
+    max-width: 100%;
+  }
+
+
+  @media (max-width: $breakpoint992) {
+    img {
+      width: 300px;
+    }
+  }
+
+  @media (max-width: $breakpoint768) {
+    margin-bottom: 100px;
+
+    img {
+      width: auto;
+    }
+  }
 }
 
 .not-found__sum {
   display: block;
-  font-size: 440px;
+  font-size: 400px;
   font-weight: 700;
-  line-height: 112.8%;
+  line-height: 1;
   letter-spacing: -1.34px;
   color: var(--primary-color);
+
+  @media (max-width: $breakpoint1450) {
+    font-size: 300px;
+  }
 
   @media (max-width: $breakpoint992) {
     font-size: 240px;

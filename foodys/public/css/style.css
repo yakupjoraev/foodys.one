@@ -2233,6 +2233,11 @@ body {
   -webkit-column-gap: 10px;
   -moz-column-gap: 10px;
   column-gap: 10px;
+  overflow-y: auto;
+}
+
+.tabs__header::-webkit-scrollbar {
+  display: none;
 }
 
 .tabs__header-item {
